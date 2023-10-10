@@ -7,5 +7,5 @@ export default function Home() {
       <div className="text-9xl">Hello new Houdini!</div>
       <HoudiniButton />
     </main>
-  );
+  )
 }
