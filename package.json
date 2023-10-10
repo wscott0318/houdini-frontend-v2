@@ -27,6 +27,8 @@
     "node": ">= 18.*"
   },
   "devDependencies": {
+    "prettier": "3.0.3",
+    "prettier-plugin-tailwindcss": "^0.5.5",
     "typescript": "^5.2.2",
     "@types/node": "^20.8.4",
     "@types/react": "^18.2.27",
