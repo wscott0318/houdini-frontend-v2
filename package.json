@@ -15,7 +15,7 @@
     "lint": "next lint",
     "prepare": "husky install",
     "type-check": "tsc --noEmit",
-    "format": "prettier \"src/**/*.+(ts|js|tsx)\" --write"
+    "format": "prettier \"./app/**/*.{js,ts,jsx,tsx,mdx}\" --write"
   },
   "dependencies": {
     "react": "^18.2.0",
