@@ -1,8 +1,8 @@
-import './globals.css'
+import { Footer, Header, ResponsiveContainer } from '@/components'
 import type { Metadata } from 'next'
 import { Outfit } from 'next/font/google'
 
-import { Header, Footer, ResponsiveContainer } from '@/components'
+import './globals.css'
 
 const outfit = Outfit({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -25,7 +25,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${outfit.variable} font-outfit`}>
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
+      <body
+        className={`${outfit.variable} container mx-auto font-outfit bg-[#2e2d3e]`}
+      >
         <ResponsiveContainer>
           <Header />
           {children}

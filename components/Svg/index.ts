@@ -1,0 +1,6 @@
+export { default as LogoSvg } from './logo.svg'
+export { default as XSvg } from './x.svg'
+export { default as GitBookSvg } from './gitbook.svg'
+export { default as MediumSvg } from './medium.svg'
+export { default as TelegramSvg } from './telegram.svg'
+export { default as YouTubeSvg } from './youtube.svg'
