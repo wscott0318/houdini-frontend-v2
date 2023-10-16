@@ -37,6 +37,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </ResponsiveContainer>
+        <div id="portal"></div>
       </body>
     </html>
   )

@@ -2,7 +2,7 @@
 
 export default function Home() {
   return (
-    <div className="row-start-2 row-end-3 flex flex-col gap-[80px] justify-center items-center my-[80px]">
+    <div className="row-start-2 row-end-3 flex flex-col gap-[30px] md:gap-[80px] justify-center items-center my-[80px] sm:px-0 px-6">
       <div>
         <div className="lg:text-[81px] text-center text-[35px] font-bold leading-normal capitalize tracking-[-0.85px]">
           Keep your transactions private
@@ -30,9 +30,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row justify-center items-center gap-4">
+      <div className="flex flex-col w-full lg:flex-row justify-center items-center gap-4">
         <div className="w-[260px] h-[140px] bg-gray-500 sm:block hidden"></div>
-        <div className="w-[350px] h-[190px] bg-gray-500"></div>
+        <div className="w-full md:w-[350px] h-[190px] bg-gray-500"></div>
         <div className="w-[260px] h-[140px] bg-gray-500 sm:block hidden"></div>
       </div>
 
