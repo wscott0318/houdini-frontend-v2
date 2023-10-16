@@ -27,6 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body
         className={`${outfit.variable} container mx-auto font-outfit bg-[#2e2d3e]`}

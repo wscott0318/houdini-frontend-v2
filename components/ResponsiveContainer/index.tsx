@@ -6,8 +6,6 @@ export function ResponsiveContainer({
   children: React.ReactNode
 }) {
   return (
-    <main className="grid grid-cols-1 gap-4 p-10">
-      {children}
-    </main>
+    <main className="grid grid-cols-1 gap-4 pt-10 lg:px-10">{children}</main>
   )
 }

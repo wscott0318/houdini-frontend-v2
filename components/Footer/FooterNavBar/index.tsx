@@ -8,8 +8,8 @@ import {
 
 export const FooterNavBar = () => {
   return (
-    <div className="flex flex-col justify-center items-center gap-[50px]">
-      <div className="flex flex-row justify-start items-center gap-[30px] font-medium text-base leading-[25px]">
+    <div className="flex flex-col justify-center items-center gap-[50px] pb-10">
+      <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-[10px] md:gap-[30px] font-medium text-base leading-[25px]">
         <div>Dashboard</div>
         <div>How it works</div>
         <div>Buy $POOF</div>
@@ -23,7 +23,7 @@ export const FooterNavBar = () => {
         <YouTubeSvg className="w-7 h-7 fill-white" />
         <MediumSvg className="w-7 h-7 fill-white" />
       </div>
-      <div className="flex flex-row justify-start items-center gap-[38px] font-medium text-base leading-[25px]">
+      <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-[10px] md:gap-[38px] font-medium text-base leading-[25px]">
         <div>Bug Bounty Program</div>
         <div>Compliance</div>
         <div>Privacy policy</div>
