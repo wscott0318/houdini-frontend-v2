@@ -1,6 +1,7 @@
 'use client'
 
 import { Logo } from '@/components/Footer/Logo'
+import useLockScroll from '@/utils/hooks/useLockScroll'
 import { AnimatePresence } from 'framer-motion'
 import React, { useState } from 'react'
 
@@ -10,6 +11,8 @@ import { ChevronSvg, HamburgerSvg, SearchSvg, SmokeSvg } from '../Svg'
 
 export function Header() {
   const [drawerOpen, setDrawerOpen] = useState(false)
+
+  useLockScroll(drawerOpen)
 
   return (
     <>
