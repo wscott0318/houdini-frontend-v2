@@ -24,13 +24,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="m-0 p-0">
       <head>
         <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body
-        className={`${outfit.variable} container mx-auto font-outfit bg-[#2e2d3e]`}
+        className={`${outfit.variable} container mx-auto font-outfit bg-[#1e1d28] text-white m-0 p-0`}
       >
         <ResponsiveContainer>
           <Header />
