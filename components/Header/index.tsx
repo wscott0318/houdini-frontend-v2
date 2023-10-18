@@ -18,8 +18,10 @@ export function Header() {
     <>
       <div className="relative">
         <div className="w-full relative p-2">
-          <div className="bg-gray-500 w-[50px] h-[25px] flex flex-row justify-start items-center absolute right-0">
-            <SmokeSvg className="fill-white" />
+          <div className="bg-gray-500 rounded-[10px] p-0.5 w-[50px] h-[25px] flex flex-row justify-start items-center absolute right-0">
+            <div className="bg-gray-700 w-5 h-5 rounded-[6px]">
+              <SmokeSvg className="fill-white w-full h-full p-0.5" />
+            </div>
           </div>
         </div>
         <div className="w-full">
