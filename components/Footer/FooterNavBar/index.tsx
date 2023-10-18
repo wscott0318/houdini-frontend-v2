@@ -34,11 +34,24 @@ export const FooterNavBar = () => {
         </Link>
       </div>
       <div className="flex flex-row justify-start items-center gap-[20px]">
-        <XSvg className="w-7 h-7 fill-white" />
-        <TelegramSvg className="w-7 h-7 fill-white" />
-        <GitBookSvg className="w-7 h-7 fill-white" />
-        <YouTubeSvg className="w-7 h-7 fill-white" />
-        <MediumSvg className="w-7 h-7 fill-white" />
+        <Link className="group" href="https://twitter.com/HoudiniSwap">
+          <XSvg className="w-6 h-6 fill-white group-hover:fill-[#F5C341]" />
+        </Link>
+        <Link className="group" href="https://t.me/houdiniswap">
+          <TelegramSvg className="w-6 h-6 fill-white group-hover:fill-[#F5C341]" />
+        </Link>
+        <Link
+          className="group"
+          href="https://houdiniswap.gitbook.io/product-docs/"
+        >
+          <GitBookSvg className="w-7 h-7 fill-white group-hover:fill-[#F5C341]" />
+        </Link>
+        <Link className="group" href="https://www.youtube.com/@houdiniswap">
+          <YouTubeSvg className="w-7 h-7 fill-white group-hover:fill-[#F5C341]" />
+        </Link>
+        <Link className="group" href="https://houdiniswap.medium.com/">
+          <MediumSvg className="w-7 h-7 fill-white group-hover:fill-[#F5C341]" />
+        </Link>
       </div>
       <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-[10px] md:gap-[38px] font-medium text-base leading-[25px]">
         <Link className="hover:gradient-text" href="/bug-bounty-program">
