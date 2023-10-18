@@ -56,7 +56,7 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col justify-center items-center gap-2">
-        <div className="bg-gray-500 w-full lg:w-[1000px] h-[600px] flex flex-row justify-center items-center">
+        <div className="rounded-[24px] bg-gray-500 w-full lg:w-[1000px] h-[600px] flex flex-row justify-center items-center">
           Modal here
         </div>
         <div className="rainbow-text flex flex-col justify-center items-center text-center">
@@ -69,7 +69,7 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col w-full lg:flex-row justify-center items-center gap-4">
-        <div className="w-[260px] h-[140px] bg-gray-500 sm:flex hidden flex-col justify-center items-center">
+        <div className="w-[260px] h-[140px] rounded-[24px] bg-gray-500 sm:flex hidden flex-col justify-center items-center">
           <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">
             Total Transactions
           </div>
@@ -77,7 +77,7 @@ export default function Home() {
             123k
           </div>
         </div>
-        <div className="w-full md:w-[350px] h-[190px] bg-gray-500 flex flex-col justify-center items-center">
+        <div className="w-full md:w-[350px] rounded-[24px] h-[190px] bg-gray-500 flex flex-col justify-center items-center">
           <div className="text-[25px] font-medium text-center leading-[38px]">
             Total Swap Volume
           </div>
@@ -85,7 +85,7 @@ export default function Home() {
             123
           </div>
         </div>
-        <div className="w-[260px] h-[140px] bg-gray-500 sm:flex hidden flex-col justify-center items-center">
+        <div className="w-[260px] rounded-[24px] h-[140px] bg-gray-500 sm:flex hidden flex-col justify-center items-center">
           <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">
             $POOF Buybacks
           </div>
@@ -95,7 +95,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex flex-col items-centers justify-center gap-5 bg-gray-500 w-full md:w-[650px] lg:w-[850px] h-[230px] py-8 px-20">
+      <div className="flex flex-col rounded-[24px] items-centers justify-center gap-5 bg-gray-500 w-full md:w-[650px] lg:w-[850px] h-[230px] py-8 px-20">
         <div className="text-[20px] gradient-text leading-[24px] text-center font-medium">
           Partners
         </div>
@@ -109,7 +109,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex flex-col items-centers justify-start gap-10 bg-gray-500 w-full md:w-[600px] h-[350px] py-8 px-20">
+      <div className="flex flex-col rounded-[24px] items-centers justify-start gap-10 bg-gray-500 w-full md:w-[600px] h-[350px] py-8 px-20">
         <div className="text-[20px] text-[#8C9AE9] leading-[24px] text-center font-medium">
           Supported Protocols
         </div>
