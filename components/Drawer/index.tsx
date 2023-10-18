@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
 import React from 'react'
 
+import { XLetterSvg } from '../Svg'
+
 export const Drawer: React.FC<{
   children: React.ReactNode
   setIsOpen: (value: boolean | ((prevState: boolean) => boolean)) => void
@@ -27,14 +29,16 @@ export const Drawer: React.FC<{
     >
       <div className="relative flex h-full w-full flex-col items-center justify-start p-4 md:p-10">
         <div className="flex relative h-full w-full flex-row items-center justify-between md:mt-10">
-          <button
-            onClick={() => {
-              setIsOpen(!isOpen)
-            }}
-            className="text-white absolute right-0 top-0"
-          >
-            X
-          </button>
+          {isOpen ? (
+            <button
+              onClick={() => {
+                setIsOpen(!isOpen)
+              }}
+              className="text-white absolute right-0 top-0"
+            >
+              <XLetterSvg className="fill-white mt-10 mr-1 h-[25px] w-[25px]" />
+            </button>
+          ) : null}
           {children}
         </div>
       </div>

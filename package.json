@@ -18,6 +18,7 @@
     "format": "prettier \"./app/**/*.{js,ts,jsx,tsx,mdx}\" --write"
   },
   "dependencies": {
+    "dayjs": "^1.11.10",
     "framer-motion": "^10.16.4",
     "husky": "^8.0.3",
     "next": "13.5.4",

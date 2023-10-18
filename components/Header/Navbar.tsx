@@ -39,12 +39,26 @@ const CommonNavbar = () => {
         onClick={() => {
           setOpenDropdown(!openDropdown)
         }}
-        className="flex group flex-row justify-center items-center gap-3 hover:gradient-text"
+        className="flex relative group flex-row justify-center items-center gap-3"
       >
-        <span>$POOF</span>
-        <ChevronSvg className="fill-white mt-0.5 group-hover:fill-[#F5C341]" />
+        <span className="group-hover:gradient-text">$POOF</span>
+        <ChevronSvg
+          className={`${
+            openDropdown ? 'rotate-180' : 'rotate-0'
+          } fill-white mt-0.5 group-hover:fill-[#F5C341]`}
+        />
         {openDropdown ? (
-          <div className="absolute top-full right-0 w-[200px] h-[200px] bg-gray-500"></div>
+          <div className="absolute top-full lg:right-0 mt-2 w-[200px] h-[65px] rounded-[6px] bg-gray-500 flex flex-col justify-between items-center p-1">
+            <Link className="hover:gradient-text text-white" href="/">
+              <span className="text-sm">Buy $POOF</span>
+            </Link>
+            <Link
+              className="hover:gradient-text text-white"
+              href="https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x888ceA2BBDD5D47a4032cf63668D7525C74af57A"
+            >
+              <span className="text-sm">Buy $POOF on Uniswap</span>
+            </Link>
+          </div>
         ) : null}
       </button>
     </>

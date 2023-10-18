@@ -42,7 +42,9 @@ export function Header() {
               }}
               className="lg:hidden flex hover:cursor-pointer"
             >
-              <HamburgerSvg className="fill-white h-[40px] w-[40px]" />
+              {drawerOpen ? null : (
+                <HamburgerSvg className="fill-white h-[40px] w-[40px]" />
+              )}
             </button>
             {width >= 1024 ? <Navbar /> : null}
           </nav>
