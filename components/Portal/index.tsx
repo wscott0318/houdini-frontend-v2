@@ -11,7 +11,7 @@ export const Portal: React.FC<{ children: ReactNode; target?: string }> = (
   useEffect(() => {
     ref.current = document.querySelector<HTMLElement>(target)
     setMounted(true)
-  }, [])
+  }, [target])
 
   return mounted && ref.current
     ? createPortal(<div>{props.children}</div>, ref.current)

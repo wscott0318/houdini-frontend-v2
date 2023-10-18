@@ -3,26 +3,50 @@ import { useWindowSize } from '@/utils/hooks/useWindowSize'
 import Link from 'next/link'
 import { useState } from 'react'
 
-const Links = () => {
+const Links = ({ setIsOpen }: { setIsOpen?: any }) => {
   return (
     <>
-      <Link className="hover:gradient-text" href="/">
+      <Link
+        onClick={() => {
+          setIsOpen(false)
+        }}
+        className="hover:gradient-text"
+        href="/"
+      >
         <span>Swap</span>
       </Link>
-      <Link className="hover:gradient-text" href="/dashboard">
+      <Link
+        onClick={() => {
+          setIsOpen(false)
+        }}
+        className="hover:gradient-text"
+        href="/dashboard"
+      >
         <span>Dashboard</span>
       </Link>
-      <Link className="hover:gradient-text" href="/how-it-works">
+      <Link
+        onClick={() => {
+          setIsOpen(false)
+        }}
+        className="hover:gradient-text"
+        href="/how-it-works"
+      >
         <span>How it works</span>
       </Link>
-      <Link className="hover:gradient-text" href="/faq">
+      <Link
+        onClick={() => {
+          setIsOpen(false)
+        }}
+        className="hover:gradient-text"
+        href="/faq"
+      >
         <span>Faq</span>
       </Link>
     </>
   )
 }
 
-const CommonNavbar = () => {
+const CommonNavbar = ({ setIsOpen }: { setIsOpen?: any }) => {
   const [openDropdown, setOpenDropdown] = useState(false)
 
   return (
@@ -34,7 +58,7 @@ const CommonNavbar = () => {
         />
         <SearchSvg className="absolute right-6 top-3 fill-gray-500" />
       </div>
-      <Links />
+      <Links setIsOpen={setIsOpen} />
       <button
         onClick={() => {
           setOpenDropdown(!openDropdown)
@@ -49,10 +73,19 @@ const CommonNavbar = () => {
         />
         {openDropdown ? (
           <div className="absolute top-full lg:right-0 mt-2 w-[200px] h-[65px] rounded-[6px] bg-gray-500 flex flex-col justify-between items-center p-1">
-            <Link className="hover:gradient-text text-white" href="/">
+            <Link
+              onClick={() => {
+                setIsOpen(false)
+              }}
+              className="hover:gradient-text text-white"
+              href="/"
+            >
               <span className="text-sm">Buy $POOF</span>
             </Link>
             <Link
+              onClick={() => {
+                setIsOpen(false)
+              }}
               className="hover:gradient-text text-white"
               href="https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x888ceA2BBDD5D47a4032cf63668D7525C74af57A"
             >
@@ -65,7 +98,7 @@ const CommonNavbar = () => {
   )
 }
 
-export const Navbar = () => {
+export const Navbar = ({ setIsOpen }: { setIsOpen?: any }) => {
   const desktopClassName = 'lg:flex hidden flex-row'
   const mobileClassName = 'flex w-full h-full flex-col'
 
@@ -77,7 +110,7 @@ export const Navbar = () => {
         width < 1024 ? mobileClassName : desktopClassName
       } justify-center items-center gap-[35px] text-[19px] leading-[25px] font-normal`}
     >
-      <CommonNavbar />
+      <CommonNavbar setIsOpen={setIsOpen} />
     </div>
   )
 }

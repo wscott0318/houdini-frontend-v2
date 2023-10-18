@@ -54,7 +54,7 @@ export function Header() {
         {drawerOpen && width < 1024 ? (
           <Portal>
             <Drawer setIsOpen={setDrawerOpen} isOpen={drawerOpen}>
-              <Navbar />
+              <Navbar setIsOpen={setDrawerOpen} />
             </Drawer>
           </Portal>
         ) : null}
