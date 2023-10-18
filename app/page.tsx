@@ -95,7 +95,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex flex-col rounded-[24px] items-centers justify-center gap-5 bg-gray-500 w-full md:w-[650px] lg:w-[850px] h-[230px] py-8 px-20">
+      <div className="flex flex-col rounded-[24px] items-centers justify-center gap-5 bg-gray-500 w-full md:w-[650px] lg:w-[850px] md:h-[320px] lg:h-[230px] py-8 px-20">
         <div className="text-[20px] gradient-text leading-[24px] text-center font-medium">
           Partners
         </div>
@@ -109,11 +109,11 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex flex-col rounded-[24px] items-centers justify-start gap-10 bg-gray-500 w-full md:w-[600px] h-[350px] py-8 px-20">
+      <div className="flex flex-col rounded-[24px] items-centers justify-start gap-10 bg-gray-500 w-full md:w-[600px] sm:h-[400px] md:h-[350px] py-8 px-10 md:px-20">
         <div className="text-[20px] text-[#8C9AE9] leading-[24px] text-center font-medium">
           Supported Protocols
         </div>
-        <div className="flex flex-row items-start justify-center gap-[25px] flex-wrap">
+        <div className="flex flex-row items-start justify-center gap-[10px] sm:gap-[25px] flex-wrap">
           <Protocol1Svg className="w-[32px] h-[32px]" />
           <Protocol2Svg className="w-[32px] h-[32px]" />
           <Protocol3Svg className="w-[32px] h-[32px]" />
