@@ -78,7 +78,9 @@ export default function Home() {
           </div>
         </div>
         <div className="w-full md:w-[350px] h-[190px] bg-gray-500 flex flex-col justify-center items-center">
-          <div className="text-[25px] font-medium text-center leading-[38px]">Total Swap Volume</div>
+          <div className="text-[25px] font-medium text-center leading-[38px]">
+            Total Swap Volume
+          </div>
           <div className="text-[35px] text-white leading-[50px] font-medium text-center">
             123
           </div>
