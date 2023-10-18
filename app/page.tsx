@@ -1,5 +1,6 @@
 'use client'
 
+import { ResponsivePage } from '@/components/ResponsivePage'
 import {
   ArcSvg,
   BoltbotSvg,
@@ -40,7 +41,7 @@ import {
 
 export default function Home() {
   return (
-    <div className="row-start-2 row-end-3 flex flex-col gap-[30px] md:gap-[80px] justify-center items-center my-[80px] sm:px-0 px-6">
+    <ResponsivePage>
       <div>
         <div className="lg:text-[81px] text-center text-[35px] font-bold leading-normal capitalize tracking-[-0.85px]">
           Keep your transactions private
@@ -145,6 +146,6 @@ export default function Home() {
           <Protocol29Svg className="w-[32px] h-[32px]" />
         </div>
       </div>
-    </div>
+    </ResponsivePage>
   )
 }
