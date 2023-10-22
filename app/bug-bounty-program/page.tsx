@@ -1,7 +1,9 @@
 'use client'
 
 import { ResponsivePage } from '@/components/ResponsivePage'
+import { useTranslation } from 'react-i18next'
 
 export default function BugBountyProgram() {
-  return <ResponsivePage>Bug Bounty Program page</ResponsivePage>
+  const { t } = useTranslation()
+  return <ResponsivePage>{t('youAreAboutToResetText')}</ResponsivePage>
 }
