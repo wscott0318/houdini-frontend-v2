@@ -41,13 +41,13 @@ export default function BugBountyProgram() {
       <div>{t('bugBountyP25')}</div>
       <div>{t('bugBountyP26')}</div>
       <button
-          className="submit-report-button"
-          onClick={() => {
-            // setModalOpen(true);
-          }}
-        >
-          {t('submitReportText')}
-        </button>
+        className="submit-report-button"
+        onClick={() => {
+          // setModalOpen(true);
+        }}
+      >
+        {t('submitReportText')}
+      </button>
     </ResponsivePage>
   )
 }
