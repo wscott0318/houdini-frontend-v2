@@ -32,27 +32,29 @@ export function Header() {
     <>
       <div className="relative">
         <div className="w-full relative p-2">
-          <div className="bg-gray-500 rounded-[10px] p-0.5 w-[50px] h-[25px] flex flex-row justify-start items-center absolute right-0">
-            <div className="bg-gray-700 w-5 h-5 rounded-[6px]">
-              <SmokeSvg className="fill-white w-full h-full p-0.5" />
-              <button
-                className="relative rounded-[4px] bg-[#81818140] px-[4px] py-[4px]"
-                onClick={() => setOpenLanguage((prevState) => !prevState)}
-              >
-                <div className="btn header-item ">
-                  <img
-                    src={get(languages, `${selectedLang}.flag`)}
-                    alt="Language"
-                    className="h-5 w-5"
-                  />
-                </div>
-                <LanguageDropDown
-                  open={openLanguage}
-                  selectedLang={selectedLang}
-                  setSelectedLang={setSelectedLang}
-                />
-              </button>
+          <div className="flex flex-row gap-2 justify-center items-center absolute right-0">
+            <div className="bg-gray-500 rounded-[10px] p-0.5 w-[50px] h-[25px] flex flex-row justify-start items-center">
+              <div className="bg-gray-700 w-5 h-5 rounded-[6px]">
+                <SmokeSvg className="fill-white w-full h-full p-0.5" />
+              </div>
             </div>
+            <button
+              className="relative rounded-[4px] bg-[#81818140] px-[4px] py-[4px]"
+              onClick={() => setOpenLanguage((prevState) => !prevState)}
+            >
+              <div className="btn header-item ">
+                <img
+                  src={get(languages, `${selectedLang}.flag`).src}
+                  alt="Language"
+                  className="h-5 w-7"
+                />
+              </div>
+              <LanguageDropDown
+                open={openLanguage}
+                selectedLang={selectedLang}
+                setSelectedLang={setSelectedLang}
+              />
+            </button>
           </div>
         </div>
         <div className="w-full">

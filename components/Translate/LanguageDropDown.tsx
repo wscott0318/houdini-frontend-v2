@@ -30,10 +30,8 @@ const LanguageDropdown = ({
         <div className="relative flex w-[150px] flex-col rounded bg-[#202020] p-2">
           <div className="language-switch dropdown-menu-end">
             {map(Object.keys(languages), (key: any) => {
-              console.log('languages', languages)
-              console.log('key', key)
               const flagSrc = get(languages, `${key}.flag`) // Provide a default flag source
-              console.log('Flag Source for', key, ':', flagSrc)
+              console.log('flag src', flagSrc)
 
               return (
                 <div
@@ -43,7 +41,7 @@ const LanguageDropdown = ({
                     selectedLang === key ? 'rounded bg-[#404040]' : 'none'
                   }`}
                 >
-                  <img src={flagSrc} alt="Language" className="h-7 w-7" />
+                  <img src={flagSrc.src} alt="Language" className="h-5 w-7" />
                   <span className="text-white">
                     {get(languages, `${key}.label`)}
                   </span>
