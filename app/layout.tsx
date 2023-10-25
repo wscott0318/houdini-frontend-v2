@@ -15,11 +15,7 @@ const outfit = Outfit({
   variable: '--font-outfit',
 })
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="en" className="m-0 p-0">
       <head>
