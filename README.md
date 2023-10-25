@@ -4,4 +4,3 @@
 - TypeScript
 
 ## https://houdini-frontend-v2.vercel.app/
-
