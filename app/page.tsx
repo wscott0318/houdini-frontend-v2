@@ -40,6 +40,8 @@ import {
 } from '@/components/Svg'
 import { CONFIG_QUERY } from '@/lib/apollo/query'
 import { useQuery } from '@apollo/client'
+import { HoudiniButton } from 'houdini-react-sdk'
+import 'houdini-react-sdk/styles.css'
 
 export default function Home() {
   const { loading: warningStatusLoading, data: warningStatusData } = useQuery(
@@ -71,7 +73,7 @@ export default function Home() {
 
       <div className="flex flex-col justify-center items-center gap-2">
         <div className="rounded-[24px] bg-gray-500 w-full lg:w-[1000px] h-[600px] flex flex-row justify-center items-center">
-          Modal here
+          <HoudiniButton text={'Proceed'} />
         </div>
         <div className="rainbow-text flex flex-col justify-center items-center text-center">
           <div>
