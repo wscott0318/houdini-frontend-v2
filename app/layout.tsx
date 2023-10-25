@@ -5,7 +5,8 @@ import { userClient } from '@/lib/apollo/apollo-client'
 import { ApolloProvider } from '@apollo/client'
 import { Outfit } from 'next/font/google'
 
-import '../styles/globals.css'
+import 'houdini-react-sdk/styles.css'
+import '../styles/globals.css' // this must be last!!!
 
 const outfit = Outfit({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],

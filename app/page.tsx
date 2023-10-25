@@ -41,7 +41,6 @@ import {
 import { CONFIG_QUERY } from '@/lib/apollo/query'
 import { useQuery } from '@apollo/client'
 import { HoudiniButton } from 'houdini-react-sdk'
-import 'houdini-react-sdk/styles.css'
 
 export default function Home() {
   const { loading: warningStatusLoading, data: warningStatusData } = useQuery(
