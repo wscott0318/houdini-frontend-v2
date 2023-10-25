@@ -38,8 +38,21 @@ import {
   SwiftSvg,
   XenifySvg,
 } from '@/components/Svg'
+import { CONFIG_QUERY } from '@/lib/apollo/query'
+import { useQuery } from '@apollo/client'
 
 export default function Home() {
+  const { loading: warningStatusLoading, data: warningStatusData } = useQuery(
+    CONFIG_QUERY,
+    {
+      variables: {
+        key: 'warning_msg_status',
+      },
+    },
+  )
+
+  console.log('warningStatusData', warningStatusData)
+
   return (
     <ResponsivePage>
       <div>

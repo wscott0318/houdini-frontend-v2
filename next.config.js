@@ -9,7 +9,7 @@ const nextConfig = {
     ],
   },
   env: {
-    NEXT_APP_EXAMPLE: process.env.NEXT_APP_EXAMPLE || 'test',
+    NEXT_APP_GQL_USER_API: process.env.NEXT_APP_GQL_USER_API || 'http://localhost:3000/graphql',
   },
   webpack(config) {
     config.module.rules.push({
