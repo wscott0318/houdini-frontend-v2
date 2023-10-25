@@ -2,7 +2,7 @@
 
 import { Footer, Header, ResponsiveContainer } from '@/components'
 import { userClient } from '@/lib/apollo/apollo-client'
-import '@/styles/globals.css'
+import '../styles/globals.css'
 import { ApolloProvider } from '@apollo/client'
 import { Outfit } from 'next/font/google'
 
