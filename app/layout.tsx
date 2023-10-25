@@ -3,10 +3,10 @@
 import { Footer, Header, ResponsiveContainer } from '@/components'
 import { userClient } from '@/lib/apollo/apollo-client'
 import { ApolloProvider } from '@apollo/client'
+import 'houdini-react-sdk/styles.css'
 import { Outfit } from 'next/font/google'
 
-import 'houdini-react-sdk/styles.css'
-import '../styles/globals.css' // this must be last!!!
+import '../styles/globals.css'
 
 const outfit = Outfit({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
