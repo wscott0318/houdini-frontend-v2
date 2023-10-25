@@ -1,17 +1,10 @@
+import translationENG from '@/lib/locales/en/translation.json'
+import translationRO from '@/lib/locales/ro/translation.json'
+import translationRU from '@/lib/locales/ru/translation.json'
 import i18n from 'i18next'
 import detector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
-// import translationSP from './locales/sp/translation.json';
-import translationENG from './locals/en/translation.json'
-import translationRO from './locals/ro/translation.json'
-// import translationGr from './locales/gr/translation.json';
-// import translationIT from './locales/it/translation.json';
-import translationRU from './locals/ru/translation.json'
-
-// import translationFR from './locales/fr/translation.json';
-
-// The translations
 const resources: any = {
   en: {
     translation: translationENG,
@@ -19,24 +12,9 @@ const resources: any = {
   ro: {
     translation: translationRO,
   },
-  // gr: {
-  // 	translation: translationGr,
-  // },
-  // it: {
-  // 	translation: translationIT,
-  // },
   ru: {
     translation: translationRU,
   },
-  // sp: {
-  // 	translation: translationSP,
-  // },
-  // fr: {
-  // 	translation: translationFR,
-  // },
-  // ro: {
-  // 	translation: translationRO,
-  // },
 }
 
 if (typeof window !== 'undefined') {
@@ -48,18 +26,16 @@ if (typeof window !== 'undefined') {
 
 i18n
   .use(detector)
-  .use(initReactI18next) // Passes i18n down to react-i18next
+  .use(initReactI18next)
   .init({
     resources,
     lng: 'en',
-    fallbackLng: 'en', // Use en if detected lng is not available
-
-    keySeparator: false, // We do not use keys in form messages.welcome
-
+    fallbackLng: 'en',
+    keySeparator: false,
     interpolation: {
-      escapeValue: false, // React already safes from xss
+      escapeValue: false,
     },
-    saveMissing: true, // send not translated keys to endpoint
+    saveMissing: true,
   })
 
 export default i18n

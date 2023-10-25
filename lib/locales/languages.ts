@@ -5,8 +5,7 @@ import roFlag from '@/assets/flags/ro.jpg'
 import russia from '@/assets/flags/russia.jpg'
 import spain from '@/assets/flags/spain.jpg'
 import usFlag from '@/assets/flags/us.jpg'
-
-import frFlag from '../assets/flags/french.jpg'
+import frFlag from '@/assets/flags/french.jpg'
 
 const languages: any = {
   en: {

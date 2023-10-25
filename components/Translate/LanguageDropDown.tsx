@@ -1,5 +1,5 @@
 import i18n from '@/app/i18n'
-import languages from '@/common/languages'
+import languages from '@/lib/locales/languages'
 import { get, map } from 'lodash'
 import React, { useEffect } from 'react'
 import { withTranslation } from 'react-i18next'
@@ -31,7 +31,6 @@ const LanguageDropdown = ({
           <div className="language-switch dropdown-menu-end">
             {map(Object.keys(languages), (key: any) => {
               const flagSrc = get(languages, `${key}.flag`) // Provide a default flag source
-              console.log('flag src', flagSrc)
 
               return (
                 <div

@@ -1,8 +1,8 @@
 'use client'
 
-import languages from '@/common/languages'
 import { Logo } from '@/components/Footer/Logo'
 import LanguageDropDown from '@/components/Translate/LanguageDropDown'
+import languages from '@/lib/locales/languages'
 import useLockScroll from '@/utils/hooks/useLockScroll'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
 import { AnimatePresence } from 'framer-motion'

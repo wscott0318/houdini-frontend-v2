@@ -2,10 +2,9 @@
 
 import { Footer, Header, ResponsiveContainer } from '@/components'
 import { userClient } from '@/lib/apollo/apollo-client'
+import '@/styles/globals.css'
 import { ApolloProvider } from '@apollo/client'
 import { Outfit } from 'next/font/google'
-
-import './globals.css'
 
 const outfit = Outfit({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
