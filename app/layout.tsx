@@ -3,6 +3,7 @@
 import { Footer, Header, ResponsiveContainer } from '@/components'
 import { userClient } from '@/lib/apollo/apollo-client'
 import { ApolloProvider } from '@apollo/client'
+import 'houdini-react-sdk/styles.css'
 import { Outfit } from 'next/font/google'
 
 import '../styles/globals.css'

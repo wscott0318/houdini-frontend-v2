@@ -3,4 +3,4 @@
 - TailwindCSS
 - TypeScript
 
-## https://houdini-frontend-v2.vercel.app/
+## https://houdini-v2.vercel.app/
