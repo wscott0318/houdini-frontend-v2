@@ -2858,10 +2858,10 @@ hoist-non-react-statics@^3.3.2:
   dependencies:
     react-is "^16.7.0"
 
-houdini-react-sdk@0.0.18:
-  version "0.0.18"
-  resolved "https://registry.yarnpkg.com/houdini-react-sdk/-/houdini-react-sdk-0.0.18.tgz#1d5d1ea9d9922e4882e80faaac7752d0086dcdc6"
-  integrity sha512-2+ddUG8nvwPaXuzXO92tiVvzTnGg+UUAsyOwdiSRN9v2il5l6r77VYv/ff8/CS1TUJSWPf87rwFs24P8CrRy9A==
+houdini-react-sdk@0.0.21:
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/houdini-react-sdk/-/houdini-react-sdk-0.0.21.tgz#2d32e94db5893526537022c03858a72767a83cd8"
+  integrity sha512-jBZy3EWMJyQpYrliDmllOsm5oQweDzDYp/cKUxzn1O/0kdrA9tJi0vml0Blu0oPSNCQcxMav2WI5tsvSgTTT8g==
   dependencies:
     framer-motion "^10.16.4"
 

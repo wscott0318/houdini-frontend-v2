@@ -40,7 +40,8 @@ import {
 } from '@/components/Svg'
 import { CONFIG_QUERY } from '@/lib/apollo/query'
 import { useQuery } from '@apollo/client'
-import { HoudiniButton } from 'houdini-react-sdk'
+import { HoudiniButton, IconGrid } from 'houdini-react-sdk'
+import React from 'react'
 
 export default function Home() {
   const { loading: warningStatusLoading, data: warningStatusData } = useQuery(
@@ -72,7 +73,12 @@ export default function Home() {
 
       <div className="flex flex-col justify-center items-center gap-2">
         <div className="rounded-[24px] bg-gray-500 w-full lg:w-[1000px] h-[600px] flex flex-row justify-center items-center">
-          <HoudiniButton text={'Proceed'} />
+          <HoudiniButton
+            text={'Proceed'}
+            onClick={() => {
+              console.log('clicked!!')
+            }}
+          />
         </div>
         <div className="rainbow-text flex flex-col justify-center items-center text-center">
           <div>
@@ -110,56 +116,62 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex flex-col rounded-[24px] items-centers justify-center gap-5 bg-gray-500 w-full md:w-[650px] lg:w-[850px] md:h-[320px] lg:h-[230px] py-8 px-20">
-        <div className="text-[20px] gradient-text leading-[24px] text-center font-medium">
-          Partners
-        </div>
-        <div className="flex flex-row items-start justify-center gap-[60px] flex-wrap">
-          <BulletSvg className="w-[133px] h-[28px]" />
-          <FiraSvg className="w-[133px] h-[35px]" />
-          <ArcSvg className="w-[133px] h-[35px]" />
-          <BoltbotSvg className="w-[133px] h-[32px]" />
-          <XenifySvg className="w-[133px] h-[28px]" />
-          <SwiftSvg className="w-[133px] h-[35px]" />
-        </div>
-      </div>
+      <IconGrid
+        title="Partners"
+        icons={[
+          <BulletSvg
+            className="w-[133px] h-[35px] gap-[60px]"
+            key="bulletsvg"
+          />,
+          <FiraSvg key="firasvg" />,
+          <ArcSvg key="arcsvg" />,
+          <BoltbotSvg key="boltbotsvg" />,
+          <XenifySvg key="xenifysvg" />,
+          <SwiftSvg key="swiftsvg" />,
+        ]}
+      />
 
-      <div className="flex flex-col rounded-[24px] items-centers justify-start gap-10 bg-gray-500 w-full md:w-[600px] sm:h-[400px] md:h-[350px] py-8 px-10 md:px-20">
-        <div className="text-[20px] text-[#8C9AE9] leading-[24px] text-center font-medium">
-          Supported Protocols
-        </div>
-        <div className="flex flex-row items-start justify-center gap-[10px] sm:gap-[25px] flex-wrap">
-          <Protocol1Svg className="w-[32px] h-[32px]" />
-          <Protocol2Svg className="w-[32px] h-[32px]" />
-          <Protocol3Svg className="w-[32px] h-[32px]" />
-          <Protocol4Svg className="w-[32px] h-[32px]" />
-          <Protocol5Svg className="w-[32px] h-[32px]" />
-          <Protocol6Svg className="w-[32px] h-[32px]" />
-          <Protocol7Svg className="w-[32px] h-[32px]" />
-          <Protocol8Svg className="w-[32px] h-[32px]" />
-          <Protocol9Svg className="w-[32px] h-[32px]" />
-          <Protocol10Svg className="w-[32px] h-[32px]" />
-          <Protocol11Svg className="w-[32px] h-[32px]" />
-          <Protocol12Svg className="w-[32px] h-[32px]" />
-          <Protocol13Svg className="w-[32px] h-[32px]" />
-          <Protocol14Svg className="w-[32px] h-[32px]" />
-          <Protocol15Svg className="w-[32px] h-[32px]" />
-          <Protocol16Svg className="w-[32px] h-[32px]" />
-          <Protocol17Svg className="w-[32px] h-[32px]" />
-          <Protocol18Svg className="w-[32px] h-[32px]" />
-          <Protocol19Svg className="w-[32px] h-[32px]" />
-          <Protocol20Svg className="w-[32px] h-[32px]" />
-          <Protocol21Svg className="w-[32px] h-[32px]" />
-          <Protocol22Svg className="w-[32px] h-[32px]" />
-          <Protocol23Svg className="w-[32px] h-[32px]" />
-          <Protocol24Svg className="w-[32px] h-[32px]" />
-          <Protocol25Svg className="w-[32px] h-[32px]" />
-          <Protocol26Svg className="w-[32px] h-[32px]" />
-          <Protocol27Svg className="w-[32px] h-[32px]" />
-          <Protocol28Svg className="w-[32px] h-[32px]" />
-          <Protocol29Svg className="w-[32px] h-[32px]" />
-        </div>
-      </div>
+      <IconGrid
+        title="Supported Protocols"
+        icons={[
+          <Protocol1Svg className="w-[32px] h-[32px]" key="protocol1" />,
+          <Protocol2Svg key="protocol2" />,
+          <Protocol3Svg key="protocol3" />,
+          <Protocol4Svg key="protocol4" />,
+          <Protocol5Svg key="protocol5" />,
+          <Protocol6Svg key="protocol6" />,
+          <Protocol7Svg key="protocol7" />,
+          <Protocol8Svg key="protocol8" />,
+          <Protocol9Svg key="protocol9" />,
+          <Protocol10Svg key="protocol10" />,
+          <Protocol11Svg key="protocol11" />,
+          <Protocol12Svg key="protocol12" />,
+          <Protocol13Svg key="protocol13" />,
+          <Protocol14Svg key="protocol14" />,
+          <Protocol15Svg key="protocol15" />,
+          <Protocol16Svg key="protocol16" />,
+          <Protocol17Svg key="protocol17" />,
+          <Protocol18Svg key="protocol18" />,
+          <Protocol19Svg key="protocol19" />,
+          <Protocol20Svg key="protocol20" />,
+          <Protocol21Svg key="protocol21" />,
+          <Protocol22Svg key="protocol22" />,
+          <Protocol23Svg key="protocol23" />,
+          <Protocol24Svg key="protocol24" />,
+          <Protocol25Svg key="protocol25" />,
+          <Protocol26Svg key="protocol26" />,
+          <Protocol27Svg key="protocol27" />,
+          <Protocol28Svg key="protocol28" />,
+          <Protocol29Svg key="protocol29" />,
+        ]}
+        titleColor="text-[#8C9AE9]"
+        gap="[10px] sm:gap-[25px]"
+        iconWidth="[32px]"
+        iconHeight="[32px]"
+        containerWidth="w-full md:w-[600px]"
+        containerHeight="sm:h-[400px] md:h-[350px]"
+        paddingX="px-10 md:px-20"
+      />
     </ResponsivePage>
   )
 }

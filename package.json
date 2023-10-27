@@ -22,7 +22,7 @@
     "apollo-upload-client": "^18.0.1",
     "dayjs": "^1.11.10",
     "framer-motion": "^10.16.4",
-    "houdini-react-sdk": "0.0.18",
+    "houdini-react-sdk": "0.0.21",
     "husky": "^8.0.3",
     "i18next": "^23.6.0",
     "i18next-browser-languagedetector": "^7.1.0",
