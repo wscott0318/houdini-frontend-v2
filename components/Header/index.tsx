@@ -6,6 +6,7 @@ import languages from '@/lib/locales/languages'
 import useLockScroll from '@/utils/hooks/useLockScroll'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
 import { AnimatePresence } from 'framer-motion'
+import { CheckBox } from 'houdini-react-sdk'
 import { get } from 'lodash'
 import React, { useEffect, useState } from 'react'
 
@@ -16,6 +17,7 @@ import { Navbar } from './Navbar'
 
 export function Header() {
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [smoke, setSmoke] = useState(false)
   const [width] = useWindowSize()
   const [openLanguage, setOpenLanguage] = useState(false)
   const [selectedLang, setSelectedLang] = useState('en')
@@ -33,11 +35,12 @@ export function Header() {
       <div className="relative">
         <div className="w-full relative p-2">
           <div className="flex flex-row gap-2 justify-center items-center absolute right-0">
-            <div className="bg-gray-500 rounded-[10px] p-0.5 w-[50px] h-[25px] flex flex-row justify-start items-center">
-              <div className="bg-gray-700 w-5 h-5 rounded-[6px]">
-                <SmokeSvg className="fill-white w-full h-full p-0.5" />
-              </div>
-            </div>
+            <CheckBox
+              checked={smoke}
+              setChecked={setSmoke}
+              name="smokeToggle"
+              icon={<SmokeSvg className="h-5 w-5" />}
+            />
             <button
               className="relative rounded-[4px] bg-[#81818140] px-[4px] py-[4px]"
               onClick={() => setOpenLanguage((prevState) => !prevState)}
