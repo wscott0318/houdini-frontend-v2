@@ -7,11 +7,11 @@ import useLockScroll from '@/utils/hooks/useLockScroll'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
 import { AnimatePresence } from 'framer-motion'
 import { CheckBox } from 'houdini-react-sdk'
+import { Portal } from 'houdini-react-sdk'
 import { get } from 'lodash'
 import React, { useEffect, useState } from 'react'
 
 import { Drawer } from '../Drawer'
-import { Portal } from '../Portal'
 import { HamburgerSvg, SmokeSvg } from '../Svg'
 import { Navbar } from './Navbar'
 
