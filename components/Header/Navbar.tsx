@@ -1,5 +1,6 @@
-import { ChevronSvg, SearchSvg } from '@/components/Svg'
+import { ChevronSvg } from '@/components/Svg'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
+import { SearchInput } from 'houdini-react-sdk'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -48,16 +49,17 @@ const Links = ({ setIsOpen }: { setIsOpen?: any }) => {
 
 const CommonNavbar = ({ setIsOpen }: { setIsOpen?: any }) => {
   const [openDropdown, setOpenDropdown] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
 
   return (
     <>
-      <div className="w-[170px] h-[44px] rounded-full relative">
-        <input
-          placeholder="Search a Tx"
-          className="w-full h-full rounded-full text-sm pl-5 pr-12 bg-gray-100 text-gray-500 font-normal"
-        />
-        <SearchSvg className="absolute right-6 top-3 fill-gray-500" />
-      </div>
+      <SearchInput
+        setSearchTerm={setSearchTerm}
+        searchTerm={searchTerm}
+        name="searchTx"
+        placeholder="Search a Tx"
+        placeholderExpanded="Enter your Houdini ID"
+      />
       <Links setIsOpen={setIsOpen} />
       <button
         onClick={() => {
