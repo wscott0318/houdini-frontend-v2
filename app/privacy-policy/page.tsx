@@ -1,38 +1,47 @@
 'use client'
 
 import { ResponsivePage } from '@/components/ResponsivePage'
+import { TranslatedContent } from '@/components/TranslatedContent'
 import { useTranslation } from 'react-i18next'
 
 export default function PrivacyPolicy() {
   const { t } = useTranslation()
 
+  const privacyContentKeys = [
+    { text: 'privacyPolicyTitle', title: true },
+    { text: 'privacyC1' },
+    { text: 'privacyC2' },
+    { text: 'privacyC3', indent: true },
+    { text: 'privacyC4', indent: true },
+    { text: 'privacyC5' },
+    { text: 'privacyC6' },
+    { text: 'privacyC7' },
+    { text: 'privacyC8' },
+    { text: 'privacyC9', title: true },
+    { text: 'privacyC10' },
+    { text: 'privacyC11' },
+    { text: 'privacyC12' },
+    { text: 'privacyC13' },
+    { text: 'cookies', title: true },
+    { text: 'privacyC14' },
+    { text: 'privacyC15', title: true },
+    { text: 'privacyC16' },
+    { text: 'sharing', title: true },
+    { text: 'privacyC17' },
+    { text: 'privacyC18' },
+    { text: 'privacyC19' },
+  ]
+
   return (
     <ResponsivePage>
-      <h1 className="head center bold">{t('houdiniLLC')}</h1>
-      <h1 className="head center">{t('privacyPolicyH1')}</h1>
+      <h1 className="text-3xl leading-12 font-semibold mx-auto text-center">
+        {t('houdiniLLC')}
+      </h1>
+      <h1 className="text-3xl leading-12 mx-auto text-center">
+        {t('privacyPolicyH1')}
+      </h1>
 
-      <div>{t('privacyPolicyTitle')}</div>
-      <div>{t('privacyC1')}</div>
-      <div>{t('privacyC2')}</div>
-      <div>(1) {t('privacyC3')}</div>
-      <div>(2) {t('privacyC4')}.</div>
-      <div>{t('privacyC5')}</div>
-      <div>{t('privacyC6')}</div>
-      <div>{t('privacyC7')}</div>
-      <div>{t('privacyC8')}</div>
-      <div>{t('privacyC9')}</div>
-      <div>{t('privacyC10')}</div>
-      <div>{t('privacyC11')}</div>
-      <div>{t('privacyC12')}</div>
-      <div>{t('privacyC13')}</div>
-      <div>{t('cookies')}</div>
-      <div>{t('privacyC14')}</div>
-      <div>{t('privacyC15')}</div>
-      <div>{t('privacyC16')}</div>
-      <div>{t('sharing')}</div>
-      <div>{t('privacyC17')}</div>
-      <div>{t('privacyC18')}</div>
-      <div>{t('privacyC19')}</div>
+      <TranslatedContent contentKeys={privacyContentKeys} />
     </ResponsivePage>
   )
 }
