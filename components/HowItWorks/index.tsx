@@ -40,10 +40,10 @@ export const HowItWorks = () => {
           </div>
           <Image
             src={secure}
-            width={190}
-            height={130}
+            width={200}
+            height={150}
             alt="secureImg"
-            className="absolute -right-6 lg:-right-10 -top-8 lg:-top-12 lg:w-[190px] w-[150px]"
+            className="absolute -right-6 lg:-right-10 -top-8 lg:-top-12 lg:w-[200px] w-[150px]"
           />
         </div>
         <div className="custom-shadow custom-gradient relative flex flex-col justify-center items-start p-6 gap-4 lg:w-[300px] rounded-[58px] w-full h-[200px] lg:h-[260px]">
@@ -53,10 +53,10 @@ export const HowItWorks = () => {
           </div>
           <Image
             src={swap}
-            width={230}
-            height={170}
+            width={200}
+            height={150}
             alt="swapImg"
-            className="absolute -right-6 lg:-right-10 -top-8 lg:-top-12 lg:w-[230px] w-[150px]"
+            className="absolute -right-6 lg:-right-10 -top-8 lg:-top-12 lg:w-[200px] w-[150px]"
           />
         </div>
         <div className="custom-shadow custom-gradient relative flex flex-col justify-center items-start p-6 gap-4 lg:w-[300px] rounded-[58px] w-full h-[200px] lg:h-[260px]">
@@ -66,10 +66,10 @@ export const HowItWorks = () => {
           </div>
           <Image
             src={magic}
-            width={170}
-            height={190}
+            width={200}
+            height={150}
             alt="magicImg"
-            className="absolute -right-3 lg:-right-6 -top-16 lg:-top-20 lg:w-[170px] w-[120px]"
+            className="absolute -right-6 lg:-right-10 -top-8 lg:-top-12 lg:w-[200px] w-[150px]"
           />
         </div>
       </div>

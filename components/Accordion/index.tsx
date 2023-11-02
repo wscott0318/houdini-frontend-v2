@@ -11,7 +11,6 @@ export const Accordion = ({ title, content }: AccordionProps) => {
       <button
         type="button"
         onClick={() => {
-          console.log('clicked')
           setIsActive(!isActive)
         }}
         className={`flex items-center justify-between w-full py-5 font-medium text-left text-white`}
