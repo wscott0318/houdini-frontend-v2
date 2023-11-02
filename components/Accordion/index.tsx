@@ -13,7 +13,7 @@ export const Accordion = ({
   const [isActive, setIsActive] = useState(false)
 
   return (
-    <div className="w-[1000px] flex flex-col border-b border-white">
+    <div className="w-[1000px] pb-5 flex flex-col border-b border-white">
       <button
         type="button"
         onClick={() => {
