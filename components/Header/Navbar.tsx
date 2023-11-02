@@ -30,7 +30,7 @@ const Links = ({ setIsOpen }: { setIsOpen?: any }) => {
           setIsOpen(false)
         }}
         className="hover:gradient-text"
-        href="/how-it-works"
+        href="/how-it-works#howItWorks"
       >
         <span>How it works</span>
       </Link>
@@ -39,7 +39,7 @@ const Links = ({ setIsOpen }: { setIsOpen?: any }) => {
           setIsOpen(false)
         }}
         className="hover:gradient-text"
-        href="/faq"
+        href="/how-it-works#faq"
       >
         <span>Faq</span>
       </Link>

@@ -3,13 +3,7 @@ import { useState } from 'react'
 
 import { AddSvg } from '../Svg'
 
-export const Accordion = ({
-  title,
-  content,
-}: {
-  title: string
-  content: React.ReactNode
-}) => {
+export const Accordion = ({ title, content }: AccordionProps) => {
   const [isActive, setIsActive] = useState(false)
 
   return (
