@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 
-import { AddSvg } from '../Svg'
+import { AddSvg, MinusSvg } from '../Svg'
 
 export const Accordion = ({ title, content }: AccordionProps) => {
   const [isActive, setIsActive] = useState(false)
@@ -19,7 +19,11 @@ export const Accordion = ({ title, content }: AccordionProps) => {
         <span className="text-[16px] lg:text-[22px] leading-[33px]">
           {title}
         </span>
-        <AddSvg className="w-7 h-7 min-w-[28px] min-h-[28px] rounded-lg" />
+        {isActive ? (
+          <MinusSvg className="w-7 h-7 min-w-[28px] min-h-[28px] rounded-lg" />
+        ) : (
+          <AddSvg className="w-7 h-7 min-w-[28px] min-h-[28px] rounded-lg" />
+        )}
       </button>
       <motion.div
         initial={false}
