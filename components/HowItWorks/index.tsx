@@ -19,8 +19,8 @@ export const HowItWorks = () => {
           Receiving Wallets
         </div>
       </div>
-      <div className="flex flex-row justify-center items-center gap-10">
-        <div className="custom-shadow custom-gradient relative flex flex-col justify-center items-start p-6 gap-4 w-[300px] rounded-[58px] h-[260px]">
+      <div className="flex flex-col lg:flex-row justify-center items-center gap-10">
+        <div className="custom-shadow custom-gradient relative flex flex-col justify-center items-start p-6 gap-4 lg:w-[300px] rounded-[58px] w-full h-[200px] lg:h-[260px]">
           <div className="text-[31px] font-medium leading-[48px]">Swap</div>
           <div className="text-base text-center w-full leading-[30px] text-[#B8CAFC]">
             Anonymizes by swapping to Monero on the first exchange
@@ -30,10 +30,10 @@ export const HowItWorks = () => {
             width={200}
             height={150}
             alt="swapImg"
-            className="absolute -right-10 -top-12"
+            className="absolute -right-6 lg:-right-10 -top-8 lg:-top-12 lg:w-[200px] w-[150px]"
           />
         </div>
-        <div className="custom-shadow custom-gradient relative flex flex-col justify-center items-start p-6 gap-4 w-[300px] rounded-[58px] h-[260px]">
+        <div className="custom-shadow custom-gradient relative flex flex-col justify-center items-start p-6 gap-4 lg:w-[300px] rounded-[58px] w-full h-[200px] lg:h-[260px]">
           <div className="text-[31px] font-medium leading-[48px]">Send</div>
           <div className="text-base text-center w-full leading-[30px] text-[#B8CAFC]">
             Sends the swapped Monero to the second exchange
@@ -43,10 +43,10 @@ export const HowItWorks = () => {
             width={190}
             height={130}
             alt="secureImg"
-            className="absolute -right-10 -top-12"
+            className="absolute -right-6 lg:-right-10 -top-8 lg:-top-12 lg:w-[190px] w-[150px]"
           />
         </div>
-        <div className="custom-shadow custom-gradient relative flex flex-col justify-center items-start p-6 gap-4 w-[300px] rounded-[58px] h-[260px]">
+        <div className="custom-shadow custom-gradient relative flex flex-col justify-center items-start p-6 gap-4 lg:w-[300px] rounded-[58px] w-full h-[200px] lg:h-[260px]">
           <div className="text-[31px] font-medium leading-[48px]">Secure</div>
           <div className="text-base text-center w-full leading-[30px] text-[#B8CAFC]">
             The second exchange swaps Monero to receiving currency
@@ -56,10 +56,10 @@ export const HowItWorks = () => {
             width={230}
             height={170}
             alt="swapImg"
-            className="absolute -right-10 -top-12"
+            className="absolute -right-6 lg:-right-10 -top-8 lg:-top-12 lg:w-[230px] w-[150px]"
           />
         </div>
-        <div className="custom-shadow custom-gradient relative flex flex-col justify-center items-start p-6 gap-4 w-[300px] rounded-[58px] h-[260px]">
+        <div className="custom-shadow custom-gradient relative flex flex-col justify-center items-start p-6 gap-4 lg:w-[300px] rounded-[58px] w-full h-[200px] lg:h-[260px]">
           <div className="text-[31px] font-medium leading-[48px]">Magic</div>
           <div className="text-base text-center w-full leading-[30px] text-[#B8CAFC]">
             The receiving currency is sent to the receiving wallet.
@@ -69,18 +69,18 @@ export const HowItWorks = () => {
             width={170}
             height={190}
             alt="magicImg"
-            className="absolute -right-6 -top-20"
+            className="absolute -right-3 lg:-right-6 -top-16 lg:-top-20 lg:w-[170px] w-[120px]"
           />
         </div>
       </div>
-      <div className="flex flex-col justify-center items-start gap-10 w-[653px] h-[563px] border-[3px] custom-shadow custom-gradient p-[60px] rounded-[58px] border-black">
-        <div className="text-[73px] leading-[93px] font-extrabold">
+      <div className="flex flex-col justify-center items-center lg:items-start w-full h-[700px] gap-10 lg:w-[653px] lg:h-[563px] border-[1px] custom-shadow custom-gradient px-6 lg:p-[60px] rounded-[20px] lg:rounded-[58px] border-black">
+        <div className="text-[35px] lg:text-[73px] leading-[54px] text-center lg:text-left lg:leading-[93px] font-extrabold">
           Why We Exist
         </div>
-        <div className="text-[22px] leading-[36px] font-bold gradient-text">
+        <div className="text-[22px] leading-[36px] font-bold text-center lg:text-left gradient-text">
           Privacy is Security.
         </div>
-        <div className="flex flex-col justify-center font-normal items-start gap-4 text-[#B8CAFC] text-[19px] leading-[30px]">
+        <div className="flex flex-col justify-center font-normal text-center lg:text-left items-start gap-4 text-[#B8CAFC] text-[19px] leading-[30px]">
           <div>
             Everyone you transact with can potentially see your wallet’s assets
             and transaction history, which is intrusive and potentially
