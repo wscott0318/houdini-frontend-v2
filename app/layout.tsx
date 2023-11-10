@@ -4,7 +4,7 @@ import { Footer, Header, ResponsiveContainer } from '@/components'
 import { userClient } from '@/lib/apollo/apollo-client'
 import { ApolloProvider } from '@apollo/client'
 import 'houdini-react-sdk/styles.css'
-import { Outfit } from 'next/font/google'
+import { Outfit, Poppins } from 'next/font/google'
 
 import '../styles/globals.css'
 
@@ -14,6 +14,14 @@ const outfit = Outfit({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-outfit',
+})
+
+const poppins = Poppins({
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  style: ['normal'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-poppins',
 })
 
 export default function RootLayout({ children }: LayoutProps) {
@@ -29,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps) {
         />
       </head>
       <body
-        className={`${outfit.variable} container mx-auto font-outfit bg-[#1e1d28] text-white m-0 p-0`}
+        className={`${outfit.variable} ${poppins.variable} container mx-auto font-outfit bg-[#1e1d28] text-white m-0 p-0`}
       >
         <ApolloProvider client={userClient}>
           <ResponsiveContainer>

@@ -11,6 +11,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         outfit: ['var(--font-outfit)'],
+        poppins: ['var(--font-poppins)'],
       },
     },
   },
