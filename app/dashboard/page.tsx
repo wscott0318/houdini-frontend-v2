@@ -126,7 +126,10 @@ export default function Dashboard() {
                 <span>Set your Account ID:</span>
               </div>
               <div className="bg-gray-400 w-full h-[40px] rounded-[15px]">
-                <input className="w-full h-full bg-transparent text-[18px] font-poppins leading-[30px] focus:outline-none px-[34px]" placeholder='Your account ID ..'/>
+                <input
+                  className="w-full h-full bg-transparent text-[18px] font-poppins leading-[30px] focus:outline-none px-[34px]"
+                  placeholder="Your account ID .."
+                />
               </div>
             </div>
             <div className="flex flex-col justify-start items-start px-[35px] py-[20px] w-full h-[140px] xl:h-[110px] rounded-[24px] bg-gray-300">
@@ -135,7 +138,10 @@ export default function Dashboard() {
                 <span>Set your Account URL:</span>
               </div>
               <div className="bg-gray-400 w-full h-[40px] rounded-[15px]">
-                <input className="w-full h-full bg-transparent text-[18px] font-poppins leading-[30px] focus:outline-none px-[34px]" placeholder='https://houdiniswap.com/?id='/>
+                <input
+                  className="w-full h-full bg-transparent text-[18px] font-poppins leading-[30px] focus:outline-none px-[34px]"
+                  placeholder="https://houdiniswap.com/?id="
+                />
               </div>
             </div>
           </div>
