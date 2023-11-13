@@ -155,7 +155,7 @@ export default function Home() {
               }}
               className={`${
                 direction ? 'scale-y-[-1]' : ''
-              } w-[45px] h-[45px] hover:cursor-pointer rotate-180 hover:-translate-x-1 sm:rotate-90 sm:hover:-translate-y-1 transition-all duration-100 relative z-50`}
+              } w-[45px] h-[45px] hover:cursor-pointer rotate-180 sm:rotate-90 hover:-translate-y-1 transition-all duration-100 relative z-50`}
             />
             <TextField id="receive" label="Receive:" placeholder="0.0" />
           </div>
