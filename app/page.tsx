@@ -1,5 +1,6 @@
 'use client'
 
+import upDown from '@/assets/up-down.png'
 import { ResponsivePage } from '@/components/ResponsivePage'
 import {
   ArcSvg,
@@ -43,6 +44,7 @@ import { useQuery } from '@apollo/client'
 import { CheckBox, TextField } from 'houdini-react-sdk'
 import { HoudiniButton, IconGrid } from 'houdini-react-sdk'
 import { set } from 'lodash'
+import Image from 'next/image'
 import React, { useState } from 'react'
 
 export default function Home() {
@@ -57,6 +59,7 @@ export default function Home() {
 
   const [privateSwap, setPrivate] = useState(false)
   const [variableSwap, setVariable] = useState(false)
+  const [direction, setDirection] = useState(false)
 
   return (
     <ResponsivePage>
@@ -114,8 +117,20 @@ export default function Home() {
               <div>Exact</div>
             </div>
           </div>
-          <div className="flex flex-row justify-start items-center gap-5 w-full">
+          <div className="flex flex-row justify-start items-center gap-[14px] -space-x-7 w-full">
             <TextField id="send" label="Send:" placeholder="0.0" />
+            <Image
+              src={upDown}
+              width={100}
+              height={100}
+              alt="upDown"
+              onClick={() => {
+                setDirection(!direction)
+              }}
+              className={`${
+                direction ? 'scale-x-[-1]' : ''
+              } w-[45px] h-[45px] hover:cursor-pointer rotate-90`}
+            />
             <TextField id="receive" label="Receive:" placeholder="0.0" />
           </div>
           <TextField
