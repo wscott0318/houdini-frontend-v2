@@ -85,7 +85,7 @@ export default function Home() {
         <div className="rounded-[24px] bg-gray-900 w-full lg:w-[1000px] sm:h-[600px] flex flex-col justify-between items-center py-[40px] px-[35px] sm:py-[35px] sm:px-[60px]">
           <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center w-full gap-[16px]">
             <div className="flex flex-col justify-center items-center sm:items-start gap-[16px]">
-              <div className="text-[34px] font-bold leading-[38px] text-white">
+              <div className="text-[28px] whitespace-nowrap sm:text-[34px] font-bold leading-[38px] text-white">
                 Swap-Send-Bridge
               </div>
               <div className="text-[15px] font-medium font-poppins rainbow-text">
