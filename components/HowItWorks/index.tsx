@@ -9,12 +9,12 @@ export const HowItWorks = () => {
     <>
       <div
         id="howItWorks"
-        className="flex flex-col justify-center items-center"
+        className="flex flex-col justify-center items-center gap-[19px] lg:gap-[10px]"
       >
         <div className="lg:text-[81px] text-center text-[35px] font-bold leading-normal capitalize tracking-[-0.85px]">
           What Happens Under The Hood
         </div>
-        <div className="flex flex-col font-normal text-[19px] leading-[30px] items-center justify-center text-[#B8CAFC] text-center">
+        <div className="flex flex-col font-normal text-[18px] lg:text-[19px] leading-[30px] items-center justify-center text-[#B8CAFC] text-center">
           How Houdini Swap Severs Any Connection Between The Sending And
           Receiving Wallets
         </div>
