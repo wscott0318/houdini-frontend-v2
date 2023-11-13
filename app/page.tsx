@@ -82,9 +82,9 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col justify-center items-center gap-2">
-        <div className="rounded-[24px] bg-gray-900 w-full lg:w-[1000px] h-[600px] flex flex-col justify-between items-center py-[35px] px-[60px]">
-          <div className="flex flex-row justify-between items-center w-full">
-            <div className="flex flex-col justify-center items-start gap-[16px]">
+        <div className="rounded-[24px] bg-gray-900 w-full lg:w-[1000px] sm:h-[600px] flex flex-col justify-between items-center py-[40px] px-[35px] sm:py-[35px] sm:px-[60px]">
+          <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center w-full gap-[16px]">
+            <div className="flex flex-col justify-center items-center sm:items-start gap-[16px]">
               <div className="text-[34px] font-bold leading-[38px] text-white">
                 Swap-Send-Bridge
               </div>
@@ -121,9 +121,9 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="flex flex-row justify-between items-center w-full">
+          <div className="flex flex-col my-[20px] sm:my-0 sm:flex-row gap-4 justify-between items-start sm:items-center w-full">
             <div className="flex flex-row justify-start items-center gap-[13px]">
-              <div>Private</div>
+              <div className="mr-[8px] sm:mr-0">Private</div>
               <CheckBox
                 checked={privateSwap}
                 setChecked={setPrivate}
@@ -143,7 +143,7 @@ export default function Home() {
               <InfoSvg className="w-[20px] h-[20px] hover:cursor-pointer" />
             </div>
           </div>
-          <div className="flex flex-row justify-start items-center gap-[14px] -space-x-7 w-full">
+          <div className="flex flex-col sm:flex-row justify-start -space-y-6 sm:space-y-0 items-center gap-[14px] sm:-space-x-7 w-full">
             <TextField id="send" label="Send:" placeholder="0.0" />
             <Image
               src={upDown}
@@ -155,16 +155,18 @@ export default function Home() {
               }}
               className={`${
                 direction ? 'scale-y-[-1]' : ''
-              } w-[45px] h-[45px] hover:cursor-pointer rotate-90 hover:-translate-y-1 transition-all duration-100 relative z-50`}
+              } w-[45px] h-[45px] hover:cursor-pointer rotate-180 hover:-translate-x-1 sm:rotate-90 sm:hover:-translate-y-1 transition-all duration-100 relative z-50`}
             />
             <TextField id="receive" label="Receive:" placeholder="0.0" />
           </div>
-          <TextField
-            id="receivingWallet"
-            label="Receiving Wallet (BTC) Address:"
-            placeholder="Receiving Wallet (BTC) Address"
-          />
-          <div className="gradient-text font-medium text-xs font-poppins">
+          <div className="w-full my-[20px] sm:my-0">
+            <TextField
+              id="receivingWallet"
+              label="Receiving Wallet (BTC) Address:"
+              placeholder="Receiving Wallet (BTC) Address"
+            />
+          </div>
+          <div className="gradient-text my-[20px] font-medium text-xs font-poppins">
             Only send To/From wallets. Transactions sent To/From smart contracts
             are not accepted
           </div>
