@@ -41,6 +41,7 @@ import {
 } from '@/components/Svg'
 import { CONFIG_QUERY } from '@/lib/apollo/query'
 import { useQuery } from '@apollo/client'
+import { motion } from 'framer-motion'
 import { CheckBox, TextField } from 'houdini-react-sdk'
 import { HoudiniButton, IconGrid } from 'houdini-react-sdk'
 import { set } from 'lodash'
@@ -60,6 +61,8 @@ export default function Home() {
   const [privateSwap, setPrivate] = useState(false)
   const [variableSwap, setVariable] = useState(false)
   const [direction, setDirection] = useState(false)
+
+  const [isMulti, setIsMulti] = useState(false)
 
   return (
     <ResponsivePage>
@@ -88,8 +91,20 @@ export default function Home() {
                 Private, Compliant, No Sign Up
               </div>
             </div>
-            <div className="w-[200px] h-[40px] border-[2px] border-white py-[3px] px-[4px] flex items-center justify-center flex-row rounded-[24px]">
-              <div className="bg-white h-full text-sm w-1/2 text-black flex items-center justify-center rounded-[14px]">
+            <div
+              className="w-[200px] h-[40px] border-[2px] border-white flex items-center justify-center flex-row rounded-[24px] relative cursor-pointer"
+              onClick={() => {
+                setIsMulti(!isMulti)
+              }}
+            >
+              <motion.div
+                className="left-1 bg-white text-sm h-[30px] w-1/2 text-black flex items-center justify-center rounded-[14px] absolute"
+                animate={{ x: isMulti ? '90px' : '0px' }}
+                transition={{ type: 'tween', duration: 0.3 }}
+              >
+                {isMulti ? 'Multi send' : 'Single'}
+              </motion.div>
+              <div className="w-1/2 h-full flex text-sm justify-center items-center">
                 Single
               </div>
               <div className="w-1/2 h-full flex text-sm justify-center items-center">
