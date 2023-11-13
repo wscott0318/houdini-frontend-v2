@@ -40,8 +40,10 @@ import {
 } from '@/components/Svg'
 import { CONFIG_QUERY } from '@/lib/apollo/query'
 import { useQuery } from '@apollo/client'
+import { CheckBox, TextField } from 'houdini-react-sdk'
 import { HoudiniButton, IconGrid } from 'houdini-react-sdk'
-import React from 'react'
+import { set } from 'lodash'
+import React, { useState } from 'react'
 
 export default function Home() {
   const { loading: warningStatusLoading, data: warningStatusData } = useQuery(
@@ -53,7 +55,8 @@ export default function Home() {
     },
   )
 
-  console.log('warningStatusData', warningStatusData)
+  const [privateSwap, setPrivate] = useState(false)
+  const [variableSwap, setVariable] = useState(false)
 
   return (
     <ResponsivePage>
@@ -72,7 +75,66 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col justify-center items-center gap-2">
-        <div className="rounded-[24px] bg-gray-500 w-full lg:w-[1000px] h-[600px] flex flex-row justify-center items-center">
+        <div className="rounded-[24px] bg-gray-900 w-full lg:w-[1000px] h-[600px] flex flex-col justify-between items-center py-[35px] px-[60px]">
+          <div className="flex flex-row justify-between items-center w-full">
+            <div className="flex flex-col justify-center items-start gap-[16px]">
+              <div className="text-[34px] font-bold leading-[38px] text-white">
+                Swap-Send-Bridge
+              </div>
+              <div className="text-[15px] font-medium font-poppins rainbow-text">
+                Private, Compliant, No Sign Up
+              </div>
+            </div>
+            <div className="w-[200px] h-[40px] border-[2px] border-white py-[3px] px-[4px] flex items-center justify-center flex-row rounded-[24px]">
+              <div className="bg-white h-full text-sm w-1/2 text-black flex items-center justify-center rounded-[14px]">
+                Single
+              </div>
+              <div className="w-1/2 h-full flex text-sm justify-center items-center">
+                Multi send
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-row justify-between items-center w-full">
+            <div className="flex flex-row justify-start items-center gap-[13px]">
+              <div>Private</div>
+              <CheckBox
+                checked={privateSwap}
+                setChecked={setPrivate}
+                name="privateSwap"
+              />
+              <div>Semi Private</div>
+            </div>
+            <div className="flex flex-row justify-start items-center gap-[13px]">
+              <div>Variable</div>
+              <CheckBox
+                checked={variableSwap}
+                setChecked={setVariable}
+                name="variableSwap"
+              />
+              <div>Exact</div>
+            </div>
+          </div>
+          <div className="flex flex-row justify-start items-center gap-5 w-full">
+            <TextField
+              id="send"
+              label="Send:"
+              placeholder="0.0"
+            />
+            <TextField
+              id="receive"
+              label="Receive:"
+              placeholder="0.0"
+            />
+          </div>
+          <TextField
+            id="receivingWallet"
+            label="Receiving Wallet (BTC) Address:"
+            placeholder="Receiving Wallet (BTC) Address"
+          />
+          <div className="gradient-text font-medium text-xs font-poppins">
+            Only send To/From wallets. Transactions sent To/From smart contracts
+            are not accepted
+          </div>
           <HoudiniButton
             text={'Proceed'}
             onClick={() => {
