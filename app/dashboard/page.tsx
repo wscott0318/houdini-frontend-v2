@@ -27,11 +27,19 @@ export default function Dashboard() {
 
   return (
     <ResponsivePage>
-      <div className="lg:text-[81px] text-center text-[35px] font-bold leading-normal capitalize tracking-[-0.85px]">
+      <div className="lg:text-[81px] text-center text-[35px] font-bold leading-[54px] capitalize tracking-[-0.85px]">
         Your Staking Dashboard
       </div>
-      <div className="flex flex-col justify-center items-center gap-10">
-        <div className="flex flex-row justify-center items-center gap-10 flex-wrap">
+      <button
+        className="text-[#FBD20F] lg:hidden flex justify-center items-center rounded-full border border-[#FBD20F] w-[178px] h-[48px] bg-black font-bold text-[19px] leading-[31px]"
+        onClick={() => {
+          console.log('connect wallet')
+        }}
+      >
+        Connect Wallet
+      </button>
+      <div className="flex flex-col justify-center items-center gap-[60px] lg:gap-10">
+        <div className="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 place-items-center place-content-center gap-10">
           <div className="w-[136px] lg:w-[271px] h-[136px] lg:h-[149px] rounded-[24px] bg-gray-500 flex flex-col justify-center items-center">
             <div className="min-h-[40px] text-[16px] lg:text-[23px] rainbow-text leading-[20px] lg:leading-[34px] text-center font-light">
               Your $POOF Locked
@@ -65,13 +73,13 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col xl:flex-row justify-center items-center gap-5">
-          <div className="w-full lg:w-[493px] h-full rounded-[24px] bg-gray-500 flex flex-col justify-start p-[30px] items-center">
-            <div className="text-[27px] leading-[47px] pb-[10px] font-medium">
+        <div className="flex flex-col xl:flex-row justify-center items-center gap-[60px] lg:gap-5">
+          <div className="w-full lg:w-[493px] h-full rounded-[24px] bg-gray-500 flex flex-col justify-start p-[16px] lg:p-[30px] items-center">
+            <div className="text-[20px] leading-[31px] lg:text-[27px] lg:leading-[47px] pb-[10px] font-medium">
               Commission Tiers
             </div>
-            <div className="flex flex-col justify-between items-center w-full">
-              <div className="flex py-[10px] pb-[10px] flex-row text-[22px] leading-[37px] font-bold w-full justify-between items-center">
+            <div className="flex flex-col justify-between items-center w-full gap-[10px] lg:gap-[5px]">
+              <div className="flex py-[10px] pb-[10px] flex-row text-[15px] leading-[25px] lg:text-[22px] lg:leading-[37px] font-bold w-full justify-between items-center">
                 <div>$POOF Locked</div>
                 <div className="flex flex-row justify-start items-center gap-[10px]">
                   <div>Swap Commission</div>
@@ -81,7 +89,7 @@ export default function Dashboard() {
               {poofData.map((item, index) => (
                 <div
                   key={index}
-                  className="flex flex-row w-full font-poppins gap-[6px] px-[20px] text-[19px] leading-[30px] justify-between items-center"
+                  className="flex flex-row w-full font-poppins gap-[6px] lg:px-[20px] text-[15px] leading-[25px] lg:text-[19px] lg:leading-[30px] justify-between items-center"
                 >
                   <div>{item.amount} $POOF</div>
                   <div>{item.percentage}</div>
@@ -89,8 +97,8 @@ export default function Dashboard() {
               ))}
             </div>
           </div>
-          <div className="w-full lg:w-[700px] h-full rounded-[24px] bg-gray-500 flex flex-col justify-start p-[30px] items-center">
-            <div className="text-[27px] leading-[47px] pb-[10px] font-medium flex flex-row gap-[10px] justify-start items-center">
+          <div className="w-full lg:w-[700px] h-full rounded-[24px] bg-gray-500 flex flex-col justify-start p-[16px] lg:p-[30px] items-center gap-[10px] lg:gap-[5px]">
+            <div className="text-[20px] leading-[31px] lg:text-[27px] lg:leading-[47px] pb-[10px] font-medium flex flex-row gap-[10px] justify-start items-center">
               <div>Your Commission</div>
               <QuestionSvg />
             </div>
@@ -101,27 +109,32 @@ export default function Dashboard() {
                   index === yourPoofData.length - 1
                     ? 'border-t-[2px] border-white'
                     : ''
-                } flex flex-row w-full font-poppins gap-[6px] px-[20px] text-[19px] leading-[30px] justify-between items-center`}
+                } flex flex-row w-full font-poppins gap-[6px] whitespace-nowrap lg:px-[20px] text-[14px] leading-[25px] lg:text-[19px] lg:leading-[30px] justify-between items-center`}
               >
                 <div>{item.text}</div>
                 <div>{item.amount}</div>
               </div>
             ))}
-            <div className="gradient-text text-xs text-center w-full py-[15px] mt-[10px]">
+            <div className="gradient-text hidden lg:block text-xs text-center w-full py-[15px] mt-[10px]">
               *Total commission is constantly updated with other metrics updated
               every $20 worth of attributable commission
+            </div>
+            <div className="gradient-text block lg:hidden text-[13px] leading-[22px] text-center w-full py-[15px] mt-[10px]">
+              *Total commission is updating instantly as it is pulled directly
+              from the DB. While the rest are stored in the Rewards contract and
+              only updated every min $20 worth of attributable commission stats
             </div>
             <HoudiniButton text={'Claim Commission'} onClick={() => {}} />
           </div>
         </div>
         <div className="flex flex-col justify-center items-center gap-10 w-full xl:w-[1218px] p-[30px] xl:h-[551px] rounded-[24px] bg-gray-500">
-          <div className="text-[27px] leading-[47px] pb-[10px] font-medium flex flex-row gap-[10px] justify-start items-center">
+          <div className="text-[20px] leading-[31px] lg:text-[27px] lg:leading-[47px] lg:pb-[10px] font-medium flex flex-col lg:flex-row gap-[10px] justify-start items-center">
             <div>Commission Account Settings</div>
             <QuestionSvg />
           </div>
-          <div className="flex flex-col justify-start w-full items-center gap-[30px]">
-            <div className="flex flex-col justify-start items-start px-[35px] py-[20px] w-full h-[140px] xl:h-[110px] rounded-[24px] bg-gray-300">
-              <div className="flex flex-row justify-center gap-1 items-center text-[22px] leading-normal font-bold">
+          <div className="flex flex-col justify-start w-full items-center gap-[16px] lg:gap-[30px]">
+            <div className="flex flex-col justify-start items-start px-[35px] py-[20px] w-full h-[100px] xl:h-[110px] rounded-[24px] bg-gray-300">
+              <div className="flex flex-row justify-center gap-1 items-center text-[15px] lg:text-[22px] leading-normal font-bold">
                 <span className="gradient-text">*</span>
                 <span>Set your Account ID:</span>
               </div>
@@ -132,8 +145,8 @@ export default function Dashboard() {
                 />
               </div>
             </div>
-            <div className="flex flex-col justify-start items-start px-[35px] py-[20px] w-full h-[140px] xl:h-[110px] rounded-[24px] bg-gray-300">
-              <div className="flex flex-row justify-center gap-1 items-center text-[22px] leading-normal font-bold">
+            <div className="flex flex-col justify-start items-start px-[35px] py-[20px] w-full h-[100px] xl:h-[110px] rounded-[24px] bg-gray-300">
+              <div className="flex flex-row justify-center gap-1 items-center text-[15px] lg:text-[22px] leading-normal font-bold">
                 <span className="gradient-text">*</span>
                 <span>Set your Account URL:</span>
               </div>
