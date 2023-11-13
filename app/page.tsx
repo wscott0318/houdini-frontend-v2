@@ -115,16 +115,8 @@ export default function Home() {
             </div>
           </div>
           <div className="flex flex-row justify-start items-center gap-5 w-full">
-            <TextField
-              id="send"
-              label="Send:"
-              placeholder="0.0"
-            />
-            <TextField
-              id="receive"
-              label="Receive:"
-              placeholder="0.0"
-            />
+            <TextField id="send" label="Send:" placeholder="0.0" />
+            <TextField id="receive" label="Receive:" placeholder="0.0" />
           </div>
           <TextField
             id="receivingWallet"
