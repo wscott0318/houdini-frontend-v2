@@ -104,10 +104,18 @@ export default function Home() {
               >
                 {isMulti ? 'Multi send' : 'Single'}
               </motion.div>
-              <div className="w-1/2 h-full flex text-sm justify-center items-center">
+              <div
+                className={`${
+                  !isMulti ? 'opacity-0' : 'opacity-100'
+                } w-1/2 h-full flex text-sm justify-center items-center transition-all duration-100`}
+              >
                 Single
               </div>
-              <div className="w-1/2 h-full flex text-sm justify-center items-center">
+              <div
+                className={`${
+                  isMulti ? 'opacity-0' : 'opacity-100'
+                } w-1/2 h-full flex text-sm justify-center items-center`}
+              >
                 Multi send
               </div>
             </div>
