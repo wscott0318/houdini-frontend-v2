@@ -7,6 +7,7 @@ import {
   BoltbotSvg,
   BulletSvg,
   FiraSvg,
+  InfoSvg,
   Protocol1Svg,
   Protocol2Svg,
   Protocol3Svg,
@@ -129,6 +130,7 @@ export default function Home() {
                 name="privateSwap"
               />
               <div>Semi Private</div>
+              <InfoSvg className="w-[20px] h-[20px] hover:cursor-pointer" />
             </div>
             <div className="flex flex-row justify-start items-center gap-[13px]">
               <div>Variable</div>
@@ -138,6 +140,7 @@ export default function Home() {
                 name="variableSwap"
               />
               <div>Exact</div>
+              <InfoSvg className="w-[20px] h-[20px] hover:cursor-pointer" />
             </div>
           </div>
           <div className="flex flex-row justify-start items-center gap-[14px] -space-x-7 w-full">
