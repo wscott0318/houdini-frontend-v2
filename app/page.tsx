@@ -204,7 +204,7 @@ export default function Home() {
             />
             <TextField id="receive" label="Receive:" placeholder="0.0">
               <Dropdown
-                title="Sending Currency"
+                title="Receiving Currency"
                 subtitle="Popular Protocols"
                 target="#portal"
                 tokens={tokensInit}
