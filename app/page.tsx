@@ -43,11 +43,49 @@ import {
 import { CONFIG_QUERY } from '@/lib/apollo/query'
 import { useQuery } from '@apollo/client'
 import { motion } from 'framer-motion'
-import { CheckBox, TextField } from 'houdini-react-sdk'
+import { CheckBox, Dropdown, TextField } from 'houdini-react-sdk'
 import { HoudiniButton, IconGrid } from 'houdini-react-sdk'
 import { set } from 'lodash'
 import Image from 'next/image'
 import React, { useState } from 'react'
+
+const tokensInit = [
+  {
+    icon: Protocol8Svg,
+    title: 'BITCOIN',
+    subtitle: 'BTC on Bitcoin',
+  },
+  {
+    icon: Protocol7Svg,
+    title: 'ETHEREUM',
+    subtitle: 'Ethereum on ETH Mainnet (ERC-20)',
+  },
+  {
+    icon: Protocol8Svg,
+    title: 'BITCOIN',
+    subtitle: 'BTC on Bitcoin',
+  },
+  {
+    icon: Protocol8Svg,
+    title: 'BITCOIN',
+    subtitle: 'BTC on Bitcoin',
+  },
+  {
+    icon: Protocol8Svg,
+    title: 'BITCOIN',
+    subtitle: 'BTC on Bitcoin',
+  },
+  {
+    icon: Protocol8Svg,
+    title: 'BITCOIN',
+    subtitle: 'BTC on Bitcoin',
+  },
+  {
+    icon: Protocol8Svg,
+    title: 'BITCOIN',
+    subtitle: 'BTC on Bitcoin',
+  },
+]
 
 export default function Home() {
   const { loading: warningStatusLoading, data: warningStatusData } = useQuery(
@@ -144,7 +182,14 @@ export default function Home() {
             </div>
           </div>
           <div className="flex flex-col sm:flex-row justify-start -space-y-6 sm:space-y-0 items-center gap-[14px] sm:-space-x-7 w-full">
-            <TextField id="send" label="Send:" placeholder="0.0" />
+            <TextField id="send" label="Send:" placeholder="0.0">
+              <Dropdown
+                title="Sending Currency"
+                subtitle="Popular Protocols"
+                target="#portal"
+                tokens={tokensInit}
+              />
+            </TextField>
             <Image
               src={upDown}
               width={100}
@@ -155,9 +200,16 @@ export default function Home() {
               }}
               className={`${
                 direction ? 'scale-y-[-1]' : ''
-              } w-[45px] h-[45px] hover:cursor-pointer rotate-180 sm:rotate-90 hover:-translate-y-1 transition-all duration-100 relative z-50`}
+              } w-[45px] h-[45px] hover:cursor-pointer rotate-180 sm:rotate-90 hover:-translate-y-1 transition-all duration-100 relative z-0`}
             />
-            <TextField id="receive" label="Receive:" placeholder="0.0" />
+            <TextField id="receive" label="Receive:" placeholder="0.0">
+              <Dropdown
+                title="Sending Currency"
+                subtitle="Popular Protocols"
+                target="#portal"
+                tokens={tokensInit}
+              />
+            </TextField>
           </div>
           <div className="w-full my-[20px] sm:my-0">
             <TextField
