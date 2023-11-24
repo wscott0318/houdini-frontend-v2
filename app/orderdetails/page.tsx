@@ -1,12 +1,12 @@
 'use client'
 
-import { NextStep as NextStepComponent } from '@/components/NextStep'
+import { OrderDetails as OrderDetailsComponent } from '@/components/OrderDetails'
 import { ResponsivePage } from '@/components/ResponsivePage'
 
 export default function NextStep() {
   return (
     <ResponsivePage>
-      <NextStepComponent />
+      <OrderDetailsComponent />
     </ResponsivePage>
   )
 }
