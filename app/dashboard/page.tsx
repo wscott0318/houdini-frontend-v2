@@ -2,7 +2,7 @@
 
 import { ResponsivePage } from '@/components/ResponsivePage'
 import { QuestionSvg } from '@/components/Svg'
-import { HoudiniButton } from 'houdini-react-sdk'
+import { CardSmall, HoudiniButton } from 'houdini-react-sdk'
 
 export default function Dashboard() {
   const poofData = [
@@ -25,6 +25,13 @@ export default function Dashboard() {
     { text: 'Commission claimable:', amount: '0 $POOF' },
   ]
 
+  const cardsData = [
+    { title: 'Your $POOF Locked', text: '0' },
+    { title: 'Your First Unlock', text: 'n/a' },
+    { title: 'Your Blended APR Rate', text: 'n/a' },
+    { title: 'Your Commission', text: 'n/a' },
+  ]
+
   return (
     <ResponsivePage>
       <div className="lg:text-[81px] text-center text-[35px] font-bold leading-[54px] capitalize tracking-[-0.85px]">
@@ -40,38 +47,9 @@ export default function Dashboard() {
       </button>
       <div className="flex flex-col justify-center items-center gap-[60px] lg:gap-10">
         <div className="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 place-items-center place-content-center gap-10">
-          <div className="w-[136px] lg:w-[271px] h-[136px] lg:h-[149px] rounded-[24px] bg-gray-500 flex flex-col justify-center items-center">
-            <div className="min-h-[40px] text-[16px] lg:text-[23px] rainbow-text leading-[20px] lg:leading-[34px] text-center font-light">
-              Your $POOF Locked
-            </div>
-            <div className="text-[32px] lg:text-[35px] text-white leading-[40px] lg:leading-[50px] font-medium text-center">
-              0
-            </div>
-          </div>
-          <div className="w-[136px] lg:w-[231px] h-[136px] lg:h-[149px] rounded-[24px] bg-gray-500 flex flex-col justify-center items-center">
-            <div className="min-h-[40px] text-[16px] lg:text-[23px] rainbow-text leading-[20px] lg:leading-[34px] text-center font-light">
-              Your First Unlock
-            </div>
-            <div className="text-[32px] lg:text-[35px] text-white leading-[40px] lg:leading-[50px] font-medium text-center">
-              n/a
-            </div>
-          </div>
-          <div className="w-[136px] lg:w-[271px] h-[136px] lg:h-[149px] rounded-[24px] bg-gray-500 flex flex-col justify-center items-center">
-            <div className="min-h-[40px] text-[16px] lg:text-[23px] rainbow-text leading-[20px] lg:leading-[34px] text-center font-light">
-              Your Blended APR Rate
-            </div>
-            <div className="text-[32px] lg:text-[35px] text-white leading-[40px] lg:leading-[50px] font-medium text-center">
-              n/a
-            </div>
-          </div>
-          <div className="w-[136px] lg:w-[231px] h-[136px] lg:h-[149px] rounded-[24px] bg-gray-500 flex flex-col justify-center items-center">
-            <div className="min-h-[40px] text-[16px] lg:text-[23px] rainbow-text leading-[20px] lg:leading-[34px] text-center font-light">
-              Your Commission
-            </div>
-            <div className="text-[32px] lg:text-[35px] text-white leading-[40px] lg:leading-[50px] font-medium text-center">
-              n/a
-            </div>
-          </div>
+          {cardsData.map((item, index) => (
+            <CardSmall key={index} title={item.title} text={item.text} />
+          ))}
         </div>
         <div className="flex flex-col xl:flex-row justify-center items-center gap-[60px] lg:gap-5">
           <div className="w-full lg:w-[493px] h-full rounded-[24px] bg-gray-500 flex flex-col justify-start p-[16px] lg:p-[30px] items-center">

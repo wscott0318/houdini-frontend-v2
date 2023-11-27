@@ -30,14 +30,17 @@ export function Header() {
 
   useLockScroll(drawerOpen)
 
+  const handleToggleSmoke = () => {
+    setSmoke(!smoke)
+  }
+
   return (
     <>
       <div className="relative">
         <div className="w-full relative p-2">
           <div className="flex flex-row gap-2 justify-center items-center absolute right-0">
             <CheckBox
-              checked={smoke}
-              setChecked={setSmoke}
+              onChange={handleToggleSmoke}
               name="smokeToggle"
               icon={<SmokeSvg className="h-5 w-5" />}
             />

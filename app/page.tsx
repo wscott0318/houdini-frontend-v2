@@ -100,8 +100,15 @@ export default function Home() {
   const [privateSwap, setPrivate] = useState(false)
   const [variableSwap, setVariable] = useState(false)
   const [direction, setDirection] = useState(false)
-
   const [isMulti, setIsMulti] = useState(false)
+
+  const handlePrivateSwap = () => {
+    setPrivate(!privateSwap)
+  }
+
+  const handleVariableSwap = () => {
+    setVariable(!variableSwap)
+  }
 
   return (
     <ResponsivePage>
@@ -162,21 +169,13 @@ export default function Home() {
           <div className="flex flex-col my-[20px] sm:my-0 sm:flex-row gap-4 justify-between items-start sm:items-center w-full">
             <div className="flex flex-row justify-start items-center gap-[13px]">
               <div className="mr-[8px] sm:mr-0">Private</div>
-              <CheckBox
-                checked={privateSwap}
-                setChecked={setPrivate}
-                name="privateSwap"
-              />
+              <CheckBox onChange={handlePrivateSwap} name="privateSwap" />
               <div>Semi Private</div>
               <InfoSvg className="w-[20px] h-[20px] hover:cursor-pointer" />
             </div>
             <div className="flex flex-row justify-start items-center gap-[13px]">
               <div>Variable</div>
-              <CheckBox
-                checked={variableSwap}
-                setChecked={setVariable}
-                name="variableSwap"
-              />
+              <CheckBox onChange={handleVariableSwap} name="variableSwap" />
               <div>Exact</div>
               <InfoSvg className="w-[20px] h-[20px] hover:cursor-pointer" />
             </div>
