@@ -3,8 +3,13 @@
 import { Footer, Header, ResponsiveContainer } from '@/components'
 import { userClient } from '@/lib/apollo/apollo-client'
 import { ApolloProvider } from '@apollo/client'
+import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit'
+import '@rainbow-me/rainbowkit/styles.css'
 import 'houdini-react-sdk/styles.css'
 import { Outfit, Poppins } from 'next/font/google'
+import { WagmiConfig, configureChains, createConfig } from 'wagmi'
+import { bsc, mainnet } from 'wagmi/chains'
+import { publicProvider } from 'wagmi/providers/public'
 
 import '../styles/globals.css'
 
@@ -24,6 +29,23 @@ const poppins = Poppins({
   variable: '--font-poppins',
 })
 
+const { chains, publicClient } = configureChains(
+  [mainnet, bsc],
+  [publicProvider()],
+)
+
+const { connectors } = getDefaultWallets({
+  appName: 'My RainbowKit App',
+  projectId: 'YOUR_PROJECT_ID',
+  chains,
+})
+
+const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors,
+  publicClient,
+})
+
 export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="en" className="m-0 p-0">
@@ -40,11 +62,15 @@ export default function RootLayout({ children }: LayoutProps) {
         className={`${outfit.variable} ${poppins.variable} container mx-auto font-outfit bg-[#1e1d28] text-white m-0 p-0`}
       >
         <ApolloProvider client={userClient}>
-          <ResponsiveContainer>
-            <Header />
-            {children}
-            <Footer />
-          </ResponsiveContainer>
+          <WagmiConfig config={wagmiConfig}>
+            <RainbowKitProvider chains={chains}>
+              <ResponsiveContainer>
+                <Header />
+                {children}
+                <Footer />
+              </ResponsiveContainer>{' '}
+            </RainbowKitProvider>
+          </WagmiConfig>
         </ApolloProvider>
         <div id="portal"></div>
       </body>

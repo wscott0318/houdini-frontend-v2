@@ -2,6 +2,7 @@
 
 import { ResponsivePage } from '@/components/ResponsivePage'
 import { QuestionSvg } from '@/components/Svg'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { CardSmall, HoudiniButton } from 'houdini-react-sdk'
 
 export default function Dashboard() {
@@ -37,14 +38,15 @@ export default function Dashboard() {
       <div className="lg:text-[81px] text-center text-[35px] font-bold leading-[54px] capitalize tracking-[-0.85px]">
         Your Staking Dashboard
       </div>
-      <button
+      {/* <button
         className="text-[#FBD20F] lg:hidden flex justify-center items-center rounded-full border border-[#FBD20F] w-[178px] h-[48px] bg-black font-bold text-[19px] leading-[31px]"
         onClick={() => {
           console.log('connect wallet')
         }}
       >
         Connect Wallet
-      </button>
+      </button> */}
+      <ConnectButton />
       <div className="flex flex-col justify-center items-center gap-[60px] lg:gap-10">
         <div className="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 place-items-center place-content-center gap-10">
           {cardsData.map((item, index) => (
