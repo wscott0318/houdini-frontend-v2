@@ -1,5 +1,5 @@
 import { NeedHelp } from '@/components/NeedHelp'
-import { MainModal } from './MainModal'
+import { NextStepModal } from './NextStepModal'
 
 export const NextStep = () => {
   return (
@@ -17,7 +17,15 @@ export const NextStep = () => {
       </div>
       <div className="flex flex-col pb-[165px]">
         <div className="flex flex-col items-center gap-[10px]">
-          <MainModal/>
+          <NextStepModal
+            orderID='pR7h3raq71otwFuCqvSpqf'
+            creationTime={new Date("1/10/2023, 20:54:43")}
+            sendAmount={1.0235}
+            receiveAddress='0xeed9978234bdffswfd8dhfe372b0154'
+            deliveryTime ='26 : 34'
+            recipientAddress='0xferv3552mnjud953234sddn2323434bdffswfd8'
+            receiveAmount={175.7936}
+          />
           <div className="flex flex-col lg:px-[100px] lg:pt-[30px]">
             <div className="lg:text-[17px] text-center font-medium leading-[21.42px] rainbow-text text-[#FFFFFF]">
               When funds are received this page will auto refresh to display your transaction progress

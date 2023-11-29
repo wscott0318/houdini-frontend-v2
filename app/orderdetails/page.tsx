@@ -3,7 +3,7 @@
 import { OrderDetails as OrderDetailsComponent } from '@/components/OrderDetails'
 import { ResponsivePage } from '@/components/ResponsivePage'
 
-export default function NextStep() {
+export default function OrderDetails() {
   return (
     <ResponsivePage>
       <OrderDetailsComponent />

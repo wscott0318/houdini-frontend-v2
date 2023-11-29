@@ -1,20 +1,21 @@
-import Radial0 from '@/assets/RadialProgress0.png'
-import Radial100 from '@/assets/RadialProgress100.png'
-import Image from 'next/image'
+import {
+  RadialProgressSvg,
+} from '@/components/Svg'
 
 interface DigitalProps {
-  value: string
+  value: number
   text: string
+  status: boolean
 }
 
 export const DigitalLockup = (props: DigitalProps) => {
   return (
     <div className="flex flex-col gap-[20px]">
       <div className="items-center ">
-        {props.value == '0' ? (
-          <Image src={Radial0} alt="ETH-ETH" />
+        {props.status == false ? (
+          <RadialProgressSvg width={118} height={118}/>
         ) : (
-          <Image src={Radial100} alt="ETH-ETH" />
+          <RadialProgressSvg width={118} height={118}/>
         )}
       </div>
       <div>
@@ -29,5 +30,3 @@ export const DigitalLockup = (props: DigitalProps) => {
     </div>
   )
 }
-
-export default DigitalLockup

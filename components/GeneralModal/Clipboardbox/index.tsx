@@ -11,7 +11,7 @@ interface ClipboardProps {
     concept: string;
 }
 
-export const CopyBtnDemo = (props: ClipboardProps) => {
+export const Clipboardbox = (props: ClipboardProps) => {
     const copyToClipboard = () => {
         navigator.clipboard.writeText(props.concept);
     };
