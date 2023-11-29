@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2020", // need this for contract interaction
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "maxNodeModuleJsDepth": 10,
@@ -31,5 +31,5 @@
     ".next/types/**/*.ts",
     "types/**/*.d.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "contracts"]
 }
