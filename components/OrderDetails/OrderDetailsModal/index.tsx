@@ -4,6 +4,7 @@ import { OrderDetailRoundbox } from "@/components/GeneralModal/OrderDetailRoundb
 import { Clipboardbox } from "@/components/GeneralModal/Clipboardbox";
 import { IndustrialCounterLockup } from "@/components/GeneralModal/IndustrialCounterLockup";
 import { MetalboarderedTransRoundbox } from "@/components/GeneralModal/MetalboarderedTransRoundbox";
+import { useTranslation } from "react-i18next";
 import {
   Protocol4Svg
 } from '@/components/Svg';
@@ -13,9 +14,12 @@ interface OrderDetailsModalProps {
     creationTime: Date,
     recipientWallet: string,
     receiveAmount: number,
+    tokenType: string,
+    swapTime: number,
 }
 
 export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
+  const { t } = useTranslation();
     const DateFormatter = () => {
       const date = props.creationTime;
       const formatter = new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -39,7 +43,7 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
             <div className="md:w-35% sm:w-50%">
                 <OrderDetailRoundbox border="custom-step-gradient1">
                     <div className="text-center lg:text-[15.25px] text-[12px] font-bold text-[#FFFFFF] text-opacity-60">
-                        Order ID:
+                        { t("orderDetailModalOrderID") }
                     </div>
                     <Clipboardbox concept={`${props.orderId}`} fontSize="lg:text-[15.25px] text-[12px]" textColor="text-[#FFFFFF99]"/>
                 </OrderDetailRoundbox>
@@ -47,7 +51,7 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
             <div className="md:w-10% md:pt-0 pt-[5px] sm:w-50%">
                 <OrderDetailRoundbox border="custom-step-gradient1">
                     <div className="text-center lg:text-[14.88px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-60 font-bold">
-                        Creation Time:
+                        { t("orderDetailModalCreationTime") }
                     </div>
                     <div className="text-center lg:text-[15.25px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-50 font-normal">
                       {`${DateFormatter()}, ${TimeFormatter()}`}
@@ -60,21 +64,21 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
               <div className="items-center w-full">
                 <MetalboarderedTransRoundbox>
                   <div className="relative flex flex-row gap-[32px] px-[50px] py-[30px]">
-                    <DigitalLockup value={0} text="ORDER RECEIVED" status={false}></DigitalLockup>
-                    <DigitalLockup value={0} text="ORDER RECEIVED" status={false}></DigitalLockup>
-                    <DigitalLockup value={0} text="ORDER RECEIVED" status={false}></DigitalLockup>
-                    <DigitalLockup value={0} text="ORDER RECEIVED" status={false}></DigitalLockup>
-                    <DigitalLockup value={0} text="ORDER RECEIVED" status={false}></DigitalLockup>
+                    <DigitalLockup value={100} status={false}></DigitalLockup>
+                    <DigitalLockup value={100} status={false}></DigitalLockup>
+                    <DigitalLockup value={10} status={false}></DigitalLockup>
+                    <DigitalLockup value={0} status={false}></DigitalLockup>
+                    <DigitalLockup value={0} status={false}></DigitalLockup>
                   </div>
                 </MetalboarderedTransRoundbox>
               </div>
               <MetalboarderedTransRoundbox>
                 <div className="flex flex-row gap-[32px] px-[60px] py-[10px] w-full h-full">
                   <div className="text-center text-[19px] leading-[23.94px] font-medium rainbow-text whitespace-nowrap">
-                    Todays Average Swap Time :
+                    { t("orderDetailsModalTodaysAverageSwapTime") }
                   </div>
                   <div className="text-center text-[19px] leading-[23.94px] font-bold whitespace-nowrap">
-                    30 minutes
+                    {`${props.swapTime} ${t("orderDetailsSwapTimeMinute")}`}
                   </div>
                 </div>
               </MetalboarderedTransRoundbox>
@@ -86,7 +90,7 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
                 <div className="lg:flex flex-wrap lg:justify-between justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow lg:px-[30px] px-[5px] py-[10px]">
                     <div className='sm:flex block lg:w-[60%] w-full lg:justify-between justify-center px-[4px] gap-4'>
                         <div className="text-center lg:text-[15.25px] lg:leading-[24px] text-[14px] font-bold text-opacity-60 text-[#FFFFFF99]">
-                            Recipient Wallet:
+                            { t("orderDetailModalRecipientWallet") }
                         </div>
                         <div className="text-center lg:text-[14.88px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
                             {`${props.recipientWallet}`}
@@ -94,7 +98,7 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
                     </div>
                     <div className="flex lg:w-[40%] lg:justify-between justify-center flex-row items-center gap-2.5 px-[4px]">
                         <div className=" text-cente lg:text-[15.25px] lg:leading-[24px] text-[14px] font-normal text-opacity-50 lg:pl-[60px] text-[#FFFFFF99]">
-                            will receive 
+                            { t("orderDetailModalWillReceive") }
                         </div>
                         <div className='flex gap-2.5 items-center'>
                             <div className="text-center lg:text-[15.25px] text-[14px] font-normal">
@@ -102,7 +106,7 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
                             </div>
                             <Protocol4Svg />
                             <div className="text-base text-center lg:text-[15.25px] text-[14px] font-normal">
-                                AVAX
+                                {`${props.tokenType}`}
                             </div>
                         </div>
                     </div>

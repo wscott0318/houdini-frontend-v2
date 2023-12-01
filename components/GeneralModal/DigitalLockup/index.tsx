@@ -1,28 +1,49 @@
 import {
   RadialProgressSvg,
 } from '@/components/Svg'
+import { useTranslation } from 'react-i18next'
 
 interface DigitalProps {
   value: number
-  text: string
   status: boolean
 }
 
 export const DigitalLockup = (props: DigitalProps) => {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col gap-[20px]">
       <div className="items-center ">
-        {props.status == false ? (
+        <div className="relative">
           <RadialProgressSvg width={118} height={118}/>
-        ) : (
-          <RadialProgressSvg width={118} height={118}/>
-        )}
+          {props.value == 100 ? 
+            <svg className="absolute top-0 left-0" width="118" height="118" viewBox="0 0 200 200" style={{transform: "rotate(-90deg)"}}>
+             <defs>
+               <radialGradient id="gradientCompleted">
+                 <stop offset="80%" stop-color="#52FF78" />
+                 <stop offset="95%" stop-color="#27C100" />
+               </radialGradient>
+             </defs>
+             <circle r="73" cx="100" cy="100" fill="transparent" stroke-linecap="round" stroke="url(#gradientCompleted)" stroke-width="37px" stroke-dasharray="600.6px" stroke-dashoffset="109.9px"></circle>
+           </svg> : props.value != 0 &&
+           <svg className="absolute top-0 left-0" width="118" height="118" viewBox="0 0 200 200" style={{transform: "rotate(-90deg)"}}>
+            <defs>
+              <radialGradient id="gradientInprogress">
+                <stop offset="85%" stop-color="#FFC840" />
+                <stop offset="95%" stop-color="#FF9F0E" />
+              </radialGradient>
+            </defs>
+            <circle r="73" cx="100" cy="100" fill="transparent" stroke-linecap="round" stroke="url(#gradientInprogress)" stroke-width="37px" stroke-dasharray="440px" stroke-dashoffset={`${100-props.value}`}></circle>
+            </svg>
+          }
+        </div>
       </div>
       <div>
         <div className="p-[2.73px] custom-step-gradient1 rounded-[60px]">
           <div className="flex flex-col justify-center items-center custom-step-gradient custom-step-shadow rounded-[60px] px-[15px] py-[5px]">
             <div className="text-center w-full leading-[21.88px] text-[10.03px] font-bold whitespace-nowrap">
-              {props.text}
+              {props.value == 100 && t("orderDetailsOrderReceived")}
+              {props.value == 0 && t("orderDetailsCompleted")}
+              {props.value != 100 && props.value != 0 && t("orderDetailsAnonymizing")}
             </div>
           </div>
         </div>

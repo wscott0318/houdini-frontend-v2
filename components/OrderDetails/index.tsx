@@ -1,7 +1,9 @@
 import { NeedHelp } from "@/components/NeedHelp"
 import { OrderDetailsModal } from "./OrderDetailsModal"
+import { useTranslation } from "react-i18next"
 
 export const OrderDetails = () => {
+  const { t } = useTranslation();
   return (
     <>
       <div
@@ -9,10 +11,10 @@ export const OrderDetails = () => {
         className="flex flex-col justify-center items-center gap-[30px] lg:gap-[10px]"
       >
         <div className="lg:text-[81px] text-center font-bold leading-[102.06px] capitalize tracking-[-0.85px]">
-          Working Our Magic
+          { t("orderDetailsPageTitle") }
         </div>
         <div className="flex flex-col font-normal lg:text-[19px] leading-[30px] items-center justify-center text-[#B8CAFC] text-center">
-          Your transaction is being processed
+          { t("orderDetailsContent") }
         </div>
       </div>
 
@@ -23,6 +25,8 @@ export const OrderDetails = () => {
             recipientWallet="0xferv3552mnjud953234sddn2323434bdffswfd8"
             creationTime={new Date("1/10/2023, 20:54:43")}
             orderId="pR7h3raq71otwFuCqvSpqf"
+            tokenType="AVAX"
+            swapTime={30}
           />
           <div className="flex px-[100px] py-[50px] items-center">
             <div className="flex px-[100px] py-[20px] items-center">
