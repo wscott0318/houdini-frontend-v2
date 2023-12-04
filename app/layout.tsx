@@ -59,19 +59,20 @@ export default function RootLayout({ children }: LayoutProps) {
         />
       </head>
       <body
-        className={`${outfit.variable} ${poppins.variable} container mx-auto font-outfit bg-[#1e1d28] text-white m-0 p-0`}
+        className={`${outfit.variable} ${poppins.variable} relative font-outfit bg-white text-white m-0 p-0`}
       >
-        <ApolloProvider client={userClient}>
-          <WagmiConfig config={wagmiConfig}>
-            <RainbowKitProvider chains={chains}>
-              <ResponsiveContainer>
-                <Header />
-                {children}
-                <Footer />
-              </ResponsiveContainer>{' '}
-            </RainbowKitProvider>
-          </WagmiConfig>
-        </ApolloProvider>
+        <div className="absolute w-full h-full top-[0px] left-[0px] bg-[#0e0e0e] z-[-3]"></div>
+        <div className="absolute w-full h-full top-[0px] left-[0px] bg-cover custom-top-background-img z-[-2]"></div>
+
+        <div className=" container mx-auto z-1">
+          <ApolloProvider client={userClient}>
+            <ResponsiveContainer>
+              <Header />
+              {children}
+              <Footer />
+            </ResponsiveContainer>
+          </ApolloProvider>
+        </div>
         <div id="portal"></div>
       </body>
     </html>
