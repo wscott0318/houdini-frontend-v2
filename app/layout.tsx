@@ -3,8 +3,13 @@
 import { Footer, Header, ResponsiveContainer } from '@/components'
 import { userClient } from '@/lib/apollo/apollo-client'
 import { ApolloProvider } from '@apollo/client'
+import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit'
+import '@rainbow-me/rainbowkit/styles.css'
 import 'houdini-react-sdk/styles.css'
 import { Outfit, Poppins } from 'next/font/google'
+import { WagmiConfig, configureChains, createConfig } from 'wagmi'
+import { bsc, mainnet } from 'wagmi/chains'
+import { publicProvider } from 'wagmi/providers/public'
 
 import '../styles/globals.css'
 
@@ -22,6 +27,23 @@ const poppins = Poppins({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-poppins',
+})
+
+const { chains, publicClient } = configureChains(
+  [mainnet, bsc],
+  [publicProvider()],
+)
+
+const { connectors } = getDefaultWallets({
+  appName: 'HoudiniSwap',
+  projectId: process.env.NEXT_APP_PROJECT_ID || '',
+  chains,
+})
+
+const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors,
+  publicClient,
 })
 
 export default function RootLayout({ children }: LayoutProps) {
