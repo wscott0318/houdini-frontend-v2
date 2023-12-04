@@ -1,18 +1,19 @@
 'use client'
 
-import { Logo } from '@/components/Footer/Logo'
-import LanguageDropDown from '@/components/Translate/LanguageDropDown'
-import languages from '@/lib/locales/languages'
-import useLockScroll from '@/utils/hooks/useLockScroll'
-import { useWindowSize } from '@/utils/hooks/useWindowSize'
 import { AnimatePresence } from 'framer-motion'
 import { CheckBox } from 'houdini-react-sdk'
 import { Portal } from 'houdini-react-sdk'
 import { get } from 'lodash'
 import React, { useEffect, useState } from 'react'
 
-import { Drawer } from '../Drawer'
-import { HamburgerSvg, SmokeSvg } from '../Svg'
+import { Drawer } from '@/components/Drawer'
+import { Logo } from '@/components/Footer/Logo'
+import { HamburgerSvg, SmokeSvg } from '@/components/Svg'
+import LanguageDropDown from '@/components/Translate/LanguageDropDown'
+import languages from '@/lib/locales/languages'
+import useLockScroll from '@/utils/hooks/useLockScroll'
+import { useWindowSize } from '@/utils/hooks/useWindowSize'
+
 import { Navbar } from './Navbar'
 
 export function Header() {
