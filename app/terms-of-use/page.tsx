@@ -1,8 +1,9 @@
 'use client'
 
+import { useTranslation } from 'react-i18next'
+
 import { ResponsivePage } from '@/components/ResponsivePage'
 import { TranslatedContent } from '@/components/TranslatedContent'
-import { useTranslation } from 'react-i18next'
 
 export default function TermsOfUse() {
   const { t } = useTranslation()

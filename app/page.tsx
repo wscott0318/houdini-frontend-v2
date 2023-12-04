@@ -1,5 +1,12 @@
 'use client'
 
+import { useQuery } from '@apollo/client'
+import { motion } from 'framer-motion'
+import { CheckBox, Dropdown, TextField } from 'houdini-react-sdk'
+import { HoudiniButton, IconGrid } from 'houdini-react-sdk'
+import Image from 'next/image'
+import React, { useState } from 'react'
+
 import upDown from '@/assets/up-down.png'
 import { ResponsivePage } from '@/components/ResponsivePage'
 import {
@@ -41,13 +48,6 @@ import {
   XenifySvg,
 } from '@/components/Svg'
 import { CONFIG_QUERY } from '@/lib/apollo/query'
-import { useQuery } from '@apollo/client'
-import { motion } from 'framer-motion'
-import { CheckBox, Dropdown, TextField } from 'houdini-react-sdk'
-import { HoudiniButton, IconGrid } from 'houdini-react-sdk'
-import { set } from 'lodash'
-import Image from 'next/image'
-import React, { useState } from 'react'
 
 const tokensInit = [
   {
