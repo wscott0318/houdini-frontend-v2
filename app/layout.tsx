@@ -66,11 +66,15 @@ export default function RootLayout({ children }: LayoutProps) {
 
         <div className=" container mx-auto z-1">
           <ApolloProvider client={userClient}>
-            <ResponsiveContainer>
-              <Header />
-              {children}
-              <Footer />
-            </ResponsiveContainer>
+            <WagmiConfig config={wagmiConfig}>
+              <RainbowKitProvider chains={chains}>
+                <ResponsiveContainer>
+                  <Header />
+                  {children}
+                  <Footer />
+                </ResponsiveContainer>
+              </RainbowKitProvider>
+            </WagmiConfig>
           </ApolloProvider>
         </div>
         <div id="portal"></div>
