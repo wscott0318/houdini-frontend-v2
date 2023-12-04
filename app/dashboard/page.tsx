@@ -1,14 +1,15 @@
 'use client'
 
-import { ConnectButtonHoudini } from '@/components/ConnectButtonHoudini'
-import { ResponsivePage } from '@/components/ResponsivePage'
-import { useWindowSize } from '@/utils/hooks/useWindowSize'
 import {
   CardSmall,
   CommissionAccountSettings,
   CommissionTiers,
   YourCommission,
 } from 'houdini-react-sdk'
+
+import { ConnectButtonHoudini } from '@/components/ConnectButtonHoudini'
+import { ResponsivePage } from '@/components/ResponsivePage'
+import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
 export default function Dashboard() {
   const [width] = useWindowSize()

@@ -1,9 +1,10 @@
 'use client'
 
+import { useTranslation } from 'react-i18next'
+
 import img from '@/assets/Black_Swan_Logo.png'
 import { ResponsivePage } from '@/components/ResponsivePage'
 import { TranslatedContent } from '@/components/TranslatedContent'
-import { useTranslation } from 'react-i18next'
 
 export default function Compliance() {
   const { t } = useTranslation()

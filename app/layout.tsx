@@ -1,7 +1,5 @@
 'use client'
 
-import { Footer, Header, ResponsiveContainer } from '@/components'
-import { userClient } from '@/lib/apollo/apollo-client'
 import { ApolloProvider } from '@apollo/client'
 import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
@@ -10,6 +8,9 @@ import { Outfit, Poppins } from 'next/font/google'
 import { WagmiConfig, configureChains, createConfig } from 'wagmi'
 import { bsc, mainnet } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
+
+import { Footer, Header, ResponsiveContainer } from '@/components'
+import { userClient } from '@/lib/apollo/apollo-client'
 
 import '../styles/globals.css'
 
