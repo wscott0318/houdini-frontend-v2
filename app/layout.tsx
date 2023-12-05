@@ -1,7 +1,5 @@
 'use client'
 
-import { Footer, Header, ResponsiveContainer } from '@/components'
-import { userClient } from '@/lib/apollo/apollo-client'
 import { ApolloProvider } from '@apollo/client'
 import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
@@ -10,6 +8,9 @@ import { Outfit, Poppins } from 'next/font/google'
 import { WagmiConfig, configureChains, createConfig } from 'wagmi'
 import { bsc, mainnet } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
+
+import { Footer, Header, ResponsiveContainer } from '@/components'
+import { userClient } from '@/lib/apollo/apollo-client'
 
 import '../styles/globals.css'
 
@@ -66,11 +67,15 @@ export default function RootLayout({ children }: LayoutProps) {
 
         <div className=" container mx-auto z-1">
           <ApolloProvider client={userClient}>
-            <ResponsiveContainer>
-              <Header />
-              {children}
-              <Footer />
-            </ResponsiveContainer>
+            <WagmiConfig config={wagmiConfig}>
+              <RainbowKitProvider chains={chains}>
+                <ResponsiveContainer>
+                  <Header />
+                  {children}
+                  <Footer />
+                </ResponsiveContainer>
+              </RainbowKitProvider>
+            </WagmiConfig>
           </ApolloProvider>
         </div>
         <div id="portal"></div>

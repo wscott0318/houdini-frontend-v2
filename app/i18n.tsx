@@ -1,9 +1,10 @@
-import translationENG from '@/lib/locales/en/translation.json'
-import translationRO from '@/lib/locales/ro/translation.json'
-import translationRU from '@/lib/locales/ru/translation.json'
 import i18n from 'i18next'
 import detector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
+
+import translationENG from '@/lib/locales/en/translation.json'
+import translationRO from '@/lib/locales/ro/translation.json'
+import translationRU from '@/lib/locales/ru/translation.json'
 
 const resources: any = {
   en: {
