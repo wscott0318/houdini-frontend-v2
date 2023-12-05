@@ -10,6 +10,8 @@ const nextConfig = {
   },
   env: {
     NEXT_APP_GQL_USER_API: process.env.NEXT_APP_GQL_USER_API || 'http://localhost:3000/graphql',
+    NEXT_APP_PROJECT_ID: process.env.NEXT_APP_PROJECT_ID || '',
+    NEXT_APP_NODE_ENV: process.env.NEXT_APP_NODE_ENV || 'development',
   },
   webpack(config) {
     config.module.rules.push({
