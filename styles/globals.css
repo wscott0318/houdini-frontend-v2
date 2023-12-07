@@ -4,9 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* html {
+html,
+body {
   font-family: var(--font-outfit), 'Outfit';
-} */
+  overflow: hidden;
+}
 
 /* .footer-gradient {
   background-image: url("/footer-gradient.png");

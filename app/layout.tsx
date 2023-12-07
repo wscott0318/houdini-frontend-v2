@@ -65,7 +65,7 @@ export default function RootLayout({ children }: LayoutProps) {
         <div className="absolute w-full h-full top-[0px] left-[0px] bg-[#0e0e0e] z-[-3]"></div>
         <div className="absolute w-full h-full top-[0px] left-[0px] bg-cover custom-top-background-img z-[-2]"></div>
 
-        <div className=" container mx-auto z-1">
+        <div className="container mx-auto z-1">
           <ApolloProvider client={userClient}>
             <WagmiConfig config={wagmiConfig}>
               <RainbowKitProvider chains={chains}>
