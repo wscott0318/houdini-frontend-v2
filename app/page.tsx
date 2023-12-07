@@ -2,18 +2,19 @@
 
 import { useQuery } from '@apollo/client'
 import { motion } from 'framer-motion'
-import { CheckBox, Dropdown, TextField } from 'houdini-react-sdk'
-import { HoudiniButton, IconGrid } from 'houdini-react-sdk'
+import {
+  CardComponent,
+  CheckBox,
+  Dropdown,
+  HoudiniButton,
+  TextField,
+} from 'houdini-react-sdk'
 import Image from 'next/image'
 import React, { useState } from 'react'
 
 import upDown from '@/assets/up-down.png'
 import { GeneralModal } from '@/components/GeneralModal'
-import { Clipboardbox } from '@/components/GeneralModal/Clipboardbox'
 import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCounterLockup'
-import { MetalboarderedRoundbox } from '@/components/GeneralModal/MetalboarderedRoundbox'
-import { OrderDetailRoundbox } from '@/components/GeneralModal/OrderDetailRoundbox'
-import { WalletRoundbox } from '@/components/GeneralModal/WalletRoundbox'
 import { ResponsivePage } from '@/components/ResponsivePage'
 import {
   ArcSvg,
@@ -50,12 +51,11 @@ import {
   Protocol27Svg,
   Protocol28Svg,
   Protocol29Svg,
-  QRCodeSvg,
-  QuestionSvg,
   SwiftSvg,
   XenifySvg,
 } from '@/components/Svg'
 import { CONFIG_QUERY } from '@/lib/apollo/query'
+import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
 const tokensInit = [
   {
@@ -95,6 +95,46 @@ const tokensInit = [
   },
 ]
 
+const partnersIcons = [
+  <BulletSvg className="w-[133px] h-[35px] gap-[60px]" key="bulletsvg" />,
+  <FiraSvg key="firasvg" />,
+  <ArcSvg key="arcsvg" />,
+  <BoltbotSvg key="boltbotsvg" />,
+  <XenifySvg key="xenifysvg" />,
+  <SwiftSvg key="swiftsvg" />,
+]
+
+const suportedProtocolIcons = [
+  <Protocol1Svg className="w-[32px] h-[32px]" key="protocol1" />,
+  <Protocol2Svg key="protocol2" />,
+  <Protocol3Svg key="protocol3" />,
+  <Protocol4Svg key="protocol4" />,
+  <Protocol5Svg key="protocol5" />,
+  <Protocol6Svg key="protocol6" />,
+  <Protocol7Svg key="protocol7" />,
+  <Protocol8Svg key="protocol8" />,
+  <Protocol9Svg key="protocol9" />,
+  <Protocol10Svg key="protocol10" />,
+  <Protocol11Svg key="protocol11" />,
+  <Protocol12Svg key="protocol12" />,
+  <Protocol13Svg key="protocol13" />,
+  <Protocol14Svg key="protocol14" />,
+  <Protocol15Svg key="protocol15" />,
+  <Protocol16Svg key="protocol16" />,
+  <Protocol17Svg key="protocol17" />,
+  <Protocol18Svg key="protocol18" />,
+  <Protocol19Svg key="protocol19" />,
+  <Protocol20Svg key="protocol20" />,
+  <Protocol21Svg key="protocol21" />,
+  <Protocol22Svg key="protocol22" />,
+  <Protocol23Svg key="protocol23" />,
+  <Protocol24Svg key="protocol24" />,
+  <Protocol25Svg key="protocol25" />,
+  <Protocol26Svg key="protocol26" />,
+  <Protocol27Svg key="protocol27" />,
+  <Protocol28Svg key="protocol28" />,
+  <Protocol29Svg key="protocol29" />,
+]
 export default function Home() {
   const { loading: warningStatusLoading, data: warningStatusData } = useQuery(
     CONFIG_QUERY,
@@ -105,6 +145,7 @@ export default function Home() {
     },
   )
 
+  const [width] = useWindowSize()
   const [privateSwap, setPrivate] = useState(false)
   const [variableSwap, setVariable] = useState(false)
   const [direction, setDirection] = useState(false)
@@ -251,13 +292,16 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col w-full lg:flex-row justify-center items-center gap-4">
-        <div className="w-[260px] h-[140px] rounded-[24px] bg-gray-500 sm:flex hidden flex-col justify-center items-center">
-          <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">
-            Total Transactions
-          </div>
-          <div className="text-[35px] text-white leading-[50px] font-medium text-center">
-            123k
-          </div>
+        <div className="w-[260px] h-[140px] rounded-[24px] sm:flex hidden flex-col justify-center items-center">
+          <CardComponent>
+            <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">
+              Total Transactions
+            </div>
+
+            <div className="text-[35px] text-white leading-[50px] font-medium text-center">
+              123k
+            </div>
+          </CardComponent>
         </div>
         <div className="w-full md:w-[350px] rounded-[24px] h-[190px] bg-gray-500 flex flex-col justify-center items-center">
           <div className="text-[25px] font-medium text-center leading-[38px]">
@@ -267,72 +311,58 @@ export default function Home() {
             123
           </div>
         </div>
-        <div className="w-[260px] rounded-[24px] h-[140px] bg-gray-500 sm:flex hidden flex-col justify-center items-center">
-          <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">
-            $POOF Buybacks
-          </div>
-          <div className="text-[35px] text-white leading-[50px] font-medium text-center">
-            5.7m
-          </div>
+        <div className="w-[260px] rounded-[24px] h-[140px] sm:flex hidden flex-col justify-center items-center">
+          <CardComponent>
+            <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">
+              $POOF Buybacks
+            </div>
+            <div className="text-[35px] text-white leading-[50px] font-medium text-center">
+              5.7m
+            </div>
+          </CardComponent>
         </div>
       </div>
 
-      <IconGrid
-        title="Partners"
-        icons={[
-          <BulletSvg
-            className="w-[133px] h-[35px] gap-[60px]"
-            key="bulletsvg"
-          />,
-          <FiraSvg key="firasvg" />,
-          <ArcSvg key="arcsvg" />,
-          <BoltbotSvg key="boltbotsvg" />,
-          <XenifySvg key="xenifysvg" />,
-          <SwiftSvg key="swiftsvg" />,
-        ]}
-      />
+      <div className="flex flex-col rounded-[24px] items-center justify-center gap-5  md:w-[650px] lg:w-[850px] max-w-[850px] md:h-[320px] lg:h-[230px] py-8 px-20">
+        <CardComponent widthClass="600px" heightClass="400px">
+          <div
+            className={`text-[20px] text-white leading-[24px] text-center font-medium`}
+          >
+            Partners
+          </div>
+          <div
+            className={`flex flex-row items-start justify-center gap-[60px] flex-wrap`}
+          >
+            {partnersIcons.map((icon: any, index) =>
+              React.cloneElement(icon, {
+                key: index,
+                className: 'w-[133px] h-[35px]',
+              }),
+            )}
+          </div>
+        </CardComponent>
+      </div>
 
-      <IconGrid
-        title="Supported Protocols"
-        icons={[
-          <Protocol1Svg className="w-[32px] h-[32px]" key="protocol1" />,
-          <Protocol2Svg key="protocol2" />,
-          <Protocol3Svg key="protocol3" />,
-          <Protocol4Svg key="protocol4" />,
-          <Protocol5Svg key="protocol5" />,
-          <Protocol6Svg key="protocol6" />,
-          <Protocol7Svg key="protocol7" />,
-          <Protocol8Svg key="protocol8" />,
-          <Protocol9Svg key="protocol9" />,
-          <Protocol10Svg key="protocol10" />,
-          <Protocol11Svg key="protocol11" />,
-          <Protocol12Svg key="protocol12" />,
-          <Protocol13Svg key="protocol13" />,
-          <Protocol14Svg key="protocol14" />,
-          <Protocol15Svg key="protocol15" />,
-          <Protocol16Svg key="protocol16" />,
-          <Protocol17Svg key="protocol17" />,
-          <Protocol18Svg key="protocol18" />,
-          <Protocol19Svg key="protocol19" />,
-          <Protocol20Svg key="protocol20" />,
-          <Protocol21Svg key="protocol21" />,
-          <Protocol22Svg key="protocol22" />,
-          <Protocol23Svg key="protocol23" />,
-          <Protocol24Svg key="protocol24" />,
-          <Protocol25Svg key="protocol25" />,
-          <Protocol26Svg key="protocol26" />,
-          <Protocol27Svg key="protocol27" />,
-          <Protocol28Svg key="protocol28" />,
-          <Protocol29Svg key="protocol29" />,
-        ]}
-        titleColor="text-[#8C9AE9]"
-        gap="[10px] sm:gap-[25px]"
-        iconWidth="[32px]"
-        iconHeight="[32px]"
-        containerWidth="w-full md:w-[600px]"
-        containerHeight="sm:h-[400px] md:h-[350px]"
-        paddingX="px-10 md:px-20"
-      />
+      <CardComponent
+        widthClass={width >= 768 ? '600px' : '100%'}
+        heightClass={width >= 768 ? '400px' : '100%'}
+      >
+        <div
+          className={`text-[20px] text-[#8c9ae9] leading-[24px] pb-[18px] text-center font-medium`}
+        >
+          Supported Protocols
+        </div>
+        <div
+          className={`flex flex-row items-start justify-center gap-[35px] flex-wrap`}
+        >
+          {suportedProtocolIcons.map((icon: any, index) =>
+            React.cloneElement(icon, {
+              key: index,
+              className: 'w-[32px] h-[32px]',
+            }),
+          )}
+        </div>
+      </CardComponent>
     </ResponsivePage>
   )
 }
