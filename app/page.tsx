@@ -8,6 +8,12 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 
 import upDown from '@/assets/up-down.png'
+import { GeneralModal } from '@/components/GeneralModal'
+import { Clipboardbox } from '@/components/GeneralModal/Clipboardbox'
+import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCounterLockup'
+import { MetalboarderedRoundbox } from '@/components/GeneralModal/MetalboarderedRoundbox'
+import { OrderDetailRoundbox } from '@/components/GeneralModal/OrderDetailRoundbox'
+import { WalletRoundbox } from '@/components/GeneralModal/WalletRoundbox'
 import { ResponsivePage } from '@/components/ResponsivePage'
 import {
   ArcSvg,
@@ -44,6 +50,8 @@ import {
   Protocol27Svg,
   Protocol28Svg,
   Protocol29Svg,
+  QRCodeSvg,
+  QuestionSvg,
   SwiftSvg,
   XenifySvg,
 } from '@/components/Svg'
@@ -127,114 +135,119 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col justify-center items-center gap-2">
-        <div className="rounded-[24px] bg-gray-900 w-full lg:w-[1000px] sm:h-[600px] flex flex-col justify-between items-center py-[40px] px-[35px] sm:py-[35px] sm:px-[60px]">
-          <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center w-full gap-[16px]">
-            <div className="flex flex-col justify-center items-center sm:items-start gap-[16px]">
-              <div className="text-[28px] whitespace-nowrap sm:text-[34px] font-bold leading-[38px] text-white">
-                Swap-Send-Bridge
-              </div>
-              <div className="text-[15px] font-medium font-poppins rainbow-text">
-                Private, Compliant, No Sign Up
-              </div>
-            </div>
-            <div
-              className="w-[200px] h-[40px] border-[2px] border-white flex items-center justify-center flex-row rounded-[24px] relative cursor-pointer"
-              onClick={() => {
-                setIsMulti(!isMulti)
-              }}
-            >
-              <motion.div
-                className="left-1 bg-white text-sm h-[30px] w-1/2 text-black flex items-center justify-center rounded-[14px] absolute"
-                animate={{ x: isMulti ? '90px' : '0px' }}
-                transition={{ type: 'tween', duration: 0.3 }}
-              >
-                {isMulti ? 'Multi send' : 'Single'}
-              </motion.div>
-              <div
-                className={`${
-                  !isMulti ? 'opacity-0' : 'opacity-100'
-                } w-1/2 h-full flex text-sm justify-center items-center transition-all duration-100`}
-              >
-                Single
+        <GeneralModal>
+          <IndustrialCounterLockup>
+            <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center w-full gap-[16px]">
+              <div className="flex flex-col justify-center items-center sm:items-start gap-[16px]">
+                <div className="text-[28px] whitespace-nowrap sm:text-[34px] font-bold leading-[38px] text-white">
+                  Swap-Send-Bridge
+                </div>
+                <div className="text-[15px] font-medium font-poppins rainbow-text">
+                  Private, Compliant, No Sign Up
+                </div>
               </div>
               <div
-                className={`${
-                  isMulti ? 'opacity-0' : 'opacity-100'
-                } w-1/2 h-full flex text-sm justify-center items-center`}
+                className="w-[200px] h-[40px] border-[2px] border-white flex items-center justify-center flex-row rounded-[24px] relative cursor-pointer"
+                onClick={() => {
+                  setIsMulti(!isMulti)
+                }}
               >
-                Multi send
+                <motion.div
+                  className="left-1 bg-white text-sm h-[30px] w-1/2 text-black flex items-center justify-center rounded-[14px] absolute"
+                  animate={{ x: isMulti ? '90px' : '0px' }}
+                  transition={{ type: 'tween', duration: 0.3 }}
+                >
+                  {isMulti ? 'Multi send' : 'Single'}
+                </motion.div>
+                <div
+                  className={`${
+                    !isMulti ? 'opacity-0' : 'opacity-100'
+                  } w-1/2 h-full flex text-sm justify-center items-center transition-all duration-100`}
+                >
+                  Single
+                </div>
+                <div
+                  className={`${
+                    isMulti ? 'opacity-0' : 'opacity-100'
+                  } w-1/2 h-full flex text-sm justify-center items-center`}
+                >
+                  Multi send
+                </div>
               </div>
             </div>
-          </div>
-          <div className="flex flex-col my-[20px] sm:my-0 sm:flex-row gap-4 justify-between items-start sm:items-center w-full">
-            <div className="flex flex-row justify-start items-center gap-[13px]">
-              <div className="mr-[8px] sm:mr-0">Private</div>
-              <CheckBox onChange={handlePrivateSwap} name="privateSwap" />
-              <div>Semi Private</div>
-              <InfoSvg className="w-[20px] h-[20px] hover:cursor-pointer" />
+            <div className="flex flex-col lg:px-[30px] lg:py-[10px] lg:gap-[20px] gap-[10px] w-full">
+              <div className="flex flex-col my-[20px] sm:my-0 sm:flex-row gap-4 justify-between items-start sm:items-center w-full">
+                <div className="flex flex-row justify-start items-center gap-[13px]">
+                  <div className="mr-[8px] sm:mr-0">Private</div>
+                  <CheckBox onChange={handlePrivateSwap} name="privateSwap" />
+                  <div>Semi Private</div>
+                  <InfoSvg className="w-[20px] h-[20px] hover:cursor-pointer" />
+                </div>
+                <div className="flex flex-row justify-start items-center gap-[13px]">
+                  <div>Variable</div>
+                  <CheckBox onChange={handleVariableSwap} name="variableSwap" />
+                  <div>Exact</div>
+                  <InfoSvg className="w-[20px] h-[20px] hover:cursor-pointer" />
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row justify-start -space-y-6 sm:space-y-0 items-center gap-[14px] sm:-space-x-7 w-full">
+                <TextField id="send" label="Send:" placeholder="0.0">
+                  <Dropdown
+                    title="Sending Currency"
+                    subtitle="Popular Protocols"
+                    target="#portal"
+                    tokens={tokensInit}
+                  />
+                </TextField>
+                <Image
+                  src={upDown}
+                  width={100}
+                  height={100}
+                  alt="upDown"
+                  onClick={() => {
+                    setDirection(!direction)
+                  }}
+                  className={`${
+                    direction ? 'scale-y-[-1]' : ''
+                  } w-[45px] h-[45px] hover:cursor-pointer rotate-180 sm:rotate-90 hover:-translate-y-1 transition-all duration-100 relative z-0`}
+                />
+                <TextField id="receive" label="Receive:" placeholder="0.0">
+                  <Dropdown
+                    title="Receiving Currency"
+                    subtitle="Popular Protocols"
+                    target="#portal"
+                    tokens={tokensInit}
+                  />
+                </TextField>
+              </div>
+
+              <div className="w-full my-[20px] sm:my-0">
+                <TextField
+                  id="receivingWallet"
+                  label="Receiving Wallet (BTC) Address:"
+                  placeholder="Receiving Wallet (BTC) Address"
+                />
+              </div>
             </div>
-            <div className="flex flex-row justify-start items-center gap-[13px]">
-              <div>Variable</div>
-              <CheckBox onChange={handleVariableSwap} name="variableSwap" />
-              <div>Exact</div>
-              <InfoSvg className="w-[20px] h-[20px] hover:cursor-pointer" />
+            <div className="gradient-text my-[20px] font-medium text-xs font-poppins">
+              Only send To/From wallets. Transactions sent To/From smart
+              contracts are not accepted
             </div>
-          </div>
-          <div className="flex flex-col sm:flex-row justify-start -space-y-6 sm:space-y-0 items-center gap-[14px] sm:-space-x-7 w-full">
-            <TextField id="send" label="Send:" placeholder="0.0">
-              <Dropdown
-                title="Sending Currency"
-                subtitle="Popular Protocols"
-                target="#portal"
-                tokens={tokensInit}
-              />
-            </TextField>
-            <Image
-              src={upDown}
-              width={100}
-              height={100}
-              alt="upDown"
+            <HoudiniButton
+              text={'Proceed'}
               onClick={() => {
-                setDirection(!direction)
+                console.log('clicked!!')
               }}
-              className={`${
-                direction ? 'scale-y-[-1]' : ''
-              } w-[45px] h-[45px] hover:cursor-pointer rotate-180 sm:rotate-90 hover:-translate-y-1 transition-all duration-100 relative z-0`}
             />
-            <TextField id="receive" label="Receive:" placeholder="0.0">
-              <Dropdown
-                title="Receiving Currency"
-                subtitle="Popular Protocols"
-                target="#portal"
-                tokens={tokensInit}
-              />
-            </TextField>
-          </div>
-          <div className="w-full my-[20px] sm:my-0">
-            <TextField
-              id="receivingWallet"
-              label="Receiving Wallet (BTC) Address:"
-              placeholder="Receiving Wallet (BTC) Address"
-            />
-          </div>
-          <div className="gradient-text my-[20px] font-medium text-xs font-poppins">
-            Only send To/From wallets. Transactions sent To/From smart contracts
-            are not accepted
-          </div>
-          <HoudiniButton
-            text={'Proceed'}
-            onClick={() => {
-              console.log('clicked!!')
-            }}
-          />
+          </IndustrialCounterLockup>
+        </GeneralModal>
+      </div>
+      <div className="rainbow-text flex flex-col justify-center items-center text-center">
+        <div>
+          For your enhanced security, Houdini order details disappear after 48
+          hours.
         </div>
-        <div className="rainbow-text flex flex-col justify-center items-center text-center">
-          <div>
-            For your enhanced security, Houdini order details disappear after 48
-            hours.
-          </div>
-          <div>If you ever need our support, we’re here for you 24/7</div>
-        </div>
+        <div>If you ever need our support, we’re here for you 24/7</div>
       </div>
 
       <div className="flex flex-col w-full lg:flex-row justify-center items-center gap-4">
