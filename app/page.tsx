@@ -324,9 +324,12 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col rounded-[24px] items-center justify-center gap-5  md:w-[650px] lg:w-[850px] max-w-[850px] md:h-[320px] lg:h-[230px] py-8 px-20">
-        <CardComponent widthClass="600px" heightClass="400px">
+        <CardComponent
+          widthClass={width >= 768 ? '600px' : '100%'}
+          heightClass={'600px'}
+        >
           <div
-            className={`text-[20px] text-white leading-[24px] text-center font-medium`}
+            className={`text-[20px] gradient-text pb-[18px] leading-[24px] text-center font-medium`}
           >
             Partners
           </div>
@@ -343,26 +346,28 @@ export default function Home() {
         </CardComponent>
       </div>
 
-      <CardComponent
-        widthClass={width >= 768 ? '600px' : '100%'}
-        heightClass={width >= 768 ? '400px' : '100%'}
-      >
-        <div
-          className={`text-[20px] text-[#8c9ae9] leading-[24px] pb-[18px] text-center font-medium`}
+      <div className="max-w-[600px]">
+        <CardComponent
+          widthClass={width >= 768 ? '600px' : '100%'}
+          heightClass={width >= 768 ? '400px' : '100%'}
         >
-          Supported Protocols
-        </div>
-        <div
-          className={`flex flex-row items-start justify-center gap-[35px] flex-wrap`}
-        >
-          {suportedProtocolIcons.map((icon: any, index) =>
-            React.cloneElement(icon, {
-              key: index,
-              className: 'w-[32px] h-[32px]',
-            }),
-          )}
-        </div>
-      </CardComponent>
+          <div
+            className={`text-[20px] text-[#8c9ae9] leading-[24px] pb-[18px] text-center font-medium`}
+          >
+            Supported Protocols
+          </div>
+          <div
+            className={`flex flex-row items-start justify-center gap-[35px] flex-wrap`}
+          >
+            {suportedProtocolIcons.map((icon: any, index) =>
+              React.cloneElement(icon, {
+                key: index,
+                className: 'w-[32px] h-[32px]',
+              }),
+            )}
+          </div>
+        </CardComponent>
+      </div>
     </ResponsivePage>
   )
 }
