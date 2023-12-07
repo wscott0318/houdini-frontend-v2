@@ -216,7 +216,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col lg:px-[30px] lg:py-[10px] lg:gap-[20px] gap-[10px] w-full">
+            <div className="flex flex-col lg:py-[10px] lg:gap-[20px] gap-[10px] w-full">
               <div className="flex flex-col my-[20px] sm:my-0 sm:flex-row gap-4 justify-between items-start sm:items-center w-full">
                 <div className="flex flex-row justify-start items-center gap-[13px]">
                   <div className="mr-[8px] sm:mr-0">Private</div>
