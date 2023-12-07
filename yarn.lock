@@ -4311,10 +4311,10 @@ hoist-non-react-statics@^3.3.2:
   dependencies:
     react-is "^16.7.0"
 
-houdini-react-sdk@0.0.58:
-  version "0.0.58"
-  resolved "https://registry.yarnpkg.com/houdini-react-sdk/-/houdini-react-sdk-0.0.58.tgz#eff7f4cc2fcde94c69ed5b67c90b71907c8f7ebf"
-  integrity sha512-PJVra/GLlzkUAVtaW8exSC1OBnUEkJDGKGXMUK9vI6Fl/x5blfBldzIh1wKUQov6KiZNUYFXI3fCH9+NwV4GHQ==
+houdini-react-sdk@0.0.59:
+  version "0.0.59"
+  resolved "https://registry.yarnpkg.com/houdini-react-sdk/-/houdini-react-sdk-0.0.59.tgz#e904fad9743993d98236e2cc975a1e1b1d2eda8b"
+  integrity sha512-sVtvLJnlYz3Fiau0y0EsZYsb95dDi0gxJqHnoT3bBBnNFKHrrAb0WBYwuARTo7jYYbVSU308Fc6SrTxCdtNtHg==
 
 html-parse-stringify@^3.0.1:
   version "3.0.1"
