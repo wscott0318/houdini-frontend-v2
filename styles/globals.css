@@ -4,14 +4,8 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  font-family: var(--font-outfit), 'Outfit';
+/* html,
+body { */
+  /* font-family: var(--font-outfit), 'Outfit'; */
   /* overflow: hidden; */
-}
-
-/* .footer-gradient {
-  background-image: url("/footer-gradient.png");
-  background-repeat: no-repeat, repeat;
-  background-color: transparent;
-} */
+/* } */

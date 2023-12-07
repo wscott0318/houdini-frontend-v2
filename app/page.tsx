@@ -7,6 +7,7 @@ import {
   CheckBox,
   Dropdown,
   HoudiniButton,
+  SingleMultiSend,
   TextField,
 } from 'houdini-react-sdk'
 import Image from 'next/image'
@@ -159,6 +160,10 @@ export default function Home() {
     setVariable(!variableSwap)
   }
 
+  const handleMultiSend = () => {
+    setIsMulti(!isMulti)
+  }
+
   return (
     <ResponsivePage>
       <div>
@@ -187,49 +192,28 @@ export default function Home() {
                   Private, Compliant, No Sign Up
                 </div>
               </div>
-              <div
-                className="w-[200px] h-[40px] border-[2px] border-white flex items-center justify-center flex-row rounded-[24px] relative cursor-pointer"
-                onClick={() => {
-                  setIsMulti(!isMulti)
-                }}
-              >
-                <motion.div
-                  className="left-1 bg-white text-sm h-[30px] w-1/2 text-black flex items-center justify-center rounded-[14px] absolute"
-                  animate={{ x: isMulti ? '90px' : '0px' }}
-                  transition={{ type: 'tween', duration: 0.3 }}
-                >
-                  {isMulti ? 'Multi send' : 'Single'}
-                </motion.div>
-                <div
-                  className={`${
-                    !isMulti ? 'opacity-0' : 'opacity-100'
-                  } w-1/2 h-full flex text-sm justify-center items-center transition-all duration-100`}
-                >
-                  Single
-                </div>
-                <div
-                  className={`${
-                    isMulti ? 'opacity-0' : 'opacity-100'
-                  } w-1/2 h-full flex text-sm justify-center items-center`}
-                >
-                  Multi send
-                </div>
-              </div>
+              <SingleMultiSend
+                multiSendText="Multi"
+                onChange={handleMultiSend}
+                singleText="Single"
+              />
             </div>
             <div className="flex flex-col lg:py-[10px] lg:gap-[20px] gap-[10px] w-full">
               <div className="flex flex-col my-[20px] sm:my-0 sm:flex-row gap-4 justify-between items-start sm:items-center w-full">
-                <div className="flex flex-row justify-start items-center gap-[13px]">
-                  <div className="mr-[8px] sm:mr-0">Private</div>
-                  <CheckBox onChange={handlePrivateSwap} name="privateSwap" />
-                  <div>Semi Private</div>
-                  <InfoSvg className="w-[20px] h-[20px] hover:cursor-pointer" />
-                </div>
-                <div className="flex flex-row justify-start items-center gap-[13px]">
-                  <div>Variable</div>
-                  <CheckBox onChange={handleVariableSwap} name="variableSwap" />
-                  <div>Exact</div>
-                  <InfoSvg className="w-[20px] h-[20px] hover:cursor-pointer" />
-                </div>
+                <CheckBox
+                  defaultValue
+                  leftText="Private"
+                  name="privateToggler"
+                  onChange={handlePrivateSwap}
+                  rightText="Semi Private"
+                />
+                <CheckBox
+                  defaultValue
+                  leftText="Variable"
+                  name="variableToggler"
+                  onChange={handleVariableSwap}
+                  rightText="Exact"
+                />
               </div>
               <div className="flex flex-col sm:flex-row justify-start -space-y-6 sm:space-y-0 items-center gap-[14px] sm:-space-x-7 w-full">
                 <TextField id="send" label="Send:" placeholder="0.0">
