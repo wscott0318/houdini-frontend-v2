@@ -1,4 +1,4 @@
-import { SearchInput } from 'houdini-react-sdk'
+import { CardComponent, SearchInput } from 'houdini-react-sdk'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -78,25 +78,29 @@ const CommonNavbar = ({ setIsOpen }: { setIsOpen?: any }) => {
           } fill-white mt-0.5 group-hover:fill-[#F5C341]`}
         />
         {openDropdown ? (
-          <div className="absolute top-full lg:right-0 mt-2 w-[200px] h-[65px] rounded-[6px] bg-gray-500 flex flex-col justify-between items-center p-1">
-            <Link
-              onClick={() => {
-                setIsOpen(false)
-              }}
-              className="hover:gradient-text text-white"
-              href="/"
-            >
-              <span className="text-sm">Buy $POOF</span>
-            </Link>
-            <Link
-              onClick={() => {
-                setIsOpen(false)
-              }}
-              className="hover:gradient-text text-white"
-              href="https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x888ceA2BBDD5D47a4032cf63668D7525C74af57A"
-            >
-              <span className="text-sm">Buy $POOF on Uniswap</span>
-            </Link>
+          <div className="absolute top-full lg:right-0 mt-2 flex flex-col justify-between items-center p-1">
+            <CardComponent widthClass="210px" heightClass="80px">
+              <div className="flex flex-col justify-start items-start">
+                <Link
+                  onClick={() => {
+                    setIsOpen(false)
+                  }}
+                  className="hover:gradient-text text-white"
+                  href="/"
+                >
+                  <span className="text-sm">Buy $POOF</span>
+                </Link>
+                <Link
+                  onClick={() => {
+                    setIsOpen(false)
+                  }}
+                  className="hover:gradient-text text-white"
+                  href="https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x888ceA2BBDD5D47a4032cf63668D7525C74af57A"
+                >
+                  <span className="text-sm">Buy $POOF on Uniswap</span>
+                </Link>
+              </div>
+            </CardComponent>
           </div>
         ) : null}
       </button>
