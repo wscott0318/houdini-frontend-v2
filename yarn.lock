@@ -4311,10 +4311,10 @@ hoist-non-react-statics@^3.3.2:
   dependencies:
     react-is "^16.7.0"
 
-houdini-react-sdk@0.0.66:
-  version "0.0.66"
-  resolved "https://registry.yarnpkg.com/houdini-react-sdk/-/houdini-react-sdk-0.0.66.tgz#742b3d76c87761b53f616e462b5a64729cd52ae5"
-  integrity sha512-e4VWB40RnzZxUXywU92EmUc/lRS6v6QVmI62QeNsJ4GpxBPkG1gThJ4EcF2wt5JADmtsXsRsCsDt5Gq9Y/oy8g==
+houdini-react-sdk@0.0.69:
+  version "0.0.69"
+  resolved "https://registry.yarnpkg.com/houdini-react-sdk/-/houdini-react-sdk-0.0.69.tgz#a38d5f301704aca5efb7453228aae9b9da20e33c"
+  integrity sha512-jLfhrwjWsnvaREUn3Dpg+Hh5V1TF9OE74tBPXWNkgAD0bsBrDCsEqhrSy3Y1DSnFdYWOph5G0KjteO5teqik/w==
 
 html-parse-stringify@^3.0.1:
   version "3.0.1"
@@ -6840,6 +6840,11 @@ uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
+uuid@^9.0.1:
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.1.tgz#e188d4c8853cc722220392c424cd637f32293f30"
+  integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==
 
 valtio@1.11.2:
   version "1.11.2"
