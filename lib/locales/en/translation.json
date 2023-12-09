@@ -480,5 +480,6 @@
 	"orderDetailsFundsReceived": "FUNDS RECEIVED",
 	"orderDetailsAnonymizing": "ANONYMIZING",
 	"orderDetailsConverting": "CONVERTING",
-	"orderDetailsCompleted": "COMPLETED"
+	"orderDetailsCompleted": "COMPLETED",
+	"totalSwapVolume": "Total Swap Volume"
 }
