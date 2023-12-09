@@ -1,28 +1,16 @@
 'use client'
 
 import { useQuery } from '@apollo/client'
-import { motion } from 'framer-motion'
-import {
-  CardComponent,
-  CheckBox,
-  Dropdown,
-  HoudiniButton,
-  SingleMultiSend,
-  TextField,
-} from 'houdini-react-sdk'
-import Image from 'next/image'
-import React, { useState } from 'react'
+import { CardComponent } from 'houdini-react-sdk'
+import React from 'react'
 
-import upDown from '@/assets/up-down.png'
-import { GeneralModal } from '@/components/GeneralModal'
-import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCounterLockup'
+import { SwapBox } from '@/components'
 import { ResponsivePage } from '@/components/ResponsivePage'
 import {
   ArcSvg,
   BoltbotSvg,
   BulletSvg,
   FiraSvg,
-  InfoSvg,
   Protocol1Svg,
   Protocol2Svg,
   Protocol3Svg,
@@ -57,44 +45,6 @@ import {
 } from '@/components/Svg'
 import { CONFIG_QUERY } from '@/lib/apollo/query'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
-
-const tokensInit = [
-  {
-    icon: Protocol8Svg,
-    title: 'BITCOIN',
-    subtitle: 'BTC on Bitcoin',
-  },
-  {
-    icon: Protocol7Svg,
-    title: 'ETHEREUM',
-    subtitle: 'Ethereum on ETH Mainnet (ERC-20)',
-  },
-  {
-    icon: Protocol8Svg,
-    title: 'BITCOIN',
-    subtitle: 'BTC on Bitcoin',
-  },
-  {
-    icon: Protocol8Svg,
-    title: 'BITCOIN',
-    subtitle: 'BTC on Bitcoin',
-  },
-  {
-    icon: Protocol8Svg,
-    title: 'BITCOIN',
-    subtitle: 'BTC on Bitcoin',
-  },
-  {
-    icon: Protocol8Svg,
-    title: 'BITCOIN',
-    subtitle: 'BTC on Bitcoin',
-  },
-  {
-    icon: Protocol8Svg,
-    title: 'BITCOIN',
-    subtitle: 'BTC on Bitcoin',
-  },
-]
 
 const partnersIcons = [
   <BulletSvg className="w-[133px] h-[35px] gap-[60px]" key="bulletsvg" />,
@@ -147,22 +97,6 @@ export default function Home() {
   )
 
   const [width] = useWindowSize()
-  const [privateSwap, setPrivate] = useState(false)
-  const [variableSwap, setVariable] = useState(false)
-  const [direction, setDirection] = useState(false)
-  const [isMulti, setIsMulti] = useState(false)
-
-  const handlePrivateSwap = () => {
-    setPrivate(!privateSwap)
-  }
-
-  const handleVariableSwap = () => {
-    setVariable(!variableSwap)
-  }
-
-  const handleMultiSend = () => {
-    setIsMulti(!isMulti)
-  }
 
   return (
     <ResponsivePage>
@@ -180,93 +114,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex flex-col justify-center items-center gap-2">
-        <GeneralModal>
-          <IndustrialCounterLockup>
-            <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center w-full gap-[16px]">
-              <div className="flex flex-col justify-center items-center sm:items-start gap-[16px]">
-                <div className="text-[28px] whitespace-nowrap sm:text-[34px] font-bold leading-[38px] text-white">
-                  Swap-Send-Bridge
-                </div>
-                <div className="text-[15px] font-medium font-poppins rainbow-text">
-                  Private, Compliant, No Sign Up
-                </div>
-              </div>
-              <SingleMultiSend
-                multiSendText="Multi"
-                onChange={handleMultiSend}
-                singleText="Single"
-              />
-            </div>
-            <div className="flex flex-col lg:py-[10px] lg:gap-[20px] gap-[10px] w-full">
-              <div className="flex flex-col my-[20px] sm:my-0 sm:flex-row gap-4 justify-between items-start sm:items-center w-full">
-                <CheckBox
-                  defaultValue
-                  leftText="Private"
-                  name="privateToggler"
-                  onChange={handlePrivateSwap}
-                  rightText="Semi Private"
-                />
-                <CheckBox
-                  defaultValue
-                  leftText="Variable"
-                  name="variableToggler"
-                  onChange={handleVariableSwap}
-                  rightText="Exact"
-                />
-              </div>
-              <div className="flex flex-col sm:flex-row justify-start -space-y-6 sm:space-y-0 items-center gap-[14px] sm:-space-x-7 w-full">
-                <TextField id="send" label="Send:" placeholder="0.0">
-                  <Dropdown
-                    title="Sending Currency"
-                    subtitle="Popular Protocols"
-                    target="#portal"
-                    tokens={tokensInit}
-                  />
-                </TextField>
-                <Image
-                  src={upDown}
-                  width={100}
-                  height={100}
-                  alt="upDown"
-                  onClick={() => {
-                    setDirection(!direction)
-                  }}
-                  className={`${
-                    direction ? 'scale-y-[-1]' : ''
-                  } w-[45px] h-[45px] hover:cursor-pointer rotate-180 sm:rotate-90 hover:-translate-y-1 transition-all duration-100 relative z-0`}
-                />
-                <TextField id="receive" label="Receive:" placeholder="0.0">
-                  <Dropdown
-                    title="Receiving Currency"
-                    subtitle="Popular Protocols"
-                    target="#portal"
-                    tokens={tokensInit}
-                  />
-                </TextField>
-              </div>
+      <SwapBox />
 
-              <div className="w-full my-[20px] sm:my-0">
-                <TextField
-                  id="receivingWallet"
-                  label="Receiving Wallet (BTC) Address:"
-                  placeholder="Receiving Wallet (BTC) Address"
-                />
-              </div>
-            </div>
-            <div className="gradient-text my-[20px] font-medium text-xs font-poppins">
-              Only send To/From wallets. Transactions sent To/From smart
-              contracts are not accepted
-            </div>
-            <HoudiniButton
-              text={'Proceed'}
-              onClick={() => {
-                console.log('clicked!!')
-              }}
-            />
-          </IndustrialCounterLockup>
-        </GeneralModal>
-      </div>
       <div className="rainbow-text flex flex-col justify-center items-center text-center">
         <div>
           For your enhanced security, Houdini order details disappear after 48
