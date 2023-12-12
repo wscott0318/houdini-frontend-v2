@@ -11,7 +11,7 @@ export const NextStep = () => {
       id="nextstep"
       className="flex flex-col items-center py-[50px] gap-[50px]"
     >
-      {/* <div className="flex flex-col gap-[30px] py-[50px]">
+      <div className="flex flex-col gap-[30px] py-[50px]">
         <div className="lg:text-[81px] text-center font-extrabold text-[#FFFFFF] leading-[102.06px]">
           { t("nextStepPage") }
         </div>
@@ -40,12 +40,11 @@ export const NextStep = () => {
             <NeedHelp/>
           </div>
         </div>
-      </div> */}
+      </div>
       
-      {/* <div className="w-[386px] h-[207px]"> */}
+      <div className="w-[386px] h-[207px]">
         <SwapVolume value={824} />
-      {/* </div> */}
-
+      </div>
     </div>
   )
 }
