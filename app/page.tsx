@@ -158,8 +158,8 @@ export default function Home() {
 
       <div className="flex flex-col rounded-[24px] items-center justify-center gap-5  md:w-[650px] lg:w-[850px] max-w-[850px] md:h-[320px] lg:h-[230px] py-8 px-20">
         <CardComponent
-          widthClass={width >= 768 ? '600px' : '100%'}
-          heightClass={'600px'}
+          widthClass={width >= 768 ? 'w-[600px]' : 'w-full'}
+          heightClass={width >= 768 ? 'h-[300px]' : 'h-full'}
         >
           <div
             className={`text-[20px] gradient-text pb-[18px] leading-[24px] text-center font-medium`}
@@ -181,8 +181,8 @@ export default function Home() {
 
       <div className="max-w-[600px]">
         <CardComponent
-          widthClass={width >= 768 ? '600px' : '100%'}
-          heightClass={width >= 768 ? '400px' : '100%'}
+          widthClass={width >= 768 ? 'w-[600px]' : 'w-full'}
+          heightClass={width >= 768 ? 'h-[400px]' : 'h-full'}
         >
           <div
             className={`text-[20px] text-[#8c9ae9] leading-[24px] pb-[18px] text-center font-medium`}

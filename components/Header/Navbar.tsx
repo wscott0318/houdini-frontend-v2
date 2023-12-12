@@ -79,7 +79,7 @@ const CommonNavbar = ({ setIsOpen }: { setIsOpen?: any }) => {
         />
         {openDropdown ? (
           <div className="absolute top-full lg:right-0 mt-2 flex flex-col justify-between items-center p-1">
-            <CardComponent widthClass="210px" heightClass="80px">
+            <CardComponent widthClass="w-[210px]" heightClass="h-[80px]">
               <div className="flex flex-col justify-start items-start">
                 <Link
                   onClick={() => {
