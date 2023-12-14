@@ -39,7 +39,7 @@ export const DigitalLockup = (props: DigitalProps) => {
               </radialGradient>
             </defs>
             <circle r="73" cx="100" cy="100" fill="transparent" strokeLinecap="round" stroke="url(#gradientInprogress)" strokeWidth="37px" strokeDasharray={circumference} strokeDashoffset={offset}></circle>
-            </svg>
+           </svg>
           }
         </div>
       </div>

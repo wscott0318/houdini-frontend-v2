@@ -1,4 +1,3 @@
-import { DigitalLockup } from "@/components/GeneralModal/DigitalLockup"
 import { GeneralModal } from "@/components/GeneralModal"
 import { OrderDetailRoundbox } from "@/components/GeneralModal/OrderDetailRoundbox";
 import { Clipboardbox } from "@/components/GeneralModal/Clipboardbox";
@@ -8,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import {
   Protocol4Svg
 } from '@/components/Svg';
+import ProgressProvider from "@/components/GeneralModal/ProgressProvider";
 
 interface OrderDetailsModalProps {
     orderId: string,
@@ -64,11 +64,11 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
               <div className="items-center w-full">
                 <MetalboarderedTransRoundbox>
                   <div className="relative flex flex-row gap-[32px] px-[50px] py-[30px]">
-                    <DigitalLockup value={100} status={false}></DigitalLockup>
-                    <DigitalLockup value={100} status={false}></DigitalLockup>
-                    <DigitalLockup value={10} status={false}></DigitalLockup>
-                    <DigitalLockup value={0} status={false}></DigitalLockup>
-                    <DigitalLockup value={0} status={false}></DigitalLockup>
+                    <ProgressProvider valueStart={0} valueEnd={100}></ProgressProvider>
+                    <ProgressProvider valueStart={0} valueEnd={100}></ProgressProvider>
+                    <ProgressProvider valueStart={10} valueEnd={40}></ProgressProvider>
+                    <ProgressProvider valueStart={90} valueEnd={50}></ProgressProvider>
+                    <ProgressProvider valueStart={0} valueEnd={0}></ProgressProvider>
                   </div>
                 </MetalboarderedTransRoundbox>
               </div>
