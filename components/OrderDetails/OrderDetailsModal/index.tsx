@@ -1,4 +1,3 @@
-import { DigitalLockup } from "@/components/GeneralModal/DigitalLockup"
 import { GeneralModal } from "@/components/GeneralModal"
 import { OrderDetailRoundbox } from "@/components/GeneralModal/OrderDetailRoundbox";
 import { Clipboardbox } from "@/components/GeneralModal/Clipboardbox";

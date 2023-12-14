@@ -1,7 +1,5 @@
 import React, { useEffect} from 'react'
 import { DigitalLockup } from '../DigitalLockup';
-// import { clearInterval } from 'timers';
-// import { clearInterval } from 'timers';
 
 interface ProgressProviderProps {
   valueStart: number;
@@ -22,7 +20,7 @@ const ProgressProvider = ({valueStart, valueEnd}: ProgressProviderProps) => {
       }
     }, 5);
     return () => clearInterval(interval);
-  }, [value, valueEnd]);
+  }, [value, valueEnd, valueStart]);
 
   return (
     <DigitalLockup value={value} status={false}/>
