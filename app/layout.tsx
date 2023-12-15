@@ -5,12 +5,15 @@ import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import 'houdini-react-sdk/styles.css'
 import { Outfit, Poppins } from 'next/font/google'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { WagmiConfig, configureChains, createConfig } from 'wagmi'
 import { bsc, mainnet } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 
 import { Footer, Header, ResponsiveContainer } from '@/components'
 import { userClient } from '@/lib/apollo/apollo-client'
+import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
 import '../styles/globals.css'
 
@@ -48,6 +51,8 @@ const wagmiConfig = createConfig({
 })
 
 export default function RootLayout({ children }: LayoutProps) {
+  const [width] = useWindowSize()
+
   return (
     <html lang="en" className="m-0 p-0">
       <head>
@@ -72,6 +77,19 @@ export default function RootLayout({ children }: LayoutProps) {
                 <ResponsiveContainer>
                   <Header />
                   {children}
+                  <ToastContainer
+                    position={width <= 767 ? 'bottom-right' : 'top-right'}
+                    autoClose={3000}
+                    hideProgressBar={false}
+                    newestOnTop
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="colored"
+                    className="mt-20"
+                  />
                   <Footer />
                 </ResponsiveContainer>
               </RainbowKitProvider>

@@ -1,6 +1,5 @@
 'use client'
 
-import { useQuery } from '@apollo/client'
 import { CardComponent } from 'houdini-react-sdk'
 import React from 'react'
 
@@ -43,7 +42,6 @@ import {
   SwiftSvg,
   XenifySvg,
 } from '@/components/Svg'
-import { CONFIG_QUERY } from '@/lib/apollo/query'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
 const partnersIcons = [
@@ -87,15 +85,6 @@ const suportedProtocolIcons = [
   <Protocol29Svg key="protocol29" />,
 ]
 export default function Home() {
-  const { loading: warningStatusLoading, data: warningStatusData } = useQuery(
-    CONFIG_QUERY,
-    {
-      variables: {
-        key: 'warning_msg_status',
-      },
-    },
-  )
-
   const [width] = useWindowSize()
 
   return (
