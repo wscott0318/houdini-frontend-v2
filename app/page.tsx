@@ -1,7 +1,7 @@
 'use client'
 
 import { CardComponent } from 'houdini-react-sdk'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { SwapBox } from '@/components'
 import { ResponsivePage } from '@/components/ResponsivePage'
@@ -42,6 +42,7 @@ import {
   SwiftSvg,
   XenifySvg,
 } from '@/components/Svg'
+import { SwapVolume } from '@/components/SwapVolume'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
 const partnersIcons = [
@@ -87,6 +88,14 @@ const suportedProtocolIcons = [
 export default function Home() {
   const [width] = useWindowSize()
 
+  const [value, setValue] = useState(0)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setValue(Math.floor(Math.random() * 10000000))
+    }, 2000)
+    return () => clearInterval(timer)
+  }, [value])
+
   return (
     <ResponsivePage>
       <div>
@@ -125,14 +134,7 @@ export default function Home() {
             </div>
           </CardComponent>
         </div>
-        <div className="w-full md:w-[350px] rounded-[24px] h-[190px] bg-gray-500 flex flex-col justify-center items-center">
-          <div className="text-[25px] font-medium text-center leading-[38px]">
-            Total Swap Volume
-          </div>
-          <div className="text-[35px] text-white leading-[50px] font-medium text-center">
-            123
-          </div>
-        </div>
+        <SwapVolume value={value} />
         <div className="w-[260px] rounded-[24px] h-[140px] sm:flex hidden flex-col justify-center items-center">
           <CardComponent>
             <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">
