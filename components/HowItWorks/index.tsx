@@ -5,6 +5,7 @@ import magic from '@/assets/magic.png'
 import secure from '@/assets/secure.png'
 import send from '@/assets/send.png'
 import swap from '@/assets/swap.png'
+import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
 const cardData = [
   {
@@ -34,6 +35,8 @@ const cardData = [
 ]
 
 export const HowItWorks = () => {
+  const [width] = useWindowSize()
+
   return (
     <>
       <div
@@ -48,11 +51,17 @@ export const HowItWorks = () => {
           Receiving Wallets
         </div>
       </div>
-      <div className="flex flex-col lg:flex-row justify-center items-center gap-10">
+      <div className="flex flex-col lg:flex-row justify-center items-center gap-10 lg:gap-3">
         {cardData.map((card, index) => (
           <div className="relative" key={index}>
-            <CardComponent heightClass='260px' widthClass='300px'>
-              <div className="text-[31px] mr-auto ml-0 font-medium leading-[48px]">
+            <CardComponent heightClass="260px" widthClass="300px">
+              <div
+                className={`${
+                  index % 2 === 0 && width < 1024
+                    ? 'ml-auto mr-0'
+                    : 'mr-auto ml-0'
+                } text-[31px] font-medium leading-[48px] lg:mr-auto lg:ml-0`}
+              >
                 {card.title}
               </div>
               <div className="text-base text-center w-full leading-[30px] text-[#B8CAFC]">
@@ -63,14 +72,16 @@ export const HowItWorks = () => {
                 width={200}
                 height={150}
                 alt={card.imgAlt}
-                className="absolute -right-6 lg:-right-10 -top-8 lg:-top-12 lg:w-[200px] w-[150px]"
+                className={`${
+                  index % 2 === 0 && width < 1024 ? '-left-6' : '-right-6'
+                } absolute block lg:-right-12 last:-top-14 -top-8 lg:-top-20 lg:w-[200px] w-[150px] last:lg:-top-24 lg:left-auto`}
               />
             </CardComponent>
           </div>
         ))}
       </div>
       <CardComponent>
-        <div className="flex flex-col justify-center items-center lg:items-start w-full h-[700px] gap-10 lg:w-[653px] lg:h-[563px] px-6 lg:p-[60px] rounded-[20px] lg:rounded-[58px]">
+        <div className="flex flex-col justify-center items-center lg:items-start w-full h-full gap-10 lg:w-[653px] lg:h-[563px] px-6 lg:p-[60px] rounded-[20px] lg:rounded-[58px]">
           <div className="text-[35px] lg:text-[73px] leading-[54px] text-center lg:text-left lg:leading-[93px] font-extrabold">
             Why We Exist
           </div>
@@ -88,7 +99,9 @@ export const HowItWorks = () => {
               protect your financial data. Simple to use, compliant, with great
               customer service at the lowest cost.
             </div>
-            <div>Welcome to crypto’s next evolution.</div>
+            <div className="w-full text-center">
+              Welcome to crypto’s next evolution.
+            </div>
           </div>
         </div>
       </CardComponent>
