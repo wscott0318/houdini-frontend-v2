@@ -1,10 +1,9 @@
 'use client'
 
 import { AnimatePresence } from 'framer-motion'
-import { CheckBox } from 'houdini-react-sdk'
-import { Portal } from 'houdini-react-sdk'
+import { CheckBox, Portal } from 'houdini-react-sdk'
 import { get } from 'lodash'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Drawer } from '@/components/Drawer'
 import { Logo } from '@/components/Footer/Logo'
@@ -13,6 +12,7 @@ import LanguageDropDown from '@/components/Translate/LanguageDropDown'
 import languages from '@/lib/locales/languages'
 import useLockScroll from '@/utils/hooks/useLockScroll'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
+import { smokeEffect } from '@/utils/smokeEffect'
 
 import { Navbar } from './Navbar'
 
@@ -29,6 +29,10 @@ export function Header() {
     }
   }, [width])
 
+  useEffect(() => {
+    smokeEffect(smoke)
+  }, [smoke])
+
   useLockScroll(drawerOpen)
 
   const handleToggleSmoke = () => {
@@ -37,6 +41,8 @@ export function Header() {
 
   return (
     <>
+      {/* <canvas className="banner_canvas" id="canvas_banner"></canvas> */}
+
       <div className="relative">
         <div className="w-full relative p-2">
           <div className="flex flex-row gap-2 justify-center items-center absolute right-0">
