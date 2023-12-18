@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { CardComponent, Portal } from 'houdini-react-sdk'
 import { useEffect, useState } from 'react'
 
+import { NextStep as NextStepComponent } from '@/components/NextStep'
 import { OrderDetails as OrderDetailsComponent } from '@/components/OrderDetails'
 import { ResponsivePage } from '@/components/ResponsivePage'
 import { XLetterSvg } from '@/components/Svg'
@@ -24,6 +25,8 @@ export default function OrderDetails() {
   const [width] = useWindowSize()
   const [isOpen, setIsOpen] = useState(true)
 
+  const [status, setStatus] = useState(0)
+
   const handleKeyDown = (event: { key: string }) => {
     if (event.key === 'Escape') {
       setIsOpen(false)
@@ -41,7 +44,7 @@ export default function OrderDetails() {
   return (
     <>
       <ResponsivePage>
-        <OrderDetailsComponent />
+        {status === 0 ? <NextStepComponent /> : <OrderDetailsComponent />}
       </ResponsivePage>
 
       <AnimatePresence>
