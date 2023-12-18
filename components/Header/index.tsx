@@ -41,9 +41,7 @@ export function Header() {
 
   return (
     <>
-      {/* <canvas className="banner_canvas" id="canvas_banner"></canvas> */}
-
-      <div className="relative">
+      <div className="relative z-[1]">
         <div className="w-full relative p-2">
           <div className="flex flex-row gap-2 justify-center items-center absolute right-0">
             <CheckBox

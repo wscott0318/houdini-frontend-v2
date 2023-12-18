@@ -99,8 +99,6 @@ export default function Home() {
   return (
     <ResponsivePage>
       <div>
-        {/* <canvas className="banner_canvas" id="canvas_banner"></canvas> */}
-
         <div className="lg:text-[81px] text-center text-[35px] font-bold leading-normal capitalize tracking-[-0.85px]">
           Keep your transactions private
         </div>

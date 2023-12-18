@@ -5,7 +5,6 @@ import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import 'houdini-react-sdk/styles.css'
 import { Outfit, Poppins } from 'next/font/google'
-import { useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { WagmiConfig, configureChains, createConfig } from 'wagmi'
@@ -15,7 +14,6 @@ import { publicProvider } from 'wagmi/providers/public'
 import { Footer, Header, ResponsiveContainer } from '@/components'
 import { userClient } from '@/lib/apollo/apollo-client'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
-import { smokeEffect } from '@/utils/smokeEffect'
 
 import '../styles/globals.css'
 
@@ -53,12 +51,6 @@ const wagmiConfig = createConfig({
 })
 
 export default function RootLayout({ children }: LayoutProps) {
-  // const [smoke, setSmoke] = useState(false)
-
-  useEffect(() => {
-    smokeEffect(true)
-  }, [])
-
   const [width] = useWindowSize()
 
   return (
