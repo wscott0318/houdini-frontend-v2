@@ -8,7 +8,7 @@ import {
 } from 'houdini-react-sdk'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import upDown from '@/assets/up-down.png'
@@ -224,7 +224,7 @@ export const SwapBox = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center gap-2">
+    <div className="z-[1] flex flex-col justify-center items-center gap-2">
       <GeneralModal>
         <IndustrialCounterLockup>
           <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center w-full gap-[16px]">

@@ -7,9 +7,6 @@ export const smokeEffect = (toggled) => {
     document.body.append(newCanvas)
   }
   const canvas = document.getElementById('canvas_banner')
-  console.log('canvas', canvas)
-
-  console.log('smokeEffect', toggled)
 
   if (!toggled) {
     canvas.remove()
@@ -1374,7 +1371,6 @@ export const smokeEffect = (toggled) => {
     c.r = 0.04
     c.g = 0.071
     c.b = 0.204
-    // console.log("c", c);
     return c
   }
 

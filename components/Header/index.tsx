@@ -18,10 +18,31 @@ import { Navbar } from './Navbar'
 
 export function Header() {
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const [smoke, setSmoke] = useState(false)
   const [width] = useWindowSize()
   const [openLanguage, setOpenLanguage] = useState(false)
   const [selectedLang, setSelectedLang] = useState('en')
+  const [isSmokeEnabled, setIsSmokeEnabled] = useState(true)
+
+  useEffect(() => {
+    const isClient = typeof window !== 'undefined'
+
+    if (isClient) {
+      const smokePreference = localStorage.getItem('smokePreference') === 'true'
+      console.log('smokePreference', smokePreference)
+      setIsSmokeEnabled(smokePreference)
+    }
+  }, [])
+
+  const handleSmokeToggle = () => {
+    const newValue = !isSmokeEnabled
+    smokeEffect(newValue)
+    setIsSmokeEnabled(newValue)
+    localStorage.setItem('smokePreference', JSON.stringify(newValue))
+  }
+
+  useEffect(() => {
+    smokeEffect(isSmokeEnabled)
+  }, [isSmokeEnabled])
 
   useEffect(() => {
     if (width >= 1024) {
@@ -29,15 +50,7 @@ export function Header() {
     }
   }, [width])
 
-  useEffect(() => {
-    smokeEffect(smoke)
-  }, [smoke])
-
   useLockScroll(drawerOpen)
-
-  const handleToggleSmoke = () => {
-    setSmoke(!smoke)
-  }
 
   return (
     <>
@@ -45,7 +58,7 @@ export function Header() {
         <div className="w-full relative p-2">
           <div className="flex flex-row gap-2 justify-center items-center absolute right-0">
             <CheckBox
-              onChange={handleToggleSmoke}
+              onChange={handleSmokeToggle}
               name="smokeToggle"
               icon={<SmokeSvg className="h-5 w-5" />}
             />

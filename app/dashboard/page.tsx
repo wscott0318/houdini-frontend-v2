@@ -47,7 +47,7 @@ export default function Dashboard() {
         Your Staking Dashboard
       </div>
       <ConnectButtonHoudini />
-      <div className="flex flex-col justify-center items-center gap-[60px] lg:gap-10">
+      <div className="z-[1] flex flex-col justify-center items-center gap-[60px] lg:gap-10">
         <div className="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 place-items-center place-content-center gap-10">
           {cardsData.map((item, index) => (
             <CardComponent key={index}>
