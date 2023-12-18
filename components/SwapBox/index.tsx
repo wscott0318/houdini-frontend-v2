@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/client'
 import {
   CheckBox,
   Dropdown,
@@ -6,9 +7,9 @@ import {
   TextField,
 } from 'houdini-react-sdk'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid';
-import { useQuery } from '@apollo/client'
+import { v4 as uuidv4 } from 'uuid'
 
 import upDown from '@/assets/up-down.png'
 import { GeneralModal } from '@/components/GeneralModal'
@@ -16,150 +17,153 @@ import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCou
 import { GET_NETWORKS, TOKENS_QUERY } from '@/lib/apollo/query'
 
 export const SwapBox = () => {
-  const locationParams = new URLSearchParams();
-  const tokenIn = locationParams.get('tokenIn') ?? 'ETH';
-  const tokenOut = locationParams.get('tokenOut') ?? 'BTC';
-  const anonymous = locationParams.get('anonymous');
+  const router = useRouter()
+
+  const locationParams = new URLSearchParams()
+  const tokenIn = locationParams.get('tokenIn') ?? 'ETH'
+  const tokenOut = locationParams.get('tokenOut') ?? 'BTC'
+  const anonymous = locationParams.get('anonymous')
   const amount = locationParams.get('amount')
-		? parseFloat(locationParams.get('amount') as string)
-		: '';
+    ? parseFloat(locationParams.get('amount') as string)
+    : ''
 
   const initialInput = {
-		value: amount.toString(),
-		name: '',
-		icon: '',
-		color: '',
-		displayName: '',
-  };
-  
-  const isXMR = tokenIn === 'XMR' || tokenOut === 'XMR';
-  
+    value: amount.toString(),
+    name: '',
+    icon: '',
+    color: '',
+    displayName: '',
+  }
+
+  const isXMR = tokenIn === 'XMR' || tokenOut === 'XMR'
+
   const [privateSwap, setPrivate] = useState(false)
   const [variableSwap, setVariable] = useState(false)
   const [direction, setDirection] = useState(false)
   const [isMulti, setIsMulti] = useState(false)
-  
-  const [initialSendInput, setInitialSendInput] = useState<SendReceiveInput>({
-		...initialInput,
-		value: amount.toString(),
-	});
-	const [initialReceiveInput, setInitialReceiveInput] =
-		useState<SendReceiveInput>({ ...initialInput, memoNeeded: false });
-  
-  const [currentSwap, setCurrentSwap] = useState<Swap | null>({
-		send: { ...initialSendInput },
-		receive: { ...initialReceiveInput },
-		minAmount: 0,
-		maxAmount: 0,
-		receiveAddress: locationParams.get('receiveAddress') as string,
-		anonymous: isXMR
-			? false
-			: anonymous === null
-			? true
-			: anonymous === 'true'
-			? true
-			: false,
-		flipArrow: false,
-		collapsed: false,
-		id: uuidv4(),
-		destinationTag: '',
-		fixed: false,
-		direction: 'from',
-	});
-  
-  const [swaps, setSwaps] = useState<Swap[]>([
-		{
-			send: { ...initialSendInput },
-			receive: { ...initialReceiveInput },
-			minAmount: 0,
-			maxAmount: 0,
-			receiveAddress: locationParams.get('receiveAddress') as string,
-			anonymous:
-				anonymous === null ? true : anonymous === 'true' ? true : false,
-			flipArrow: false,
-			collapsed: false,
-			id: uuidv4(),
-			destinationTag: '',
-			fixed: false,
-			direction: 'from',
-		},
-	]);
 
-  const { data: tokensData, loading } = useQuery(TOKENS_QUERY);
-  const { data: networksData, loading: loadingNetworks } = useQuery(GET_NETWORKS);
+  const [initialSendInput, setInitialSendInput] = useState<SendReceiveInput>({
+    ...initialInput,
+    value: amount.toString(),
+  })
+  const [initialReceiveInput, setInitialReceiveInput] =
+    useState<SendReceiveInput>({ ...initialInput, memoNeeded: false })
+
+  const [currentSwap, setCurrentSwap] = useState<Swap | null>({
+    send: { ...initialSendInput },
+    receive: { ...initialReceiveInput },
+    minAmount: 0,
+    maxAmount: 0,
+    receiveAddress: locationParams.get('receiveAddress') as string,
+    anonymous: isXMR
+      ? false
+      : anonymous === null
+        ? true
+        : anonymous === 'true'
+          ? true
+          : false,
+    flipArrow: false,
+    collapsed: false,
+    id: uuidv4(),
+    destinationTag: '',
+    fixed: false,
+    direction: 'from',
+  })
+
+  const [swaps, setSwaps] = useState<Swap[]>([
+    {
+      send: { ...initialSendInput },
+      receive: { ...initialReceiveInput },
+      minAmount: 0,
+      maxAmount: 0,
+      receiveAddress: locationParams.get('receiveAddress') as string,
+      anonymous:
+        anonymous === null ? true : anonymous === 'true' ? true : false,
+      flipArrow: false,
+      collapsed: false,
+      id: uuidv4(),
+      destinationTag: '',
+      fixed: false,
+      direction: 'from',
+    },
+  ])
+
+  const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
+  const { data: networksData, loading: loadingNetworks } =
+    useQuery(GET_NETWORKS)
 
   const tokens = tokensData?.tokens
 
   useEffect(() => {
-		if (tokens && tokens.length) {
-			const defaultInToken = tokens.find((v: Token) => v.id === tokenIn);
-			if (!defaultInToken) {
-				const msg = `Send token not found in the tokens list`;
-				console.error(msg)
-			}
+    if (tokens && tokens.length) {
+      const defaultInToken = tokens.find((v: Token) => v.id === tokenIn)
+      if (!defaultInToken) {
+        const msg = `Send token not found in the tokens list`
+        console.error(msg)
+      }
 
-			const newIn: SendReceiveInput = {
-				value: amount.toString(),
-				name: defaultInToken.id,
-				icon: defaultInToken.icon,
-				color: defaultInToken.color,
-				displayName: defaultInToken.displayName,
-				memoNeeded: defaultInToken.network.memoNeeded,
-			};
-			setInitialSendInput(newIn);
+      const newIn: SendReceiveInput = {
+        value: amount.toString(),
+        name: defaultInToken.id,
+        icon: defaultInToken.icon,
+        color: defaultInToken.color,
+        displayName: defaultInToken.displayName,
+        memoNeeded: defaultInToken.network.memoNeeded,
+      }
+      setInitialSendInput(newIn)
 
-			const defaultOutToken = tokens.find((v: Token) => v.id === tokenOut);
+      const defaultOutToken = tokens.find((v: Token) => v.id === tokenOut)
 
-			if (!defaultOutToken) {
-				const msg = `Receive token not found in the tokens list`;
-				console.error(msg)
-			}
+      if (!defaultOutToken) {
+        const msg = `Receive token not found in the tokens list`
+        console.error(msg)
+      }
 
-			const newOut: SendReceiveInput = {
-				value: '0',
-				name: defaultOutToken.id,
-				icon: defaultOutToken.icon,
-				color: defaultOutToken.color,
-				displayName: defaultOutToken.displayName,
-				memoNeeded: defaultOutToken.network.memoNeeded,
-			};
-			setInitialReceiveInput(newOut);
+      const newOut: SendReceiveInput = {
+        value: '0',
+        name: defaultOutToken.id,
+        icon: defaultOutToken.icon,
+        color: defaultOutToken.color,
+        displayName: defaultOutToken.displayName,
+        memoNeeded: defaultOutToken.network.memoNeeded,
+      }
+      setInitialReceiveInput(newOut)
 
-			const updatedSwaps = swaps.map(swap => {
-				swap.send = newIn;
-				swap.receive = newOut;
-				setCurrentSwap(swap);
-				return { ...swap };
-      });
-      
+      const updatedSwaps = swaps.map((swap) => {
+        swap.send = newIn
+        swap.receive = newOut
+        setCurrentSwap(swap)
+        return { ...swap }
+      })
+
       console.log(updatedSwaps)
 
-			setSwaps(updatedSwaps);
-		}
-  }, [tokens]);
-  
+      setSwaps(updatedSwaps)
+    }
+  }, [tokens])
+
   const handleArrows = (swapId: string) => {
     setDirection(!direction)
-    
-		const updatedSwaps = swaps.map(swap => {
-			if (swap.id === swapId) {
-				const newSendInput = { ...swap.receive };
-				const newReceiveInput = { ...swap.send };
 
-				swap.send = newSendInput;
-				swap.receive = newReceiveInput;
-				swap.flipArrow = !swap.flipArrow;
+    const updatedSwaps = swaps.map((swap) => {
+      if (swap.id === swapId) {
+        const newSendInput = { ...swap.receive }
+        const newReceiveInput = { ...swap.send }
 
-				setCurrentSwap(swap);
-			}
+        swap.send = newSendInput
+        swap.receive = newReceiveInput
+        swap.flipArrow = !swap.flipArrow
 
-			return { ...swap };
-    });
-    
+        setCurrentSwap(swap)
+      }
+
+      return { ...swap }
+    })
+
     console.log(updatedSwaps)
 
-		setSwaps(updatedSwaps);
-	};
+    setSwaps(updatedSwaps)
+  }
 
   const handlePrivateSwap = () => {
     setPrivate(!privateSwap)
@@ -174,45 +178,50 @@ export const SwapBox = () => {
   }
 
   const selectCoin = (el: Token, field: string, swapId: string) => {
-		const currentSwap: Swap = swaps.find(swap => swap.id === swapId) as Swap;
+    const currentSwap: Swap = swaps.find((swap) => swap.id === swapId) as Swap
 
-		if (
-			field === 'send' &&
-			!currentSwap.anonymous &&
-			el.id === currentSwap.receive.name
-		)
-			return;
-		if (
-			field !== 'send' &&
-			!currentSwap.anonymous &&
-			el.id === currentSwap.send.name
-		)
-			return;
+    if (
+      field === 'send' &&
+      !currentSwap.anonymous &&
+      el.id === currentSwap.receive.name
+    )
+      return
+    if (
+      field !== 'send' &&
+      !currentSwap.anonymous &&
+      el.id === currentSwap.send.name
+    )
+      return
 
-		const newInput = {
-			name: el.id,
-			icon: el?.icon,
-			color: el.color,
-			displayName: el.displayName,
-			memoNeeded: el.network.memoNeeded,
-		};
+    const newInput = {
+      name: el.id,
+      icon: el?.icon,
+      color: el.color,
+      displayName: el.displayName,
+      memoNeeded: el.network.memoNeeded,
+    }
 
-		const updatedSwaps = swaps.map(swap => {
-			if (swap.id === swapId) {
-				if (field === 'send') {
-					swap.send = { ...swap.send, ...newInput };
-				} else {
-					swap.receive = { ...swap.receive, ...newInput };
-				}
+    const updatedSwaps = swaps.map((swap) => {
+      if (swap.id === swapId) {
+        if (field === 'send') {
+          swap.send = { ...swap.send, ...newInput }
+        } else {
+          swap.receive = { ...swap.receive, ...newInput }
+        }
 
-				setCurrentSwap(swap);
-			}
+        setCurrentSwap(swap)
+      }
 
-			return { ...swap };
-		});
+      return { ...swap }
+    })
 
-		setSwaps(updatedSwaps);
-	};
+    setSwaps(updatedSwaps)
+  }
+
+  const handleSwapProceed = () => {
+    console.log('clicked!!')
+    router.push('/order-details')
+  }
 
   return (
     <div className="flex flex-col justify-center items-center gap-2">
@@ -254,16 +263,17 @@ export const SwapBox = () => {
               <TextField id="send" label="Send:" placeholder="0.0">
                 {!loading && !loadingNetworks ? (
                   <Dropdown
-                  title="Sending Currency"
-                  subtitle="Popular Protocols"
-                  target="#portal"
-                  networks={networksData?.networks || []}
-                  tokens={tokensData?.tokens || []}
+                    title="Sending Currency"
+                    subtitle="Popular Protocols"
+                    target="#portal"
+                    networks={networksData?.networks || []}
+                    tokens={tokensData?.tokens || []}
                     selectedTokenId={swaps[0].send.name}
-                    onSelectionChange={(token) => selectCoin(token, 'send', swaps[0].id)}
-                />
+                    onSelectionChange={(token) =>
+                      selectCoin(token, 'send', swaps[0].id)
+                    }
+                  />
                 ) : null}
-                
               </TextField>
               <Image
                 src={upDown}
@@ -280,17 +290,17 @@ export const SwapBox = () => {
               <TextField id="receive" label="Receive:" placeholder="0.0">
                 {!loading && !loadingNetworks ? (
                   <Dropdown
-                  title="Receiving Currency"
-                  subtitle="Popular Protocols"
-                  target="#portal"
-                  networks={networksData?.networks || []}
-                  tokens={tokensData?.tokens || []}
+                    title="Receiving Currency"
+                    subtitle="Popular Protocols"
+                    target="#portal"
+                    networks={networksData?.networks || []}
+                    tokens={tokensData?.tokens || []}
                     selectedTokenId={swaps[0].receive.name}
-                    onSelectionChange={(token) => selectCoin(token, 'receive', swaps[0].id)}
-                />
-                
+                    onSelectionChange={(token) =>
+                      selectCoin(token, 'receive', swaps[0].id)
+                    }
+                  />
                 ) : null}
-                
               </TextField>
             </div>
 
@@ -306,12 +316,7 @@ export const SwapBox = () => {
             Only send To/From wallets. Transactions sent To/From smart contracts
             are not accepted
           </div>
-          <HoudiniButton
-            text={'Proceed'}
-            onClick={() => {
-              console.log('clicked!!')
-            }}
-          />
+          <HoudiniButton text={'Proceed'} onClick={handleSwapProceed} />
         </IndustrialCounterLockup>
       </GeneralModal>
     </div>
