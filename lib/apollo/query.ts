@@ -312,3 +312,13 @@ export const GET_USD_PRICE = gql`
     usdPrice(from: $from)
   }
 `
+
+export const GET_NETWORKS = gql`
+  query networks {
+    networks {
+      name
+      shortName
+      icon
+    }
+  }
+`

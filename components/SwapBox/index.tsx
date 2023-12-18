@@ -13,7 +13,7 @@ import { useQuery } from '@apollo/client'
 import upDown from '@/assets/up-down.png'
 import { GeneralModal } from '@/components/GeneralModal'
 import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCounterLockup'
-import { TOKENS_QUERY } from '@/lib/apollo/query'
+import { GET_NETWORKS, TOKENS_QUERY } from '@/lib/apollo/query'
 
 export const SwapBox = () => {
   const locationParams = new URLSearchParams();
@@ -86,6 +86,7 @@ export const SwapBox = () => {
 	]);
 
   const { data: tokensData, loading } = useQuery(TOKENS_QUERY);
+  const { data: networksData, loading: loadingNetworks } = useQuery(GET_NETWORKS);
 
   const tokens = tokensData?.tokens
 
@@ -251,11 +252,12 @@ export const SwapBox = () => {
             </div>
             <div className="flex flex-col sm:flex-row justify-start -space-y-6 sm:space-y-0 items-center gap-[14px] sm:-space-x-7 w-full">
               <TextField id="send" label="Send:" placeholder="0.0">
-                {!loading ? (
+                {!loading && !loadingNetworks ? (
                   <Dropdown
                   title="Sending Currency"
                   subtitle="Popular Protocols"
                   target="#portal"
+                  networks={networksData?.networks || []}
                   tokens={tokensData?.tokens || []}
                     selectedTokenId={swaps[0].send.name}
                     onSelectionChange={(token) => selectCoin(token, 'send', swaps[0].id)}
@@ -276,11 +278,12 @@ export const SwapBox = () => {
                 } w-[45px] h-[45px] hover:cursor-pointer rotate-180 sm:rotate-90 hover:-translate-y-1 transition-all duration-100 relative z-0`}
               />
               <TextField id="receive" label="Receive:" placeholder="0.0">
-                {!loading ? (
+                {!loading && !loadingNetworks ? (
                   <Dropdown
                   title="Receiving Currency"
                   subtitle="Popular Protocols"
                   target="#portal"
+                  networks={networksData?.networks || []}
                   tokens={tokensData?.tokens || []}
                     selectedTokenId={swaps[0].receive.name}
                     onSelectionChange={(token) => selectCoin(token, 'receive', swaps[0].id)}
