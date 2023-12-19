@@ -1,10 +1,9 @@
 'use client'
 
 import { AnimatePresence } from 'framer-motion'
-import { CheckBox } from 'houdini-react-sdk'
-import { Portal } from 'houdini-react-sdk'
+import { CheckBox, Portal } from 'houdini-react-sdk'
 import { get } from 'lodash'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Drawer } from '@/components/Drawer'
 import { Logo } from '@/components/Footer/Logo'
@@ -13,15 +12,37 @@ import LanguageDropDown from '@/components/Translate/LanguageDropDown'
 import languages from '@/lib/locales/languages'
 import useLockScroll from '@/utils/hooks/useLockScroll'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
+import { smokeEffect } from '@/utils/smokeEffect'
 
 import { Navbar } from './Navbar'
 
 export function Header() {
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const [smoke, setSmoke] = useState(false)
   const [width] = useWindowSize()
   const [openLanguage, setOpenLanguage] = useState(false)
   const [selectedLang, setSelectedLang] = useState('en')
+  const [isSmokeEnabled, setIsSmokeEnabled] = useState(true)
+
+  useEffect(() => {
+    const isClient = typeof window !== 'undefined'
+
+    if (isClient) {
+      const smokePreference = localStorage.getItem('smokePreference') === 'true'
+      console.log('smokePreference', smokePreference)
+      setIsSmokeEnabled(smokePreference)
+    }
+  }, [])
+
+  const handleSmokeToggle = () => {
+    const newValue = !isSmokeEnabled
+    smokeEffect(newValue)
+    setIsSmokeEnabled(newValue)
+    localStorage.setItem('smokePreference', JSON.stringify(newValue))
+  }
+
+  useEffect(() => {
+    smokeEffect(isSmokeEnabled)
+  }, [isSmokeEnabled])
 
   useEffect(() => {
     if (width >= 1024) {
@@ -31,17 +52,13 @@ export function Header() {
 
   useLockScroll(drawerOpen)
 
-  const handleToggleSmoke = () => {
-    setSmoke(!smoke)
-  }
-
   return (
     <>
-      <div className="relative">
+      <div className="relative z-[1]">
         <div className="w-full relative p-2">
           <div className="flex flex-row gap-2 justify-center items-center absolute right-0">
             <CheckBox
-              onChange={handleToggleSmoke}
+              onChange={handleSmokeToggle}
               name="smokeToggle"
               icon={<SmokeSvg className="h-5 w-5" />}
             />

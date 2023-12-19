@@ -13,7 +13,7 @@ export const Accordion = ({ title, content }: AccordionProps) => {
         onClick={() => {
           setIsActive(!isActive)
         }}
-        className={`flex items-center justify-between w-full py-5 font-medium text-left text-white`}
+        className={`z-[1] flex items-center justify-between w-full py-5 font-medium text-left text-white`}
       >
         <span className="text-[16px] lg:text-[22px] leading-[33px]">
           {title}
