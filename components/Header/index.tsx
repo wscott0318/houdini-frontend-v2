@@ -3,7 +3,7 @@
 import { AnimatePresence } from 'framer-motion'
 import { CheckBox, Portal } from 'houdini-react-sdk'
 import { get } from 'lodash'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { Drawer } from '@/components/Drawer'
 import { Logo } from '@/components/Footer/Logo'
@@ -23,15 +23,19 @@ export function Header() {
   const [selectedLang, setSelectedLang] = useState('en')
   const [isSmokeEnabled, setIsSmokeEnabled] = useState(true)
 
-  useEffect(() => {
+  const getSmokePreference = useCallback(() => {
     const isClient = typeof window !== 'undefined'
-
     if (isClient) {
-      const smokePreference = localStorage.getItem('smokePreference') === 'true'
-      console.log('smokePreference', smokePreference)
-      setIsSmokeEnabled(smokePreference)
+      const smokePreference = localStorage.getItem('smokePreference')
+      if (smokePreference !== null) {
+        setIsSmokeEnabled(smokePreference === 'true')
+      }
     }
-  }, [])
+  }, [isSmokeEnabled])
+
+  useEffect(() => {
+    getSmokePreference()
+  }, [getSmokePreference])
 
   const handleSmokeToggle = () => {
     const newValue = !isSmokeEnabled
@@ -59,6 +63,7 @@ export function Header() {
           <div className="flex flex-row gap-2 justify-center items-center absolute right-0">
             <CheckBox
               onChange={handleSmokeToggle}
+              defaultValue={isSmokeEnabled}
               name="smokeToggle"
               icon={<SmokeSvg className="h-5 w-5" />}
             />
