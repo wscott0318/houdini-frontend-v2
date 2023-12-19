@@ -56,7 +56,9 @@ export default function RootLayout({ children }: LayoutProps) {
   useEffect(() => {
     const storedSmokePreference = localStorage.getItem('smokePreference')
     // if (process.env.NODE_ENV === 'production' && storedSmokePreference)
-    smokeEffect(JSON.parse(storedSmokePreference!))
+    if (storedSmokePreference !== null) {
+      smokeEffect(storedSmokePreference === 'true')
+    }
   }, [])
 
   const [width] = useWindowSize()
