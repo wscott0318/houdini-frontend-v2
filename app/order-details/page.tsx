@@ -63,9 +63,11 @@ export default function OrderDetails() {
         {!loading && orders.length > 0 ? (
           orders.map((order: any) => {
             if (order?.status === 0) {
-              return <NextStepComponent key={order?.houdiniId} />
+              return <NextStepComponent key={order?.houdiniId} order={order} />
             }
-            return <OrderDetailsComponent key={order?.houdiniId} />
+            return (
+              <OrderDetailsComponent key={order?.houdiniId} order={order} />
+            )
           })
         ) : (
           <></>

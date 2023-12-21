@@ -4,7 +4,7 @@ import { NeedHelp } from '@/components/NeedHelp'
 
 import { OrderDetailModal } from './NextStepModal'
 
-export const NextStep = () => {
+export const NextStep = ({ order }: { order: any }) => {
   const { t } = useTranslation()
 
   return (
@@ -23,14 +23,14 @@ export const NextStep = () => {
       <div className="flex flex-col last:pb-[165px]">
         <div className="flex flex-col items-center gap-[10px]">
           <OrderDetailModal
-            orderID="pR7h3raq71otwFuCqvSpqf"
-            creationTime={new Date('1/10/2023, 20:54:43')}
-            sendAmount={1.0235}
-            receiveAddress="0xeed9978234bdffswfd8dhfe372b0154"
+            orderID={order?.houdiniId}
+            creationTime={new Date(order?.created)}
+            sendAmount={order?.inAmount}
+            receiveAddress={order?.receiverAddress}
             deliveryTime="26 : 34"
-            recipientAddress="0xferv3552mnjud953234sddn2323434bdffswfd8"
-            receiveAmount={175.7936}
-            tokenType="AVAX"
+            recipientAddress={order?.senderAddress}
+            receiveAmount={order?.outAmount}
+            tokenType={order?.outSymbol}
           />
           <div className="flex flex-col lg:px-[100px] lg:pt-[30px] pt-[30px]">
             <div className="lg:text-[17px] text-center font-medium leading-[21.42px] rainbow-text text-[#FFFFFF]">

@@ -46,7 +46,7 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
         <div className="md:w-35% sm:w-50%">
           <OrderDetailRoundbox border="custom-step-gradient1">
             <div className="text-center lg:text-[15.25px] text-[12px] font-bold text-[#FFFFFF] text-opacity-60">
-              {t('orderDetailModalOrderID')}
+              {t('orderDetailModalOrderID')}:
             </div>
             <Clipboardbox
               concept={`${props.orderId}`}
@@ -68,7 +68,7 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
       </div>
       <IndustrialCounterLockup>
         <div className="flex flex-col w-full items-center justify-center gap-[20px] px-[20px]">
-          <div className="items-center w-full">
+          <div className="items-center w-full justify-center">
             <MetalboarderedTransRoundbox>
               <div className="relative flex flex-col lg:flex-row gap-[32px] px-[50px] py-[30px]">
                 <ProgressProvider
@@ -95,11 +95,11 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
             </MetalboarderedTransRoundbox>
           </div>
           <MetalboarderedTransRoundbox>
-            <div className="flex flex-row gap-[32px] px-[60px] py-[10px] w-full h-full">
-              <div className="text-center md:text-[19px] md:leading-[23.94px] font-medium rainbow-text md:whitespace-nowrap">
-                {t('orderDetailsModalTodaysAverageSwapTime')}
+            <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
+              <div className="text-center md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
+                {t('orderDetailsModalTodaysAverageSwapTime')}:
               </div>
-              <div className="text-center md:text-[19px] md:leading-[23.94px] font-bold md:whitespace-nowrap">
+              <div className="text-center md:text-[19px] md:leading-[24px] font-bold md:whitespace-nowrap">
                 {`${props.swapTime} ${t('orderDetailsSwapTimeMinute')}`}
               </div>
             </div>
@@ -112,7 +112,7 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
           <div className="lg:flex flex-wrap lg:justify-between justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow lg:px-[30px] px-[5px] py-[10px]">
             <div className="sm:flex block lg:w-[60%] w-full lg:justify-between justify-center px-[4px] gap-4">
               <div className="text-center lg:text-[15.25px] lg:leading-[24px] text-[14px] font-bold text-opacity-60 text-[#FFFFFF99]">
-                {t('orderDetailModalRecipientWallet')}
+                {t('orderDetailModalRecipientWallet')}:
               </div>
               <div className="text-center text-xs overflow-hidden lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
                 {`${props.recipientWallet}`}

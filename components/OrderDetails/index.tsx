@@ -4,7 +4,7 @@ import { NeedHelp } from '@/components/NeedHelp'
 
 import { OrderDetailsModal } from './OrderDetailsModal'
 
-export const OrderDetails = () => {
+export const OrderDetails = ({ order }: { order: any }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -23,11 +23,11 @@ export const OrderDetails = () => {
       <div className="flex flex-col last:pb-[165px] w-full">
         <div className="flex flex-col items-center gap-[10px] w-full">
           <OrderDetailsModal
-            receiveAmount={175.7936}
-            recipientWallet="0xferv3552mnjud953234sddn2323434bdffswfd8"
-            creationTime={new Date('1/10/2023, 20:54:43')}
-            orderId="pR7h3raq71otwFuCqvSpqf"
-            tokenType="AVAX"
+            receiveAmount={order?.outAmount}
+            recipientWallet={order?.receiverAddress}
+            creationTime={new Date(order?.created)}
+            orderId={order?.houdiniId}
+            tokenType={order?.outSymbol}
             swapTime={30}
           />
           <div className="flex py-[10px] md:px-[100px] md:py-[50px] items-center w-full">
