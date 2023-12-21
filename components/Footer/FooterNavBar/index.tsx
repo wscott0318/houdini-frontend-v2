@@ -1,3 +1,6 @@
+import dayjs from 'dayjs'
+import Link from 'next/link'
+
 import {
   GitBookSvg,
   MediumSvg,
@@ -5,15 +8,13 @@ import {
   XSvg,
   YouTubeSvg,
 } from '@/components/Svg'
-import dayjs from 'dayjs'
-import Link from 'next/link'
 
 export const FooterNavBar = () => {
   const today = dayjs()
 
   return (
     <div className="flex flex-col justify-center items-center gap-[50px] pb-10">
-      <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-[10px] md:gap-[30px] font-medium text-base leading-[25px]">
+      <div className="z-[1] flex flex-col md:flex-row justify-center md:justify-start items-center gap-[10px] md:gap-[30px] font-medium text-base leading-[25px]">
         <Link className="hover:gradient-text" href="/dashboard">
           <span>Dashboard</span>
         </Link>
@@ -33,7 +34,7 @@ export const FooterNavBar = () => {
           <span>Whitepaper</span>
         </Link>
       </div>
-      <div className="flex flex-row justify-start items-center gap-[20px]">
+      <div className="z-[1] flex flex-row justify-start items-center gap-[20px]">
         <Link className="group" href="https://twitter.com/HoudiniSwap">
           <XSvg className="w-6 h-6 fill-white group-hover:fill-[#F5C341]" />
         </Link>
@@ -53,7 +54,7 @@ export const FooterNavBar = () => {
           <MediumSvg className="w-7 h-7 fill-white group-hover:fill-[#F5C341]" />
         </Link>
       </div>
-      <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-[10px] md:gap-[38px] font-medium text-base leading-[25px]">
+      <div className="z-[1] flex flex-col md:flex-row justify-center md:justify-start items-center gap-[10px] md:gap-[38px] font-medium text-base leading-[25px]">
         <Link className="hover:gradient-text" href="/bug-bounty-program">
           <span>Bug Bounty Program</span>
         </Link>
@@ -73,7 +74,7 @@ export const FooterNavBar = () => {
           <span>Partnership</span>
         </Link>
       </div>
-      <div className="text-xs font-light gradient-text">
+      <div className="z-[1] text-xs font-light gradient-text">
         © {today.year()} Houdini Swap, All rights reserved.
       </div>
     </div>

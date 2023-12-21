@@ -6,6 +6,16 @@
 
 /* html,
 body { */
-  /* font-family: var(--font-outfit), 'Outfit'; */
-  /* overflow: hidden; */
+/* font-family: var(--font-outfit), 'Outfit'; */
+/* overflow: hidden; */
 /* } */
+
+.banner_canvas {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  overflow-x: hidden;
+  height: 100%;
+  bottom: 0px;
+}
