@@ -126,6 +126,10 @@ const config: Config = {
           background: 'url(../assets/Industiral_Background.png)',
           backgroundSize: '20%',
         },
+        '.custom-swapbox-background-img': {
+          background: 'url(../assets/Industiral_Background.png)',
+          backgroundSize: '60%',
+        },
         '.custom-top-background-img': {
           background: 'url(../assets/background.png)',
           backgroundSize: 'cover',
