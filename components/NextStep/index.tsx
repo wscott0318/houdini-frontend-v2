@@ -20,7 +20,7 @@ export const NextStep = () => {
           {t('nextStepContent')}
         </div>
       </div>
-      <div className="flex flex-col pb-[165px]">
+      <div className="flex flex-col last:pb-[165px]">
         <div className="flex flex-col items-center gap-[10px]">
           <OrderDetailModal
             orderID="pR7h3raq71otwFuCqvSpqf"

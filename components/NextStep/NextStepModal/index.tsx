@@ -144,7 +144,7 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
                         <div className="text-center lg:text-[15.25px] lg:leading-[24px] text-[14px] font-bold text-opacity-60 text-[#FFFFFF99]">
                             { t("orderDetailModalRecipientWallet") }
                         </div>
-                        <div className="text-center lg:text-[14.88px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
+                        <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
                             {`${props.recipientAddress}`}
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 'use client'
 
+import { useQuery } from '@apollo/client'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CardComponent, Portal } from 'houdini-react-sdk'
 import { useEffect, useState } from 'react'
@@ -8,6 +9,7 @@ import { NextStep as NextStepComponent } from '@/components/NextStep'
 import { OrderDetails as OrderDetailsComponent } from '@/components/OrderDetails'
 import { ResponsivePage } from '@/components/ResponsivePage'
 import { XLetterSvg } from '@/components/Svg'
+import { MULTI_STATUS_QUERY } from '@/lib/apollo/query'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
 const animation = {
@@ -23,9 +25,11 @@ const animation = {
 
 export default function OrderDetails() {
   const [width] = useWindowSize()
-  const [isOpen, setIsOpen] = useState(true)
 
+  const [isOpen, setIsOpen] = useState(true)
   const [status, setStatus] = useState(0)
+
+  const [orders, setOrders] = useState([])
 
   const handleKeyDown = (event: { key: string }) => {
     if (event.key === 'Escape') {
@@ -41,10 +45,31 @@ export default function OrderDetails() {
     }
   }, [])
 
+  const { loading, data } = useQuery(MULTI_STATUS_QUERY, {
+    variables: {
+      multiId: 'wENSG7UKmEUZRdwdK3sw6x',
+    },
+  })
+
+  useEffect(() => {
+    if (!loading && data) {
+      setOrders(data.multiStatus)
+    }
+  }, [data, loading])
+
   return (
     <>
       <ResponsivePage>
-        {status === 0 ? <NextStepComponent /> : <OrderDetailsComponent />}
+        {!loading && orders.length > 0 ? (
+          orders.map((order: any) => {
+            if (order?.status === 0) {
+              return <NextStepComponent key={order?.houdiniId} />
+            }
+            return <OrderDetailsComponent key={order?.houdiniId} />
+          })
+        ) : (
+          <></>
+        )}
       </ResponsivePage>
 
       <AnimatePresence>
