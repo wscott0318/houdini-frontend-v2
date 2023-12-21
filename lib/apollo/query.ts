@@ -322,3 +322,41 @@ export const GET_NETWORKS = gql`
     }
   }
 `
+export const MULTI_EXCHANGE_MUTATION = gql`
+  mutation multiExchange($orders: [OrderInput!]!) {
+    multiExchange(orders: $orders) {
+      order {
+        houdiniId
+        created
+        modified
+        senderAddress
+        receiverAddress
+        status
+        anonymous
+        expires
+        inAmount
+        inSymbol
+        outAmount
+        outSymbol
+        inCreated
+        outCreated
+        multiId
+      }
+    }
+  }
+`
+
+export const MULTI_STATUS_QUERY = gql`
+  query multiStatus($multiId: String!) {
+    multiStatus(multiId: $multiId) {
+      houdiniId
+      status
+    }
+  }
+`
+
+export const RETRY_MULTI_ORDER_MUTATION = gql`
+  mutation retryMultiOrder($id: String!) {
+    retryMultiOrder(id: $id)
+  }
+`
