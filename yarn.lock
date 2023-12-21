@@ -4368,10 +4368,10 @@ hoist-non-react-statics@^3.3.2:
   dependencies:
     react-is "^16.7.0"
 
-houdini-react-sdk@0.0.89:
-  version "0.0.89"
-  resolved "https://registry.yarnpkg.com/houdini-react-sdk/-/houdini-react-sdk-0.0.89.tgz#9902e274468a43b39d0e41fdd9da26024abfe600"
-  integrity sha512-4a0NiSib6uXJygfbpiVv7NB+rK97Kc54dNN17cwdcJPWWYvSN7EhBdty4e2Aj26QVcWHN/yVV3j4URsvqdgtdw==
+houdini-react-sdk@0.0.91:
+  version "0.0.91"
+  resolved "https://registry.yarnpkg.com/houdini-react-sdk/-/houdini-react-sdk-0.0.91.tgz#5f670d64a6c19cc9d7b96f512160a9180bc5ed5d"
+  integrity sha512-8iFoYe1KQMqn3cYRxfUhStXRxMpheUYQte57qKqBGvqH25VLQ1NcPV9ZBGhHTbsyAge2R6Ha6R4xxfLWueDa2A==
   dependencies:
     react-i18next "^13.5.0"
     vite-plugin-static-copy "^1.0.0"
@@ -6862,6 +6862,11 @@ unicode-property-aliases-ecmascript@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/unicode-property-aliases-ecmascript/-/unicode-property-aliases-ecmascript-2.1.0.tgz#43d41e3be698bd493ef911077c9b131f827e8ccd"
   integrity sha512-6t3foTQI9qne+OZoVQB/8x8rk2k1eVy1gRXhV3oFQ5T6R1dqQ1xtin3XqSlx3+ATBkliTaR/hHyJBm+LVPNM8w==
+
+uniqid@^5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/uniqid/-/uniqid-5.4.0.tgz#4e17bfcab66dfe33563411ae0c801f46ef964e66"
+  integrity sha512-38JRbJ4Fj94VmnC7G/J/5n5SC7Ab46OM5iNtSstB/ko3l1b5g7ALt4qzHFgGciFkyiRNtDXtLNb+VsxtMSE77A==
 
 universalify@^2.0.0:
   version "2.0.1"
