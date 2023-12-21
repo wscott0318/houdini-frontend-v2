@@ -350,7 +350,20 @@ export const MULTI_STATUS_QUERY = gql`
   query multiStatus($multiId: String!) {
     multiStatus(multiId: $multiId) {
       houdiniId
+      created
+      modified
+      senderAddress
+      receiverAddress
       status
+      anonymous
+      expires
+      inAmount
+      inSymbol
+      outAmount
+      outSymbol
+      inCreated
+      outCreated
+      multiId
     }
   }
 `
