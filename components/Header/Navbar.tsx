@@ -71,7 +71,7 @@ const CommonNavbar = ({ setIsOpen }: { setIsOpen?: any }) => {
         }}
         className="flex relative group flex-row justify-center items-center gap-3"
       >
-        <span className="group-hover:gradient-text">$POOF</span>
+        <span className="group-hover:gradient-text">$LOCK</span>
         <ChevronSvg
           className={`${
             openDropdown ? 'rotate-180' : 'rotate-0'
@@ -88,7 +88,16 @@ const CommonNavbar = ({ setIsOpen }: { setIsOpen?: any }) => {
                   className="hover:gradient-text text-white"
                   href="/"
                 >
-                  <span className="text-sm">Buy $POOF</span>
+                  <span className="text-sm">Get ... on Houdini</span>
+                </Link>
+                <Link
+                  onClick={() => {
+                    setIsOpen(false)
+                  }}
+                  className="hover:gradient-text text-white"
+                  href="/"
+                >
+                  <span className="text-sm">Get $LOCK on Houdini</span>
                 </Link>
                 <Link
                   onClick={() => {
@@ -97,7 +106,7 @@ const CommonNavbar = ({ setIsOpen }: { setIsOpen?: any }) => {
                   className="hover:gradient-text text-white"
                   href="https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x888ceA2BBDD5D47a4032cf63668D7525C74af57A"
                 >
-                  <span className="text-sm">Buy $POOF on Uniswap</span>
+                  <span className="text-sm">Buy $LOCK on Uniswap</span>
                 </Link>
               </div>
             </CardComponent>

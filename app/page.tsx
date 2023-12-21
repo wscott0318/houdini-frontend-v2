@@ -91,7 +91,7 @@ export default function Home() {
   const [value, setValue] = useState(0)
   useEffect(() => {
     const timer = setInterval(() => {
-      setValue(Math.floor(Math.random() * 10000000))
+      setValue(Math.floor(Math.random() * 1000))
     }, 2000)
     return () => clearInterval(timer)
   }, [value])
@@ -100,7 +100,7 @@ export default function Home() {
     <ResponsivePage>
       <div>
         <div className="lg:text-[81px] text-center text-[35px] font-bold leading-normal capitalize tracking-[-0.85px]">
-          Keep your transactions private
+          Keep transactions private
         </div>
         <div className="flex flex-col font-normal text-[19px] leading-[30px] items-center justify-center text-[#B8CAFC] text-center">
           <div>Privately swap, send or bridge with magical ease</div>
