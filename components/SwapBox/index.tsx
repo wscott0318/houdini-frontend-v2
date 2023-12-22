@@ -7,7 +7,6 @@ import {
   SingleMultiSend,
   TextField,
 } from 'houdini-react-sdk'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import uniqid from 'uniqid'
@@ -444,8 +443,23 @@ export const SwapBox = () => {
     setDebouncedSwaps(updatedSwaps)
   }
 
-  const handleVariableSwap = (id: string) => {
-    setVariable(!variableSwap)
+  const handleVariableSwap = (swapId: string) => {
+    const updatedSwaps = swaps.map((swap) => {
+      if (swap.id === swapId) {
+        // debugger
+        swap.fixed = !swap.fixed
+
+        if (!swap.fixed) {
+          swap.direction = 'from'
+        }
+
+        setCurrentSwap(swap)
+      }
+
+      return { ...swap }
+    })
+
+    setDebouncedSwaps(updatedSwaps)
   }
 
   const handleMultiSend = () => {
@@ -493,9 +507,37 @@ export const SwapBox = () => {
     setSwaps(updatedSwaps)
   }
 
+  const handleDelete = (swapId: string) => {
+    const filteredSwaps = swaps.filter((swap) => swap.id !== swapId)
+
+    if (currentSwap?.id === swapId) {
+      setCurrentSwap(null)
+    }
+    // filteredSwaps[filteredSwaps.length - 1].collapsed = false;
+
+    setSwaps(filteredSwaps)
+  }
+
+  const handleExpand = (swapId: string) => {
+    const updatedSwaps = swaps
+      .filter((swap) => swap.send.value)
+      .map((swap) => {
+        if (swap.id === swapId) {
+          setCurrentSwap(swap)
+          swap.collapsed = false
+        } else {
+          swap.collapsed = true
+        }
+
+        return { ...swap }
+      })
+
+    setSwaps([...updatedSwaps])
+  }
+
   const handleSwapProceed = () => {
-    console.log('clicked!!')
-    router.push('/order-details')
+    // console.log('clicked!!')
+    // router.push('/order-details')
   }
 
   return (
@@ -532,19 +574,27 @@ export const SwapBox = () => {
               direction={direction}
               handleChange={handleChange}
               handleReceiveAddress={handleReceiveAddress}
+              handleDelete={handleDelete}
+              handleExpand={handleExpand}
             />
           ))}
 
-          <div className="flex justify-between w-full mt-2">
-            <SecondaryButton text="Save order" />
-            <SecondaryButton text="Add swap" onClick={handleAddNewSwap} />
-          </div>
+          {isMulti ? (
+            <div className="flex justify-between w-full mt-2">
+              <SecondaryButton text="Save order" />
+              <SecondaryButton text="Add swap" onClick={handleAddNewSwap} />
+            </div>
+          ) : null}
 
           <div className="gradient-text my-[20px] font-medium text-xs font-poppins">
             Only send To/From wallets. Transactions sent To/From smart contracts
             are not accepted
           </div>
-          <HoudiniButton text={'Proceed'} onClick={handleSwapProceed} />
+          <HoudiniButton
+            text={'Proceed'}
+            onClick={handleSwapProceed}
+            type={isMulti ? 'secondary' : 'primary'}
+          />
         </IndustrialCounterLockup>
       </GeneralModal>
     </div>
