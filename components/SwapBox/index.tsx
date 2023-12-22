@@ -1,20 +1,29 @@
-import { useQuery } from '@apollo/client'
+import { useLazyQuery, useQuery } from '@apollo/client'
 import {
   CheckBox,
   Dropdown,
   HoudiniButton,
+  SecondaryButton,
   SingleMultiSend,
   TextField,
 } from 'houdini-react-sdk'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import uniqid from 'uniqid'
 
 import upDown from '@/assets/up-down.png'
 import { GeneralModal } from '@/components/GeneralModal'
 import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCounterLockup'
-import { GET_NETWORKS, TOKENS_QUERY } from '@/lib/apollo/query'
+import {
+  GET_NETWORKS,
+  TOKENS_QUERY,
+  createMultiplePriceQuery,
+} from '@/lib/apollo/query'
+import { fixedFloat, validateWalletAddress } from '@/utils/helpers'
+
+import { SwapForm } from './SwapForm'
+
+const uuid = uniqid()
 
 export const SwapBox = () => {
   const router = useRouter()
@@ -26,6 +35,7 @@ export const SwapBox = () => {
   const amount = locationParams.get('amount')
     ? parseFloat(locationParams.get('amount') as string)
     : ''
+  const partnerId = locationParams.get('partnerId') ?? ''
 
   const initialInput = {
     value: amount.toString(),
@@ -64,10 +74,12 @@ export const SwapBox = () => {
           : false,
     flipArrow: false,
     collapsed: false,
-    id: uuidv4(),
+    id: uuid,
     destinationTag: '',
     fixed: false,
     direction: 'from',
+    anonymousToken: 'XMR',
+    partnerId,
   })
 
   const [swaps, setSwaps] = useState<Swap[]>([
@@ -81,12 +93,148 @@ export const SwapBox = () => {
         anonymous === null ? true : anonymous === 'true' ? true : false,
       flipArrow: false,
       collapsed: false,
-      id: uuidv4(),
+      id: uuid,
       destinationTag: '',
       fixed: false,
       direction: 'from',
+      anonymousToken: 'XMR',
+      partnerId,
     },
   ])
+
+  const [debouncedSwaps, setDebouncedSwaps] = useState<Swap[]>([
+    {
+      send: { ...initialSendInput },
+      receive: { ...initialReceiveInput },
+      minAmount: 0,
+      maxAmount: 0,
+      receiveAddress: locationParams.get('receiveAddress') as string,
+      anonymous:
+        anonymous === null ? true : anonymous === 'true' ? true : false,
+      flipArrow: false,
+      collapsed: false,
+      id: uuid,
+      destinationTag: '',
+      fixed: false,
+      direction: 'from',
+      anonymousToken: 'XMR',
+      partnerId,
+    },
+  ])
+
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>()
+  const [quoteQuery, setQuoteQuery] = useState(createMultiplePriceQuery(swaps))
+
+  const [handlePriceQuote, { loading: isPriceQuoting }] = useLazyQuery(
+    quoteQuery,
+    {
+      onError: (err) => {
+        console.error('price quote error', err)
+      },
+      onCompleted: (data) => {
+        Object.keys(data).map((key) => {
+          const swapId = key.replace('quote_', '')
+          const quote = data[key]?.quote
+          swaps.forEach((swap) => {
+            if (swap.id === swapId) {
+              if (!quote) {
+                // @Matomo
+                if (
+                  (data[key]?.error &&
+                    swap.receive.value &&
+                    swap.direction === 'to') ||
+                  (swap.send.value && swap.direction === 'from')
+                ) {
+                  console.error(data[key].error)
+
+                  if (swap.fixed && swap.direction === 'to') {
+                    swap.send.value = '0'
+                  } else {
+                    swap.receive.value = '0'
+                  }
+
+                  return
+                }
+              }
+              const dataAmmountOut = quote?.amountOut
+              const amountOut =
+                dataAmmountOut !== undefined && dataAmmountOut !== -1
+                  ? dataAmmountOut
+                  : ''
+              const minAmount = quote.min ?? 0
+              const maxAmount = quote.max ?? 0
+
+              swap.minAmount = minAmount
+              swap.maxAmount = maxAmount
+
+              if (swap.fixed && swap.direction === 'to') {
+                const dataAmmountIn = quote.amountIn
+                const amountIn =
+                  dataAmmountIn !== undefined && dataAmmountIn !== -1
+                    ? dataAmmountIn
+                    : ''
+                swap.send.value = fixedFloat(amountIn).toString()
+
+                if (dataAmmountIn === -1) {
+                  console.error('missing quote fixes')
+                }
+              } else {
+                if (swap.fixed && dataAmmountOut === -1) {
+                  console.error('missing quote fixes')
+                }
+
+                swap.receive.value = fixedFloat(amountOut).toString()
+              }
+            }
+          })
+        })
+      },
+    },
+  )
+
+  const callPriceAPI = useCallback(async () => {
+    if (isPriceQuoting) return
+
+    if (
+      currentSwap?.send?.name &&
+      currentSwap?.receive?.name &&
+      (parseFloat(currentSwap?.send?.value as string) > 0 ||
+        (currentSwap?.direction === 'to' &&
+          currentSwap.fixed &&
+          parseFloat(currentSwap.receive.value) > 0))
+    ) {
+      handlePriceQuote({
+        fetchPolicy: 'network-only',
+        pollInterval: 30 * 1000, // Poll every 10 seconds
+      })
+    }
+  }, [swaps])
+
+  useEffect(() => {
+    if (timeoutId) {
+      clearTimeout(timeoutId)
+    }
+
+    setTimeoutId(
+      setTimeout(() => {
+        const canQuote = debouncedSwaps.find(
+          (swap) => swap.send.value || swap.receive.value,
+        )
+        if (canQuote) {
+          console.log(JSON.parse(JSON.stringify(debouncedSwaps)))
+          setSwaps(JSON.parse(JSON.stringify(debouncedSwaps)))
+          setQuoteQuery(createMultiplePriceQuery(swaps))
+          callPriceAPI()
+        }
+      }, 2000),
+    )
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+    }
+  }, [debouncedSwaps])
 
   const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
   const { data: networksData, loading: loadingNetworks } =
@@ -136,8 +284,6 @@ export const SwapBox = () => {
         return { ...swap }
       })
 
-      console.log(updatedSwaps)
-
       setSwaps(updatedSwaps)
     }
   }, [tokens])
@@ -165,12 +311,155 @@ export const SwapBox = () => {
     setSwaps(updatedSwaps)
   }
 
-  const handlePrivateSwap = () => {
-    setPrivate(!privateSwap)
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    swapId: string,
+    reverse = false,
+  ) => {
+    let inputStr = e.target.value
+    if (e.target.value.includes('-')) return
+    if (inputStr.charAt(0) === '.') inputStr = '0' + inputStr
+    if (inputStr.charAt(0) === '0' && inputStr.charAt(1) !== '.') inputStr = '0'
+    const rx_live = /^[+-]?\d*(?:[.]\d*)?$/
+
+    if (rx_live.test(inputStr)) {
+      const updatedSwaps = swaps.map((swap) => {
+        if (swap.id === swapId) {
+          if (reverse) {
+            swap.receive.value = inputStr
+            swap.direction = 'to'
+          } else {
+            swap.send.value = inputStr
+            swap.direction = 'from'
+          }
+          setCurrentSwap(swap)
+        }
+
+        return { ...swap }
+      })
+
+      setDebouncedSwaps(updatedSwaps)
+    }
   }
 
-  const handleVariableSwap = () => {
-    setVariable(!variableSwap)
+  const handleReceiveAddress = (value: string, swapId: string) => {
+    const updatedSwaps = swaps.map((swap) => {
+      if (swap.id === swapId) {
+        swap.receiveAddress = value
+
+        setCurrentSwap(swap)
+      }
+
+      return { ...swap }
+    })
+
+    setDebouncedSwaps(updatedSwaps)
+  }
+
+  const handleAddNewSwap = () => {
+    const inputElem: HTMLElement | null =
+      document.getElementById('receiver-address')
+
+    if (currentSwap) {
+      if (currentSwap.send.value === '') {
+        console.error('send value is 0')
+
+        return
+      }
+
+      if (currentSwap.receiveAddress === '') {
+        console.error('receiver address is empty')
+
+        inputElem?.focus()
+
+        return
+      }
+
+      const token = tokens?.find(
+        (item: Token) => item.id === currentSwap.receive.name,
+      )
+
+      const validRes = validateWalletAddress(currentSwap.receiveAddress, token)
+
+      if (!validRes) {
+        console.error('invalid address')
+
+        inputElem?.focus()
+
+        return
+      }
+    }
+
+    const newSwap: Swap = {
+      send: { ...initialSendInput },
+      receive: { ...initialReceiveInput },
+      minAmount: 0,
+      maxAmount: 0,
+      receiveAddress: '',
+      anonymous: true,
+      flipArrow: false,
+      collapsed: false,
+      destinationTag: '',
+      id: uniqid(),
+      direction: 'from',
+      anonymousToken: 'XMR',
+      partnerId,
+    }
+
+    setCurrentSwap(newSwap)
+
+    const updatedSwaps = swaps.map((swap) => {
+      swap.collapsed = true
+
+      return { ...swap }
+    })
+
+    setSwaps([...updatedSwaps, newSwap])
+  }
+
+  const handleAnonymous = (swapId: string) => {
+    if (
+      currentSwap?.anonymous &&
+      currentSwap.send.name === currentSwap.receive.name
+    ) {
+      console.error('Please select a different pair')
+      return
+    }
+
+    const updatedSwaps = swaps.map((swap) => {
+      if (swap.id === swapId) {
+        swap.anonymous = !swap.anonymous
+
+        if (swap.direction === 'to' && swap.anonymous) {
+          swap.direction = 'from'
+        }
+
+        setCurrentSwap(swap)
+      }
+
+      return { ...swap }
+    })
+
+    setDebouncedSwaps(updatedSwaps)
+  }
+
+  const handleVariableSwap = (swapId: string) => {
+    const updatedSwaps = swaps.map((swap) => {
+      if (swap.id === swapId) {
+        // debugger
+        swap.fixed = !swap.fixed
+
+        if (!swap.fixed) {
+          swap.direction = 'from'
+        }
+
+        setCurrentSwap(swap)
+      }
+
+      return { ...swap }
+    })
+
+    setDebouncedSwaps(updatedSwaps)
   }
 
   const handleMultiSend = () => {
@@ -218,9 +507,37 @@ export const SwapBox = () => {
     setSwaps(updatedSwaps)
   }
 
+  const handleDelete = (swapId: string) => {
+    const filteredSwaps = swaps.filter((swap) => swap.id !== swapId)
+
+    if (currentSwap?.id === swapId) {
+      setCurrentSwap(null)
+    }
+    // filteredSwaps[filteredSwaps.length - 1].collapsed = false;
+
+    setSwaps(filteredSwaps)
+  }
+
+  const handleExpand = (swapId: string) => {
+    const updatedSwaps = swaps
+      .filter((swap) => swap.send.value)
+      .map((swap) => {
+        if (swap.id === swapId) {
+          setCurrentSwap(swap)
+          swap.collapsed = false
+        } else {
+          swap.collapsed = true
+        }
+
+        return { ...swap }
+      })
+
+    setSwaps([...updatedSwaps])
+  }
+
   const handleSwapProceed = () => {
-    console.log('clicked!!')
-    router.push('/order-details')
+    // console.log('clicked!!')
+    // router.push('/order-details')
   }
 
   return (
@@ -242,81 +559,42 @@ export const SwapBox = () => {
               singleText="Single"
             />
           </div>
-          <div className="flex flex-col lg:py-[10px] lg:gap-[20px] gap-[10px] w-full">
-            <div className="flex flex-col my-[20px] sm:my-0 sm:flex-row gap-4 justify-between items-start sm:items-center w-full">
-              <CheckBox
-                defaultValue
-                leftText="Private"
-                name="privateToggler"
-                onChange={handlePrivateSwap}
-                rightText="Semi Private"
-              />
-              <CheckBox
-                defaultValue
-                leftText="Variable"
-                name="variableToggler"
-                onChange={handleVariableSwap}
-                rightText="Exact"
-              />
-            </div>
-            <div className="flex flex-col sm:flex-row justify-start -space-y-6 sm:space-y-0 items-center gap-[14px] sm:-space-x-7 w-full">
-              <TextField id="send" label="Send:" placeholder="0.0">
-                {!loading && !loadingNetworks ? (
-                  <Dropdown
-                    title="Sending Currency"
-                    subtitle="Popular Protocols"
-                    target="#portal"
-                    networks={networksData?.networks || []}
-                    tokens={tokensData?.tokens || []}
-                    selectedTokenId={swaps[0].send.name}
-                    onSelectionChange={(token) =>
-                      selectCoin(token, 'send', swaps[0].id)
-                    }
-                  />
-                ) : null}
-              </TextField>
-              <Image
-                src={upDown}
-                width={100}
-                height={100}
-                alt="upDown"
-                onClick={() => {
-                  handleArrows(swaps[0].id)
-                }}
-                className={`${
-                  direction ? 'scale-y-[-1]' : ''
-                } w-[45px] h-[45px] hover:cursor-pointer rotate-180 sm:rotate-90 hover:-translate-y-1 transition-all duration-100 relative z-0`}
-              />
-              <TextField id="receive" label="Receive:" placeholder="0.0">
-                {!loading && !loadingNetworks ? (
-                  <Dropdown
-                    title="Receiving Currency"
-                    subtitle="Popular Protocols"
-                    target="#portal"
-                    networks={networksData?.networks || []}
-                    tokens={tokensData?.tokens || []}
-                    selectedTokenId={swaps[0].receive.name}
-                    onSelectionChange={(token) =>
-                      selectCoin(token, 'receive', swaps[0].id)
-                    }
-                  />
-                ) : null}
-              </TextField>
-            </div>
 
-            <div className="w-full my-[20px] sm:my-0">
-              <TextField
-                id="receivingWallet"
-                label="Receiving Wallet (BTC) Address:"
-                placeholder="Receiving Wallet (BTC) Address"
-              />
+          {swaps.map((swap) => (
+            <SwapForm
+              key={`swap-${swap.id}`}
+              swap={swap}
+              handlePrivateSwap={handleAnonymous}
+              handleVariableSwap={handleVariableSwap}
+              loading={loading || loadingNetworks}
+              tokens={tokensData?.tokens}
+              networks={networksData?.networks}
+              selectCoin={selectCoin}
+              handleArrows={handleArrows}
+              direction={direction}
+              handleChange={handleChange}
+              handleReceiveAddress={handleReceiveAddress}
+              handleDelete={handleDelete}
+              handleExpand={handleExpand}
+            />
+          ))}
+
+          {isMulti ? (
+            <div className="flex justify-between w-full mt-2">
+              <SecondaryButton text="Save order" />
+              <SecondaryButton text="Add swap" onClick={handleAddNewSwap} />
             </div>
-          </div>
+          ) : null}
+
           <div className="gradient-text my-[20px] font-medium text-xs font-poppins">
             Only send To/From wallets. Transactions sent To/From smart contracts
             are not accepted
           </div>
-          <HoudiniButton text={'Proceed'} onClick={handleSwapProceed} />
+          <HoudiniButton
+            text={'Proceed'}
+            onClick={handleSwapProceed}
+            type={isMulti ? 'secondary' : 'primary'}
+          />
         </IndustrialCounterLockup>
       </GeneralModal>
     </div>
