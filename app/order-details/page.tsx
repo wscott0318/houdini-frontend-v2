@@ -4,13 +4,14 @@ import { useQuery } from '@apollo/client'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CardComponent, Portal } from 'houdini-react-sdk'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
-import { NextStep as NextStepComponent } from '@/components/NextStep'
-import { OrderDetails as OrderDetailsComponent } from '@/components/OrderDetails'
+import { OrderContent } from '@/components/OrderDetailsComponents'
 import { ResponsivePage } from '@/components/ResponsivePage'
 import { XLetterSvg } from '@/components/Svg'
 import { MULTI_STATUS_QUERY } from '@/lib/apollo/query'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
+import { useSearchParams } from 'next/navigation'
 
 const animation = {
   hidden: {
@@ -24,11 +25,11 @@ const animation = {
 }
 
 export default function OrderDetails() {
+  const searchParams = useSearchParams()
+  const { t } = useTranslation()
   const [width] = useWindowSize()
 
   const [isOpen, setIsOpen] = useState(true)
-  const [status, setStatus] = useState(0)
-
   const [orders, setOrders] = useState([])
 
   const handleKeyDown = (event: { key: string }) => {
@@ -47,7 +48,7 @@ export default function OrderDetails() {
 
   const { loading, data } = useQuery(MULTI_STATUS_QUERY, {
     variables: {
-      multiId: 'wENSG7UKmEUZRdwdK3sw6x',
+      multiId: searchParams.get('multiId'), // 'wENSG7UKmEUZRdwdK3sw6x'
     },
   })
 
@@ -60,18 +61,7 @@ export default function OrderDetails() {
   return (
     <>
       <ResponsivePage>
-        {!loading && orders.length > 0 ? (
-          orders.map((order: any) => {
-            if (order?.status === 0) {
-              return <NextStepComponent key={order?.houdiniId} order={order} />
-            }
-            return (
-              <OrderDetailsComponent key={order?.houdiniId} order={order} />
-            )
-          })
-        ) : (
-          <></>
-        )}
+        <OrderContent loading={loading} orders={orders} t={t} />
       </ResponsivePage>
 
       <AnimatePresence>

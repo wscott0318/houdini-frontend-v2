@@ -1,8 +1,7 @@
 import { useTranslation } from 'react-i18next'
 
 import { NeedHelp } from '@/components/NeedHelp'
-
-import { OrderDetailsModal } from './OrderDetailsModal'
+import { OrderDetailsModal } from '@/components/OrderDetailsComponents/OrderDetailsModal'
 
 export const OrderDetails = ({ order }: { order: any }) => {
   const { t } = useTranslation()

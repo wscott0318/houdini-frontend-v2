@@ -29,13 +29,13 @@ export default function Dashboard() {
     { text: 'Number of swaps with commission:', amount: '0' },
     { text: 'Swaps total value:', amount: '$0' },
     { text: 'Staked:', amount: '0' },
-    { text: 'Total commissions:', amount: '0 $POOF' },
-    { text: 'Commission claimed:', amount: '0 $POOF' },
-    { text: 'Commission claimable:', amount: '0 $POOF' },
+    { text: 'Total commissions:', amount: '0 $LOCK' },
+    { text: 'Commission claimed:', amount: '0 $LOCK' },
+    { text: 'Commission claimable:', amount: '0 $LOCK' },
   ]
 
   const cardsData = [
-    { title: 'Your $POOF Locked', text: '0' },
+    { title: 'Your $LOCK Locked', text: '0' },
     { title: 'Your First Unlock', text: 'n/a' },
     { title: 'Your Blended APR Rate', text: 'n/a' },
     { title: 'Your Commission', text: 'n/a' },
@@ -68,7 +68,7 @@ export default function Dashboard() {
             </div>
             <div className="flex flex-col justify-between items-center w-full gap-[10px] lg:gap-[5px]">
               <div className="flex py-[10px] pb-[10px] flex-row text-[15px] leading-[25px] lg:text-[22px] lg:leading-[37px] font-bold w-full justify-between items-center">
-                <div>$POOF Locked</div>
+                <div>$LOCK Locked</div>
                 <div className="flex flex-row justify-start items-center gap-[10px]">
                   <div>Swap Commission</div>
                   <QuestionSvg />
@@ -79,7 +79,7 @@ export default function Dashboard() {
                   key={index}
                   className="flex flex-row w-full font-poppins gap-[6px] lg:px-[20px] text-[15px] leading-[25px] lg:text-[19px] lg:leading-[30px] justify-between items-center"
                 >
-                  <div>{item.amount} $POOF</div>
+                  <div>{item.amount} $LOCK</div>
                   <div>{item.percentage}</div>
                 </div>
               ))}

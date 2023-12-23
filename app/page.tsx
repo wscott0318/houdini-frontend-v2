@@ -138,7 +138,7 @@ export default function Home() {
         <div className="w-[260px] rounded-[24px] h-[140px] sm:flex hidden flex-col justify-center items-center">
           <CardComponent>
             <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">
-              $POOF Buybacks
+              $LOCK Buybacks
             </div>
             <div className="text-[35px] text-white leading-[50px] font-medium text-center">
               5.7m
