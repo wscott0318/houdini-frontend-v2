@@ -3,6 +3,7 @@
 import { useQuery } from '@apollo/client'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CardComponent, Portal } from 'houdini-react-sdk'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -11,7 +12,6 @@ import { ResponsivePage } from '@/components/ResponsivePage'
 import { XLetterSvg } from '@/components/Svg'
 import { MULTI_STATUS_QUERY } from '@/lib/apollo/query'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
-import { useSearchParams } from 'next/navigation'
 
 const animation = {
   hidden: {
