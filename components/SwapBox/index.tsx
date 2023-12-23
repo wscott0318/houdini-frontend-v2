@@ -51,6 +51,8 @@ export const SwapBox = () => {
   const [variableSwap, setVariable] = useState(false)
   const [direction, setDirection] = useState(false)
   const [isMulti, setIsMulti] = useState(false)
+  // TODO: CHANGE THIS
+  const [multiId, setMultiId] = useState<string>('wENSG7UKmEUZRdwdK3sw6x')
 
   const [initialSendInput, setInitialSendInput] = useState<SendReceiveInput>({
     ...initialInput,
@@ -536,8 +538,10 @@ export const SwapBox = () => {
   }
 
   const handleSwapProceed = () => {
-    // console.log('clicked!!')
-    // router.push('/order-details')
+    // TODO: CHECK if is able to click this button and move to the order details page
+    if (isMulti) {
+      router.push(`/order-details?multiId=${multiId}`)
+    }
   }
 
   return (

@@ -1,13 +1,20 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 import logo from '@/assets/logo.png'
 
 import { FooterXBlockSvg, LogoSvg } from '../../Svg'
 
 export const Logo = ({ isHeader = false }: { isHeader?: boolean }) => {
+  const router = useRouter()
   return (
-    <div className="flex flex-col gap-2 justify-center items-center">
+    <div
+      onClick={() => {
+        router.push('/')
+      }}
+      className="hover:cursor-pointer flex flex-col gap-2 justify-center items-center"
+    >
       {!isHeader ? (
         <Image src={logo} className="w-[144px] h-[151px]" alt="logo" />
       ) : null}
