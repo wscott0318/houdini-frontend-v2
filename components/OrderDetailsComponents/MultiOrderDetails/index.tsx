@@ -1,4 +1,5 @@
 import { NeedHelp } from '@/components/NeedHelp'
+import { OrderDetailModalCollapsible } from '@/components/NextStep/NextStepModalCollapsible';
 
 export const MultipleOrders = ({ orders, t }: { orders: any; t: any }) => {
   return (
@@ -16,8 +17,23 @@ export const MultipleOrders = ({ orders, t }: { orders: any; t: any }) => {
       </div>
 
       <div className="flex flex-col last:pb-[165px] w-full">
-        <div className="flex flex-col items-center gap-[10px] w-full">
-          Modal Here
+        <div className="flex flex-col items-center justify-center gap-[100px] w-full">
+          {orders.map((order: any, index: number) => {
+            return (
+              <div key={order?.houdiniId}>
+                <OrderDetailModalCollapsible
+                  orderID={order?.houdiniId}
+                  creationTime={new Date(order?.created)}
+                  sendAmount={order?.inAmount}
+                  receiveAddress={order?.receiverAddress}
+                  deliveryTime="26 : 34"
+                  recipientAddress={order?.senderAddress}
+                  receiveAmount={order?.outAmount}
+                  tokenType={order?.outSymbol}
+                />
+              </div>
+            )
+          })}
           <div className="flex flex-col lg:px-[100px] lg:pt-[30px] pt-[30px]">
             <div className="lg:text-[17px] text-center font-medium leading-[21.42px] rainbow-text text-[#FFFFFF]">
               {t('nextStepReceive')}
