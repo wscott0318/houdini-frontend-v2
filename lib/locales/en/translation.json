@@ -482,5 +482,17 @@
 	"orderDetailsConverting": "CONVERTING",
 	"orderDetailsCompleted": "COMPLETED",
 	"totalSwapVolume": "Total Swap Volume",
-	"multiOrderPage": "Multi-Send"
+	"multiOrderPage": "Multi-Send",
+	"balanceboxTitle": "Your Balance",
+	"poolApyTitle": "Pool APY",
+	"poolApycustomerAvgApy": "Your Avg. APY",
+	"poolApyAccEarnings": "Accumulated Earnings",
+	"sidebarDashboard": "Dashboard",
+	"sidebarPerformance": "Performance",
+	"sidebarHistory": "History",
+	"sidebarNotifications": "Notifications",
+	"sidebarSettings": "Settings",
+	"sidebarWidthraw": "Widthraw",
+	"sidebarSupport": "Support",
+	"sidebarAccount": "Account"
 }
