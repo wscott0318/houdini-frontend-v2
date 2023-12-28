@@ -108,7 +108,7 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
       </IndustrialCounterLockup>
 
       <div className="pt-[15px] lg:px-[10px] pb-[5px] w-full">
-        <div className="p-[2.5px] w-full rounded-[20px] custom-houdini-id-gradient1">
+        <div className="p-[2px] w-full rounded-[20px] custom-houdini-id-gradient1">
           <div className="lg:flex flex-wrap lg:justify-between justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow lg:px-[30px] px-[5px] py-[10px]">
             <div className="sm:flex block lg:w-[60%] w-full lg:justify-between justify-center px-[4px] gap-4">
               <div className="text-center lg:text-[15.25px] lg:leading-[24px] text-[14px] font-bold text-opacity-60 text-[#FFFFFF99]">

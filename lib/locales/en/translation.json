@@ -494,5 +494,6 @@
 	"sidebarSettings": "Settings",
 	"sidebarWidthraw": "Widthraw",
 	"sidebarSupport": "Support",
-	"sidebarAccount": "Account"
+	"sidebarAccount": "Account",
+	"recieverAddress": "Receiver"
 }

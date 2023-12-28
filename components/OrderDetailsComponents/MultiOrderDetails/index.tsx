@@ -1,5 +1,5 @@
 import { NeedHelp } from '@/components/NeedHelp'
-import { OrderDetailModalCollapsible } from '@/components/NextStep/NextStepModalCollapsible';
+import { OrderDetailModalCollapsible } from '@/components/NextStep/NextStepModalCollapsible'
 
 export const MultipleOrders = ({ orders, t }: { orders: any; t: any }) => {
   return (
@@ -22,6 +22,7 @@ export const MultipleOrders = ({ orders, t }: { orders: any; t: any }) => {
             return (
               <div key={order?.houdiniId}>
                 <OrderDetailModalCollapsible
+                  status={order?.status}
                   orderID={order?.houdiniId}
                   creationTime={new Date(order?.created)}
                   sendAmount={order?.inAmount}
@@ -30,6 +31,7 @@ export const MultipleOrders = ({ orders, t }: { orders: any; t: any }) => {
                   recipientAddress={order?.senderAddress}
                   receiveAmount={order?.outAmount}
                   tokenType={order?.outSymbol}
+                  swapTime={30}
                 />
               </div>
             )

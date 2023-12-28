@@ -20,7 +20,7 @@ export const Clipboardbox = (props: ClipboardProps) => {
             <div className={`${props.textColor} ${props.fontSize} ${props.fontWeight} ${props.lineHeight} ${props.textOpacity} text-center`}>{props.concept}</div>
             <button onClick={copyToClipboard}>
                 <div className="text-base text-center text-[20px] font-extrabold">
-                    <CopySvg width={19} height={22}/>
+                    <CopySvg className="w-[20px] h-[20px]"/>
                 </div>
             </button>
         </div>
