@@ -17,7 +17,9 @@ import {
   Protocol7Svg,
   QRCodeSvg,
   QuestionSvg,
+  SwapSvg,
 } from '@/components/Svg'
+import { getEllipsisTxt } from '@/utils/helpers'
 
 interface OrderDetailModalProps {
   orderID: string
@@ -228,45 +230,98 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
         )}
       </motion.div>
 
-      <div className="pt-[15px] lg:px-[10px] pb-[5px] w-full">
-        <div className="p-[2px] w-full rounded-[20px] custom-houdini-id-gradient1">
-          <div className="lg:flex lg:justify-between justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow lg:px-[30px] px-[5px] py-[10px]">
-            <div className="sm:flex block lg:w-[60%] w-full lg:justify-start justify-center px-[4px] gap-2">
-              <div className="text-center lg:text-[15px] whitespace-nowrap lg:leading-[24px] text-[14px] font-bold text-opacity-60 text-[#FFFFFF99]">
-                {t('orderDetailModalRecipientWallet')}:
-              </div>
-              <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
-                {`${props.recipientAddress}`}
-              </div>
-            </div>
-            <div className="flex lg:w-[40%] lg:justify-start justify-center flex-row items-center gap-2.5 px-[4px]">
-              <div className="text-center lg:text-[15px] lg:leading-[24px] text-[14px] font-normal text-opacity-50 text-[#FFFFFF99]">
-                {t('orderDetailModalWillReceive')}
-              </div>
-              <div className="flex gap-2.5 items-center">
-                <div className="text-center lg:text-[15px] text-[14px] font-normal">
-                  {`${props.receiveAmount}`}
+      {props.status === 0 ? (
+        <div className="pt-[15px] lg:px-[10px] pb-[5px] w-full">
+          <div className="p-[2px] w-full rounded-[20px] custom-houdini-id-gradient1">
+            <div className="lg:flex lg:justify-between justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow lg:px-[30px] px-[5px] py-[10px]">
+              <div className="sm:flex block lg:w-auto w-full lg:justify-start justify-center px-[4px] gap-2">
+                <div className="text-center lg:text-[15px] whitespace-nowrap lg:leading-[24px] text-[14px] font-bold text-opacity-60 text-[#FFFFFF99]">
+                  {t('orderDetailModalRecipientWallet')}:
                 </div>
-                <Protocol4Svg />
-                <div className="text-base text-center lg:text-[15px] text-[14px] font-normal">
-                  {`${props.tokenType}`}
+                <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
+                  {getEllipsisTxt(props.recipientAddress)}
                 </div>
               </div>
-            </div>
-            <div className="flex flex-row justify-start items-center gap-2">
-              <CheckBox
-                defaultValue={false}
-                leftText=""
-                name="privateToggler"
-                // onChange={() => handlePrivateSwap(swap.id)}
-                rightText=""
-                disabled={true}
-              />
-              <div className="text-xs whitespace-nowrap">SEMI-PRIVATE</div>
+              <div className="flex lg:w-[40%] lg:justify-start justify-center flex-row items-center gap-2.5 px-[4px]">
+                <div className="text-center lg:text-[15px] lg:leading-[24px] text-[14px] font-normal text-opacity-50 text-[#FFFFFF99]">
+                  {t('orderDetailModalWillReceive')}
+                </div>
+                <div className="flex gap-2.5 items-center">
+                  <div className="text-center lg:text-[15px] text-[14px] font-normal">
+                    {`${props.receiveAmount}`}
+                  </div>
+                  <Protocol4Svg />
+                  <div className="text-base text-center lg:text-[15px] text-[14px] font-normal">
+                    {`${props.tokenType}`}
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-row justify-start items-center gap-2">
+                <CheckBox
+                  defaultValue={false}
+                  leftText=""
+                  name="privateToggler"
+                  // onChange={() => handlePrivateSwap(swap.id)}
+                  rightText=""
+                  disabled={true}
+                />
+                <div className="text-xs whitespace-nowrap">SEMI-PRIVATE</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="pt-[15px] lg:px-[10px] pb-[5px] w-full">
+          <div className="p-[2px] w-full rounded-[20px] custom-houdini-id-gradient1">
+            <div className="lg:flex lg:justify-between justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow lg:px-[30px] px-[5px] py-[10px]">
+              <div className="sm:flex block lg:w-auto w-full lg:justify-start justify-center px-[4px] gap-2">
+                <div className="text-center lg:text-[15px] whitespace-nowrap lg:leading-[24px] text-[14px] font-bold text-opacity-60 text-[#FFFFFF99]">
+                  {t('recieverAddress')}:
+                </div>
+                <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
+                  {getEllipsisTxt(props.recipientAddress)}
+                </div>
+              </div>
+              <div className="flex lg:w-[40%] lg:justify-start justify-center flex-row items-center gap-2.5 px-[4px]">
+                <div className="flex gap-2.5 items-center">
+                  <div className="text-center lg:text-[15px] text-[14px] font-normal">
+                    {`${props.receiveAmount}`}
+                  </div>
+                  <Protocol4Svg />
+                  <div className="text-base text-center lg:text-[15px] text-[14px] font-normal">
+                    {`${props.tokenType}`}
+                  </div>
+                </div>
+                <SwapSvg className="min-w-[15px] min-h-[15px]" />
+                <div className="flex gap-2.5 items-center">
+                  <div className="text-center lg:text-[15px] text-[14px] font-normal">
+                    {`${props.receiveAmount}`}
+                  </div>
+                  <Protocol4Svg />
+                  <div className="text-base text-center lg:text-[15px] text-[14px] font-normal">
+                    {`${props.tokenType}`}
+                  </div>
+                </div>
+              </div>
+              <div className="px-[4px] flex flex-row justify-start items-center gap-2">
+                <div>Status:</div>
+                <div>Send Funds</div>
+              </div>
+              <div className="flex flex-row justify-start items-center gap-2">
+                <CheckBox
+                  defaultValue={false}
+                  leftText=""
+                  name="privateToggler"
+                  // onChange={() => handlePrivateSwap(swap.id)}
+                  rightText=""
+                  disabled={true}
+                />
+                <div className="text-xs whitespace-nowrap">SEMI-PRIVATE</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </GeneralModal>
   )
 }

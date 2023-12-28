@@ -23,3 +23,10 @@ export const fixedFloat = (val: any, digits = 4) => {
   const multiplier = parseInt((input * 10 ** digits).toString())
   return multiplier / 10 ** digits
 }
+
+export const getEllipsisTxt = (str: string, n = 6) => {
+  if (str) {
+    return `${str.slice(0, n)}...${str.slice(str.length - n)}`
+  }
+  return ''
+}

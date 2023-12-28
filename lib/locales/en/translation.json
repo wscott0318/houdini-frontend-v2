@@ -482,5 +482,6 @@
 	"orderDetailsConverting": "CONVERTING",
 	"orderDetailsCompleted": "COMPLETED",
 	"totalSwapVolume": "Total Swap Volume",
-	"multiOrderPage": "Multi-Send"
+	"multiOrderPage": "Multi-Send",
+	"recieverAddress": "Receiver"
 }
