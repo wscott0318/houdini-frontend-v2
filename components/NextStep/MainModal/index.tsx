@@ -101,7 +101,7 @@ export const MainModal = () => {
           </IndustrialCounterLockup>
           
           <div className="pt-[15px] px-[10px] pb-[5px] w-full">
-              <div className="p-[2.5px] w-full rounded-[20px] custom-houdini-id-gradient1">
+              <div className="p-[2px] w-full rounded-[20px] custom-houdini-id-gradient1">
                 <div className="flex flex-row justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow px-[15px] py-[10px]">
                   <div className="text-center w-full text-[15.25px] leading-[24px] font-bold text-opacity-60">
                     Recipient Wallet:
