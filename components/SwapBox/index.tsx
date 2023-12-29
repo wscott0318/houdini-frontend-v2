@@ -1,21 +1,19 @@
-import { useLazyQuery, useQuery } from '@apollo/client'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import {
-  CheckBox,
-  Dropdown,
   HoudiniButton,
   SecondaryButton,
   SingleMultiSend,
-  TextField,
 } from 'houdini-react-sdk'
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import uniqid from 'uniqid'
 
-import upDown from '@/assets/up-down.png'
 import { GeneralModal } from '@/components/GeneralModal'
 import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCounterLockup'
 import {
   GET_NETWORKS,
+  MULTI_EXCHANGE_MUTATION,
   TOKENS_QUERY,
   createMultiplePriceQuery,
 } from '@/lib/apollo/query'
@@ -47,12 +45,8 @@ export const SwapBox = () => {
 
   const isXMR = tokenIn === 'XMR' || tokenOut === 'XMR'
 
-  const [privateSwap, setPrivate] = useState(false)
-  const [variableSwap, setVariable] = useState(false)
   const [direction, setDirection] = useState(false)
   const [isMulti, setIsMulti] = useState(false)
-  // TODO: CHANGE THIS
-  const [multiId, setMultiId] = useState<string>('wENSG7UKmEUZRdwdK3sw6x')
 
   const [initialSendInput, setInitialSendInput] = useState<SendReceiveInput>({
     ...initialInput,
@@ -131,23 +125,30 @@ export const SwapBox = () => {
     quoteQuery,
     {
       onError: (err) => {
-        console.error('price quote error', err)
+        toast.error(`price quote error: ${err}`)
       },
       onCompleted: (data) => {
         Object.keys(data).map((key) => {
           const swapId = key.replace('quote_', '')
           const quote = data[key]?.quote
+          const error = data[key].error
+
+          if (error) {
+            toast.error(error.message)
+
+            return
+          }
+
           swaps.forEach((swap) => {
             if (swap.id === swapId) {
               if (!quote) {
-                // @Matomo
                 if (
                   (data[key]?.error &&
                     swap.receive.value &&
                     swap.direction === 'to') ||
                   (swap.send.value && swap.direction === 'from')
                 ) {
-                  console.error(data[key].error)
+                  toast.error(data[key].error)
 
                   if (swap.fixed && swap.direction === 'to') {
                     swap.send.value = '0'
@@ -178,11 +179,11 @@ export const SwapBox = () => {
                 swap.send.value = fixedFloat(amountIn).toString()
 
                 if (dataAmmountIn === -1) {
-                  console.error('missing quote fixes')
+                  toast.error('missing quote fixes')
                 }
               } else {
                 if (swap.fixed && dataAmmountOut === -1) {
-                  console.error('missing quote fixes')
+                  toast.error('missing quote fixes')
                 }
 
                 swap.receive.value = fixedFloat(amountOut).toString()
@@ -192,6 +193,10 @@ export const SwapBox = () => {
         })
       },
     },
+  )
+
+  const [exchange, { loading: isLoadingExchange }] = useMutation(
+    MULTI_EXCHANGE_MUTATION,
   )
 
   const callPriceAPI = useCallback(async () => {
@@ -249,7 +254,7 @@ export const SwapBox = () => {
       const defaultInToken = tokens.find((v: Token) => v.id === tokenIn)
       if (!defaultInToken) {
         const msg = `Send token not found in the tokens list`
-        console.error(msg)
+        toast.error(msg)
       }
 
       const newIn: SendReceiveInput = {
@@ -266,7 +271,8 @@ export const SwapBox = () => {
 
       if (!defaultOutToken) {
         const msg = `Receive token not found in the tokens list`
-        console.error(msg)
+
+        toast.error(msg)
       }
 
       const newOut: SendReceiveInput = {
@@ -307,8 +313,6 @@ export const SwapBox = () => {
 
       return { ...swap }
     })
-
-    console.log(updatedSwaps)
 
     setSwaps(updatedSwaps)
   }
@@ -364,13 +368,13 @@ export const SwapBox = () => {
 
     if (currentSwap) {
       if (currentSwap.send.value === '') {
-        console.error('send value is 0')
+        toast.error('send value is 0')
 
         return
       }
 
       if (currentSwap.receiveAddress === '') {
-        console.error('receiver address is empty')
+        toast.error('receiver address is empty')
 
         inputElem?.focus()
 
@@ -384,7 +388,7 @@ export const SwapBox = () => {
       const validRes = validateWalletAddress(currentSwap.receiveAddress, token)
 
       if (!validRes) {
-        console.error('invalid address')
+        toast.error('invalid address')
 
         inputElem?.focus()
 
@@ -424,7 +428,8 @@ export const SwapBox = () => {
       currentSwap?.anonymous &&
       currentSwap.send.name === currentSwap.receive.name
     ) {
-      console.error('Please select a different pair')
+      toast.error('Please select a different pair')
+
       return
     }
 
@@ -515,7 +520,6 @@ export const SwapBox = () => {
     if (currentSwap?.id === swapId) {
       setCurrentSwap(null)
     }
-    // filteredSwaps[filteredSwaps.length - 1].collapsed = false;
 
     setSwaps(filteredSwaps)
   }
@@ -537,9 +541,27 @@ export const SwapBox = () => {
     setSwaps([...updatedSwaps])
   }
 
-  const handleSwapProceed = () => {
-    // TODO: CHECK if is able to click this button and move to the order details page
-    if (isMulti) {
+  const disabledProceed =
+    isLoadingExchange ||
+    isPriceQuoting ||
+    !(currentSwap?.send.value && currentSwap.receiveAddress)
+
+  const handleSwapProceed = async () => {
+    const orders = swaps.map((swap) => ({
+      amount: parseFloat(swap.send.value),
+      from: swap.send.name,
+      to: swap.receive.name,
+      addressTo: swap.receiveAddress,
+      anonymous: swap.anonymous,
+    }))
+
+    const response = await exchange({
+      variables: { orders },
+    })
+
+    const multiId = response.data.multiExchange[0].order.multiId
+
+    if (multiId) {
       router.push(`/order-details?multiId=${multiId}`)
     }
   }
@@ -598,6 +620,7 @@ export const SwapBox = () => {
             text={'Proceed'}
             onClick={handleSwapProceed}
             type={isMulti ? 'secondary' : 'primary'}
+            disabled={disabledProceed}
           />
         </IndustrialCounterLockup>
       </GeneralModal>
