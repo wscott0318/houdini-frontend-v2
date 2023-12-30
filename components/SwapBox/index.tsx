@@ -1,6 +1,7 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import {
   HoudiniButton,
+  Refresh,
   SecondaryButton,
   SingleMultiSend,
 } from 'houdini-react-sdk'
@@ -23,7 +24,7 @@ import { SwapForm } from './SwapForm'
 
 const uuid = uniqid()
 
-export const SwapBox = () => {
+export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
   const router = useRouter()
 
   const locationParams = new URLSearchParams()
@@ -125,7 +126,7 @@ export const SwapBox = () => {
     quoteQuery,
     {
       onError: (err) => {
-        toast.error(`price quote error: ${err}`)
+        toast.error(`${i18n?.priceQuoteError || 'Price quote error:'} ${err}`)
       },
       onCompleted: (data) => {
         Object.keys(data).map((key) => {
@@ -183,7 +184,9 @@ export const SwapBox = () => {
                 }
               } else {
                 if (swap.fixed && dataAmmountOut === -1) {
-                  toast.error('missing quote fixes')
+                  toast.error(
+                    i18n?.missingQuoteFixesError || 'Missing quote fixes',
+                  )
                 }
 
                 swap.receive.value = fixedFloat(amountOut).toString()
@@ -217,6 +220,23 @@ export const SwapBox = () => {
     }
   }, [swaps])
 
+  const APIcall = () => {
+    if (isPriceQuoting) {
+      return
+    }
+
+    const current = swaps[swaps.length - 1]
+
+    if (
+      (current.direction === 'from' &&
+        (current.send.value === '' || current.send.value === '0')) ||
+      (current.direction === 'to' &&
+        (current.receive.value === '' || current.receive.value === '0'))
+    ) {
+      toast.warning(i18n?.noSendAmountError || 'Please enter send amount.')
+    } else callPriceAPI()
+  }
+
   useEffect(() => {
     if (timeoutId) {
       clearTimeout(timeoutId)
@@ -228,9 +248,9 @@ export const SwapBox = () => {
           (swap) => swap.send.value || swap.receive.value,
         )
         if (canQuote) {
-          console.log(JSON.parse(JSON.stringify(debouncedSwaps)))
           setSwaps(JSON.parse(JSON.stringify(debouncedSwaps)))
           setQuoteQuery(createMultiplePriceQuery(swaps))
+
           callPriceAPI()
         }
       }, 2000),
@@ -253,8 +273,10 @@ export const SwapBox = () => {
     if (tokens && tokens.length) {
       const defaultInToken = tokens.find((v: Token) => v.id === tokenIn)
       if (!defaultInToken) {
-        const msg = `Send token not found in the tokens list`
-        toast.error(msg)
+        toast.error(
+          i18n?.sendTokenNotFoundError ||
+            'Send token not found in the tokens list',
+        )
       }
 
       const newIn: SendReceiveInput = {
@@ -270,9 +292,10 @@ export const SwapBox = () => {
       const defaultOutToken = tokens.find((v: Token) => v.id === tokenOut)
 
       if (!defaultOutToken) {
-        const msg = `Receive token not found in the tokens list`
-
-        toast.error(msg)
+        toast.error(
+          i18n?.receiveTokenNotFoundError ||
+            'Receive token not found in the tokens list',
+        )
       }
 
       const newOut: SendReceiveInput = {
@@ -368,13 +391,15 @@ export const SwapBox = () => {
 
     if (currentSwap) {
       if (currentSwap.send.value === '') {
-        toast.error('send value is 0')
+        toast.error(i18n?.noSendAmountError || 'Please enter send amount.')
 
         return
       }
 
       if (currentSwap.receiveAddress === '') {
-        toast.error('receiver address is empty')
+        toast.error(
+          i18n?.emptyReceiverAddressError || 'Receiver address is empty',
+        )
 
         inputElem?.focus()
 
@@ -388,7 +413,7 @@ export const SwapBox = () => {
       const validRes = validateWalletAddress(currentSwap.receiveAddress, token)
 
       if (!validRes) {
-        toast.error('invalid address')
+        toast.error(i18n?.invalidAddressError || 'Invalid address')
 
         inputElem?.focus()
 
@@ -428,7 +453,7 @@ export const SwapBox = () => {
       currentSwap?.anonymous &&
       currentSwap.send.name === currentSwap.receive.name
     ) {
-      toast.error('Please select a different pair')
+      toast.error(i18n?.tokenPairError || 'Please select a different pair')
 
       return
     }
@@ -573,17 +598,20 @@ export const SwapBox = () => {
           <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center w-full gap-[16px]">
             <div className="flex flex-col justify-center items-center sm:items-start gap-[16px]">
               <div className="text-[28px] whitespace-nowrap sm:text-[34px] font-bold leading-[38px] text-white">
-                Swap-Send-Bridge
+                {i18n?.swapBoxTitle || 'Swap-Send-Bridge'}
               </div>
               <div className="text-[15px] font-medium font-poppins rainbow-text">
-                Private, Compliant, No Sign Up
+                {i18n?.swapBoxSubTitle || 'Private, Compliant, No Sign Up'}
               </div>
             </div>
-            <SingleMultiSend
-              multiSendText="Multi"
-              onChange={handleMultiSend}
-              singleText="Single"
-            />
+            <div className="flex gap-2">
+              <SingleMultiSend
+                multiSendText={i18n?.multiSendLeftText || 'Multi'}
+                onChange={handleMultiSend}
+                singleText={i18n?.multiSendRightText || 'Single'}
+              />
+              <Refresh animate={isPriceQuoting} onClick={APIcall} />
+            </div>
           </div>
 
           {swaps.map((swap) => (
@@ -602,22 +630,39 @@ export const SwapBox = () => {
               handleReceiveAddress={handleReceiveAddress}
               handleDelete={handleDelete}
               handleExpand={handleExpand}
+              i18n={{
+                privateLeftText: i18n?.privateLeftText,
+                privateRightText: i18n?.privateRightText,
+                variableLeftText: i18n?.variableLeftText,
+                variableRightText: i18n?.variableRightText,
+                sendInputLabel: i18n?.sendInputLabel,
+                receiveInputLabel: i18n?.receiveInputLabel,
+                sendCurrencyTitle: i18n?.sendCurrencyTitle,
+                sendCurrencySubtitle: i18n?.sendCurrencySubtitle,
+                receiveCurrencyTitle: i18n?.receiveCurrencyTitle,
+                receiveCurrencySubtitle: i18n?.receiveCurrencySubtitle,
+                receiverWalletLabel: i18n?.receiverWalletLabel,
+                receiverWalletPlaceholder: i18n?.receiverWalletPlaceholder,
+              }}
             />
           ))}
 
           {isMulti ? (
             <div className="flex justify-between w-full mt-2">
-              <SecondaryButton text="Save order" />
-              <SecondaryButton text="Add swap" onClick={handleAddNewSwap} />
+              <SecondaryButton text={i18n?.saveOrderText || 'Save order'} />
+              <SecondaryButton
+                text={i18n?.addSwapText || 'Add swap'}
+                onClick={handleAddNewSwap}
+              />
             </div>
           ) : null}
 
           <div className="gradient-text my-[20px] font-medium text-xs font-poppins">
-            Only send To/From wallets. Transactions sent To/From smart contracts
-            are not accepted
+            {i18n?.bottomText ||
+              'Only send To/From wallets. Transactions sent To/From smart contracts are not accepted'}
           </div>
           <HoudiniButton
-            text={'Proceed'}
+            text={i18n?.proceedButtonText || 'Proceed'}
             onClick={handleSwapProceed}
             type={isMulti ? 'secondary' : 'primary'}
             disabled={disabledProceed}

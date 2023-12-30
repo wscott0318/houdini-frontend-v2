@@ -43,6 +43,7 @@ import {
   XenifySvg,
 } from '@/components/Svg'
 import { SwapVolume } from '@/components/SwapVolume'
+import { swapFormi18n, swapi18n } from '@/utils/constants'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
 const partnersIcons = [
@@ -112,7 +113,7 @@ export default function Home() {
         </div>
       </div>
 
-      <SwapBox />
+      <SwapBox i18n={{ ...swapFormi18n, ...swapi18n }} />
 
       <div className="rainbow-text flex flex-col justify-center items-center text-center">
         <div>
