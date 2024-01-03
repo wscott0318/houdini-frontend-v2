@@ -1,3 +1,5 @@
+import { ORDER_STATUS } from './constants'
+
 export const validateWalletAddress = (addressTo: string, token: Token) => {
   let validator = token?.network?.addressValidation
 
@@ -29,4 +31,11 @@ export const getEllipsisTxt = (str: string, n = 6) => {
     return `${str.slice(0, n)}...${str.slice(str.length - n)}`
   }
   return ''
+}
+
+export const getOrderStatusKey = (statusValue: number) => {
+  const entry = Object.entries(ORDER_STATUS).find(
+    ([key, value]) => value === statusValue,
+  )
+  return entry ? entry[0] : null // return the key if found, otherwise return null
 }

@@ -31,6 +31,7 @@ export const NextStep = ({ order }: { order: any }) => {
             recipientAddress={order?.senderAddress}
             receiveAmount={order?.outAmount}
             tokenType={order?.outSymbol}
+            order={order}
           />
           <div className="flex flex-col lg:px-[100px] lg:pt-[30px] pt-[30px]">
             <div className="lg:text-[17px] text-center font-medium leading-[21.42px] rainbow-text text-[#FFFFFF]">

@@ -56,3 +56,16 @@ export const swapi18n = {
   invalidAddressError: i18n.t('invalidAddressError') as string,
   tokenPairError: i18n.t('tokenPairError') as string,
 }
+
+export const ORDER_STATUS = {
+  NEW: -1,
+  WAITING: 0,
+  CONFIRMING: 1,
+  EXCHANGING: 2,
+  ANONYMIZING: 3,
+  FINISHED: 4,
+  EXPIRED: 5,
+  FAILED: 6,
+  REFUNDED: 7,
+  DELETED: 8,
+}
