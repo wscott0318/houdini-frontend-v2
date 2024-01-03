@@ -71,26 +71,11 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
           <div className="items-center w-full justify-center">
             <MetalboarderedTransRoundbox>
               <div className="relative flex flex-col lg:flex-row gap-[32px] px-[50px] py-[30px]">
-                <ProgressProvider
-                  valueStart={0}
-                  valueEnd={100}
-                ></ProgressProvider>
-                <ProgressProvider
-                  valueStart={0}
-                  valueEnd={100}
-                ></ProgressProvider>
-                <ProgressProvider
-                  valueStart={10}
-                  valueEnd={40}
-                ></ProgressProvider>
-                <ProgressProvider
-                  valueStart={90}
-                  valueEnd={50}
-                ></ProgressProvider>
-                <ProgressProvider
-                  valueStart={0}
-                  valueEnd={0}
-                ></ProgressProvider>
+                <ProgressProvider valueStart={0} valueEnd={100} />
+                <ProgressProvider valueStart={0} valueEnd={100} />
+                <ProgressProvider valueStart={10} valueEnd={40} />
+                <ProgressProvider valueStart={90} valueEnd={50} />
+                <ProgressProvider valueStart={0} valueEnd={0} />
               </div>
             </MetalboarderedTransRoundbox>
           </div>

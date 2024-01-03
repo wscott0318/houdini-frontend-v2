@@ -192,26 +192,11 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
               <div className="items-center w-full justify-center">
                 <MetalboarderedTransRoundbox>
                   <div className="relative flex flex-col lg:flex-row py-[30px] gap-4">
-                    <ProgressProvider
-                      valueStart={0}
-                      valueEnd={100}
-                    ></ProgressProvider>
-                    <ProgressProvider
-                      valueStart={0}
-                      valueEnd={100}
-                    ></ProgressProvider>
-                    <ProgressProvider
-                      valueStart={10}
-                      valueEnd={40}
-                    ></ProgressProvider>
-                    <ProgressProvider
-                      valueStart={90}
-                      valueEnd={50}
-                    ></ProgressProvider>
-                    <ProgressProvider
-                      valueStart={0}
-                      valueEnd={0}
-                    ></ProgressProvider>
+                    <ProgressProvider valueStart={0} valueEnd={100} />
+                    <ProgressProvider valueStart={0} valueEnd={100} />
+                    <ProgressProvider valueStart={10} valueEnd={40} />
+                    <ProgressProvider valueStart={90} valueEnd={50} />
+                    <ProgressProvider valueStart={0} valueEnd={0} />
                   </div>
                 </MetalboarderedTransRoundbox>
               </div>
