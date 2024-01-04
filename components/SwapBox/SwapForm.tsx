@@ -22,6 +22,7 @@ interface SwapFormProps {
   handleReceiveAddress: (value: string, id: string) => void
   handleDelete: (value: string) => void
   handleExpand: (value: string) => void
+  i18n?: SwapFormi18n
 }
 
 export const SwapForm: React.FC<SwapFormProps> = ({
@@ -38,6 +39,7 @@ export const SwapForm: React.FC<SwapFormProps> = ({
   handleReceiveAddress,
   handleDelete,
   handleExpand,
+  i18n,
 }) => {
   return (
     <>
@@ -53,7 +55,11 @@ export const SwapForm: React.FC<SwapFormProps> = ({
             receiveIcon={swap.receive.icon as string}
             receiveAddress={swap.receiveAddress}
             anonymous={!!swap.anonymous}
-            anonymousText={swap.anonymous ? 'Private' : 'Semi-Private'}
+            anonymousText={
+              swap.anonymous
+                ? i18n?.privateLeftText || 'Private'
+                : i18n?.privateRightText || 'Semi Private'
+            }
             handleDelete={(id) => handleDelete(id)}
             handleExpand={(id) => handleExpand(id)}
           />
@@ -63,31 +69,31 @@ export const SwapForm: React.FC<SwapFormProps> = ({
           <div className="flex flex-col my-[20px] sm:my-0 sm:flex-row gap-4 justify-between items-start sm:items-center w-full">
             <CheckBox
               defaultValue={true}
-              leftText="Private"
+              leftText={i18n?.privateLeftText || 'Private'}
               name="privateToggler"
               onChange={() => handlePrivateSwap(swap.id)}
-              rightText="Semi Private"
+              rightText={i18n?.privateRightText || 'Semi Private'}
             />
             <CheckBox
               defaultValue={true}
-              leftText="Variable"
+              leftText={i18n?.variableLeftText || 'Variable'}
               name="variableToggler"
               onChange={() => handleVariableSwap(swap.id)}
-              rightText="Exact"
+              rightText={i18n?.variableRightText || 'Exact'}
             />
           </div>
           <div className="flex flex-col sm:flex-row justify-start -space-y-6 sm:space-y-0 items-center gap-[14px] sm:-space-x-7 w-full">
             <TextField
               id="send"
-              label="Send:"
+              label={i18n?.sendInputLabel || 'Send:'}
               placeholder="0.0"
               onChange={(e) => handleChange(e, swap.id)}
               value={swap.send.value}
             >
               {!loading ? (
                 <Dropdown
-                  title="Sending Currency"
-                  subtitle="Popular Protocols"
+                  title={i18n?.sendCurrencyTitle || 'Sending Currency'}
+                  subtitle={i18n?.sendCurrencySubtitle || 'Popular Protocols'}
                   target="#portal"
                   networks={networks || []}
                   tokens={tokens || []}
@@ -112,7 +118,7 @@ export const SwapForm: React.FC<SwapFormProps> = ({
             />
             <TextField
               id="receive"
-              label="Receive:"
+              label={i18n?.receiveInputLabel || 'Receive:'}
               placeholder="0.0"
               onChange={(e) => handleChange(e, swap.id, true)}
               disabled={!swap.fixed}
@@ -120,8 +126,10 @@ export const SwapForm: React.FC<SwapFormProps> = ({
             >
               {!loading ? (
                 <Dropdown
-                  title="Receiving Currency"
-                  subtitle="Popular Protocols"
+                  title={i18n?.receiveCurrencyTitle || 'Receiving Currency'}
+                  subtitle={
+                    i18n?.receiveCurrencySubtitle || 'Popular Protocols'
+                  }
                   target="#portal"
                   networks={networks || []}
                   tokens={tokens || []}
@@ -137,8 +145,13 @@ export const SwapForm: React.FC<SwapFormProps> = ({
           <div className="w-full my-[20px] sm:my-0">
             <TextField
               id="receivingWallet"
-              label="Receiving Wallet (BTC) Address:"
-              placeholder="Receiving Wallet (BTC) Address"
+              label={
+                i18n?.receiveInputLabel || 'Receiving Wallet (BTC) Address:'
+              }
+              placeholder={
+                i18n?.receiverWalletPlaceholder ||
+                'Receiving Wallet (BTC) Address'
+              }
               onChange={(e) => handleReceiveAddress(e.target.value, swap.id)}
             />
           </div>

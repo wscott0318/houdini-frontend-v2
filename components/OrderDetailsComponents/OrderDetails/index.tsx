@@ -28,6 +28,7 @@ export const OrderDetails = ({ order }: { order: any }) => {
             orderId={order?.houdiniId}
             tokenType={order?.outSymbol}
             swapTime={30}
+            order={order}
           />
           <div className="flex py-[10px] md:px-[100px] md:py-[50px] items-center w-full">
             <div className="flex py-[10px] md:px-[100px] md:py-[20px] items-center w-full justify-center">

@@ -22,6 +22,7 @@ export const MultipleOrders = ({ orders, t }: { orders: any; t: any }) => {
             return (
               <div key={order?.houdiniId}>
                 <OrderDetailModalCollapsible
+                  order={order}
                   status={order?.status}
                   orderID={order?.houdiniId}
                   creationTime={new Date(order?.created)}

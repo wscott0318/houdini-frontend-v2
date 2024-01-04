@@ -1,3 +1,5 @@
+import { useQuery } from '@apollo/client'
+import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { GeneralModal } from '@/components/GeneralModal'
@@ -5,8 +7,9 @@ import { Clipboardbox } from '@/components/GeneralModal/Clipboardbox'
 import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCounterLockup'
 import { MetalboarderedTransRoundbox } from '@/components/GeneralModal/MetalboarderedTransRoundbox'
 import { OrderDetailRoundbox } from '@/components/GeneralModal/OrderDetailRoundbox'
-import ProgressProvider from '@/components/GeneralModal/ProgressProvider'
+import { OrderProgress } from '@/components/OrderProgress'
 import { Protocol4Svg } from '@/components/Svg'
+import { TOKENS_QUERY } from '@/lib/apollo/query'
 
 interface OrderDetailsModalProps {
   orderId: string
@@ -15,10 +18,13 @@ interface OrderDetailsModalProps {
   receiveAmount: number
   tokenType: string
   swapTime: number
+  order: any
 }
 
 export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
   const { t } = useTranslation()
+  const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
+
   const DateFormatter = () => {
     const date = props.creationTime
     const formatter = new Intl.DateTimeFormat('en-US', {
@@ -40,6 +46,21 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
     const formattedTime = formatter.format(date)
     return formattedTime
   }
+
+  const findTokenBySymbol = useCallback(
+    (symbol: string) => {
+      if (!loading) {
+        const tokens = tokensData?.tokens
+        const token = tokens?.find((token: any) => token.symbol === symbol)
+        return token
+          ? { displayName: token.displayName, icon: token.icon }
+          : null
+      }
+      return { displayName: '', icon: '' }
+    },
+    [loading],
+  )
+
   return (
     <GeneralModal>
       <div className="md:flex md:flex-row block md:justify-between lg:gap-0 gap-[5px] items-center justify-center w-full px-[10px] py-[5px]">
@@ -71,26 +92,7 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
           <div className="items-center w-full justify-center">
             <MetalboarderedTransRoundbox>
               <div className="relative flex flex-col lg:flex-row gap-[32px] px-[50px] py-[30px]">
-                <ProgressProvider
-                  valueStart={0}
-                  valueEnd={100}
-                ></ProgressProvider>
-                <ProgressProvider
-                  valueStart={0}
-                  valueEnd={100}
-                ></ProgressProvider>
-                <ProgressProvider
-                  valueStart={10}
-                  valueEnd={40}
-                ></ProgressProvider>
-                <ProgressProvider
-                  valueStart={90}
-                  valueEnd={50}
-                ></ProgressProvider>
-                <ProgressProvider
-                  valueStart={0}
-                  valueEnd={0}
-                ></ProgressProvider>
+                <OrderProgress orderStatus={props?.order?.status} />
               </div>
             </MetalboarderedTransRoundbox>
           </div>
@@ -124,11 +126,15 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
               </div>
               <div className="flex gap-2.5 items-center">
                 <div className="text-center lg:text-[15.25px] text-[14px] font-normal">
-                  {`${props.receiveAmount}`}
+                  {props?.order?.outAmount}
                 </div>
-                <Protocol4Svg />
+                <img
+                  src={findTokenBySymbol(props?.order?.outSymbol)?.icon}
+                  className="w-[20px] h-[20px]"
+                  alt="outSymbol"
+                />
                 <div className="text-base text-center lg:text-[15.25px] text-[14px] font-normal">
-                  {`${props.tokenType}`}
+                  {findTokenBySymbol(props?.order?.outSymbol)?.displayName}
                 </div>
               </div>
             </div>
