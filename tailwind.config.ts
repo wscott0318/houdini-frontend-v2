@@ -183,7 +183,25 @@ const config: Config = {
         },
         '.custom-QTA-button-clicked-background': {
           background: 'linear-gradient(111deg, #CAB4FF 10.37%, #D377FF 80.96%)'
-        }
+        },
+        '.custom-xBlock-gold-gradient-text': {
+          background:
+            'linear-gradient(106deg, #FB792F 23.3%, #F3C755 97.04%, #F5C341 164.88%)',
+          '-webkit-background-clip': 'text',
+          '-webkit-text-fill-color': 'transparent',
+        },
+        '.custom-xBlock-blue-gradient-text': {
+          background:
+            'linear-gradient(180deg, #9687FF 0%, #334AD3 100%)',
+          '-webkit-background-clip': 'text',
+          '-webkit-text-fill-color': 'transparent',
+        },
+        '.custom-xBlock-purple-gradient-text': {
+          background:
+          'linear-gradient(180deg, #BCAAFF 0%, #B364D1 100%)',
+          '-webkit-background-clip': 'text',
+          '-webkit-text-fill-color': 'transparent',
+        },
       }
       addUtilities(newUtilities, ['responsive', 'hover'])
     },

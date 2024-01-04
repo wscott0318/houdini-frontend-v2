@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 
-interface QTAButtonProps {
-  text: string,
-  width: string,
+interface CTAButtonProps {
+  width?: string,
   height: string,
   onClick?: () => void;
+  children?: React.ReactNode;
 }
 
-export default function QTAButton(props: QTAButtonProps) {
+export default function CTAButton(props: CTAButtonProps) {
   const [isHovered, setIsHovered] = useState(false);
-
+  const width = props.width || 'auto';
   const handleMouseEnter = () => {
     setIsHovered(true);
   }
@@ -17,16 +17,15 @@ export default function QTAButton(props: QTAButtonProps) {
   const handleMouseLeave = () => {
     setIsHovered(false);
   }
-  
   return (
-    <div className={`p-[2px] rounded-[12px] custom-QTY-button-outline w-[${props.width}] h-[${props.height}]`}
+    <div className={`p-[2px] rounded-[12px] custom-QTY-button-outline h-[${props.height}] w-[${props.width || 'auto'}]`}
       style={{cursor: 'pointer'}}
       onClick={props.onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="items-center justify-center px-[20px] py-[6px] rounded-[12px] h-full w-full bg-black text-[16px] font-semibold hover:custom-QTA-button-hover-background">
-        <span>{props.text}</span>
+      <div className={`items-center justify-center px-[20px] py-[12px] rounded-[12px] bg-black text-[16px] font-semibold hover:custom-QTA-button-hover-background`}>
+        {props.children}
       </div>
     </div>
   );

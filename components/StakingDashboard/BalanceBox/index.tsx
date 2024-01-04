@@ -1,9 +1,11 @@
 import React from 'react'
-import DonutChart from './DonutChart';
+import HalfCircledDonutChart from './HalfCircledDonutChart';
 import Image from 'next/image';
 import LockTokenIcon1 from '@/assets/LockTokenIcon1.png'
 import LockTokenIcon2 from '@/assets/LockTokenIcon2.png'
 import { useTranslation } from 'react-i18next'
+import CTAButton from '../CTAButton';
+import { StakeMoreSvg } from '@/components/Svg';
 
 const donutData = [
   {name: "deposited", value: 50},
@@ -17,10 +19,12 @@ const BalanceBox = () => {
         <div className="flex flex-col justify-between w-full h-full">
           <div className='flex flex-col justify-start items-start '>
             <div className='flex flex-col gap-[26px]'>
-            {t('balanceboxTitle')}
+              {t('balanceboxTitle')}
+              <div className='relative w-[198px] h-[109px]'>
+                <HalfCircledDonutChart />
+              </div>
             </div>
-            <div className='flex flex-col gap-[20px]'>
-              <DonutChart data={donutData}  />
+            <div className='flex flex-col pt-[20px]'>
               <div className='flex flex-col'>
                 <div className='text-[18px] font-normal text-[#D9D9D9] leading-normal'>Total $LOCK Balance</div>
                 <div className='text-[50px] font-normal leading-normal'>45,492.07</div>
@@ -47,6 +51,17 @@ const BalanceBox = () => {
             </div>
           </div>
           <div className="flex flex-row justify-between">
+            <CTAButton height='48px'>
+              <div className='flex flex-row gap-[7px] justify-center items-center'>
+                <span className="text-[16px] font-semibold">Buy $LOCK</span>
+              </div>
+            </CTAButton>
+            <CTAButton height='48px'>
+              <div className='flex flex-row gap-[7px] justify-center items-center'>
+                <StakeMoreSvg className="w-[16px] h-[16px]"/>
+                <span className="text-[16px] font-semibold">Stake More</span>
+              </div>
+            </CTAButton>
           </div>
         </div>
       </div>

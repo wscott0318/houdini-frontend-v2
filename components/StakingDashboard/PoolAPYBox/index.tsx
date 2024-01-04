@@ -1,8 +1,9 @@
 import React from 'react'
-import BarChart from './BarChart';
-import QTAButton from '../CTAButton';
+import CTAButton from '../CTAButton';
+
 import {
-  InfoCircleSvg
+  InfoCircleSvg,
+  ShareSvg
 } from '@/components/Svg'
 import { useTranslation } from 'react-i18next'
 
@@ -30,11 +31,16 @@ const PoolAPYBox = () => {
               <InfoCircleSvg className="w-[20px] h-[20px]" />
             </div>
             <div>
-              <BarChart />
+              {/* <BarChart /> */}
             </div>
           </div>
-          <div className="justify-center items-center">
-            <QTAButton text="Share" width="204px" height="48px"/>
+          <div className="justify-center items-center w-full flex">
+            <CTAButton width="204px" height="48px">
+              <div className='justify-center items-center w-full text-center flex flex-row gap-[7px]'>
+                <ShareSvg className="w-[14px] h-[14px]"/>
+                <span>Share</span>
+              </div>
+            </CTAButton>
           </div>
         </div>
       </div>
