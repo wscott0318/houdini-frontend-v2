@@ -1,5 +1,5 @@
-import { CardComponent, Portal } from 'houdini-react-sdk'
-import React from 'react'
+import { CardComponent } from 'houdini-react-sdk'
+import React, { useEffect } from 'react'
 import QRCode from 'react-qr-code'
 
 import { XLetterSvg } from '../Svg'
@@ -12,6 +12,10 @@ export const QrCode: React.FC<QrCodeProps> = ({
   const handleCloseQrModal = () => {
     setQrCodeModal(false)
   }
+
+  useEffect(() => {
+    console.log('is in qr code modal')
+  }, [])
 
   return (
     <CardComponent widthClass={'100%'} heightClass={'100%'}>

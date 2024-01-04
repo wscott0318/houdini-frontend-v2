@@ -11,20 +11,11 @@ import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCou
 import { MetalboarderedRoundbox } from '@/components/GeneralModal/MetalboarderedRoundbox'
 import { MetalboarderedTransRoundbox } from '@/components/GeneralModal/MetalboarderedTransRoundbox'
 import { OrderDetailRoundbox } from '@/components/GeneralModal/OrderDetailRoundbox'
-import ProgressProvider from '@/components/GeneralModal/ProgressProvider'
 import { WalletRoundbox } from '@/components/GeneralModal/WalletRoundbox'
 import { OrderProgress } from '@/components/OrderProgress'
 import { QrCode } from '@/components/QRCode'
-import {
-  ChevronSvg,
-  Protocol4Svg,
-  Protocol7Svg,
-  QRCodeSvg,
-  QuestionSvg,
-  SwapSvg,
-} from '@/components/Svg'
+import { ChevronSvg, QRCodeSvg, SwapSvg } from '@/components/Svg'
 import { TOKENS_QUERY } from '@/lib/apollo/query'
-import { ORDER_STATUS } from '@/utils/constants'
 import { getEllipsisTxt, getOrderStatusKey } from '@/utils/helpers'
 
 interface OrderDetailModalProps {
@@ -232,7 +223,7 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                 <div className="items-center w-full justify-center">
                   <MetalboarderedTransRoundbox>
                     <div className="relative flex flex-col lg:flex-row py-[30px] gap-4">
-                      <OrderProgress orderStatus={props?.order?.status} />
+                      <OrderProgress order={props?.order} />
                     </div>
                   </MetalboarderedTransRoundbox>
                 </div>

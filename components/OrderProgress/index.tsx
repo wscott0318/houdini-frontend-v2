@@ -7,7 +7,7 @@ import { ORDER_STATUS } from '@/utils/constants'
 
 import ProgressProvider from '../GeneralModal/ProgressProvider'
 
-export const OrderProgress = ({ orderStatus }: { orderStatus: number }) => {
+export const OrderProgress = ({ order }: { order: any }) => {
   const { t } = useTranslation()
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
@@ -20,7 +20,7 @@ export const OrderProgress = ({ orderStatus }: { orderStatus: number }) => {
   useEffect(() => {
     clearAnimation()
 
-    switch (orderStatus) {
+    switch (order?.status) {
       case ORDER_STATUS.NEW:
       case ORDER_STATUS.WAITING:
         animateProgressBar(setOrderReceivedProgress, 100)
@@ -34,7 +34,7 @@ export const OrderProgress = ({ orderStatus }: { orderStatus: number }) => {
         setFundsReceivedProgress(100)
         animateProgressBar(setConvertingProgress, 100)
         break
-      case ORDER_STATUS.ANONYMIZING:
+      case order?.anonymous === true && ORDER_STATUS.ANONYMIZING:
         setOrderReceivedProgress(100)
         setFundsReceivedProgress(100)
         setConvertingProgress(100)
@@ -50,7 +50,7 @@ export const OrderProgress = ({ orderStatus }: { orderStatus: number }) => {
     }
 
     return () => clearAnimation()
-  }, [orderStatus])
+  }, [order?.status])
 
   const clearAnimation = () => {
     if (intervalRef.current) {
@@ -92,11 +92,13 @@ export const OrderProgress = ({ orderStatus }: { orderStatus: number }) => {
         valueStart={0}
         valueEnd={convertingProgress}
       />
-      <ProgressProvider
-        text={t('orderDetailsAnonymizing')}
-        valueStart={0}
-        valueEnd={anonymizingProgress}
-      />
+      {order?.anonymous === true ? (
+        <ProgressProvider
+          text={t('orderDetailsAnonymizing')}
+          valueStart={0}
+          valueEnd={anonymizingProgress}
+        />
+      ) : null}
       <ProgressProvider
         text={t('orderDetailsCompleted')}
         valueStart={0}
