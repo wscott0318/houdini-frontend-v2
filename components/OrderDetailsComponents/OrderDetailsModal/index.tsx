@@ -92,7 +92,7 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
           <div className="items-center w-full justify-center">
             <MetalboarderedTransRoundbox>
               <div className="relative flex flex-col lg:flex-row gap-[32px] px-[50px] py-[30px]">
-                <OrderProgress orderStatus={props?.order?.status} />
+                <OrderProgress order={props?.order} />
               </div>
             </MetalboarderedTransRoundbox>
           </div>

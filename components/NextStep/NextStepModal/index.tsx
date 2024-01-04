@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client'
 import { AnimatePresence, motion } from 'framer-motion'
-import { CardComponent, Portal } from 'houdini-react-sdk'
-import Image from 'next/image'
-import { useCallback, useEffect, useState } from 'react'
+import { Portal } from 'houdini-react-sdk'
+import { useCallback, useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Countdown } from '@/components/Countdown'
@@ -13,13 +13,7 @@ import { MetalboarderedRoundbox } from '@/components/GeneralModal/Metalboardered
 import { OrderDetailRoundbox } from '@/components/GeneralModal/OrderDetailRoundbox'
 import { WalletRoundbox } from '@/components/GeneralModal/WalletRoundbox'
 import { QrCode } from '@/components/QRCode'
-import {
-  Protocol4Svg,
-  Protocol7Svg,
-  QRCodeSvg,
-  QuestionSvg,
-  XLetterSvg,
-} from '@/components/Svg'
+import { QRCodeSvg, QuestionSvg } from '@/components/Svg'
 import { TOKENS_QUERY } from '@/lib/apollo/query'
 
 interface OrderDetailModalProps {
@@ -88,7 +82,7 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
   )
 
   return (
-    <>
+    <React.Fragment>
       <GeneralModal>
         <div className="md:flex md:flex-row block md:justify-between lg:gap-0 gap-[5px] items-center justify-center w-full px-[10px] py-[5px]">
           <div className="md:w-35% sm:w-50%">
@@ -267,7 +261,7 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
                   <QrCode
                     qrCodeModal={qrCodeModal}
                     setQrCodeModal={setQrCodeModal}
-                    senderAddress={props.order.receiveAddress}
+                    senderAddress={props?.receiveAddress}
                   />
                 </div>
               </div>
@@ -275,6 +269,6 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
           </Portal>
         ) : null}
       </AnimatePresence>
-    </>
+    </React.Fragment>
   )
 }

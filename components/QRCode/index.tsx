@@ -1,4 +1,4 @@
-import { CardComponent, Portal } from 'houdini-react-sdk'
+import { CardComponent } from 'houdini-react-sdk'
 import React from 'react'
 import QRCode from 'react-qr-code'
 

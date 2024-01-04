@@ -50,6 +50,8 @@ export default function OrderDetails() {
     variables: {
       multiId: searchParams.get('multiId'), // 'wENSG7UKmEUZRdwdK3sw6x'
     },
+    fetchPolicy: 'no-cache',
+    pollInterval: 3000,
   })
 
   useEffect(() => {
