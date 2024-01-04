@@ -20,9 +20,9 @@ const DonutChart = () => {
     const color = d3.scaleOrdinal()
       .range(['#98abc5', '#8a89a6', '#7b6888', '#6b486b', '#a05d56']);
 
-    const pie = d3.pie().sort(null).value(d => d);
+    const pie = d3.pie().sort(null).value((d: any) => d);
 
-    const arc = d3.arc()
+    const arc:any = d3.arc()
       .innerRadius(radius * 0.7)
       .outerRadius(radius)
       .cornerRadius(8);
@@ -35,7 +35,7 @@ const DonutChart = () => {
 
     arcs.append('path')
       .attr('d', arc)
-      .attr('fill', (d, i) => color(i));
+      .attr('fill', (d, i):any => {d3.schemeCategory10[i]});
   }, []);
   
 

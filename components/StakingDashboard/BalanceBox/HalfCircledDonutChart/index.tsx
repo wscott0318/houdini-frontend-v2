@@ -13,7 +13,7 @@ const HalfCircledDonutChart = () => {
     const radius = Math.min(width, height) / 2;
   
     // Create the arc generator
-    const arc = d3.arc()
+    const arc: any = d3.arc()
       .innerRadius(radius * 0.5)
       .outerRadius(radius)
       .cornerRadius(8);
@@ -22,10 +22,10 @@ const HalfCircledDonutChart = () => {
     const pie = d3.pie()
       .startAngle(-Math.PI / 2)
       .endAngle(Math.PI / 2)
-      .value((d) => d.value);
-  
+      .value((d: any) => d.value);
+
     // Define the data for the chart
-    const data = [
+    const data:any = [
       { label: 'Slice 1', value: 20 },
       { label: 'Slice 2', value: 80 },
     ];
