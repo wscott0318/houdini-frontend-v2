@@ -15,7 +15,7 @@ import { publicProvider } from 'wagmi/providers/public'
 import { Footer, Header, ResponsiveContainer } from '@/components'
 import { userClient } from '@/lib/apollo/apollo-client'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
-import { smokeEffect } from '@/utils/smokeEffect'
+// import { smokeEffect } from '@/utils/smokeEffect'
 
 import '../styles/globals.css'
 
@@ -53,14 +53,6 @@ const wagmiConfig = createConfig({
 })
 
 export default function RootLayout({ children }: LayoutProps) {
-  useEffect(() => {
-    const storedSmokePreference = localStorage.getItem('smokePreference')
-    // if (process.env.NODE_ENV === 'production' && storedSmokePreference)
-    if (storedSmokePreference !== null) {
-      smokeEffect(storedSmokePreference === 'true')
-    }
-  }, [])
-
   const [width] = useWindowSize()
 
   return (

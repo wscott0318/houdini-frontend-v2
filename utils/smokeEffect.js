@@ -26,7 +26,7 @@ export const smokeEffect = (toggled) => {
     PRESSURE_ITERATIONS: 20,
     CURL: 30,
     SPLAT_RADIUS: 0.1,
-    SHADING: false,
+    SHADING: true,
     COLORFUL: false,
     PAUSED: false,
     BACK_COLOR: {
@@ -35,7 +35,7 @@ export const smokeEffect = (toggled) => {
       b: 0,
     },
     TRANSPARENT: false,
-    BLOOM: true,
+    BLOOM: false,
     BLOOM_ITERATIONS: 8,
     BLOOM_RESOLUTION: 128,
     BLOOM_INTENSITY: 0.8,
