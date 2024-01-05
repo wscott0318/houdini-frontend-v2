@@ -592,7 +592,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
   }
 
   return (
-    <div className="z-[1] flex flex-col justify-center items-center gap-2">
+    <div className="z-[1] flex flex-col justify-center items-center gap-2 w-full">
       <GeneralModal>
         <IndustrialCounterLockup>
           <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center w-full gap-[16px]">

@@ -205,7 +205,9 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                   </div>
                 </WalletRoundbox>
 
-                <Countdown order={props.order} />
+                <div className="hidden sm:block">
+                  <Countdown order={props?.order} />
+                </div>
 
                 <WalletRoundbox>
                   <div className="relative flex hover:cursor-pointer flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
@@ -215,6 +217,9 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                     {/* <QuestionSvg className="absolute top-1 right-1 w-[10px] h-[10px]"/> */}
                   </div>
                 </WalletRoundbox>
+              </div>
+              <div className="sm:hidden flex flex-wrap justify-center gap-[10px]">
+                <Countdown order={props?.order} />
               </div>
             </IndustrialCounterLockup>
           ) : (
