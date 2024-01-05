@@ -648,7 +648,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
           ))}
 
           {isMulti ? (
-            <div className="flex justify-between w-full mt-2">
+            <div className="flex justify-center md:justify-between w-full mt-2 flex-wrap items-center gap-2">
               <SecondaryButton text={i18n?.saveOrderText || 'Save order'} />
               <SecondaryButton
                 text={i18n?.addSwapText || 'Add swap'}
