@@ -20,7 +20,7 @@ const DonutChart = () => {
     const color = d3.scaleOrdinal()
       .range(['#98abc5', '#8a89a6', '#7b6888', '#6b486b', '#a05d56']);
 
-    const pie = d3.pie().sort(null).value((d: any) => d);
+    const pie = d3.pie().sort(null).value((d: any) => d).padAngle(0.08);
 
     const arc:any = d3.arc()
       .innerRadius(radius * 0.7)

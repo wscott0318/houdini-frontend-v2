@@ -52,13 +52,13 @@ const BalanceBox = () => {
               </div>
             </div>
             <div className="flex flex-row justify-between">
-              <CTAButton height='48px'>
-                <div className='flex flex-row gap-[7px] justify-center items-center'>
+              <CTAButton height='48px' width='123px'>
+                <div className='flex flex-row gap-[7px] justify-center items-center mx-[20px] my-[14px]'>
                   <span className="text-[16px] font-semibold">Buy $LOCK</span>
                 </div>
               </CTAButton>
-              <CTAButton height='48px'>
-                <div className='flex flex-row gap-[7px] justify-center items-center'>
+              <CTAButton height='48px' width='146px'>
+                <div className='flex flex-row gap-[7px] justify-center items-center mx-[20px] my-[14px]'>
                   <StakeMoreSvg className="w-[16px] h-[16px]"/>
                   <span className="text-[16px] font-semibold">Stake More</span>
                 </div>

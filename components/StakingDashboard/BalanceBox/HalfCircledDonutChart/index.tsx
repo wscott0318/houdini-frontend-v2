@@ -5,6 +5,11 @@ const HalfCircledDonutChart = () => {
   const svgRef = useRef(null);
 
   useEffect(() => {
+    const data:any = [
+      { label: 'Slice 1', value: 20 },
+      { label: 'Slice 2', value: 80 },
+    ];
+
     const svg = d3.select(svgRef.current);
   
     // Define the chart dimensions
@@ -22,13 +27,11 @@ const HalfCircledDonutChart = () => {
     const pie = d3.pie()
       .startAngle(-Math.PI / 2)
       .endAngle(Math.PI / 2)
-      .value((d: any) => d.value);
+      .value((d: any) => d.value)
+      .padAngle(0.08);
 
     // Define the data for the chart
-    const data:any = [
-      { label: 'Slice 1', value: 20 },
-      { label: 'Slice 2', value: 80 },
-    ];
+    
   
     // Append the chart to the SVG element
     svg.attr('width', width)
