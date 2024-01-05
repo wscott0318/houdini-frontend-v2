@@ -18,7 +18,7 @@ export default function CTAButton(props: CTAButtonProps) {
     setIsHovered(false);
   }
   return (
-    <div className={`p-[2px] rounded-[12px] custom-QTY-button-outline h-[${props.height}] w-[${props.width || 'auto'}]`}
+    <div className={`p-[2px] rounded-[12px] custom-QTY-button-outline custom-cta-button-drop-shadow h-[${props.height}] w-[${props.width || 'auto'}]`}
       style={{cursor: 'pointer'}}
       onClick={props.onClick}
       onMouseEnter={handleMouseEnter}

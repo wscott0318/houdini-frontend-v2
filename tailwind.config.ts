@@ -47,8 +47,14 @@ const config: Config = {
         '.custom-modal-step2-drop-shadow': {
           boxShadow: '0px 19.04445px 28.56668px 0px #000, 16.60834px 16.60834px 41.52084px 0px #000', //0px 4.76111px 19.04445px 0px rgba(255, 255, 255, 0.25) inset, 19.04445px 9.52223px 47.61113px 0px rgba(255, 255, 255, 0.70) inset,
         },
+        '.custom-cta-button-drop-shadow': {
+          boxShadow: '0px 2.04445px 5.56668px 0px #000, 5.60834px 5.60834px 20.52084px 0px #000', //0px 4.76111px 19.04445px 0px rgba(255, 255, 255, 0.25) inset, 19.04445px 9.52223px 47.61113px 0px rgba(255, 255, 255, 0.70) inset,
+        },
         '.custom-modal-step2-inner-shadow': {
           boxShadow: '0px 0px 10.04445px 0px rgba(255, 255, 255, 0.7) inset, 19.04445px 9.52223px 4.61113px 0px rgba(255, 255, 255, 0.1) inset',
+        },
+        '.custom-balances-box-inner-shadow': {
+          boxShadow: '0px 0px 10.04445px 0px rgba(255, 255, 255, 0.7) inset, 10.04445px 4.52223px 4.61113px 0px rgba(255, 255, 255, 0.1) inset',
         },
         '.custom-modal-step2-gradient': {
           backgroundBlendMode: 'color-dodge',

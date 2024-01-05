@@ -14,7 +14,7 @@ const HalfCircledDonutChart = () => {
   
     // Create the arc generator
     const arc: any = d3.arc()
-      .innerRadius(radius * 0.5)
+      .innerRadius(radius * 0.7)
       .outerRadius(radius)
       .cornerRadius(8);
   
