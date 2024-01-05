@@ -82,9 +82,9 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
   )
 
   return (
-    <React.Fragment>
+    <div className="w-full flex flex-row justify-center items-center">
       <GeneralModal>
-        <div className="md:flex md:flex-row block md:justify-between lg:gap-0 gap-[5px] items-center justify-center w-full px-[10px] py-[5px]">
+        <div className="flex flex-wrap md:flex-row lg:justify-between lg:gap-0 gap-[5px] items-center justify-center w-full px-[10px] py-[5px]">
           <div className="md:w-35% sm:w-50%">
             <OrderDetailRoundbox border="custom-houdini-id-gradient1">
               <div className="text-center lg:text-[15.25px] text-[12px] font-bold text-[#FFFFFF] text-opacity-60">
@@ -97,7 +97,7 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
               />
             </OrderDetailRoundbox>
           </div>
-          <div className="md:w-10% md:pt-0 pt-[5px] sm:w-50%">
+          <div className="md:w-10% md:pt-0 lg:pt-[5px] sm:w-50%">
             <OrderDetailRoundbox border="custom-houdini-id-gradient1">
               <div className="text-center lg:text-[14.88px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-60 font-bold">
                 {t('orderDetailModalCreationTime')}:
@@ -121,7 +121,7 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
               <div className="text-center w-full leading-[24px] lg:text-[18px] text-[14px] font-bold">
                 {t('orderDetailModalSend')}
               </div>
-              <div className="flex flex-row w-full justify-center items-center gap-[10px]">
+              <div className="flex flex-row justify-center items-center gap-[10px]">
                 <img
                   alt="inSymbol"
                   src={findTokenBySymbol(props?.order?.inSymbol)?.icon}
@@ -157,7 +157,7 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
               </div>
             </MetalboarderedRoundbox>
           </div>
-          <div className="lg:flex lg:flex-row flex justify-between w-full items-center px-[30px] lg:pt-5 pt-[10px] left-0">
+          <div className="flex flex-wrap lg:flex-row justify-between w-full items-center px-[30px] lg:pt-5 pt-[10px] left-0">
             <WalletRoundbox>
               <div className="relative flex flex-row justify-center items-center custom-wallet-shadow custom-wallet-gradient rounded-[15px] w-[70px] h-[70px] lg:w-[110px] lg:h-[88px] bg-red-900 p-2.5 bg-gradient-to-r from">
                 <div
@@ -266,6 +266,6 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
           </Portal>
         ) : null}
       </AnimatePresence>
-    </React.Fragment>
+    </div>
   )
 }

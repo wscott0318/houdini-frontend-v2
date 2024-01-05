@@ -17,7 +17,7 @@ export const Clipboardbox = (props: ClipboardProps) => {
     };
     return (
         <div className="flex flex-row gap-[10px]">
-            <div className={`${props.textColor} ${props.fontSize} ${props.fontWeight} ${props.lineHeight} ${props.textOpacity} text-center`}>{props.concept}</div>
+            <div className={`${props.textColor} ${props.fontSize} ${props.fontWeight} ${props.lineHeight} ${props.textOpacity} sm:break-normal break-all text-center`}>{props.concept}</div>
             <button onClick={copyToClipboard}>
                 <div className="text-base text-center text-[20px] font-extrabold">
                     <CopySvg className="w-[20px] h-[20px]"/>

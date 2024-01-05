@@ -90,9 +90,9 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
   )
 
   return (
-    <>
+    <div className="w-full flex flex-row justify-center items-center">
       <GeneralModal>
-        <div className="md:flex md:flex-row block md:justify-between lg:gap-0 gap-[5px] items-center justify-center w-full px-[10px] py-[5px]">
+        <div className="flex md:flex-row flex-wrap lg:justify-between lg:gap-0 gap-[5px] items-center justify-center w-full px-[10px] py-[5px]">
           <div className="md:w-35% sm:w-50%">
             <OrderDetailRoundbox border="custom-houdini-id-gradient1">
               <div className="text-center lg:text-[15.25px] text-[12px] font-bold text-[#FFFFFF] text-opacity-60">
@@ -106,7 +106,7 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
             </OrderDetailRoundbox>
           </div>
           <div className="flex flex-row justify-start items-center gap-2">
-            <div className="md:w-10% md:pt-0 pt-[5px] sm:w-50%">
+            <div className="md:w-10% md:pt-0 lg:pt-[5px] sm:w-50%">
               <OrderDetailRoundbox border="custom-houdini-id-gradient1">
                 <div className="text-center lg:text-[14.88px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-60 font-bold">
                   {t('orderDetailModalCreationTime')}:
@@ -152,9 +152,9 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                   {t('orderDetailModalFollowSteps')}
                 </div>
                 <MetalboarderedRoundbox>
-                  <div className="flex flex-row justify-start items-center ml-4 gap-4 mr-auto">
+                  <div className="flex flex-row flex-wrap sm:flex-nowrap w-full justify-center sm:justify-start items-center ml-4 gap-4 mr-auto">
                     <div className="text-sm">{t('orderDetailModalSend')}</div>
-                    <div className="flex flex-row w-full justify-center items-center">
+                    <div className="flex flex-row w-full lg:w-auto justify-center items-center">
                       <div className="flex flex-row justify-center items-center gap-2">
                         <div className="text-sm whitespace-nowrap">
                           {props.order.inAmount}
@@ -173,7 +173,7 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                         <div>to:</div>
                       </div>
                     </div>
-                    <div className="flex flex-row justify-center items-center mr-4">
+                    <div className="flex flex-row flex-wrap justify-center items-center mr-4">
                       <Clipboardbox
                         concept={`${props.receiveAddress}`}
                         textColor="text-[#FBBF24]"
@@ -185,7 +185,7 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                   </div>
                 </MetalboarderedRoundbox>
               </div>
-              <div className="lg:flex lg:flex-row flex justify-between w-full items-center px-[30px] lg:pt-5 pt-[10px] left-0">
+              <div className="flex gap-4 lg:flex-row flex-wrap justify-center lg:justify-between w-full items-center px-[30px] lg:pt-5 pt-[10px] left-0">
                 <WalletRoundbox>
                   <div
                     onClick={() => {
@@ -250,7 +250,7 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
         {props.status === 0 || props.status === -1 ? (
           <div className="pt-[15px] lg:px-[10px] pb-[5px] w-full">
             <div className="p-[2px] w-full rounded-[20px] custom-houdini-id-gradient1">
-              <div className="lg:flex lg:justify-between justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow lg:px-[30px] px-[5px] py-[10px]">
+              <div className="flex flex-wrap lg:justify-between justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow lg:px-[30px] px-[5px] py-[10px]">
                 <div className="sm:flex block lg:w-auto w-full lg:justify-start justify-center px-[4px] gap-2">
                   <div className="text-center lg:text-[15px] whitespace-nowrap lg:leading-[24px] text-[14px] font-bold text-opacity-60 text-[#FFFFFF99]">
                     {t('orderDetailModalRecipientWallet')}:
@@ -294,7 +294,7 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
         ) : (
           <div className="pt-[15px] lg:px-[10px] pb-[5px] w-full">
             <div className="p-[2px] w-full rounded-[20px] custom-houdini-id-gradient1">
-              <div className="lg:flex lg:justify-between justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow lg:px-[30px] px-[5px] py-[10px]">
+              <div className="flex flex-wrap lg:justify-between justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow lg:px-[30px] px-[5px] py-[10px]">
                 <div className="sm:flex block lg:w-auto w-full lg:justify-start justify-center px-[4px] gap-2">
                   <div className="text-center lg:text-[15px] whitespace-nowrap lg:leading-[24px] text-[14px] font-bold text-opacity-60 text-[#FFFFFF99]">
                     {t('recieverAddress')}:
@@ -391,6 +391,6 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
           </Portal>
         ) : null}
       </AnimatePresence>
-    </>
+    </div>
   )
 }
