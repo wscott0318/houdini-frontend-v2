@@ -20,7 +20,10 @@ export const MultipleOrders = ({ orders, t }: { orders: any; t: any }) => {
         <div className="flex flex-col items-center justify-center gap-[100px] w-full">
           {orders.map((order: any, index: number) => {
             return (
-              <div key={order?.houdiniId}>
+              <div
+                key={order?.houdiniId}
+                className="w-full flex flex-row justify-center items-center"
+              >
                 <OrderDetailModalCollapsible
                   order={order}
                   status={order?.status}

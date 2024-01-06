@@ -82,28 +82,30 @@ export const SwapForm: React.FC<SwapFormProps> = ({
               rightText={i18n?.variableRightText || 'Exact'}
             />
           </div>
-          <div className="flex flex-col sm:flex-row justify-start -space-y-6 sm:space-y-0 items-center gap-[14px] sm:-space-x-7 w-full">
-            <TextField
-              id="send"
-              label={i18n?.sendInputLabel || 'Send:'}
-              placeholder="0.0"
-              onChange={(e) => handleChange(e, swap.id)}
-              value={swap.send.value}
-            >
-              {!loading ? (
-                <Dropdown
-                  title={i18n?.sendCurrencyTitle || 'Sending Currency'}
-                  subtitle={i18n?.sendCurrencySubtitle || 'Popular Protocols'}
-                  target="#portal"
-                  networks={networks || []}
-                  tokens={tokens || []}
-                  selectedTokenId={swap.send.name}
-                  onSelectionChange={(token) =>
-                    selectCoin(token, 'send', swap.id)
-                  }
-                />
-              ) : null}
-            </TextField>
+          <div className="flex flex-col md:flex-row justify-center -space-y-6 md:space-y-0 items-center gap-[14px] md:-space-x-7 w-full">
+            <div className="w-full max-w-full md:max-w-[345px] lg:max-w-[1000px]">
+              <TextField
+                id="send"
+                label={i18n?.sendInputLabel || 'Send:'}
+                placeholder="0.0"
+                onChange={(e) => handleChange(e, swap.id)}
+                value={swap.send.value}
+              >
+                {!loading ? (
+                  <Dropdown
+                    title={i18n?.sendCurrencyTitle || 'Sending Currency'}
+                    subtitle={i18n?.sendCurrencySubtitle || 'Popular Protocols'}
+                    target="#portal"
+                    networks={networks || []}
+                    tokens={tokens || []}
+                    selectedTokenId={swap.send.name}
+                    onSelectionChange={(token) =>
+                      selectCoin(token, 'send', swap.id)
+                    }
+                  />
+                ) : null}
+              </TextField>
+            </div>
             <Image
               src={upDown}
               width={100}
@@ -114,32 +116,34 @@ export const SwapForm: React.FC<SwapFormProps> = ({
               }}
               className={`${
                 direction ? 'scale-y-[-1]' : ''
-              } w-[45px] h-[45px] hover:cursor-pointer rotate-180 sm:rotate-90 hover:-translate-y-1 transition-all duration-100 relative z-0`}
+              } w-[45px] h-[45px] hover:cursor-pointer rotate-180 md:rotate-90 hover:-translate-y-1 transition-all duration-100 relative z-0`}
             />
-            <TextField
-              id="receive"
-              label={i18n?.receiveInputLabel || 'Receive:'}
-              placeholder="0.0"
-              onChange={(e) => handleChange(e, swap.id, true)}
-              disabled={!swap.fixed}
-              value={swap.receive.value}
-            >
-              {!loading ? (
-                <Dropdown
-                  title={i18n?.receiveCurrencyTitle || 'Receiving Currency'}
-                  subtitle={
-                    i18n?.receiveCurrencySubtitle || 'Popular Protocols'
-                  }
-                  target="#portal"
-                  networks={networks || []}
-                  tokens={tokens || []}
-                  selectedTokenId={swap.receive.name}
-                  onSelectionChange={(token) =>
-                    selectCoin(token, 'receive', swap.id)
-                  }
-                />
-              ) : null}
-            </TextField>
+            <div className="w-full max-w-full md:max-w-[345px] lg:max-w-[1000px]">
+              <TextField
+                id="receive"
+                label={i18n?.receiveInputLabel || 'Receive:'}
+                placeholder="0.0"
+                onChange={(e) => handleChange(e, swap.id, true)}
+                disabled={!swap.fixed}
+                value={swap.receive.value}
+              >
+                {!loading ? (
+                  <Dropdown
+                    title={i18n?.receiveCurrencyTitle || 'Receiving Currency'}
+                    subtitle={
+                      i18n?.receiveCurrencySubtitle || 'Popular Protocols'
+                    }
+                    target="#portal"
+                    networks={networks || []}
+                    tokens={tokens || []}
+                    selectedTokenId={swap.receive.name}
+                    onSelectionChange={(token) =>
+                      selectCoin(token, 'receive', swap.id)
+                    }
+                  />
+                ) : null}
+              </TextField>
+            </div>
           </div>
 
           <div className="w-full my-[20px] sm:my-0">

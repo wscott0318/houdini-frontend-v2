@@ -63,7 +63,7 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
 
   return (
     <GeneralModal>
-      <div className="md:flex md:flex-row block md:justify-between lg:gap-0 gap-[5px] items-center justify-center w-full px-[10px] py-[5px]">
+      <div className="flex md:flex-row flex-wrap lg:justify-between lg:gap-0 gap-[5px] items-center justify-center w-full px-[10px] py-[5px]">
         <div className="md:w-35% sm:w-50%">
           <OrderDetailRoundbox border="custom-step-gradient1">
             <div className="text-center lg:text-[15.25px] text-[12px] font-bold text-[#FFFFFF] text-opacity-60">
@@ -76,7 +76,7 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
             />
           </OrderDetailRoundbox>
         </div>
-        <div className="md:w-10% md:pt-0 pt-[5px] sm:w-50%">
+        <div className="md:w-10% md:pt-0 lg:pt-[5px] sm:w-50%">
           <OrderDetailRoundbox border="custom-step-gradient1">
             <div className="text-center lg:text-[14.88px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-60 font-bold">
               {t('orderDetailModalCreationTime')}

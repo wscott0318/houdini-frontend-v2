@@ -42,7 +42,7 @@ export const MainModal = () => {
                     <div className="text-center w-full leading-[24px] text-[18px] font-bold">
                         Send:
                     </div>
-                    <div className="flex flex-row w-full justify-center items-center gap-[10px]">
+                    <div className="flex flex-row w-full lg:w-auto justify-center items-center gap-[10px]">
                       <Protocol7Svg width={64} height={64}/>
                       <div className="flex flex-row gap-[20px] justify-center items-center">
                           <div className="text-center leading-[24px] text-[20px] font-semibold whitespace-nowrap">ETH(ERC-20)</div>

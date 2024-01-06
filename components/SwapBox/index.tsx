@@ -592,7 +592,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
   }
 
   return (
-    <div className="z-[1] flex flex-col justify-center items-center gap-2">
+    <div className="z-[1] flex flex-col justify-center items-center gap-2 w-full">
       <GeneralModal>
         <IndustrialCounterLockup>
           <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center w-full gap-[16px]">
@@ -648,7 +648,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
           ))}
 
           {isMulti ? (
-            <div className="flex justify-between w-full mt-2">
+            <div className="flex justify-center md:justify-between w-full mt-2 flex-wrap items-center gap-2">
               <SecondaryButton text={i18n?.saveOrderText || 'Save order'} />
               <SecondaryButton
                 text={i18n?.addSwapText || 'Add swap'}
