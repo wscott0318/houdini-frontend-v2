@@ -5,7 +5,7 @@ const DonutChart = () => {
   const chartRef = useRef(null);
 
   useEffect(() => {
-    const data = [20, 80];
+    const data = [90, 10];
   
     const width = 150;
     const height = 150;

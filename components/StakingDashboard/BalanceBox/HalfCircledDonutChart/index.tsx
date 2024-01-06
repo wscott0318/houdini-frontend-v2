@@ -17,6 +17,23 @@ const HalfCircledDonutChart = () => {
     const height = 198;
     const radius = Math.min(width, height) / 2;
   
+    const gradient = svg
+      .append("defs")
+      .append("linearGradient")
+      .attr("id", "gradient")
+      .attr("gradientTransform", "rotate(90)");
+
+    // Add color stops to the gradient
+    gradient
+      .append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", "darkorange");
+    gradient
+      .append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", "lightorange");
+
+
     // Create the arc generator
     const arc: any = d3.arc()
       .innerRadius(radius * 0.7)
@@ -43,10 +60,11 @@ const HalfCircledDonutChart = () => {
       .enter()
       .append('path')
       .attr('d', arc)
-      .attr('fill', (d, i) => d3.schemeCategory10[i]);
+      // .attr('fill', (d, i) => d3.schemeCategory10[i]);
+      .attr('fill', 'url(#gradient)');
   }, []);
-  
 
+  
   return <svg className='absolute' ref={svgRef}></svg>;
 };
 
