@@ -1,6 +1,9 @@
+'use client'
+
 import { CardComponent, SearchInput } from 'houdini-react-sdk'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 import { ChevronSvg } from '@/components/Svg'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
@@ -49,12 +52,24 @@ const Links = ({ setIsOpen }: { setIsOpen?: any }) => {
 }
 
 const CommonNavbar = ({ setIsOpen }: { setIsOpen?: any }) => {
+  const router = useRouter()
   const [openDropdown, setOpenDropdown] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
 
   const handleSearch = (value: string) => {
-    console.log(value)
+    setSearchTerm(value)
   }
+
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      if (searchTerm) {
+        router.push(`/order-details?houdiniId=${searchTerm}`)
+        setSearchTerm('')
+      }
+    }, 500)
+
+    return () => clearTimeout(delayDebounce)
+  }, [searchTerm, router])
 
   return (
     <>

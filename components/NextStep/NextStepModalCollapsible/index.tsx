@@ -95,12 +95,12 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
         <div className="flex md:flex-row flex-wrap lg:justify-between lg:gap-0 gap-[5px] items-center justify-center w-full px-[10px] py-[5px]">
           <div className="md:w-35% sm:w-50%">
             <OrderDetailRoundbox border="custom-houdini-id-gradient1">
-              <div className="text-center lg:text-[15.25px] text-[12px] font-bold text-[#FFFFFF] text-opacity-60">
+              <div className="text-center lg:text-[15px] text-[12px] font-bold text-[#FFFFFF] text-opacity-60">
                 {t('orderDetailModalOrderID')}:
               </div>
               <Clipboardbox
                 concept={`${props.orderID}`}
-                fontSize="lg:text-[15.25px] text-[12px]"
+                fontSize="lg:text-[15px] text-[12px]"
                 textColor="text-[#FFFFFF99]"
               />
             </OrderDetailRoundbox>
@@ -108,10 +108,10 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
           <div className="flex flex-row justify-start items-center gap-2">
             <div className="md:w-10% md:pt-0 lg:pt-[5px] sm:w-50%">
               <OrderDetailRoundbox border="custom-houdini-id-gradient1">
-                <div className="text-center lg:text-[14.88px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-60 font-bold">
+                <div className="text-center lg:text-[14px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-60 font-bold">
                   {t('orderDetailModalCreationTime')}:
                 </div>
-                <div className="text-center lg:text-[15.25px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-50 font-normal">
+                <div className="text-center lg:text-[15px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-50 font-normal">
                   {`${DateFormatter()}, ${TimeFormatter()}`}
                 </div>
               </OrderDetailRoundbox>
@@ -144,11 +144,11 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
         >
           {props.status === 0 || props.status === -1 ? (
             <IndustrialCounterLockup>
-              <div className="text-center w-full lg:text-[46px] text-[20px] lg:leading-[75.43px] font-bold ">
+              <div className="text-center w-full lg:text-[46px] text-[20px] lg:leading-[75px] font-bold ">
                 {t('orderDetailModalSendFund')}
               </div>
               <div className="flex relative justify-center items-center flex-col lg:px-[30px] lg:py-[10px] lg:gap-[20px] gap-[10px] w-full">
-                <div className="text-center w-full lg:text-[17px] text-[15px] leading-[21.42px] font-medium rainbow-text">
+                <div className="text-center w-full lg:text-[17px] text-[15px] leading-[21px] font-medium rainbow-text">
                   {t('orderDetailModalFollowSteps')}
                 </div>
                 <MetalboarderedRoundbox>

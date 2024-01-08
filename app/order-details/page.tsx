@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next'
 import { OrderContent } from '@/components/OrderDetailsComponents'
 import { ResponsivePage } from '@/components/ResponsivePage'
 import { XLetterSvg } from '@/components/Svg'
-import { MULTI_STATUS_QUERY } from '@/lib/apollo/query'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
 const animation = {
@@ -25,12 +24,10 @@ const animation = {
 }
 
 export default function OrderDetails() {
-  const searchParams = useSearchParams()
   const { t } = useTranslation()
   const [width] = useWindowSize()
 
   const [isOpen, setIsOpen] = useState(true)
-  const [orders, setOrders] = useState([])
 
   const handleKeyDown = (event: { key: string }) => {
     if (event.key === 'Escape') {
@@ -46,24 +43,10 @@ export default function OrderDetails() {
     }
   }, [])
 
-  const { loading, data } = useQuery(MULTI_STATUS_QUERY, {
-    variables: {
-      multiId: searchParams.get('multiId'), // 'wENSG7UKmEUZRdwdK3sw6x'
-    },
-    fetchPolicy: 'no-cache',
-    pollInterval: 3000,
-  })
-
-  useEffect(() => {
-    if (!loading && data) {
-      setOrders(data.multiStatus)
-    }
-  }, [data, loading])
-
   return (
     <>
       <ResponsivePage>
-        <OrderContent loading={loading} orders={orders} t={t} />
+        <OrderContent t={t} />
       </ResponsivePage>
 
       <AnimatePresence>
@@ -97,7 +80,7 @@ export default function OrderDetails() {
                     widthClass={width > 1024 ? '540px' : '100%'}
                     heightClass={width > 1024 ? '212px' : '100%'}
                   >
-                    <div className="text-center w-full lg:text-[46px] text-[20px] lg:leading-[75.43px] font-semibold whitespace-nowrap">
+                    <div className="text-center w-full lg:text-[46px] text-[20px] lg:leading-[75px] font-semibold whitespace-nowrap">
                       Taking a bit longer
                     </div>
                     <div className="text-center w-full lg:text-[17px] font-medium rainbow-text ">

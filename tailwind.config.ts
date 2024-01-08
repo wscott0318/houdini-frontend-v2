@@ -41,14 +41,14 @@ const config: Config = {
 
         '.custom-shadow': {
           boxShadow:
-            '0px 22.93361px 34.40042px 0px #555, 0px 5.7334px 22.93361px 0px rgba(255, 255, 255, 0.25) inset, 22.93361px 11.46681px 57.33402px 0px rgba(255, 255, 255, 0.70) inset, 20px 20px 50px 0px #000',
-          backdropFilter: 'blur(28.667011260986328px)',
+            '0px 22px 34px 0px #555, 0px 5px 22px 0px rgba(255, 255, 255, 0.25) inset, 22px 11px 57px 0px rgba(255, 255, 255, 0.70) inset, 20px 20px 50px 0px #000',
+          backdropFilter: 'blur(28px)',
         },
         '.custom-modal-step2-drop-shadow': {
-          boxShadow: '0px 19.04445px 28.56668px 0px #000, 16.60834px 16.60834px 41.52084px 0px #000', //0px 4.76111px 19.04445px 0px rgba(255, 255, 255, 0.25) inset, 19.04445px 9.52223px 47.61113px 0px rgba(255, 255, 255, 0.70) inset,
+          boxShadow: '0px 19px 28px 0px #000, 16px 16px 41px 0px #000', //0px 4px 19px 0px rgba(255, 255, 255, 0.25) inset, 19px 9px 47px 0px rgba(255, 255, 255, 0.70) inset,
         },
         '.custom-modal-step2-inner-shadow': {
-          boxShadow: '0px 0px 10.04445px 0px rgba(255, 255, 255, 0.7) inset, 19.04445px 9.52223px 4.61113px 0px rgba(255, 255, 255, 0.1) inset',
+          boxShadow: '0px 0px 10px 0px rgba(255, 255, 255, 0.7) inset, 19px 9px 4px 0px rgba(255, 255, 255, 0.1) inset',
         },
         '.custom-modal-step2-gradient': {
           backgroundBlendMode: 'color-dodge',
@@ -60,7 +60,7 @@ const config: Config = {
 
         },
         '.custom-wallet-shadow': {
-          boxShadow: '4.34689px 3.17345px 20px 0px rgba(255, 255, 255, 0.40) inset, 8px 8px 40px 0px rgba(0, 0, 0, 0.50)',
+          boxShadow: '4px 3px 20px 0px rgba(255, 255, 255, 0.40) inset, 8px 8px 40px 0px rgba(0, 0, 0, 0.50)',
         },
         '.custom-wallet-gradient': {
           background: 'linear-gradient(234deg, rgba(163, 166, 255, 0.20) 4.47%, rgba(40, 75, 101, 0.20) 78.7%)',
@@ -88,7 +88,7 @@ const config: Config = {
           background: 'linear-gradient(234deg, rgba(163, 166, 255, 0.20) 4.47%, rgba(40, 75, 101, 0.20) 78.7%)',
         },
         '.custom-need-help-shadow': {
-          boxShadow: '4.34689px 3.17345px 20px 0px rgba(255, 255, 255, 0.40) inset, 8px 8px 40px 0px rgba(0, 0, 0, 0.50)',
+          boxShadow: '4px 3px 20px 0px rgba(255, 255, 255, 0.40) inset, 8px 8px 40px 0px rgba(0, 0, 0, 0.50)',
         },
         '.custom-houdini-id-gradient1': {
           backgroundBlendMode: 'lighten',
@@ -101,8 +101,8 @@ const config: Config = {
           boxShadow: '6px 8px 2px 0px rgba(0, 0, 0, 0.30) inset',
         },
         '.custom-industrial-counter-lockup-shadow': {
-          boxShadow: '0px 1px 28.56668px 0px #555, 0px 4.76111px 19.04445px 0px rgba(255, 255, 255, 0.25) inset, 19.04445px 9.52223px 47.61113px 0px rgba(255, 255, 255, 0.70) inset, 16.60834px 16.60834px 41.52084px 0px #000',
-          backdropFilter: 'blur(23.805566787719727px)',
+          boxShadow: '0px 1px 28px 0px #555, 0px 4px 19px 0px rgba(255, 255, 255, 0.25) inset, 19px 9px 47px 0px rgba(255, 255, 255, 0.70) inset, 16px 16px 41px 0px #000',
+          backdropFilter: 'blur(23px)',
         },
         '.custom-industrial-counter-lockup-gradient1': {
           background: 'linear-gradient(0deg, #262D33 0%, #41454B 2%, #737176 5%, #979195 8%, #ADA4A8 11%, #B6ACB0 12%, #DFDADA 25%, #D7D2D2 27%, #C1BEBE 29%, #9F9C9C 32%, #6F6E6E 35%, #505050 36%, #535353 42%, #5E5D5D 48%, #716E6E 53%, #7C7878 55%, #8A8686 56%, #AFADAC 59%, #EAEBEA 62%, #F3F4F3 63%, #E6E4E3 72%, #DFDADA 77%, #DAD4D4 80%, #CBC4C5 83%, #B4ABAD 87%, #94878B 91%, #8A7C80 92%, #5A5356 96%, #2B2B2E 100%)',
@@ -126,8 +126,8 @@ const config: Config = {
         
         '.custom-swap-wheel-outlinear-gradient': {
           background: 'radial-gradient(#457BBA, #AEC6C8, #8F8F8F)',
-          boxShadow: '0px 17.15px 25.725px 0px #555, 0px 4.287px 17.15px 0px rgba(255, 255, 255, 0.25) inset, 10px 8.575px 30px 0px rgba(255, 255, 255, 0.70) inset, 8px 8px 10px 0px rgba(0, 0, 0, 0.50)',
-          backdropFilter: 'blur(21.437475204467773px)',
+          boxShadow: '0px 17px 25px 0px #555, 0px 4px 17px 0px rgba(255, 255, 255, 0.25) inset, 10px 8px 30px 0px rgba(255, 255, 255, 0.70) inset, 8px 8px 10px 0px rgba(0, 0, 0, 0.50)',
+          backdropFilter: 'blur(21px)',
         },
         '.custom-swap-wheel-inner-background-gradient': {
           background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.20) 0%, rgba(66, 89, 113, 0.18) 56.25%, rgba(28, 14, 68, 0.20) 100%)',

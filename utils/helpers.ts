@@ -39,3 +39,12 @@ export const getOrderStatusKey = (statusValue: number) => {
   )
   return entry ? entry[0] : null // return the key if found, otherwise return null
 }
+
+export const copyText = (txt: string) => {
+  var textField = document.createElement('textarea')
+  textField.innerText = txt
+  document.body.appendChild(textField)
+  textField.select()
+  document.execCommand('copy')
+  textField.remove()
+}

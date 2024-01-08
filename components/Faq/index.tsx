@@ -446,7 +446,7 @@ export const Faq = () => {
     <>
       <div
         id="faq"
-        className="lg:text-[81px] text-center text-[35px] font-bold leading-normal capitalize tracking-[-0.85px]"
+        className="lg:text-[81px] text-center text-[35px] font-bold leading-normal capitalize tracking-[-0px]"
       >
         FAQ
       </div>

@@ -43,7 +43,7 @@ export default function Dashboard() {
 
   return (
     <ResponsivePage>
-      <div className="lg:text-[81px] text-center text-[35px] font-bold leading-[54px] capitalize tracking-[-0.85px]">
+      <div className="lg:text-[81px] text-center text-[35px] font-bold leading-[54px] capitalize tracking-[-0px]">
         Your Staking Dashboard
       </div>
       <ConnectButtonHoudini />

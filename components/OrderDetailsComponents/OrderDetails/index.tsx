@@ -5,13 +5,14 @@ import { OrderDetailsModal } from '@/components/OrderDetailsComponents/OrderDeta
 
 export const OrderDetails = ({ order }: { order: any }) => {
   const { t } = useTranslation()
+
   return (
     <>
       <div
         id="orderdetails"
         className="flex flex-col justify-center items-center gap-[30px] lg:gap-[10px] w-full"
       >
-        <div className="lg:text-[81px] text-center font-bold leading-[102.06px] capitalize tracking-[-0.85px] w-full">
+        <div className="lg:text-[81px] text-center font-bold leading-[102px] capitalize tracking-[-0px] w-full">
           {t('orderDetailsPageTitle')}
         </div>
         <div className="flex flex-col font-normal lg:text-[19px] w-full leading-[30px] items-center justify-center text-[#B8CAFC] text-center">
@@ -27,7 +28,7 @@ export const OrderDetails = ({ order }: { order: any }) => {
             creationTime={new Date(order?.created)}
             orderId={order?.houdiniId}
             tokenType={order?.outSymbol}
-            swapTime={30}
+            swapTime={order?.eta}
             order={order}
           />
           <div className="flex py-[10px] md:px-[100px] md:py-[50px] items-center w-full">
