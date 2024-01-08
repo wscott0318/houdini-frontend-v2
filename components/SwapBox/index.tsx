@@ -363,13 +363,14 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
 
           try {
             swapsImport = JSON.parse(res.data.getShortUrl.swaps)
+            console.log('swapsImport', swapsImport)
           } catch (error) {
             return
           }
 
-          if (swapsImport.length > 0) {
+          if (swapsImport.length) {
             setCurrentSwap(swapsImport[swapsImport.length - 1])
-            setIsMulti(true)
+            setIsMulti(swapsImport.length > 1 ? true : false)
             setSwaps(swapsImport)
             setDebouncedSwaps(swapsImport)
             setImportedSwaps(true)
@@ -486,6 +487,17 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
     const updatedSwaps = swaps.map((swap) => {
       if (swap.id === swapId) {
         swap.receiveAddress = value
+        const token = tokens?.find(
+          (item: Token) => item.id === currentSwap?.receive.name,
+        )
+
+        const validRes = validateWalletAddress(
+          currentSwap?.receiveAddress as string,
+          token,
+        )
+        if (!validRes) {
+          toast.error(i18n?.invalidAddressError || 'Invalid address')
+        }
 
         setCurrentSwap(swap)
       }

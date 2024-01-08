@@ -1,4 +1,18 @@
-import { ORDER_STATUS } from './constants'
+import { toast } from 'react-toastify'
+
+import {
+  EXPORT_MISSING_SWAP,
+  INVALID,
+  MISSING_QUOTE_FIXED,
+  ORDER_ID,
+  ORDER_STATUS,
+  QUOTE_FAILED,
+  REFERRAL_ID,
+  SAME_ANONYMOUS,
+  SEND_AMOUNT,
+  SUPPORT,
+  WRONG_PWD,
+} from './constants'
 
 export const validateWalletAddress = (addressTo: string, token: Token) => {
   let validator = token?.network?.addressValidation
@@ -47,4 +61,67 @@ export const copyText = (txt: string) => {
   textField.select()
   document.execCommand('copy')
   textField.remove()
+}
+
+export const showMsg = (type, messageTemp, t, time = 5000) => {
+  let message = ''
+  let title = ''
+  if (messageTemp === SUPPORT) {
+    message = t('pleaseContactSupport')
+    title = t('somethingWentWrong')
+  }
+  if (messageTemp === REFERRAL_ID) {
+    message = t('checkAccount')
+    title = t('invalidAccount')
+  }
+  if (messageTemp === INVALID) {
+    message = t('inputReceiverAddress')
+    title = t('invalidReceiverAddress')
+  }
+  if (messageTemp === SEND_AMOUNT) {
+    message = t('invalidAmount')
+  }
+  if (messageTemp === ORDER_ID) {
+    message = t('pleaseContactSupport')
+    title = t('invalidOrderId')
+  }
+  if (messageTemp === QUOTE_FAILED) {
+    message = t('quoteMessage')
+    title = t('fetchFailed')
+  }
+  if (messageTemp === WRONG_PWD) {
+    message = t('wrongPwd')
+    title = t('pleaseTryAgain')
+  }
+  if (messageTemp === SAME_ANONYMOUS) {
+    message = 'sameAnonymous'
+    title = t('differentTokenPair')
+  }
+
+  if (messageTemp === MISSING_QUOTE_FIXED) {
+    message = t('missingQuoteFixed')
+    title = t('unableGetQuote')
+  }
+
+  if (messageTemp === EXPORT_MISSING_SWAP) {
+    message = t('pleaseAddSwap')
+    title = t('unableExport')
+  }
+
+  switch (type) {
+    case 'success':
+      toast.success(message, title, time)
+      break
+    case 'info':
+      toast.info(message, title, time)
+      break
+    case 'warning':
+      toast.warning(message, title, time)
+      break
+    case 'error':
+      toast.error(message, title, time)
+      break
+    default:
+      console.error('Invalid notification type')
+  }
 }
