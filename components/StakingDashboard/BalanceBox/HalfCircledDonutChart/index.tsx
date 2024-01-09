@@ -27,16 +27,35 @@ const HalfCircledDonutChart = () => {
     gradient
       .append("stop")
       .attr("offset", "0%")
-      .attr("stop-color", "darkorange");
+      .attr("stop-color", "#86E1A0");
     gradient
       .append("stop")
       .attr("offset", "100%")
-      .attr("stop-color", "lightorange");
+      .attr("stop-color", "#4FBF67");
 
+    const gradient1 = svg
+      .append("defs")
+      .append("linearGradient")
+      .attr("id", "gradient1")
+      .attr("gradientTransform", "rotate(90)");
+
+    // Add color stops to the gradient
+    gradient1
+      .append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", "#9687FF");
+    gradient1
+      .append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", "#334AD3");
+
+    var colorScale = d3.scaleOrdinal()
+      .domain(data.map(function(d: any, i: any) { return i; }))
+      .range(["url(#gradient)", "url(#gradient1)"]);
 
     // Create the arc generator
     const arc: any = d3.arc()
-      .innerRadius(radius * 0.7)
+      .innerRadius(radius * 0.7 + 2)
       .outerRadius(radius)
       .cornerRadius(8);
   
@@ -60,8 +79,7 @@ const HalfCircledDonutChart = () => {
       .enter()
       .append('path')
       .attr('d', arc)
-      // .attr('fill', (d, i) => d3.schemeCategory10[i]);
-      .attr('fill', 'url(#gradient)');
+      .attr("fill", function(d, i: any): any { return colorScale(i); });
   }, []);
 
   

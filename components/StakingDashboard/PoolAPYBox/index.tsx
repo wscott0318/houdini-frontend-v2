@@ -38,7 +38,7 @@ const PoolAPYBox = () => {
             <CTAButton width="204px" height="48px">
               <div className='justify-center items-center w-full text-center flex flex-row gap-[7px]'>
                 <ShareSvg className="w-[14px] h-[14px]"/>
-                <span>Share</span>
+                <span>{t('share')}</span>
               </div>
             </CTAButton>
           </div>

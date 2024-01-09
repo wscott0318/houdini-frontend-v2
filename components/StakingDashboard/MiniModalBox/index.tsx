@@ -20,10 +20,10 @@ const MiniModalBox = () => {
             <div className='bg-gradient-to-b from-[#fff] to-[#000] rounded-[16px] justify-center items-center flex p-[2px]'>
               <div className='rounded-[16px] h-[78px] w-full px-[24px] py-[15px] flex flex-row justify-between bg-gradient-to-b from-[#0b0d11] to-[#343d50]'>
                 <div className='flex flex-col justify-between'>
-                  <span className='text-[10px] font-semibold uppercase'>amount To Stake</span>
+                  <span className='text-[10px] font-semibold uppercase'>{t('amountToStake')}</span>
                   <span className='text-[20px] font-medium leading-[20px]'>423525.6598</span>
                 </div>
-                <div className='flex items-end'><span className='text-[14px] font-bold leading-[24px]'>LOCK</span></div>
+                <div className='flex items-end'><span className='text-[14px] font-bold leading-[24px] uppercase'>{t('lock')}</span></div>
               </div>
             </div>
             <span className='text-[12px] leading-[16px] font-medium'>Fee: 0.125% / 0.125%</span>
@@ -34,7 +34,7 @@ const MiniModalBox = () => {
           >
             <div className='flex flex-row gap-[7px] justify-center items-center'>
               <StakeMoreSvg className="w-[16px] h-[16px]"/>
-              <span className="text-[16px] font-semibold">Stake</span>
+              <span className="text-[16px] font-semibold">{t('stake')}</span>
             </div>
           </button>
         </div>

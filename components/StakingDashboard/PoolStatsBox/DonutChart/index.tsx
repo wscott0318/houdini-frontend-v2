@@ -17,8 +17,45 @@ const DonutChart = () => {
       .append('g')
       .attr('transform', `translate(${width / 2}, ${height / 2})`);
   
-    const color = d3.scaleOrdinal()
-      .range(['#98abc5', '#8a89a6', '#7b6888', '#6b486b', '#a05d56']);
+      const gradient = svg
+      .append("defs")
+      .append("linearGradient")
+      .attr("id", "gradient")
+      .attr("gradientTransform", "rotate(90)");
+
+    // Add color stops to the gradient
+    gradient
+      .append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", "#BCAAFF");
+    gradient
+      .append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", "#B364D1");
+
+    const gradient1 = svg
+      .append("defs")
+      .append("linearGradient")
+      .attr("id", "gradient1")
+      .attr("gradientTransform", "rotate(90)");
+
+    // Add color stops to the gradient
+    gradient1
+      .append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", "#FB792F");
+    gradient1
+      .append("stop")
+      .attr("offset", "60%")
+      .attr("stop-color", "#F3C755");
+    gradient1
+      .append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", "#F5C341");
+
+    var colorScale = d3.scaleOrdinal()
+      .domain(data.map(function(d: any, i: any) { return i; }))
+      .range(["url(#gradient)", "url(#gradient1)"]);
 
     const pie = d3.pie().sort(null).value((d: any) => d).padAngle(0.08);
 
@@ -35,7 +72,7 @@ const DonutChart = () => {
 
     arcs.append('path')
       .attr('d', arc)
-      .attr('fill', (d, i):any => {d3.schemeCategory10[i]});
+      .attr("fill", function(d, i: any):any { return colorScale(i); });
   }, []);
   
 
