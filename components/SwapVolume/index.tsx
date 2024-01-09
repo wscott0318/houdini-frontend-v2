@@ -27,7 +27,7 @@ export const SwapVolume: React.FC<SwapVolumeProps> = ({ value }) => {
       array.push(parseInt(valueStr[i]))
     }
 
-    for (let i = 0; i < 10 - valueStr.length; i++) {
+    for (let i = 0; i < 9 - valueStr.length; i++) {
       array.push(-1)
     }
 
