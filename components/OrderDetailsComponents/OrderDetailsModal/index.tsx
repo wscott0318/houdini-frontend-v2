@@ -8,8 +8,8 @@ import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCou
 import { MetalboarderedTransRoundbox } from '@/components/GeneralModal/MetalboarderedTransRoundbox'
 import { OrderDetailRoundbox } from '@/components/GeneralModal/OrderDetailRoundbox'
 import { OrderProgress } from '@/components/OrderProgress'
-import { Protocol4Svg } from '@/components/Svg'
 import { TOKENS_QUERY } from '@/lib/apollo/query'
+import { ORDER_STATUS } from '@/utils/constants'
 
 interface OrderDetailsModalProps {
   orderId: string
@@ -92,7 +92,13 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
           <div className="items-center w-full justify-center">
             <MetalboarderedTransRoundbox>
               <div className="relative flex flex-col lg:flex-row gap-[32px] px-[50px] py-[30px]">
-                <OrderProgress order={props?.order} />
+                {props?.order?.status === ORDER_STATUS.EXPIRED ? (
+                  <div className="text-center md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
+                    Order expired
+                  </div>
+                ) : (
+                  <OrderProgress order={props?.order} />
+                )}
               </div>
             </MetalboarderedTransRoundbox>
           </div>

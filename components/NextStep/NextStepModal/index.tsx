@@ -187,9 +187,6 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
 
             <WalletRoundbox>
               <div className="relative flex flex-row justify-center items-center custom-wallet-shadow custom-wallet-gradient rounded-[15px] w-[70px] h-[70px] lg:w-[118px] lg:h-[88px] bg-red-900 px-[10px] py-[20px] bg-gradient-to-r from">
-                {/* <div className="text-center text-xs lg:text-[15px] lg:font-bold font-medium">
-                  {t('orderDetailModalOpenWallet')}
-                </div> */}
                 <OpenWallet
                   amount={props?.order?.inAmount}
                   to={props?.order?.senderAddress}

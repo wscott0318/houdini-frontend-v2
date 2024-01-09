@@ -53,7 +53,10 @@ export const OpenWallet = ({ amount, token, to, setIsLoading }: any) => {
       chainId: token?.token?.chain,
       address: tokenAddress,
       functionName: 'transfer',
-      args: [to, parseUnits(amount?.toFixed(6) ?? '0', data?.decimals as number ?? 18)],
+      args: [
+        to,
+        parseUnits(amount?.toFixed(6) ?? '0', (data?.decimals as number) ?? 18),
+      ],
       abi: [
         {
           constant: false,
@@ -202,22 +205,25 @@ export const OpenWallet = ({ amount, token, to, setIsLoading }: any) => {
 
   return (
     <>
-      <button
-        className="block rounded-md border-[1px] border-black bg-white px-6 py-2 font-bold text-black"
+      <div
         onClick={() => handleOpenWallet()}
+        className="text-center text-xs w-full h-full flex flex-row justify-center items-center lg:text-[15px] lg:font-bold font-medium hover:cursor-pointer"
       >
-        <span className="mb-1">{t('openInWallet')}</span>
-        {/* <div className="flex flex-row items-center justify-center"> */}
-        {/* <img
+        {t('orderDetailModalOpenWallet')}
+      </div>
+      {/* <button className="block rounded-md border-[1px] border-black bg-white px-6 py-2 font-bold text-black">
+        <span className="mb-1">{t('openInWallet')}</span> */}
+      {/* <div className="flex flex-row items-center justify-center"> */}
+      {/* <img
 						src={getChainIcon(chain?.id ?? 1)}
 						height={12}
 						width={12}
 						alt={chain?.name ?? ''}
 						className="greyscale rounded-xl transition-all duration-100 hover:scale-110"
 					/> */}
-        {/* <span className="text-sm"> {getEllipsisTxt(address ?? '')}</span> */}
-        {/* </div> */}
-      </button>
+      {/* <span className="text-sm"> {getEllipsisTxt(address ?? '')}</span> */}
+      {/* </div> */}
+      {/* </button> */}
     </>
   )
 }

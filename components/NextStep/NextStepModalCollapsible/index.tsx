@@ -13,13 +13,16 @@ import { MetalboarderedRoundbox } from '@/components/GeneralModal/Metalboardered
 import { MetalboarderedTransRoundbox } from '@/components/GeneralModal/MetalboarderedTransRoundbox'
 import { OrderDetailRoundbox } from '@/components/GeneralModal/OrderDetailRoundbox'
 import { WalletRoundbox } from '@/components/GeneralModal/WalletRoundbox'
+import { OpenWallet } from '@/components/OpenWallet'
 import { OrderProgress } from '@/components/OrderProgress'
 import { QrCode } from '@/components/QRCode'
 import { ChevronSvg, QRCodeSvg, SwapSvg } from '@/components/Svg'
 import { CONFIRM_DEPOSIT, TOKENS_QUERY } from '@/lib/apollo/query'
+import { ORDER_STATUS } from '@/utils/constants'
 import {
   getEllipsisTxt,
   getOrderStatusKey,
+  getTokenDetails,
   showErrorMessage,
 } from '@/utils/helpers'
 
@@ -42,6 +45,8 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
 
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [qrCodeModal, setQrCodeModal] = useState(false)
+  const [isLoading, setIsLoading] = useState()
+
   const [txHash, setTxHash] = useState('')
   const [confirmDepositModal, setConfirmDepositModal] = useState(false)
 
@@ -252,9 +257,17 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
 
                 <WalletRoundbox>
                   <div className="relative flex hover:cursor-pointer flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
-                    <div className="text-center lg:text-[15px] lg:font-bold font-medium whitespace-nowrap">
-                      {t('orderDetailModalOpenWallet')}
-                    </div>
+                    <OpenWallet
+                      amount={props?.order?.inAmount}
+                      to={props?.order?.senderAddress}
+                      token={{
+                        token: getTokenDetails(
+                          tokensData?.tokens,
+                          props?.order?.inSymbol,
+                        ),
+                      }}
+                      setIsLoading={setIsLoading}
+                    />
                     {/* <QuestionSvg className="absolute top-1 right-1 w-[10px] h-[10px]"/> */}
                   </div>
                 </WalletRoundbox>
@@ -269,7 +282,13 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                 <div className="items-center w-full justify-center">
                   <MetalboarderedTransRoundbox>
                     <div className="relative flex flex-col lg:flex-row py-[30px] gap-4">
-                      <OrderProgress order={props?.order} />
+                      {props?.order?.status === ORDER_STATUS.EXPIRED ? (
+                        <div className="text-center md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
+                          Order expired
+                        </div>
+                      ) : (
+                        <OrderProgress order={props?.order} />
+                      )}
                     </div>
                   </MetalboarderedTransRoundbox>
                 </div>

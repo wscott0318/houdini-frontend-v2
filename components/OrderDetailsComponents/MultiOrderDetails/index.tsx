@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
+import { Loading } from '@/components/Loading'
 import { NeedHelp } from '@/components/NeedHelp'
 import { OrderDetailModalCollapsible } from '@/components/NextStep/NextStepModalCollapsible'
 import { MULTI_STATUS_QUERY } from '@/lib/apollo/query'
@@ -44,28 +45,32 @@ export const MultipleOrders = ({ t }: { t: any }) => {
 
       <div className="flex flex-col last:pb-[165px] w-full">
         <div className="flex flex-col items-center justify-center gap-[100px] w-full">
-          {orders?.map((order: any, index: number) => {
-            return (
-              <div
-                key={order?.houdiniId}
-                className="w-full flex flex-row justify-center items-center"
-              >
-                <OrderDetailModalCollapsible
-                  order={order}
-                  status={order?.status}
-                  orderID={order?.houdiniId}
-                  creationTime={new Date(order?.created)}
-                  sendAmount={order?.inAmount}
-                  receiveAddress={order?.receiverAddress}
-                  deliveryTime="26 : 34"
-                  recipientAddress={order?.senderAddress}
-                  receiveAmount={order?.outAmount}
-                  tokenType={order?.outSymbol}
-                  swapTime={30}
-                />
-              </div>
-            )
-          })}
+          {loadingMulti ? (
+            <Loading />
+          ) : (
+            orders?.map((order: any, index: number) => {
+              return (
+                <div
+                  key={order?.houdiniId}
+                  className="w-full flex flex-row justify-center items-center"
+                >
+                  <OrderDetailModalCollapsible
+                    order={order}
+                    status={order?.status}
+                    orderID={order?.houdiniId}
+                    creationTime={new Date(order?.created)}
+                    sendAmount={order?.inAmount}
+                    receiveAddress={order?.receiverAddress}
+                    deliveryTime="26 : 34"
+                    recipientAddress={order?.senderAddress}
+                    receiveAmount={order?.outAmount}
+                    tokenType={order?.outSymbol}
+                    swapTime={order?.eta}
+                  />
+                </div>
+              )
+            })
+          )}
           <div className="flex flex-col lg:px-[100px] lg:pt-[30px] pt-[30px]">
             <div className="lg:text-[17px] text-center font-medium leading-[21px] rainbow-text text-[#FFFFFF]">
               {t('nextStepReceive')}

@@ -1,6 +1,11 @@
-import { ApolloClient, ApolloLink, InMemoryCache, createHttpLink } from '@apollo/client'
+import {
+  ApolloClient,
+  ApolloLink,
+  InMemoryCache,
+  createHttpLink,
+} from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
-import createUploadLink from "apollo-upload-client/createUploadLink.mjs";
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
 
 const httpUserLink = createHttpLink({
   uri: process.env.NEXT_APP_GQL_USER_API ?? 'http://localhost:3000/graphql',
@@ -18,8 +23,6 @@ const uploadLink = createUploadLink({
   uri: process.env.NEXT_APP_GQL_USER_API ?? 'http://localhost:3000/graphql',
   credentials: 'include',
 })
-
-
 
 export const userClient = new ApolloClient({
   link: ApolloLink.from([authUserLink, httpUserLink, uploadLink]),

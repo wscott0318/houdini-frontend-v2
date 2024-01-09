@@ -223,8 +223,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
           })
         })
       },
-    },
-  )
+    })
 
   const [multi_exchange, { loading: isLoadingMultiExchange }] = useMutation(
     MULTI_EXCHANGE_MUTATION,
@@ -687,6 +686,18 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
     setSwaps(filteredSwaps)
   }
 
+  const buttonTextState = () => {
+    if (
+      (isMulti && isLoadingMultiExchange) ||
+      (!isMulti && isLoadingExchange)
+    ) {
+      return isMulti ? 'Creating Orders...' : 'Creating Order...'
+    } else if (isPriceQuoting) {
+      return 'Fetching Price...'
+    }
+    return 'Proceed'
+  }
+
   const handleExpand = (swapId: string) => {
     const updatedSwaps = swaps
       .filter((swap) => swap.send.value)
@@ -884,7 +895,8 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
           </div>
 
           <HoudiniButton
-            text={i18n?.proceedButtonText || 'Proceed'}
+            // text={i18n?.proceedButtonText || 'Proceed'}
+            text={buttonTextState()}
             onClick={() => {
               handleSwapProceed(isMulti)
             }}

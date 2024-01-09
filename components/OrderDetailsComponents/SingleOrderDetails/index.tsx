@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
+import { Loading } from '@/components/Loading'
 import { NextStep } from '@/components/NextStep'
 import { OrderDetails } from '@/components/OrderDetailsComponents/OrderDetails'
 import { STATUS_QUERY } from '@/lib/apollo/query'
@@ -51,6 +52,6 @@ export const SingleOrder = ({ t }: { t: any }) => {
     }
     return <OrderDetails order={order} />
   } else {
-    return <div>loading...</div>
+    return <Loading />
   }
 }

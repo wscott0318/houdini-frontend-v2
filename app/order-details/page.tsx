@@ -22,7 +22,7 @@ const animation = {
 }
 
 export default function OrderDetails() {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
 
   const { t } = useTranslation()
 
