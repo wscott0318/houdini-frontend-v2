@@ -46,6 +46,7 @@ import {
 import { SwapVolume } from '@/components/SwapVolume'
 import { TOTAL_VOLUME_QUERY } from '@/lib/apollo/query'
 import { swapFormi18n, swapi18n } from '@/utils/constants'
+import { kformatter } from '@/utils/helpers'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
 const partnersIcons = [
@@ -130,17 +131,19 @@ export default function Home() {
             </div>
 
             <div className="text-[35px] text-white leading-[50px] font-medium text-center">
-              {`${
-                data && data.totalVolume
-                  ? Math.round(data.totalVolume.totalTransactedUSD / 1000)
-                  : 0
-              }k`}
+              {data && data.totalVolume && data.totalVolume.count
+                ? kformatter(data.totalVolume.count, 2)
+                : 0}
             </div>
           </CardComponent>
         </div>
 
         <SwapVolume
-          value={data && data.totalVolume ? data.totalVolume.count : 0}
+          value={
+            data && data.totalVolume
+              ? parseInt(data.totalVolume.totalTransactedUSD)
+              : 0
+          }
         />
 
         <div className="w-[260px] rounded-[24px] h-[140px] sm:flex hidden flex-col justify-center items-center">
@@ -149,7 +152,9 @@ export default function Home() {
               $LOCK Buybacks
             </div>
             <div className="text-[35px] text-white leading-[50px] font-medium text-center">
-              5.7m
+              {data && data.totalVolume && data.totalVolume.totalBuyback
+                ? kformatter(data.totalVolume.totalBuyback, 2)
+                : 0}
             </div>
           </CardComponent>
         </div>

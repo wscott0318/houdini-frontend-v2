@@ -379,6 +379,7 @@ export const TOTAL_VOLUME_QUERY = gql`
     totalVolume {
       count
       totalTransactedUSD
+      totalBuyback
     }
   }
 `

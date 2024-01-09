@@ -13,7 +13,9 @@ interface SwapVolumeProps {
 }
 
 export const SwapVolume: React.FC<SwapVolumeProps> = ({ value }) => {
-  const [valueArr, setValueArr] = useState([-1, -1, -1, -1, -1, -1, -1])
+  const [valueArr, setValueArr] = useState([
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  ])
 
   const { t } = useTranslation()
 
@@ -25,7 +27,7 @@ export const SwapVolume: React.FC<SwapVolumeProps> = ({ value }) => {
       array.push(parseInt(valueStr[i]))
     }
 
-    for (let i = 0; i < 7 - valueStr.length; i++) {
+    for (let i = 0; i < 10 - valueStr.length; i++) {
       array.push(-1)
     }
 
@@ -33,7 +35,7 @@ export const SwapVolume: React.FC<SwapVolumeProps> = ({ value }) => {
   }, [value])
 
   return (
-    <div className="rounded-[25px] w-full max-w-[450px]">
+    <div className="rounded-[25px] w-full max-w-[550px]">
       <div className="flex flex-col w-full justify-center backdrop-blur-[20px] items-center gap-[15px] rounded-[25px] custom-modal-step2-drop-shadow border-[3px] lg:border-[12px] border-[#457BBA]/40 lg:px-2 px-[4px] py-[2px] lg:py-[8px]">
         <div className="relative p-[3px] rounded-[20px] custom-modal-step2-inner-shadow w-full">
           <div className="relative flex flex-col items-center backdrop-blur-[46px] w-full blur-46px custom-modal-step2-drop-shadow rounded-[20px] px-[41px] pt-[18px] pb-[32px] z-[1]">
