@@ -12,7 +12,7 @@ import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCou
 import { MetalboarderedRoundbox } from '@/components/GeneralModal/MetalboarderedRoundbox'
 import { OrderDetailRoundbox } from '@/components/GeneralModal/OrderDetailRoundbox'
 import { WalletRoundbox } from '@/components/GeneralModal/WalletRoundbox'
-import { OpenWallet } from '@/components/OpenInWallet'
+import { OpenWallet } from '@/components/OpenWallet'
 import { QrCode } from '@/components/QRCode'
 import { QRCodeSvg, QuestionSvg } from '@/components/Svg'
 import { TOKENS_QUERY } from '@/lib/apollo/query'
@@ -28,14 +28,15 @@ interface OrderDetailModalProps {
   receiveAmount: number
   tokenType: string
   order: any
-  loadingOrder: boolean
 }
 
 export const OrderDetailModal = (props: OrderDetailModalProps) => {
   const { t } = useTranslation()
   const [qrCodeModal, setQrCodeModal] = useState(false)
 
-  const [tokens, setTokens] = useState<any>([])
+  const [isLoading, setIsLoading] = useState()
+
+  // const [tokens, setTokens] = useState<any>([])
 
   const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
 
@@ -76,7 +77,7 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
     (symbol: string) => {
       if (!loading) {
         const tokens = tokensData?.tokens
-        setTokens(tokens)
+        // setTokens(tokens)
         const token = tokens?.find((token: any) => token?.symbol === symbol)
         return token
           ? { displayName: token?.displayName, icon: token?.icon }
@@ -193,9 +194,9 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
                   amount={props?.order?.inAmount}
                   to={props?.order?.senderAddress}
                   token={{
-                    token: getTokenDetails(tokens, props?.order?.inSymbol),
+                    token: getTokenDetails(tokensData?.tokens, props?.order?.inSymbol),
                   }}
-                  setIsLoading={!props?.order}
+                  setIsLoading={setIsLoading}
                 />
                 <div className="absolute flex flex-row top-1 right-1 lg:top-5 lg:right-2.5">
                   <QuestionSvg />
