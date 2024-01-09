@@ -208,6 +208,12 @@ const config: Config = {
           '-webkit-background-clip': 'text',
           '-webkit-text-fill-color': 'transparent',
         },
+        '.custom-instant-withdrawal-button-gradient': {
+          background: 'linear-gradient(105.8deg, #FB792F 23.3%, #F3C755 97.04%, #F5C341 164.88%)'
+        },
+        '.custom-day-widthrawal-button-gradient': {
+          background: 'linear-gradient(180deg, #86E1A0 0%, #4FBF67 100%)'
+        }
       }
       addUtilities(newUtilities, ['responsive', 'hover'])
     },
