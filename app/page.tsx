@@ -1,5 +1,6 @@
 'use client'
 
+import { useQuery } from '@apollo/client'
 import { CardComponent } from 'houdini-react-sdk'
 import React, { useEffect, useState } from 'react'
 
@@ -43,6 +44,7 @@ import {
   XenifySvg,
 } from '@/components/Svg'
 import { SwapVolume } from '@/components/SwapVolume'
+import { TOTAL_VOLUME_QUERY } from '@/lib/apollo/query'
 import { swapFormi18n, swapi18n } from '@/utils/constants'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
@@ -89,13 +91,10 @@ const suportedProtocolIcons = [
 export default function Home() {
   const [width] = useWindowSize()
 
-  const [value, setValue] = useState(0)
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setValue(Math.floor(Math.random() * 1000))
-    }, 2000)
-    return () => clearInterval(timer)
-  }, [value])
+  const { loading, data } = useQuery(TOTAL_VOLUME_QUERY, {
+    fetchPolicy: 'no-cache',
+    pollInterval: 3000,
+  })
 
   return (
     <ResponsivePage>
@@ -131,11 +130,19 @@ export default function Home() {
             </div>
 
             <div className="text-[35px] text-white leading-[50px] font-medium text-center">
-              123k
+              {`${
+                data && data.totalVolume
+                  ? Math.round(data.totalVolume.totalTransactedUSD / 1000)
+                  : 0
+              }k`}
             </div>
           </CardComponent>
         </div>
-        <SwapVolume value={value} />
+
+        <SwapVolume
+          value={data && data.totalVolume ? data.totalVolume.count : 0}
+        />
+
         <div className="w-[260px] rounded-[24px] h-[140px] sm:flex hidden flex-col justify-center items-center">
           <CardComponent>
             <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">

@@ -25,12 +25,14 @@ const animation = {
 }
 
 export default function OrderDetails() {
-  const searchParams = useSearchParams()
-  const { t } = useTranslation()
-  const [width] = useWindowSize()
-
   const [isOpen, setIsOpen] = useState(true)
   const [orders, setOrders] = useState([])
+
+  const searchParams = useSearchParams()
+
+  const { t } = useTranslation()
+
+  const [width] = useWindowSize()
 
   const handleKeyDown = (event: { key: string }) => {
     if (event.key === 'Escape') {
@@ -48,7 +50,7 @@ export default function OrderDetails() {
 
   const { loading, data } = useQuery(MULTI_STATUS_QUERY, {
     variables: {
-      multiId: searchParams.get('multiId'), // 'wENSG7UKmEUZRdwdK3sw6x'
+      multiId: searchParams.get('multiId'),
     },
     fetchPolicy: 'no-cache',
     pollInterval: 3000,
