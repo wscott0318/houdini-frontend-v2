@@ -30,6 +30,7 @@ interface Swapi18n extends SwapFormi18n {
   saveOrderText?: string
   addSwapText?: string
   bottomText?: string
+  accountId?: string
   proceedButtonText?: string
   priceQuoteError?: string
   missingQuoteFixesError?: string
@@ -39,6 +40,9 @@ interface Swapi18n extends SwapFormi18n {
   emptyReceiverAddressError?: string
   invalidAddressError?: string
   tokenPairError?: string
+  generalError?: string
+  networkError?: string
+  referalError?: string
 }
 
 interface Swap {

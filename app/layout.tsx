@@ -6,6 +6,7 @@ import '@rainbow-me/rainbowkit/styles.css'
 import 'houdini-react-sdk/styles.css'
 import { MatomoProvider, createInstance } from 'matomo-react'
 import { Outfit, Poppins } from 'next/font/google'
+import { useSearchParams } from 'next/navigation'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { WagmiConfig, configureChains, createConfig } from 'wagmi'
@@ -79,6 +80,10 @@ const instance = createInstance({
 export default function RootLayout({ children }: LayoutProps) {
   const [width] = useWindowSize()
 
+  const searchParams = useSearchParams()
+
+  const widgetMode = searchParams.get('widgetMode')
+
   return (
     <html lang="en" className="m-0 p-0">
       <head>
@@ -91,18 +96,50 @@ export default function RootLayout({ children }: LayoutProps) {
         />
       </head>
       <body
-        className={`${outfit.variable} ${poppins.variable} relative font-outfit bg-white text-white m-0 p-0`}
+        className={`${outfit.variable} ${poppins.variable} relative font-outfit bg-black text-white m-0 p-0`}
       >
-        <div className="absolute w-full h-full top-[0px] left-[0px] bg-[#0e0e0e] z-[-3]"></div>
-        <div className="absolute w-full h-full top-[0px] left-[0px] bg-cover custom-top-background-img z-[-2]"></div>
+        {!widgetMode ? (
+          <>
+            <div className="absolute w-full h-full top-[0px] left-[0px] bg-[#0e0e0e] z-[-3]" />
+            <div className="absolute w-full h-full top-[0px] left-[0px] bg-cover custom-top-background-img z-[-2]" />
+          </>
+        ) : null}
 
-        <div className="container mx-auto z-1">
+        {!widgetMode ? (
+          <div className="container mx-auto z-1">
+            <MatomoProvider value={instance}>
+              <ApolloProvider client={userClient}>
+                <WagmiConfig config={wagmiConfig}>
+                  <RainbowKitProvider chains={chains}>
+                    <ResponsiveContainer>
+                      <Header />
+                      {children}
+                      <ToastContainer
+                        position={width <= 767 ? 'bottom-right' : 'top-right'}
+                        autoClose={3000}
+                        hideProgressBar={false}
+                        newestOnTop
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="colored"
+                        className="m-10"
+                      />
+                      <Footer />
+                    </ResponsiveContainer>
+                  </RainbowKitProvider>
+                </WagmiConfig>
+              </ApolloProvider>
+            </MatomoProvider>
+          </div>
+        ) : (
           <MatomoProvider value={instance}>
             <ApolloProvider client={userClient}>
               <WagmiConfig config={wagmiConfig}>
                 <RainbowKitProvider chains={chains}>
                   <ResponsiveContainer>
-                    <Header />
                     {children}
                     <ToastContainer
                       position={width <= 767 ? 'bottom-right' : 'top-right'}
@@ -117,15 +154,18 @@ export default function RootLayout({ children }: LayoutProps) {
                       theme="colored"
                       className="m-10"
                     />
-                    <Footer />
                   </ResponsiveContainer>
                 </RainbowKitProvider>
               </WagmiConfig>
             </ApolloProvider>
           </MatomoProvider>
-        </div>
+        )}
+
         <div id="portal"></div>
-        <canvas className="banner_canvas" id="canvas_banner"></canvas>
+
+        {!widgetMode ? (
+          <canvas className="banner_canvas" id="canvas_banner" />
+        ) : null}
       </body>
     </html>
   )

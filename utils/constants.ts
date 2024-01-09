@@ -55,6 +55,9 @@ export const swapi18n = {
   emptyReceiverAddressError: i18n.t('emptyReceiverAddressError') as string,
   invalidAddressError: i18n.t('invalidAddressError') as string,
   tokenPairError: i18n.t('tokenPairError') as string,
+  generalError: i18n.t('generalError') as string,
+  networkError: i18n.t('networkError') as string,
+  referalError: i18n.t('referalError') as string,
 }
 
 export const ORDER_STATUS = {
