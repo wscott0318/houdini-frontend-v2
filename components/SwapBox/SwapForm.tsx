@@ -85,7 +85,7 @@ export const SwapForm: React.FC<SwapFormProps> = ({
             />
           </div>
           <div
-            className={`flex md:flex-row justify-center  md:space-y-0 items-center gap-[14px]  w-full ${
+            className={`flex md:flex-row justify-center  md:space-y-0 items-center gap-[14px] flex-col  w-full ${
               !tokenLockOut ? '-space-y-6 md:-space-x-7' : ''
             }`}
           >
