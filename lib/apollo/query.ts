@@ -373,3 +373,12 @@ export const RETRY_MULTI_ORDER_MUTATION = gql`
     retryMultiOrder(id: $id)
   }
 `
+
+export const TOTAL_VOLUME_QUERY = gql`
+  query totalVolume {
+    totalVolume {
+      count
+      totalTransactedUSD
+    }
+  }
+`
