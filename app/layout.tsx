@@ -4,8 +4,8 @@ import { ApolloProvider } from '@apollo/client'
 import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import 'houdini-react-sdk/styles.css'
+import { MatomoProvider, createInstance } from 'matomo-react'
 import { Outfit, Poppins } from 'next/font/google'
-import { useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { WagmiConfig, configureChains, createConfig } from 'wagmi'
@@ -52,6 +52,30 @@ const wagmiConfig = createConfig({
   publicClient,
 })
 
+const instance = createInstance({
+  urlBase: 'https://api5.houdiniswap.com',
+  siteId: 1,
+  // userId: 'UID76903202', // optional, default value: `undefined`.
+  trackerUrl: 'https://api5.houdiniswap.com/session.php', // optional, default value: `${urlBase}matomo.php`
+  srcUrl: 'https://api5.houdiniswap.com/session.js', // optional, default value: `${urlBase}matomo.js`
+  // permanentTitle: 'My Awesome App', // optional, always use this title for tracking, ignores document.title. Useful for SPAs.
+  // permanentHref: '/', // optional, always use this href for tracking, ignores window.location.href. Useful for SPAs.
+  disabled: false, // optional, false by default. Makes all tracking calls no-ops if set to true.
+  heartBeat: {
+    // optional, enabled by default
+    active: true, // optional, default value: true
+    seconds: 15, // optional, default value: 15
+  },
+  linkTracking: true, // optional, default value: true
+  configurations: {
+    // optional, default value: {}
+    // any valid matomo configuration, all below are optional
+    // disableCookies: true,
+    setSecureCookie: process.env.NODE_ENV === 'production',
+    setRequestMethod: 'POST',
+  },
+})
+
 export default function RootLayout({ children }: LayoutProps) {
   const [width] = useWindowSize()
 
@@ -73,30 +97,32 @@ export default function RootLayout({ children }: LayoutProps) {
         <div className="absolute w-full h-full top-[0px] left-[0px] bg-cover custom-top-background-img z-[-2]"></div>
 
         <div className="container mx-auto z-1">
-          <ApolloProvider client={userClient}>
-            <WagmiConfig config={wagmiConfig}>
-              <RainbowKitProvider chains={chains}>
-                <ResponsiveContainer>
-                  <Header />
-                  {children}
-                  <ToastContainer
-                    position={width <= 767 ? 'bottom-right' : 'top-right'}
-                    autoClose={3000}
-                    hideProgressBar={false}
-                    newestOnTop
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="colored"
-                    className="mt-20"
-                  />
-                  <Footer />
-                </ResponsiveContainer>
-              </RainbowKitProvider>
-            </WagmiConfig>
-          </ApolloProvider>
+          <MatomoProvider value={instance}>
+            <ApolloProvider client={userClient}>
+              <WagmiConfig config={wagmiConfig}>
+                <RainbowKitProvider chains={chains}>
+                  <ResponsiveContainer>
+                    <Header />
+                    {children}
+                    <ToastContainer
+                      position={width <= 767 ? 'bottom-right' : 'top-right'}
+                      autoClose={3000}
+                      hideProgressBar={false}
+                      newestOnTop
+                      closeOnClick
+                      rtl={false}
+                      pauseOnFocusLoss
+                      draggable
+                      pauseOnHover
+                      theme="colored"
+                      className="m-10"
+                    />
+                    <Footer />
+                  </ResponsiveContainer>
+                </RainbowKitProvider>
+              </WagmiConfig>
+            </ApolloProvider>
+          </MatomoProvider>
         </div>
         <div id="portal"></div>
         <canvas className="banner_canvas" id="canvas_banner"></canvas>

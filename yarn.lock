@@ -6154,6 +6154,11 @@ markerjs2@^2.29.4:
   resolved "https://registry.yarnpkg.com/markerjs2/-/markerjs2-2.31.4.tgz#2508373f4caa8c74b2c8debd39db1c5793fa115f"
   integrity sha512-Xx/2969Uj1VdwFRMcvHlhMNqvFMwJwie8J6WQcj9NDEByD2CdLVxF/39w0rg4ILJbsafAVp0ZxywXiYG9wfI0Q==
 
+matomo-react@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/matomo-react/-/matomo-react-1.0.7.tgz#454e1457ee306bee4f5a25173ab2fc95c55e4e21"
+  integrity sha512-R7K0AxemueBMrjNf8JEcx0HD1rFvRP1AyEunRcjodlm7xCNwBmZzsPGmT3L+30XTZSrk3o58q2akAFgdoMXYmw==
+
 mdn-data@2.0.28:
   version "2.0.28"
   resolved "https://registry.yarnpkg.com/mdn-data/-/mdn-data-2.0.28.tgz#5ec48e7bef120654539069e1ae4ddc81ca490eba"

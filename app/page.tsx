@@ -100,7 +100,7 @@ export default function Home() {
   return (
     <ResponsivePage>
       <div>
-        <div className="lg:text-[81px] text-center text-[35px] font-bold leading-normal capitalize tracking-[-0.85px]">
+        <div className="lg:text-[81px] text-center text-[35px] font-bold leading-normal capitalize tracking-[-0px]">
           Keep transactions private
         </div>
         <div className="flex flex-col font-normal text-[19px] leading-[30px] items-center justify-center text-[#B8CAFC] text-center">

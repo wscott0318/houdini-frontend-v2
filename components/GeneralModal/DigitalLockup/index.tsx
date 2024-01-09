@@ -77,9 +77,9 @@ export const DigitalLockup = (props: DigitalProps) => {
         </div>
       </div>
       <div>
-        <div className="p-[2.73px] custom-step-gradient1 rounded-[60px]">
+        <div className="p-[2px] custom-step-gradient1 rounded-[60px]">
           <div className="flex flex-col justify-center items-center custom-step-gradient custom-step-shadow rounded-[60px] px-[15px] py-[5px]">
-            <div className="text-center w-full leading-[21.88px] text-[10.03px] font-bold whitespace-nowrap">
+            <div className="text-center w-full leading-[21px] text-[10px] font-bold whitespace-nowrap">
               {props.text}
             </div>
           </div>

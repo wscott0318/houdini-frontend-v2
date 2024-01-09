@@ -1,8 +1,9 @@
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CheckBox, Portal } from 'houdini-react-sdk'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
 
 import { Countdown } from '@/components/Countdown'
 import { GeneralModal } from '@/components/GeneralModal'
@@ -15,8 +16,12 @@ import { WalletRoundbox } from '@/components/GeneralModal/WalletRoundbox'
 import { OrderProgress } from '@/components/OrderProgress'
 import { QrCode } from '@/components/QRCode'
 import { ChevronSvg, QRCodeSvg, SwapSvg } from '@/components/Svg'
-import { TOKENS_QUERY } from '@/lib/apollo/query'
-import { getEllipsisTxt, getOrderStatusKey } from '@/utils/helpers'
+import { CONFIRM_DEPOSIT, TOKENS_QUERY } from '@/lib/apollo/query'
+import {
+  getEllipsisTxt,
+  getOrderStatusKey,
+  showErrorMessage,
+} from '@/utils/helpers'
 
 interface OrderDetailModalProps {
   orderID: string
@@ -37,10 +42,41 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
 
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [qrCodeModal, setQrCodeModal] = useState(false)
+  const [txHash, setTxHash] = useState('')
+  const [confirmDepositModal, setConfirmDepositModal] = useState(false)
 
   const toggleOpen = () => setIsCollapsed(!isCollapsed)
 
   const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
+
+  const [confirmDeposit] = useMutation(CONFIRM_DEPOSIT, {
+    variables: {
+      hash: props?.order?.senderAddress,
+      id: props?.order?.houdiniId,
+    },
+    onError: (err) => {
+      showErrorMessage(err, t)
+    },
+    onCompleted: (data) => {
+      const { confirmDeposit } = data
+      if (confirmDeposit) {
+        toast.success('Your request has been sent')
+      } else {
+        toast.error('Something went wrong. Please contact support!')
+      }
+    },
+  })
+
+  const handleConfirmDeposit = async () => {
+    await confirmDeposit()
+
+    setTxHash('')
+    setConfirmDepositModal(false)
+  }
+
+  const handleCloseConfirmDepositModal = () => {
+    setConfirmDepositModal(false)
+  }
 
   const DateFormatter = () => {
     const date = props.creationTime
@@ -95,12 +131,12 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
         <div className="flex md:flex-row flex-wrap lg:justify-between lg:gap-0 gap-[5px] items-center justify-center w-full px-[10px] py-[5px]">
           <div className="md:w-35% sm:w-50%">
             <OrderDetailRoundbox border="custom-houdini-id-gradient1">
-              <div className="text-center lg:text-[15.25px] text-[12px] font-bold text-[#FFFFFF] text-opacity-60">
+              <div className="text-center lg:text-[15px] text-[12px] font-bold text-[#FFFFFF] text-opacity-60">
                 {t('orderDetailModalOrderID')}:
               </div>
               <Clipboardbox
                 concept={`${props.orderID}`}
-                fontSize="lg:text-[15.25px] text-[12px]"
+                fontSize="lg:text-[15px] text-[12px]"
                 textColor="text-[#FFFFFF99]"
               />
             </OrderDetailRoundbox>
@@ -108,10 +144,10 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
           <div className="flex flex-row justify-start items-center gap-2">
             <div className="md:w-10% md:pt-0 lg:pt-[5px] sm:w-50%">
               <OrderDetailRoundbox border="custom-houdini-id-gradient1">
-                <div className="text-center lg:text-[14.88px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-60 font-bold">
+                <div className="text-center lg:text-[14px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-60 font-bold">
                   {t('orderDetailModalCreationTime')}:
                 </div>
-                <div className="text-center lg:text-[15.25px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-50 font-normal">
+                <div className="text-center lg:text-[15px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-50 font-normal">
                   {`${DateFormatter()}, ${TimeFormatter()}`}
                 </div>
               </OrderDetailRoundbox>
@@ -144,11 +180,11 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
         >
           {props.status === 0 || props.status === -1 ? (
             <IndustrialCounterLockup>
-              <div className="text-center w-full lg:text-[46px] text-[20px] lg:leading-[75.43px] font-bold ">
+              <div className="text-center w-full lg:text-[46px] text-[20px] lg:leading-[75px] font-bold ">
                 {t('orderDetailModalSendFund')}
               </div>
               <div className="flex relative justify-center items-center flex-col lg:px-[30px] lg:py-[10px] lg:gap-[20px] gap-[10px] w-full">
-                <div className="text-center w-full lg:text-[17px] text-[15px] leading-[21.42px] font-medium rainbow-text">
+                <div className="text-center w-full lg:text-[17px] text-[15px] leading-[21px] font-medium rainbow-text">
                   {t('orderDetailModalFollowSteps')}
                 </div>
                 <MetalboarderedRoundbox>
@@ -199,7 +235,12 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
 
                 <WalletRoundbox>
                   <div className="relative hover:cursor-pointer flex flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
-                    <div className="text-center lg:text-[15px] lg:font-bold font-medium whitespace-nowrap">
+                    <div
+                      onClick={() => {
+                        confirmDeposit()
+                      }}
+                      className="text-center lg:text-[15px] lg:font-bold font-medium whitespace-nowrap"
+                    >
                       {t('alertSupport')}
                     </div>
                   </div>

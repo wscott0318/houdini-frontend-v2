@@ -12,9 +12,11 @@ import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCou
 import { MetalboarderedRoundbox } from '@/components/GeneralModal/MetalboarderedRoundbox'
 import { OrderDetailRoundbox } from '@/components/GeneralModal/OrderDetailRoundbox'
 import { WalletRoundbox } from '@/components/GeneralModal/WalletRoundbox'
+import { OpenWallet } from '@/components/OpenWallet'
 import { QrCode } from '@/components/QRCode'
 import { QRCodeSvg, QuestionSvg } from '@/components/Svg'
 import { TOKENS_QUERY } from '@/lib/apollo/query'
+import { getTokenDetails } from '@/utils/helpers'
 
 interface OrderDetailModalProps {
   orderID: string
@@ -32,10 +34,14 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
   const { t } = useTranslation()
   const [qrCodeModal, setQrCodeModal] = useState(false)
 
+  const [isLoading, setIsLoading] = useState()
+
+  // const [tokens, setTokens] = useState<any>([])
+
   const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
 
   const DateFormatter = () => {
-    const date = props.creationTime
+    const date = props?.creationTime
     const formatter = new Intl.DateTimeFormat('en-US', {
       day: '2-digit',
       month: '2-digit',
@@ -45,7 +51,7 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
     return formattedDate
   }
   const TimeFormatter = () => {
-    const date = props.creationTime
+    const date = props?.creationTime
     const formatter = new Intl.DateTimeFormat('en-US', {
       hour: '2-digit',
       minute: '2-digit',
@@ -71,9 +77,10 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
     (symbol: string) => {
       if (!loading) {
         const tokens = tokensData?.tokens
-        const token = tokens?.find((token: any) => token.symbol === symbol)
+        // setTokens(tokens)
+        const token = tokens?.find((token: any) => token?.symbol === symbol)
         return token
-          ? { displayName: token.displayName, icon: token.icon }
+          ? { displayName: token?.displayName, icon: token?.icon }
           : null
       }
       return { displayName: '', icon: '' }
@@ -87,22 +94,22 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
         <div className="flex flex-wrap md:flex-row lg:justify-between lg:gap-0 gap-[5px] items-center justify-center w-full px-[10px] py-[5px]">
           <div className="md:w-35% sm:w-50%">
             <OrderDetailRoundbox border="custom-houdini-id-gradient1">
-              <div className="text-center lg:text-[15.25px] text-[12px] font-bold text-[#FFFFFF] text-opacity-60">
+              <div className="text-center lg:text-[15px] text-[12px] font-bold text-[#FFFFFF] text-opacity-60">
                 {t('orderDetailModalOrderID')}:
               </div>
               <Clipboardbox
                 concept={`${props?.orderID}`}
-                fontSize="lg:text-[15.25px] text-[12px]"
+                fontSize="lg:text-[15px] text-[12px]"
                 textColor="text-[#FFFFFF99]"
               />
             </OrderDetailRoundbox>
           </div>
           <div className="md:w-10% md:pt-0 lg:pt-[5px] sm:w-50%">
             <OrderDetailRoundbox border="custom-houdini-id-gradient1">
-              <div className="text-center lg:text-[14.88px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-60 font-bold">
+              <div className="text-center lg:text-[14px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-60 font-bold">
                 {t('orderDetailModalCreationTime')}:
               </div>
-              <div className="text-center lg:text-[15.25px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-50 font-normal">
+              <div className="text-center lg:text-[15px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-50 font-normal">
                 {`${DateFormatter()}, ${TimeFormatter()}`}
               </div>
             </OrderDetailRoundbox>
@@ -110,11 +117,11 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
         </div>
 
         <IndustrialCounterLockup>
-          <div className="text-center w-full lg:text-[46px] text-[20px] lg:leading-[75.43px] font-bold ">
+          <div className="text-center w-full lg:text-[46px] text-[20px] lg:leading-[75px] font-bold ">
             {t('orderDetailModalSendFund')}
           </div>
           <div className="flex flex-col lg:px-[30px] lg:py-[10px] lg:gap-[20px] gap-[10px] w-full">
-            <div className="text-center w-full lg:text-[17px] text-[15px] leading-[21.42px] font-medium rainbow-text">
+            <div className="text-center w-full lg:text-[17px] text-[15px] leading-[21px] font-medium rainbow-text">
               {t('orderDetailModalFollowSteps')}
             </div>
             <MetalboarderedRoundbox>
@@ -132,7 +139,7 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
                     {findTokenBySymbol(props?.order?.inSymbol)?.displayName}
                   </div>
                   <Clipboardbox
-                    concept={`${props.sendAmount}`}
+                    concept={`${props?.sendAmount}`}
                     textColor="text-[#FBBF24]"
                     fontSize="lg:text-[20px] text-[14px]"
                     fontWeight="text-semibold"
@@ -180,9 +187,17 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
 
             <WalletRoundbox>
               <div className="relative flex flex-row justify-center items-center custom-wallet-shadow custom-wallet-gradient rounded-[15px] w-[70px] h-[70px] lg:w-[118px] lg:h-[88px] bg-red-900 px-[10px] py-[20px] bg-gradient-to-r from">
-                <div className="text-center text-xs lg:text-[15px] lg:font-bold font-medium">
+                {/* <div className="text-center text-xs lg:text-[15px] lg:font-bold font-medium">
                   {t('orderDetailModalOpenWallet')}
-                </div>
+                </div> */}
+                <OpenWallet
+                  amount={props?.order?.inAmount}
+                  to={props?.order?.senderAddress}
+                  token={{
+                    token: getTokenDetails(tokensData?.tokens, props?.order?.inSymbol),
+                  }}
+                  setIsLoading={setIsLoading}
+                />
                 <div className="absolute flex flex-row top-1 right-1 lg:top-5 lg:right-2.5">
                   <QuestionSvg />
                 </div>
@@ -196,22 +211,22 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
 
         <div className="pt-[15px] lg:px-[10px] pb-[5px] w-full">
           <div className="p-[2px] w-full rounded-[20px] custom-houdini-id-gradient1">
-            <div className="lg:flex flex-wrap lg:justify-between justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow lg:px-[30px] px-[5px] py-[10px]">
+            <div className="flex flex-wrap lg:flex-nowrap lg:justify-between justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow lg:px-[30px] px-[5px] py-[10px]">
               <div className="sm:flex block lg:w-[60%] w-full lg:justify-between justify-center px-[4px] gap-4">
                 <div className="text-center lg:text-[15px] whitespace-nowrap lg:leading-[24px] text-[14px] font-bold text-opacity-60 text-[#FFFFFF99]">
                   {t('orderDetailModalRecipientWallet')}:
                 </div>
                 <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
-                  {`${props.recipientAddress}`}
+                  {`${props?.recipientAddress}`}
                 </div>
               </div>
               <div className="flex lg:w-[40%] lg:justify-between justify-center flex-row items-center gap-2.5 px-[4px]">
-                <div className=" text-cente lg:text-[15px] lg:leading-[24px] text-[14px] font-normal text-opacity-50 lg:pl-[60px] text-[#FFFFFF99] whitespace-nowrap">
+                <div className="text-center lg:text-[15px] lg:leading-[24px] text-[14px] font-normal text-opacity-50 lg:pl-[60px] text-[#FFFFFF99] whitespace-nowrap">
                   {t('orderDetailModalWillReceive')}
                 </div>
                 <div className="flex gap-2.5 items-center">
                   <div className="text-center lg:text-[15px] text-[14px] font-normal">
-                    {`${props.receiveAmount}`}
+                    {`${props?.receiveAmount}`}
                   </div>
                   <img
                     alt="outSymbol"
