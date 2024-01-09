@@ -157,7 +157,7 @@ export const SwapForm: React.FC<SwapFormProps> = ({
                 'Receiving Wallet (BTC) Address'
               }
               onChange={(e) => handleReceiveAddress(e.target.value, swap.id)}
-              value={swap.receiveAddress}
+              value={swap?.receiveAddress}
             />
           </div>
         </div>

@@ -1,3 +1,4 @@
+import React from 'react'
 import { toast } from 'react-toastify'
 
 import {
@@ -16,6 +17,8 @@ import {
 
 export const validateWalletAddress = (addressTo: string, token: Token) => {
   let validator = token?.network?.addressValidation
+
+  console.log('validatior', validator)
 
   try {
     if (validator && validator.startsWith('^') && validator.endsWith('$')) {
@@ -63,7 +66,7 @@ export const copyText = (txt: string) => {
   textField.remove()
 }
 
-export const showMsg = (type, messageTemp, t, time = 5000) => {
+export const showMsg = (type: any, messageTemp: any, t: any, time = 5000) => {
   let message = ''
   let title = ''
   if (messageTemp === SUPPORT) {
@@ -110,18 +113,78 @@ export const showMsg = (type, messageTemp, t, time = 5000) => {
 
   switch (type) {
     case 'success':
-      toast.success(message, title, time)
+      toast.success(message)
       break
     case 'info':
-      toast.info(message, title, time)
+      toast.info(message)
       break
     case 'warning':
-      toast.warning(message, title, time)
+      toast.warning(message)
       break
     case 'error':
-      toast.error(message, title, time)
+      toast.error(message)
       break
     default:
       console.error('Invalid notification type')
   }
 }
+
+// export const copyButton = (e: any, t: any) => {
+//   return (
+//     <img
+//       className="track__copybutton"
+//       src={copy}
+//       alt={t('copy')}
+//       onClick={() => callCopyFunc(e, t)}
+//     />
+//   );
+// };
+
+/**
+ *
+ * @param {ApolloError | {userMessage: string, requestId: string, code: string} } err
+ * @param {number} timeout
+ */
+export const showErrorMessage = (err: any, t: any, timeout = 10000) => {
+  const error =
+    (err?.graphQLErrors ? err.graphQLErrors[0]?.extensions : err) || {}
+  const { requestId, code, userMessage } = error
+  let errorMessage = t(code) || t('somethingWentWrongContactSupport')
+  ;('')
+  if (code || requestId) {
+    if (
+      code === '50000' ||
+      code === '50002' ||
+      code === '50011' ||
+      code === '50011' ||
+      code.match(/^4.*/)
+    ) {
+      errorMessage = t(code)
+    }
+    errorMessage += ' ('
+    if (requestId) {
+      errorMessage += `${t('requestId')}: ${requestId}`
+      if (code) {
+        errorMessage += ', '
+      }
+    }
+    if (code) {
+      errorMessage += `${t('code')}: ${code}`
+    }
+    errorMessage += ')'
+  }
+  toast.error(
+    requestId || code
+      ? //   <span>
+        //     {errorMessage} {copyButton(errorMessage, t)}
+        //   </span>
+        // ) : (
+        errorMessage
+      : // ),
+        t('error'),
+    t('error'),
+  )
+}
+
+export const getTokenDetails = (tokens: any, symbol: string) =>
+  tokens?.find((token: any) => token.id === symbol)

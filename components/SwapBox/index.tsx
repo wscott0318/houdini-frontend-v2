@@ -487,17 +487,6 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
     const updatedSwaps = swaps.map((swap) => {
       if (swap.id === swapId) {
         swap.receiveAddress = value
-        const token = tokens?.find(
-          (item: Token) => item.id === currentSwap?.receive.name,
-        )
-
-        const validRes = validateWalletAddress(
-          currentSwap?.receiveAddress as string,
-          token,
-        )
-        if (!validRes) {
-          toast.error(i18n?.invalidAddressError || 'Invalid address')
-        }
 
         setCurrentSwap(swap)
       }
@@ -722,6 +711,19 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
         addressTo: swaps[0].receiveAddress,
         anonymous: swaps[0].anonymous,
       }
+
+      const token = tokens?.find(
+        (item: Token) => item.id === swaps[0].receive.name,
+      )
+
+      const validRes = validateWalletAddress(swaps[0].receiveAddress, token)
+
+      if (!validRes) {
+        toast.error(i18n?.invalidAddressError || 'Invalid address')
+
+        return
+      }
+
       const response = await exchange({
         variables: order,
       })
