@@ -2,6 +2,7 @@
 
 import { useQuery } from '@apollo/client'
 import { CardComponent } from 'houdini-react-sdk'
+import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 import { SwapBox } from '@/components'
@@ -92,119 +93,129 @@ const suportedProtocolIcons = [
 export default function Home() {
   const [width] = useWindowSize()
 
-  const { loading, data } = useQuery(TOTAL_VOLUME_QUERY, {
+  const searchParams = useSearchParams()
+
+  const widgetMode = searchParams.get('widgetMode')
+
+  const { data } = useQuery(TOTAL_VOLUME_QUERY, {
     fetchPolicy: 'no-cache',
     pollInterval: 3000,
   })
 
   return (
-    <ResponsivePage>
-      <div>
-        <div className="lg:text-[81px] text-center text-[35px] font-bold leading-normal capitalize tracking-[-0px]">
-          Keep transactions private
-        </div>
-        <div className="flex flex-col font-normal text-[19px] leading-[30px] items-center justify-center text-[#B8CAFC] text-center">
-          <div>Privately swap, send or bridge with magical ease</div>
+    <>
+      {widgetMode ? (
+        <SwapBox i18n={{ ...swapFormi18n, ...swapi18n }} />
+      ) : (
+        <ResponsivePage>
           <div>
-            With no traceable connection between the sending and receiving
-            wallets
+            <div className="lg:text-[81px] text-center text-[35px] font-bold leading-normal capitalize tracking-[-0px]">
+              Keep transactions private
+            </div>
+            <div className="flex flex-col font-normal text-[19px] leading-[30px] items-center justify-center text-[#B8CAFC] text-center">
+              <div>Privately swap, send or bridge with magical ease</div>
+              <div>
+                With no traceable connection between the sending and receiving
+                wallets
+              </div>
+              <div>It&rsquo;s safe, compliant and always lowest cost</div>
+            </div>
           </div>
-          <div>It&rsquo;s safe, compliant and always lowest cost</div>
-        </div>
-      </div>
 
-      <SwapBox i18n={{ ...swapFormi18n, ...swapi18n }} />
+          <SwapBox i18n={{ ...swapFormi18n, ...swapi18n }} />
 
-      <div className="rainbow-text flex flex-col justify-center items-center text-center">
-        <div>
-          For your enhanced security, Houdini order details disappear after 48
-          hours.
-        </div>
-        <div>If you ever need our support, we’re here for you 24/7</div>
-      </div>
+          <div className="rainbow-text flex flex-col justify-center items-center text-center">
+            <div>
+              For your enhanced security, Houdini order details disappear after
+              48 hours.
+            </div>
+            <div>If you ever need our support, we’re here for you 24/7</div>
+          </div>
 
-      <div className="flex flex-col w-full lg:flex-row justify-center items-center gap-4">
-        <div className="w-[260px] h-[140px] rounded-[24px] sm:flex hidden flex-col justify-center items-center">
-          <CardComponent>
-            <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">
-              Total Transactions
+          <div className="flex flex-col w-full lg:flex-row justify-center items-center gap-4">
+            <div className="w-[260px] h-[140px] rounded-[24px] sm:flex hidden flex-col justify-center items-center">
+              <CardComponent>
+                <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">
+                  Total Transactions
+                </div>
+
+                <div className="text-[35px] text-white leading-[50px] font-medium text-center">
+                  {data && data.totalVolume && data.totalVolume.count
+                    ? kformatter(data.totalVolume.count, 2)
+                    : 0}
+                </div>
+              </CardComponent>
             </div>
 
-            <div className="text-[35px] text-white leading-[50px] font-medium text-center">
-              {data && data.totalVolume && data.totalVolume.count
-                ? kformatter(data.totalVolume.count, 2)
-                : 0}
+            <SwapVolume
+              value={
+                data && data.totalVolume
+                  ? parseInt(data.totalVolume.totalTransactedUSD)
+                  : 0
+              }
+            />
+
+            <div className="w-[260px] rounded-[24px] h-[140px] sm:flex hidden flex-col justify-center items-center">
+              <CardComponent>
+                <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">
+                  $LOCK Buybacks
+                </div>
+                <div className="text-[35px] text-white leading-[50px] font-medium text-center">
+                  {data && data.totalVolume && data.totalVolume.totalBuyback
+                    ? kformatter(data.totalVolume.totalBuyback, 2)
+                    : 0}
+                </div>
+              </CardComponent>
             </div>
-          </CardComponent>
-        </div>
-
-        <SwapVolume
-          value={
-            data && data.totalVolume
-              ? parseInt(data.totalVolume.totalTransactedUSD)
-              : 0
-          }
-        />
-
-        <div className="w-[260px] rounded-[24px] h-[140px] sm:flex hidden flex-col justify-center items-center">
-          <CardComponent>
-            <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">
-              $LOCK Buybacks
-            </div>
-            <div className="text-[35px] text-white leading-[50px] font-medium text-center">
-              {data && data.totalVolume && data.totalVolume.totalBuyback
-                ? kformatter(data.totalVolume.totalBuyback, 2)
-                : 0}
-            </div>
-          </CardComponent>
-        </div>
-      </div>
-
-      <div className="flex flex-col rounded-[24px] items-center justify-center gap-5  md:w-[650px] lg:w-[850px] max-w-[850px] md:h-[320px] lg:h-[230px] py-8 px-20">
-        <CardComponent
-          widthClass={width >= 768 ? 'w-[600px]' : 'w-full'}
-          heightClass={width >= 768 ? 'h-[300px]' : 'h-full'}
-        >
-          <div
-            className={`text-[20px] gradient-text pb-[18px] leading-[24px] text-center font-medium`}
-          >
-            Partners
           </div>
-          <div
-            className={`flex flex-row items-start justify-center gap-[60px] flex-wrap`}
-          >
-            {partnersIcons.map((icon: any, index) =>
-              React.cloneElement(icon, {
-                key: index,
-                className: 'w-[133px] h-[35px]',
-              }),
-            )}
-          </div>
-        </CardComponent>
-      </div>
 
-      <div className="max-w-[600px]">
-        <CardComponent
-          widthClass={width >= 768 ? 'w-[600px]' : 'w-full'}
-          heightClass={width >= 768 ? 'h-[400px]' : 'h-full'}
-        >
-          <div
-            className={`text-[20px] text-[#8c9ae9] leading-[24px] pb-[18px] text-center font-medium`}
-          >
-            Supported Protocols
+          <div className="flex flex-col rounded-[24px] items-center justify-center gap-5  md:w-[650px] lg:w-[850px] max-w-[850px] md:h-[320px] lg:h-[230px] py-8 px-20">
+            <CardComponent
+              widthClass={width >= 768 ? 'w-[600px]' : 'w-full'}
+              heightClass={width >= 768 ? 'h-[300px]' : 'h-full'}
+            >
+              <div
+                className={`text-[20px] gradient-text pb-[18px] leading-[24px] text-center font-medium`}
+              >
+                Partners
+              </div>
+              <div
+                className={`flex flex-row items-start justify-center gap-[60px] flex-wrap`}
+              >
+                {partnersIcons.map((icon: any, index) =>
+                  React.cloneElement(icon, {
+                    key: index,
+                    className: 'w-[133px] h-[35px]',
+                  }),
+                )}
+              </div>
+            </CardComponent>
           </div>
-          <div
-            className={`flex flex-row items-start justify-center gap-[35px] flex-wrap`}
-          >
-            {suportedProtocolIcons.map((icon: any, index) =>
-              React.cloneElement(icon, {
-                key: index,
-                className: 'w-[32px] h-[32px]',
-              }),
-            )}
+
+          <div className="max-w-[600px]">
+            <CardComponent
+              widthClass={width >= 768 ? 'w-[600px]' : 'w-full'}
+              heightClass={width >= 768 ? 'h-[400px]' : 'h-full'}
+            >
+              <div
+                className={`text-[20px] text-[#8c9ae9] leading-[24px] pb-[18px] text-center font-medium`}
+              >
+                Supported Protocols
+              </div>
+              <div
+                className={`flex flex-row items-start justify-center gap-[35px] flex-wrap`}
+              >
+                {suportedProtocolIcons.map((icon: any, index) =>
+                  React.cloneElement(icon, {
+                    key: index,
+                    className: 'w-[32px] h-[32px]',
+                  }),
+                )}
+              </div>
+            </CardComponent>
           </div>
-        </CardComponent>
-      </div>
-    </ResponsivePage>
+        </ResponsivePage>
+      )}
+    </>
   )
 }

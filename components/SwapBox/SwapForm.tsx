@@ -23,6 +23,7 @@ interface SwapFormProps {
   handleDelete: (value: string) => void
   handleExpand: (value: string) => void
   i18n?: SwapFormi18n
+  tokenLockOut?: boolean
 }
 
 export const SwapForm: React.FC<SwapFormProps> = ({
@@ -40,6 +41,7 @@ export const SwapForm: React.FC<SwapFormProps> = ({
   handleDelete,
   handleExpand,
   i18n,
+  tokenLockOut,
 }) => {
   return (
     <>
@@ -82,7 +84,11 @@ export const SwapForm: React.FC<SwapFormProps> = ({
               rightText={i18n?.variableRightText || 'Exact'}
             />
           </div>
-          <div className="flex flex-col md:flex-row justify-center -space-y-6 md:space-y-0 items-center gap-[14px] md:-space-x-7 w-full">
+          <div
+            className={`flex md:flex-row justify-center  md:space-y-0 items-center gap-[14px]  w-full ${
+              !tokenLockOut ? '-space-y-6 md:-space-x-7' : ''
+            }`}
+          >
             <div className="w-full max-w-full md:max-w-[345px] lg:max-w-[1000px]">
               <TextField
                 id="send"
@@ -102,22 +108,26 @@ export const SwapForm: React.FC<SwapFormProps> = ({
                     onSelectionChange={(token) =>
                       selectCoin(token, 'send', swap.id)
                     }
+                    disabled={tokenLockOut}
                   />
                 ) : null}
               </TextField>
             </div>
-            <Image
-              src={upDown}
-              width={100}
-              height={100}
-              alt="upDown"
-              onClick={() => {
-                handleArrows(swap.id)
-              }}
-              className={`${
-                direction ? 'scale-y-[-1]' : ''
-              } w-[45px] h-[45px] hover:cursor-pointer rotate-180 md:rotate-90 hover:-translate-y-1 transition-all duration-100 relative z-0`}
-            />
+            {!tokenLockOut ? (
+              <Image
+                src={upDown}
+                width={100}
+                height={100}
+                alt="upDown"
+                onClick={() => {
+                  handleArrows(swap.id)
+                }}
+                className={`${
+                  direction ? 'scale-y-[-1]' : ''
+                } w-[45px] h-[45px] hover:cursor-pointer rotate-180 md:rotate-90 hover:-translate-y-1 transition-all duration-100 relative z-0`}
+              />
+            ) : null}
+
             <div className="w-full max-w-full md:max-w-[345px] lg:max-w-[1000px]">
               <TextField
                 id="receive"
@@ -140,6 +150,7 @@ export const SwapForm: React.FC<SwapFormProps> = ({
                     onSelectionChange={(token) =>
                       selectCoin(token, 'receive', swap.id)
                     }
+                    disabled={tokenLockOut}
                   />
                 ) : null}
               </TextField>
@@ -157,7 +168,7 @@ export const SwapForm: React.FC<SwapFormProps> = ({
                 'Receiving Wallet (BTC) Address'
               }
               onChange={(e) => handleReceiveAddress(e.target.value, swap.id)}
-              value={swap?.receiveAddress}
+              value={swap?.receiveAddress || ''}
             />
           </div>
         </div>
