@@ -1,16 +1,13 @@
 'use client'
 
-import { useQuery } from '@apollo/client'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CardComponent, Portal } from 'houdini-react-sdk'
-import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { OrderContent } from '@/components/OrderDetailsComponents'
 import { ResponsivePage } from '@/components/ResponsivePage'
 import { XLetterSvg } from '@/components/Svg'
-import { MULTI_STATUS_QUERY } from '@/lib/apollo/query'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
 const animation = {
@@ -25,10 +22,7 @@ const animation = {
 }
 
 export default function OrderDetails() {
-  const [isOpen, setIsOpen] = useState(true)
-  const [orders, setOrders] = useState([])
-
-  const searchParams = useSearchParams()
+  const [isOpen, setIsOpen] = useState(false)
 
   const { t } = useTranslation()
 
@@ -48,24 +42,10 @@ export default function OrderDetails() {
     }
   }, [])
 
-  const { loading, data } = useQuery(MULTI_STATUS_QUERY, {
-    variables: {
-      multiId: searchParams.get('multiId'),
-    },
-    fetchPolicy: 'no-cache',
-    pollInterval: 3000,
-  })
-
-  useEffect(() => {
-    if (!loading && data) {
-      setOrders(data.multiStatus)
-    }
-  }, [data, loading])
-
   return (
     <>
       <ResponsivePage>
-        <OrderContent loading={loading} orders={orders} t={t} />
+        <OrderContent t={t} />
       </ResponsivePage>
 
       <AnimatePresence>
@@ -99,7 +79,7 @@ export default function OrderDetails() {
                     widthClass={width > 1024 ? '540px' : '100%'}
                     heightClass={width > 1024 ? '212px' : '100%'}
                   >
-                    <div className="text-center w-full lg:text-[46px] text-[20px] lg:leading-[75.43px] font-semibold whitespace-nowrap">
+                    <div className="text-center w-full lg:text-[46px] text-[20px] lg:leading-[75px] font-semibold whitespace-nowrap">
                       Taking a bit longer
                     </div>
                     <div className="text-center w-full lg:text-[17px] font-medium rainbow-text ">

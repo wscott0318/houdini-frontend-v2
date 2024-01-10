@@ -379,6 +379,41 @@ export const TOTAL_VOLUME_QUERY = gql`
     totalVolume {
       count
       totalTransactedUSD
+      totalBuyback
+    }
+  }
+`
+export const EXCHANGE_MUTATION = gql`
+  mutation exchange(
+    $amount: Float!
+    $from: String!
+    $to: String!
+    $addressTo: String!
+    $anonymous: Boolean!
+  ) {
+    exchange(
+      amount: $amount
+      from: $from
+      to: $to
+      addressTo: $addressTo
+      anonymous: $anonymous
+    ) {
+      order {
+        houdiniId
+        created
+        modified
+        senderAddress
+        receiverAddress
+        status
+        anonymous
+        expires
+        inAmount
+        inSymbol
+        outAmount
+        outSymbol
+        inCreated
+        outCreated
+      }
     }
   }
 `

@@ -5386,10 +5386,10 @@ hoist-non-react-statics@^3.3.2:
   dependencies:
     react-is "^16.7.0"
 
-houdini-react-sdk@0.0.99:
-  version "0.0.99"
-  resolved "https://registry.yarnpkg.com/houdini-react-sdk/-/houdini-react-sdk-0.0.99.tgz#867fe4aae0893bf043d7438a843385004c55c9b0"
-  integrity sha512-laXi2nyTyd+5ZXxXsjt9DVnNjA402GJjN8lLhfb5AX4ELPfu0cXeLRAY7BVsrSFsTKdj+pKrvhj0ygTXFDE0UA==
+houdini-react-sdk@0.0.100:
+  version "0.0.100"
+  resolved "https://registry.yarnpkg.com/houdini-react-sdk/-/houdini-react-sdk-0.0.100.tgz#595ec6c4fcf24c0dfac2233f8e3d982260b5b4ab"
+  integrity sha512-ADTPlfx4717570Duj42J1N5kP8wJkp6X8G3exbVHX8RKOZfrmQSXsFlb/GPRQEoB9rk3O9Rlzed6jrHlPGCW8w==
   dependencies:
     react-i18next "^13.5.0"
     vite-plugin-static-copy "^1.0.0"
@@ -6153,6 +6153,11 @@ markerjs2@^2.29.4:
   version "2.31.4"
   resolved "https://registry.yarnpkg.com/markerjs2/-/markerjs2-2.31.4.tgz#2508373f4caa8c74b2c8debd39db1c5793fa115f"
   integrity sha512-Xx/2969Uj1VdwFRMcvHlhMNqvFMwJwie8J6WQcj9NDEByD2CdLVxF/39w0rg4ILJbsafAVp0ZxywXiYG9wfI0Q==
+
+matomo-react@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/matomo-react/-/matomo-react-1.0.7.tgz#454e1457ee306bee4f5a25173ab2fc95c55e4e21"
+  integrity sha512-R7K0AxemueBMrjNf8JEcx0HD1rFvRP1AyEunRcjodlm7xCNwBmZzsPGmT3L+30XTZSrk3o58q2akAFgdoMXYmw==
 
 mdn-data@2.0.28:
   version "2.0.28"

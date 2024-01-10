@@ -1,23 +1,19 @@
+import { useSearchParams } from 'next/navigation'
+import React from 'react'
+
 import { MultipleOrders } from '@/components/OrderDetailsComponents/MultiOrderDetails'
 import { SingleOrder } from '@/components/OrderDetailsComponents/SingleOrderDetails'
 
-export const OrderContent = ({
-  loading,
-  orders,
-  t,
-}: {
-  loading: boolean
-  orders: any
-  t: any
-}) => {
-  if (loading) return <div>Loading...</div>
-  if (orders.length === 0) return <div>No orders found.</div>
+export const OrderContent = ({ t }: { t: any }) => {
+  const searchParams = useSearchParams()
+  const houdiniId = searchParams.get('houdiniId')
+  const multiId = searchParams.get('multiId')
 
-  if (orders.length === 1) {
-    return <SingleOrder order={orders[0]} />
-  }
-
-  if (orders.length > 1) {
-    return <MultipleOrders orders={orders} t={t} />
+  if (houdiniId) {
+    return <SingleOrder t={t} />
+  } else if (multiId) {
+    return <MultipleOrders t={t} />
   }
 }
+
+export default OrderContent

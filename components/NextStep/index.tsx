@@ -34,7 +34,7 @@ export const NextStep = ({ order }: { order: any }) => {
             order={order}
           />
           <div className="flex flex-col lg:px-[100px] lg:pt-[30px] pt-[30px]">
-            <div className="lg:text-[17px] text-center font-medium leading-[21.42px] rainbow-text text-[#FFFFFF]">
+            <div className="lg:text-[17px] text-center font-medium leading-[21px] rainbow-text text-[#FFFFFF]">
               {t('nextStepReceive')}
             </div>
           </div>

@@ -89,7 +89,7 @@ export const MainModal = () => {
                 </div>
                 <WalletRoundbox>
                     <div className="relative flex flex-row justify-center items-center custom-wallet-shadow custom-wallet-gradient rounded-[15px] w-[118px] h-[88px] bg-red-900 px-[10px] py-[20px] bg-gradient-to-r from">
-                        <div className="text-center text-[15.5px] lg:text-[15.5px] font-bold">
+                        <div className="text-center text-[15px] lg:text-[15px] font-bold">
                             Open In Wallet
                         </div>
                         <div className="absolute flex flex-row top-5 right-2.5">
@@ -103,21 +103,21 @@ export const MainModal = () => {
           <div className="pt-[15px] px-[10px] pb-[5px] w-full">
               <div className="p-[2px] w-full rounded-[20px] custom-houdini-id-gradient1">
                 <div className="flex flex-row justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow px-[15px] py-[10px]">
-                  <div className="text-center w-full text-[15.25px] leading-[24px] font-bold text-opacity-60">
+                  <div className="text-center w-full text-[15px] leading-[24px] font-bold text-opacity-60">
                     Recipient Wallet:
                   </div>
                   <div className="text-center w-full text-[14.88] leading-[24px] font-normal text-opacity-50">
                       0xferv3552mnjud953234sddn2323434bdffswfd8
                   </div>
-                  <div className=" text-center w-full text-[15.25px] leading-[24px] font-normal text-opacity-50">
+                  <div className=" text-center w-full text-[15px] leading-[24px] font-normal text-opacity-50">
                       will receive
                   </div>
                   <div className="flex flex-row justify-center w-full items-center gap-2.5">
-                    <div className="text-center text-[15.25px] font-normal">
+                    <div className="text-center text-[15px] font-normal">
                         175.7936
                     </div>
                       <Protocol4Svg />
-                    <div className="text-base text-center text-[15.25px] font-normal">
+                    <div className="text-base text-center text-[15px] font-normal">
                         AVAX
                     </div>
                   </div>

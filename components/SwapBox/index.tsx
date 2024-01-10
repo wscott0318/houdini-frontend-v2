@@ -4,37 +4,49 @@ import {
   Refresh,
   SecondaryButton,
   SingleMultiSend,
+  TextField,
 } from 'houdini-react-sdk'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import uniqid from 'uniqid'
 
 import { GeneralModal } from '@/components/GeneralModal'
 import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCounterLockup'
+import { userClient } from '@/lib/apollo/apollo-client'
 import {
+  ACCOUNT_EXISTS_QUERY,
+  CREATE_SHORT_URL_FORM,
+  EXCHANGE_MUTATION,
   GET_NETWORKS,
+  GET_SHORT_URL,
   MULTI_EXCHANGE_MUTATION,
   TOKENS_QUERY,
   createMultiplePriceQuery,
 } from '@/lib/apollo/query'
-import { fixedFloat, validateWalletAddress } from '@/utils/helpers'
+import { EXPORT_MISSING_SWAP } from '@/utils/constants'
+import { copyText, fixedFloat, validateWalletAddress } from '@/utils/helpers'
 
 import { SwapForm } from './SwapForm'
 
 const uuid = uniqid()
 
 export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
-  const router = useRouter()
+  const searchParams = useSearchParams()
 
-  const locationParams = new URLSearchParams()
-  const tokenIn = locationParams.get('tokenIn') ?? 'ETH'
-  const tokenOut = locationParams.get('tokenOut') ?? 'BTC'
-  const anonymous = locationParams.get('anonymous')
-  const amount = locationParams.get('amount')
-    ? parseFloat(locationParams.get('amount') as string)
+  const getWalletId = searchParams.get('id') ?? ''
+  const theme = searchParams.get('theme') ?? 'dark'
+  const widgetMode = searchParams.get('widgetMode')
+  const partnerId = searchParams.get('partnerId') ?? ''
+  const tokenIn = searchParams.get('tokenIn') ?? 'ETH'
+  const tokenOut = searchParams.get('tokenOut') ?? 'BTC'
+  const amount = searchParams.get('amount')
+    ? parseFloat(searchParams.get('amount') as string)
     : ''
-  const partnerId = locationParams.get('partnerId') ?? ''
+  const tokenLockOut =
+    searchParams.get('tokenLockOut') === 'true' ? true : false
+  const anonymous = searchParams.get('anonymous')
 
   const initialInput = {
     value: amount.toString(),
@@ -48,6 +60,8 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
 
   const [direction, setDirection] = useState(false)
   const [isMulti, setIsMulti] = useState(false)
+  const [importedSwaps, setImportedSwaps] = useState(false)
+  const [walletId, setWalletId] = useState(getWalletId)
 
   const [initialSendInput, setInitialSendInput] = useState<SendReceiveInput>({
     ...initialInput,
@@ -61,7 +75,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
     receive: { ...initialReceiveInput },
     minAmount: 0,
     maxAmount: 0,
-    receiveAddress: locationParams.get('receiveAddress') as string,
+    receiveAddress: searchParams.get('receiveAddress') as string,
     anonymous: isXMR
       ? false
       : anonymous === null
@@ -85,7 +99,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
       receive: { ...initialReceiveInput },
       minAmount: 0,
       maxAmount: 0,
-      receiveAddress: locationParams.get('receiveAddress') as string,
+      receiveAddress: searchParams.get('receiveAddress') as string,
       anonymous:
         anonymous === null ? true : anonymous === 'true' ? true : false,
       flipArrow: false,
@@ -105,7 +119,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
       receive: { ...initialReceiveInput },
       minAmount: 0,
       maxAmount: 0,
-      receiveAddress: locationParams.get('receiveAddress') as string,
+      receiveAddress: searchParams.get('receiveAddress') as string,
       anonymous:
         anonymous === null ? true : anonymous === 'true' ? true : false,
       flipArrow: false,
@@ -121,6 +135,20 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
 
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>()
   const [quoteQuery, setQuoteQuery] = useState(createMultiplePriceQuery(swaps))
+
+  const { t } = useTranslation()
+
+  const router = useRouter()
+
+  const [getShortUrl] = useLazyQuery(GET_SHORT_URL)
+
+  const { loading: isValidating, data: accountInfo } = useQuery(
+    ACCOUNT_EXISTS_QUERY,
+    {
+      client: userClient,
+      variables: { inputAccount: walletId },
+    },
+  )
 
   const [handlePriceQuote, { loading: isPriceQuoting }] = useLazyQuery(
     quoteQuery,
@@ -195,12 +223,55 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
           })
         })
       },
-    },
-  )
+    })
 
-  const [exchange, { loading: isLoadingExchange }] = useMutation(
+  const [multi_exchange, { loading: isLoadingMultiExchange }] = useMutation(
     MULTI_EXCHANGE_MUTATION,
   )
+
+  const [exchange, { loading: isLoadingExchange }] =
+    useMutation(EXCHANGE_MUTATION)
+
+  const [createShortUrl] = useMutation(CREATE_SHORT_URL_FORM)
+
+  const handleExport = async () => {
+    const exportSwaps = swaps.filter((swap: any) => {
+      if (
+        !swap.id ||
+        !swap.send.value ||
+        swap.send.value === '' ||
+        !swap.receive.value ||
+        swap.receive.value === '0' ||
+        !swap.receiveAddress ||
+        swap.receiveAddress === ''
+      ) {
+        return false
+      }
+
+      return true
+    })
+
+    if (exportSwaps.length < 1) {
+      toast.warning(EXPORT_MISSING_SWAP)
+      return
+    }
+
+    const res = await createShortUrl({
+      variables: {
+        data: {
+          swaps: JSON.stringify(exportSwaps),
+        },
+      },
+    })
+
+    if (res?.data?.addShortUrl?.id) {
+      const url = `${window.location.href}?swap=${res?.data?.addShortUrl?.id}`
+      copyText(url)
+      toast.success(t('copyToClipboard'))
+    } else {
+      toast.error(t('tryAgain'))
+    }
+  }
 
   const callPriceAPI = useCallback(async () => {
     if (isPriceQuoting) return
@@ -238,6 +309,26 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
   }
 
   useEffect(() => {
+    if (importedSwaps === true || (tokenIn && tokenOut && amount)) {
+      if (
+        currentSwap?.send?.name &&
+        currentSwap?.receive?.name &&
+        (parseFloat(currentSwap?.send?.value as string) > 0 ||
+          (currentSwap?.direction === 'to' &&
+            currentSwap.fixed &&
+            parseFloat(currentSwap.receive.value) > 0))
+      ) {
+        setTimeout(() => {
+          handlePriceQuote({
+            fetchPolicy: 'network-only',
+            pollInterval: 30 * 1000, // Poll every 10 seconds
+          })
+        }, 3000)
+      }
+    }
+  }, [swaps, importedSwaps])
+
+  useEffect(() => {
     if (timeoutId) {
       clearTimeout(timeoutId)
     }
@@ -263,11 +354,57 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
     }
   }, [debouncedSwaps])
 
-  const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
+  const { data: tokensData, loading } = useQuery(TOKENS_QUERY, {
+    onError: () => {
+      toast.error(
+        `${i18n?.generalError || 'Something went wrong.'} ${
+          i18n?.networkError || 'Please check your network connection.'
+        }`,
+      )
+    },
+  })
+
   const { data: networksData, loading: loadingNetworks } =
     useQuery(GET_NETWORKS)
 
   const tokens = tokensData?.tokens
+
+  useEffect(() => {
+    if (!tokens || tokens.length < 1) {
+      return
+    }
+
+    ;(async () => {
+      const queryString = searchParams.get('swap')
+      if (queryString) {
+        const res = await getShortUrl({
+          variables: {
+            id: queryString,
+          },
+        })
+
+        if (res?.data?.getShortUrl?.swaps) {
+          let swapsImport
+
+          try {
+            swapsImport = JSON.parse(res.data.getShortUrl.swaps)
+            console.log('swapsImport', swapsImport)
+          } catch (error) {
+            return
+          }
+
+          if (swapsImport.length) {
+            setCurrentSwap(swapsImport[swapsImport.length - 1])
+            setIsMulti(swapsImport.length > 1 ? true : false)
+            setSwaps(swapsImport)
+            setDebouncedSwaps(swapsImport)
+            setImportedSwaps(true)
+          }
+        }
+      }
+    })()
+    setDebouncedSwaps(swaps)
+  }, [tokens])
 
   useEffect(() => {
     if (tokens && tokens.length) {
@@ -549,6 +686,18 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
     setSwaps(filteredSwaps)
   }
 
+  const buttonTextState = () => {
+    if (
+      (isMulti && isLoadingMultiExchange) ||
+      (!isMulti && isLoadingExchange)
+    ) {
+      return isMulti ? 'Creating Orders...' : 'Creating Order...'
+    } else if (isPriceQuoting) {
+      return 'Fetching Price...'
+    }
+    return 'Proceed'
+  }
+
   const handleExpand = (swapId: string) => {
     const updatedSwaps = swaps
       .filter((swap) => swap.send.value)
@@ -567,34 +716,101 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
   }
 
   const disabledProceed =
-    isLoadingExchange ||
+    isValidating ||
+    isLoadingMultiExchange ||
     isPriceQuoting ||
+    isLoadingExchange ||
     !(currentSwap?.send.value && currentSwap.receiveAddress)
 
-  const handleSwapProceed = async () => {
-    const orders = swaps.map((swap) => ({
-      amount: parseFloat(swap.send.value),
-      from: swap.send.name,
-      to: swap.receive.name,
-      addressTo: swap.receiveAddress,
-      anonymous: swap.anonymous,
-    }))
+  const handleSwapProceed = async (isMulti: boolean) => {
+    if (walletId !== '' && !accountInfo?.accountExists) {
+      toast.warning(
+        i18n?.referalError ||
+          'Invalid Account ID. Please check Account ID again.',
+      )
 
-    const response = await exchange({
-      variables: { orders },
-    })
+      return
+    }
 
-    const multiId = response.data.multiExchange[0].order.multiId
+    const widgetModeParam = widgetMode ? `&widgetMode=${widgetMode}` : ''
 
-    if (multiId) {
-      router.push(`/order-details?multiId=${multiId}`)
+    if (isMulti) {
+      const orders = swaps.map((swap) => {
+        const order: { [key: string]: number | string | boolean | undefined } =
+          {
+            amount: parseFloat(swap.send.value),
+            from: swap.send.name,
+            to: swap.receive.name,
+            addressTo: swap.receiveAddress,
+            anonymous: swap.anonymous,
+            partnerId,
+          }
+
+        if (walletId) {
+          order['walletId'] = walletId
+        }
+      })
+
+      const response = await multi_exchange({
+        variables: { orders },
+      })
+
+      const multiId = response.data.multiExchange[0].order.multiId
+
+      if (multiId) {
+        router.push(`/order-details?multiId=${multiId}${widgetModeParam}`)
+      }
+    } else {
+      const order: { [key: string]: number | string | boolean | undefined } = {
+        amount: parseFloat(swaps[0].send.value),
+        from: swaps[0].send.name,
+        to: swaps[0].receive.name,
+        addressTo: swaps[0].receiveAddress,
+        anonymous: swaps[0].anonymous,
+        partnerId,
+      }
+
+      if (walletId) {
+        order['walletId'] = walletId
+      }
+
+      const token = tokens?.find(
+        (item: Token) => item.id === swaps[0].receive.name,
+      )
+
+      const validRes = validateWalletAddress(swaps[0].receiveAddress, token)
+
+      if (!validRes) {
+        toast.error(i18n?.invalidAddressError || 'Invalid address')
+
+        return
+      }
+
+      const response = await exchange({
+        variables: order,
+      })
+
+      const orderId = response.data.exchange.order.houdiniId
+
+      if (orderId) {
+        router.push(`/order-details?houdiniId=${orderId}${widgetModeParam}`)
+      }
     }
   }
 
+  if (widgetMode && !partnerId) {
+    return (
+      <div className="bg-[red] p-10 text-white">
+        Please update your Houdini integration to include the <b>partnerId</b>{' '}
+        parameter
+      </div>
+    )
+  }
+
   return (
-    <div className="z-[1] flex flex-col justify-center items-center gap-2 w-full">
-      <GeneralModal>
-        <IndustrialCounterLockup>
+    <>
+      {widgetMode ? (
+        <div className="p-5 flex flex-col items-center">
           <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center w-full gap-[16px]">
             <div className="flex flex-col justify-center items-center sm:items-start gap-[16px]">
               <div className="text-[28px] whitespace-nowrap sm:text-[34px] font-bold leading-[38px] text-white">
@@ -630,6 +846,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
               handleReceiveAddress={handleReceiveAddress}
               handleDelete={handleDelete}
               handleExpand={handleExpand}
+              tokenLockOut={tokenLockOut}
               i18n={{
                 privateLeftText: i18n?.privateLeftText,
                 privateRightText: i18n?.privateRightText,
@@ -649,10 +866,25 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
 
           {isMulti ? (
             <div className="flex justify-center md:justify-between w-full mt-2 flex-wrap items-center gap-2">
-              <SecondaryButton text={i18n?.saveOrderText || 'Save order'} />
+              <SecondaryButton
+                text={i18n?.saveOrderText || 'Save order'}
+                onClick={handleExport}
+              />
               <SecondaryButton
                 text={i18n?.addSwapText || 'Add swap'}
                 onClick={handleAddNewSwap}
+              />
+            </div>
+          ) : null}
+
+          {!getWalletId ? (
+            <div className="mt-10 w-full">
+              <TextField
+                id="send"
+                label={i18n?.accountId || 'Account ID:'}
+                placeholder="000000"
+                onChange={(e) => setWalletId(e.target.value)}
+                value={walletId}
               />
             </div>
           ) : null}
@@ -661,14 +893,113 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
             {i18n?.bottomText ||
               'Only send To/From wallets. Transactions sent To/From smart contracts are not accepted'}
           </div>
+
           <HoudiniButton
-            text={i18n?.proceedButtonText || 'Proceed'}
-            onClick={handleSwapProceed}
+            // text={i18n?.proceedButtonText || 'Proceed'}
+            text={buttonTextState()}
+            onClick={() => {
+              handleSwapProceed(isMulti)
+            }}
             type={isMulti ? 'secondary' : 'primary'}
             disabled={disabledProceed}
           />
-        </IndustrialCounterLockup>
-      </GeneralModal>
-    </div>
+        </div>
+      ) : (
+        <div className="z-[1] flex flex-col justify-center items-center gap-2 w-full">
+          <GeneralModal>
+            <IndustrialCounterLockup>
+              <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center w-full gap-[16px]">
+                <div className="flex flex-col justify-center items-center sm:items-start gap-[16px]">
+                  <div className="text-[28px] whitespace-nowrap sm:text-[34px] font-bold leading-[38px] text-white">
+                    {i18n?.swapBoxTitle || 'Swap-Send-Bridge'}
+                  </div>
+                  <div className="text-[15px] font-medium font-poppins rainbow-text">
+                    {i18n?.swapBoxSubTitle || 'Private, Compliant, No Sign Up'}
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <SingleMultiSend
+                    multiSendText={i18n?.multiSendLeftText || 'Multi'}
+                    onChange={handleMultiSend}
+                    singleText={i18n?.multiSendRightText || 'Single'}
+                  />
+                  <Refresh animate={isPriceQuoting} onClick={APIcall} />
+                </div>
+              </div>
+
+              {swaps.map((swap) => (
+                <SwapForm
+                  key={`swap-${swap.id}`}
+                  swap={swap}
+                  handlePrivateSwap={handleAnonymous}
+                  handleVariableSwap={handleVariableSwap}
+                  loading={loading || loadingNetworks}
+                  tokens={tokensData?.tokens}
+                  networks={networksData?.networks}
+                  selectCoin={selectCoin}
+                  handleArrows={handleArrows}
+                  direction={direction}
+                  handleChange={handleChange}
+                  handleReceiveAddress={handleReceiveAddress}
+                  handleDelete={handleDelete}
+                  handleExpand={handleExpand}
+                  tokenLockOut={tokenLockOut}
+                  i18n={{
+                    privateLeftText: i18n?.privateLeftText,
+                    privateRightText: i18n?.privateRightText,
+                    variableLeftText: i18n?.variableLeftText,
+                    variableRightText: i18n?.variableRightText,
+                    sendInputLabel: i18n?.sendInputLabel,
+                    receiveInputLabel: i18n?.receiveInputLabel,
+                    sendCurrencyTitle: i18n?.sendCurrencyTitle,
+                    sendCurrencySubtitle: i18n?.sendCurrencySubtitle,
+                    receiveCurrencyTitle: i18n?.receiveCurrencyTitle,
+                    receiveCurrencySubtitle: i18n?.receiveCurrencySubtitle,
+                    receiverWalletLabel: i18n?.receiverWalletLabel,
+                    receiverWalletPlaceholder: i18n?.receiverWalletPlaceholder,
+                  }}
+                />
+              ))}
+
+              {isMulti ? (
+                <div className="flex justify-center md:justify-between w-full mt-2 flex-wrap items-center gap-2">
+                  <SecondaryButton
+                    text={i18n?.saveOrderText || 'Save order'}
+                    onClick={handleExport}
+                  />
+                  <SecondaryButton
+                    text={i18n?.addSwapText || 'Add swap'}
+                    onClick={handleAddNewSwap}
+                  />
+                </div>
+              ) : null}
+
+              <div className="mt-10 w-full">
+                <TextField
+                  id="send"
+                  label={i18n?.accountId || 'Account ID:'}
+                  placeholder="000000"
+                  onChange={(e) => setWalletId(e.target.value)}
+                  value={walletId}
+                />
+              </div>
+
+              <div className="gradient-text my-[20px] font-medium text-xs font-poppins">
+                {i18n?.bottomText ||
+                  'Only send To/From wallets. Transactions sent To/From smart contracts are not accepted'}
+              </div>
+              <HoudiniButton
+                text={i18n?.proceedButtonText || 'Proceed'}
+                onClick={() => {
+                  handleSwapProceed(isMulti)
+                }}
+                type={isMulti ? 'secondary' : 'primary'}
+                disabled={disabledProceed}
+              />
+            </IndustrialCounterLockup>
+          </GeneralModal>
+        </div>
+      )}
+    </>
   )
 }
