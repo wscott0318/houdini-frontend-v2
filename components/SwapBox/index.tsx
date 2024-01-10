@@ -59,7 +59,6 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
   const isXMR = tokenIn === 'XMR' || tokenOut === 'XMR'
 
   const [direction, setDirection] = useState(false)
-  const [isMulti, setIsMulti] = useState(false)
   const [importedSwaps, setImportedSwaps] = useState(false)
   const [walletId, setWalletId] = useState(getWalletId)
 
@@ -112,6 +111,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
       partnerId,
     },
   ])
+  const [isMulti, setIsMulti] = useState(importedSwaps ? swaps.length > 1 ? true : false : false)
 
   const [debouncedSwaps, setDebouncedSwaps] = useState<Swap[]>([
     {
@@ -265,7 +265,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
     })
 
     if (res?.data?.addShortUrl?.id) {
-      const url = `${window.location.href}?swap=${res?.data?.addShortUrl?.id}`
+      const url = `${window.location.href}?s=${res?.data?.addShortUrl?.id}`
       copyText(url)
       toast.success(t('copyToClipboard'))
     } else {
@@ -375,7 +375,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
     }
 
     ;(async () => {
-      const queryString = searchParams.get('swap')
+      const queryString = searchParams.get('s')
       if (queryString) {
         const res = await getShortUrl({
           variables: {
@@ -634,6 +634,13 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
   const handleMultiSend = () => {
     setIsMulti(!isMulti)
   }
+
+  // useEffect(() => {
+  //   if (importedSwaps) {
+  //     console.log('intru aici!!!', swaps.length > 1 ? true : false)
+  //     setIsMulti()
+  //   }
+  // }, [importedSwaps, swaps])
 
   const selectCoin = (el: Token, field: string, swapId: string) => {
     const currentSwap: Swap = swaps.find((swap) => swap.id === swapId) as Swap

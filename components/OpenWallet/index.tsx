@@ -207,7 +207,7 @@ export const OpenWallet = ({ amount, token, to, setIsLoading }: any) => {
     <>
       <div
         onClick={() => handleOpenWallet()}
-        className="text-center text-xs w-full h-full flex flex-row justify-center items-center lg:text-[15px] lg:font-bold font-medium hover:cursor-pointer"
+        className="text-center relative z-[999] bg-red-500 text-white text-xs w-full h-full flex flex-row justify-center items-center lg:text-[15px] lg:font-bold font-medium hover:cursor-pointer"
       >
         {t('orderDetailModalOpenWallet')}
       </div>
