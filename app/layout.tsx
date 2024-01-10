@@ -1,6 +1,7 @@
 'use client'
 
 import { ApolloProvider } from '@apollo/client'
+import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev'
 import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import 'houdini-react-sdk/styles.css'
@@ -52,6 +53,12 @@ const wagmiConfig = createConfig({
   connectors,
   publicClient,
 })
+
+if (process.env.NODE_ENV !== 'production') {
+  // Adds messages only in a dev environment
+  loadDevMessages()
+  loadErrorMessages()
+}
 
 const instance = createInstance({
   urlBase: 'https://api5.houdiniswap.com',
