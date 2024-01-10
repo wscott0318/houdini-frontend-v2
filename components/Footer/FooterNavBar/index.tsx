@@ -52,7 +52,7 @@ export const FooterNavBar = () => {
         <Link className="hover:gradient-text" href="/get-api-access">
           <span>API access</span>
         </Link>
-        <Link className="hover:gradient-text" href="/partnership">
+        <Link className="hover:gradient-text" href="https://forms.monday.com/forms/9e469b4eca191951e784b45295532294?r=euc1">
           <span>Partnership</span>
         </Link>
         <Link className="hover:gradient-text" href="/bug-bounty-program">
