@@ -1,8 +1,8 @@
-import React from 'react';
-import { QuestionMarkSvg } from '@/components/Svg';
-import LockTokenIcon1 from '@/assets/LockTokenIcon1.png';
-import Image from 'next/image';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { QuestionMarkSvg } from '@/components/Svg'
+import LockTokenIcon1 from '@/assets/LockTokenIcon1.png'
+import Image from 'next/image'
+import { useTranslation } from 'react-i18next'
 
 const NextBurnBox = () => {
   const { t } = useTranslation()

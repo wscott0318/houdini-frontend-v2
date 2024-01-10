@@ -213,7 +213,7 @@ const config: Config = {
         },
         '.custom-day-widthrawal-button-gradient': {
           background: 'linear-gradient(180deg, #86E1A0 0%, #4FBF67 100%)'
-        }
+        },
       }
       addUtilities(newUtilities, ['responsive', 'hover'])
     },
