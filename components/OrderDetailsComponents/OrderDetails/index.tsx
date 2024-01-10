@@ -1,9 +1,14 @@
+import { useSearchParams } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
 
 import { NeedHelp } from '@/components/NeedHelp'
 import { OrderDetailsModal } from '@/components/OrderDetailsComponents/OrderDetailsModal'
 
 export const OrderDetails = ({ order }: { order: any }) => {
+  const searchParams = useSearchParams()
+
+  const widgetMode = searchParams.get('widgetMode')
+
   const { t } = useTranslation()
 
   return (
@@ -31,11 +36,14 @@ export const OrderDetails = ({ order }: { order: any }) => {
             swapTime={order?.eta}
             order={order}
           />
-          <div className="flex py-[10px] md:px-[100px] md:py-[50px] items-center w-full">
-            <div className="flex py-[10px] md:px-[100px] md:py-[20px] items-center w-full justify-center">
-              <NeedHelp />
+
+          {!widgetMode ? (
+            <div className="flex py-[10px] md:px-[100px] md:py-[50px] items-center w-full">
+              <div className="flex py-[10px] md:px-[100px] md:py-[20px] items-center w-full justify-center">
+                <NeedHelp />
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
       </div>
     </>

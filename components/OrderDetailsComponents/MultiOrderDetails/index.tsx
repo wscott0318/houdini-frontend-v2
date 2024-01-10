@@ -10,13 +10,16 @@ import { MULTI_STATUS_QUERY } from '@/lib/apollo/query'
 export const MultipleOrders = ({ t }: { t: any }) => {
   const searchParams = useSearchParams()
 
+  const multiId = searchParams.get('multiId')
+  const widgetMode = searchParams.get('widgetMode')
+
   const [orders, setOrders] = useState([])
 
   const { loading: loadingMulti, data: dataMulti } = useQuery(
     MULTI_STATUS_QUERY,
     {
       variables: {
-        multiId: searchParams.get('multiId'),
+        multiId,
       },
       fetchPolicy: 'no-cache',
       pollInterval: 3000,
@@ -71,14 +74,18 @@ export const MultipleOrders = ({ t }: { t: any }) => {
               )
             })
           )}
-          <div className="flex flex-col lg:px-[100px] lg:pt-[30px] pt-[30px]">
-            <div className="lg:text-[17px] text-center font-medium leading-[21px] rainbow-text text-[#FFFFFF]">
-              {t('nextStepReceive')}
-            </div>
-          </div>
-          <div className="flex justify-center lg:px-[100px] lg:py-[20px] py-[20px] items-center">
-            <NeedHelp />
-          </div>
+          {!widgetMode ? (
+            <>
+              <div className="flex flex-col lg:px-[100px] lg:pt-[30px] pt-[30px]">
+                <div className="lg:text-[17px] text-center font-medium leading-[21px] rainbow-text text-[#FFFFFF]">
+                  {t('nextStepReceive')}
+                </div>
+              </div>
+              <div className="flex justify-center lg:px-[100px] lg:py-[20px] py-[20px] items-center">
+                <NeedHelp />
+              </div>
+            </>
+          ) : null}
         </div>
       </div>
     </>

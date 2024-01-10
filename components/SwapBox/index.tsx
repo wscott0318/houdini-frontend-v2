@@ -1,4 +1,4 @@
-import { DocumentNode, useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import {
   HoudiniButton,
   Refresh,
@@ -31,10 +31,6 @@ import { copyText, fixedFloat, validateWalletAddress } from '@/utils/helpers'
 import { SwapForm } from './SwapForm'
 
 const uuid = uniqid()
-
-function getGqlString(doc: DocumentNode) {
-  return doc.loc && doc.loc.source.body;
-}
 
 export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
   const searchParams = useSearchParams()
@@ -115,7 +111,9 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
       partnerId,
     },
   ])
-  const [isMulti, setIsMulti] = useState(importedSwaps ? swaps.length > 1 ? true : false : false)
+  const [isMulti, setIsMulti] = useState(
+    importedSwaps ? (swaps.length > 1 ? true : false) : false,
+  )
 
   const [debouncedSwaps, setDebouncedSwaps] = useState<Swap[]>([
     {
@@ -175,7 +173,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
 
           swaps.forEach((swap) => {
             if (swap.id === swapId) {
-              const updatedSwap = { ...swap };
+              const updatedSwap = { ...swap }
               if (!quote) {
                 if (
                   (data[key]?.error &&
@@ -226,12 +224,13 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
                 updatedSwap.receive.value = fixedFloat(amountOut).toString()
               }
 
-              setCurrentSwap(updatedSwap);
+              setCurrentSwap(updatedSwap)
             }
           })
         })
       },
-    })
+    },
+  )
 
   const [multi_exchange, { loading: isLoadingMultiExchange }] = useMutation(
     MULTI_EXCHANGE_MUTATION,
@@ -318,7 +317,6 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
 
   useEffect(() => {
     if (importedSwaps === true || (tokenIn && tokenOut && amount)) {
-      console.log("imported swap params")
       if (
         currentSwap?.send?.name &&
         currentSwap?.receive?.name &&
@@ -344,7 +342,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
     setTimeoutId(
       setTimeout(() => {
         const canQuote = debouncedSwaps.find(
-          swap => swap.send.value || swap.receive.value,
+          (swap) => swap.send.value || swap.receive.value,
         )
         if (canQuote) {
           setSwaps(JSON.parse(JSON.stringify(debouncedSwaps)))
@@ -419,7 +417,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
       if (!defaultInToken) {
         toast.error(
           i18n?.sendTokenNotFoundError ||
-          'Send token not found in the tokens list',
+            'Send token not found in the tokens list',
         )
       }
 
@@ -438,7 +436,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
       if (!defaultOutToken) {
         toast.error(
           i18n?.receiveTokenNotFoundError ||
-          'Receive token not found in the tokens list',
+            'Receive token not found in the tokens list',
         )
       }
 
@@ -452,7 +450,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
       }
       setInitialReceiveInput(newOut)
 
-      const swapsClone = [...swaps];
+      const swapsClone = [...swaps]
 
       const updatedSwaps = swapsClone.map((swap) => {
         swap.send = newIn
@@ -498,7 +496,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
     const rx_live = /^[+-]?\d*(?:[.]\d*)?$/
 
     if (rx_live.test(inputStr)) {
-      const swapsClone = [...swaps];
+      const swapsClone = [...swaps]
       const updatedSwaps = swapsClone.map((swap) => {
         if (swap.id === swapId) {
           if (reverse) {
@@ -742,7 +740,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
     if (walletId !== '' && !accountInfo?.accountExists) {
       toast.warning(
         i18n?.referalError ||
-        'Invalid Account ID. Please check Account ID again.',
+          'Invalid Account ID. Please check Account ID again.',
       )
 
       return
@@ -753,18 +751,20 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
     if (isMulti) {
       const orders = swaps.map((swap) => {
         const order: { [key: string]: number | string | boolean | undefined } =
-        {
-          amount: parseFloat(swap.send.value),
-          from: swap.send.name,
-          to: swap.receive.name,
-          addressTo: swap.receiveAddress,
-          anonymous: swap.anonymous,
-          partnerId,
-        }
+          {
+            amount: parseFloat(swap.send.value),
+            from: swap.send.name,
+            to: swap.receive.name,
+            addressTo: swap.receiveAddress,
+            anonymous: swap.anonymous,
+            // partnerId,
+          }
 
         if (walletId) {
           order['walletId'] = walletId
         }
+
+        return order
       })
 
       const response = await multi_exchange({
@@ -783,7 +783,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
         to: swaps[0].receive.name,
         addressTo: swaps[0].receiveAddress,
         anonymous: swaps[0].anonymous,
-        partnerId,
+        // partnerId,
       }
 
       if (walletId) {

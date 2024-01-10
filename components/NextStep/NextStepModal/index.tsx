@@ -36,8 +36,6 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
 
   const [isLoading, setIsLoading] = useState()
 
-  // const [tokens, setTokens] = useState<any>([])
-
   const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
 
   const DateFormatter = () => {
@@ -191,7 +189,10 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
                   amount={props?.order?.inAmount}
                   to={props?.order?.senderAddress}
                   token={{
-                    token: getTokenDetails(tokensData?.tokens, props?.order?.inSymbol),
+                    token: getTokenDetails(
+                      tokensData?.tokens,
+                      props?.order?.inSymbol,
+                    ),
                   }}
                   setIsLoading={setIsLoading}
                 />
