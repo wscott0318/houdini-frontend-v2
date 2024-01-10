@@ -25,7 +25,9 @@ const uploadLink = createUploadLink({
 })
 
 export const userClient = new ApolloClient({
-  link: ApolloLink.from([authUserLink, httpUserLink, uploadLink]),
+  ssrMode: !process.browser,
+  connectToDevTools: process.env.NODE_ENV !== 'production',
+  link: ApolloLink.from([authUserLink,  uploadLink, httpUserLink]),
   cache: new InMemoryCache(),
   credentials: 'include',
 })
