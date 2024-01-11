@@ -210,3 +210,14 @@ export const showErrorMessage = (err: any, t: any, timeout = 10000) => {
 
 export const getTokenDetails = (tokens: any, symbol: string) =>
   tokens?.find((token: any) => token.id === symbol)
+
+export const animation = {
+  hidden: {
+    y: '100%',
+    transition: { duration: 0.3 },
+  },
+  visible: {
+    y: '0',
+    transition: { duration: 0.3 },
+  },
+}
