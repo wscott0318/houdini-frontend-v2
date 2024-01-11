@@ -35,7 +35,7 @@ export const FooterNavBar = () => {
         <Link className="hover:gradient-text" href="/how-it-works">
           <span>How it works</span>
         </Link>
-        <Link className="hover:gradient-text" href="/">
+        <Link className="hover:gradient-text" href="https://houdiniswap.com/whitepaper" target='_blank' rel='noopener noreferrer'>
           <span>Whitepaper</span>
         </Link>
       </div>

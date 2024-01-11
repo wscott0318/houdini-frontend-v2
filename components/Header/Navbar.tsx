@@ -7,6 +7,9 @@ import { useEffect, useState } from 'react'
 
 import { ChevronSvg } from '@/components/Svg'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
+
 
 const Links = ({ setIsOpen }: { setIsOpen?: any }) => {
   return (
@@ -55,6 +58,7 @@ const CommonNavbar = ({ setIsOpen }: { setIsOpen?: any }) => {
   const router = useRouter()
   const [openDropdown, setOpenDropdown] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
+  const { t } = useTranslation()
 
   const handleSearch = (value: string) => {
     setSearchTerm(value)
@@ -62,14 +66,16 @@ const CommonNavbar = ({ setIsOpen }: { setIsOpen?: any }) => {
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
-      if (searchTerm) {
+      if (searchTerm?.length === 22) {
         router.push(`/order-details?houdiniId=${searchTerm}`)
-        setSearchTerm('')
+        setSearchTerm('');
+      } else if (searchTerm?.length > 0) {
+        toast.error(t('invalidId'))
       }
-    }, 500)
+    }, 1000)
 
     return () => clearTimeout(delayDebounce)
-  }, [searchTerm, router])
+  }, [searchTerm, router, t])
 
   return (
     <>
