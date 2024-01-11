@@ -554,5 +554,6 @@
   "totalVolume": "Total Volume",
   "lastWeekBuybacks": "Last Week Buybacks",
   "totalBuybacks": "Total Buybacks",
-  "moreInfo": "More Info"
+  "moreInfo": "More Info",
+  "invalidId": "Invalid ID. Contact support"
 }
