@@ -1,10 +1,9 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 import logo from '@/assets/logo.png'
 
-import { FooterXBlockSvg, LogoSvg } from '../../Svg'
+import { LogoSvg } from '../../Svg'
 
 export const Logo = ({ isHeader = false }: { isHeader?: boolean }) => {
   const router = useRouter()
@@ -24,11 +23,11 @@ export const Logo = ({ isHeader = false }: { isHeader?: boolean }) => {
       }}
       className="hover:cursor-pointer flex flex-col gap-2 justify-center items-center"
     >
-      {!isHeader ? (
+      {!isHeader && (
         <Image src={logo} className="w-[144px] h-[151px]" alt="logo" />
-      ) : null}
+      )}
       <LogoSvg className="w-[200px] h-[80px] fill-white" />
-      {!isHeader ? (
+      {/* {!isHeader && (
         <div className="flex justify-start items-center">
           <Link
             target="_blank"
@@ -38,7 +37,7 @@ export const Logo = ({ isHeader = false }: { isHeader?: boolean }) => {
             <FooterXBlockSvg id="xblock" className="w-[128px] h-[26px]" />
           </Link>
         </div>
-      ) : null}
+      )} */}
     </div>
   )
 }

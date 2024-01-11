@@ -29,34 +29,56 @@ export const FooterNavBar = () => {
         </Link>
       </div>
       <div className="z-[1] flex flex-col md:flex-row justify-center md:justify-start items-center gap-[10px] md:gap-[30px] font-medium text-base leading-[25px]">
-        <Link className="hover:gradient-text" href="/dashboard">
-          <span>Dashboard</span>
+        <Link className="hover:gradient-text" target='_blank' rel='noopener noreferrer' href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/contact-us">
+          <span>Contact Us</span>
         </Link>
-        <Link className="hover:gradient-text" href="/how-it-works">
-          <span>How it works</span>
-        </Link>
-        <Link className="hover:gradient-text" href="https://houdiniswap.com/whitepaper" target='_blank' rel='noopener noreferrer'>
+        <Link className="hover:gradient-text" target='_blank' rel='noopener noreferrer' href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/whitepaper">
           <span>Whitepaper</span>
         </Link>
-      </div>
-      <div className="z-[1] flex flex-col md:flex-row justify-center md:justify-start items-center gap-[10px] md:gap-[38px] font-medium text-base leading-[25px]">
-        <Link className="hover:gradient-text" href="/compliance">
-          <span>Compliance</span>
+        <Link className="hover:gradient-text" target='_blank' rel='noopener noreferrer' href="https://docs.houdiniswap.com/houdini-swap/" >
+          <span>Documentation</span>
         </Link>
-        <Link className="hover:gradient-text" href="/privacy-policy">
-          <span>Privacy policy</span>
+        <a className="hover:gradient-text" href="/get-api-access" >
+          <span>Integrations</span>
+        </a>
+        <Link className="hover:gradient-text" target='_blank' rel='noopener noreferrer' href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/bug-bounty-program" >
+          <span>Big Bounty</span>
+        </Link>
+      </div>
+      <div className="z-[1] flex flex-col md:flex-row justify-center md:justify-start items-center gap-[10px] md:gap-[30px] font-medium text-base leading-[25px]">
+        <Link className="hover:gradient-text" target='_blank' rel='noopener noreferrer' href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/get-started/how-it-works">
+          <span>How it Works</span>
+        </Link>
+        <Link className="hover:gradient-text" target='_blank' rel='noopener noreferrer' href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/faqs">
+          <span>FAQs</span>
+        </Link>
+        <Link className="hover:gradient-text" target='_blank' rel='noopener noreferrer' href="https://t.me/HoudiniSwapSupport_bot">
+          <span>Support</span>
+        </Link>
+      </div>
+      <div className="z-[1] flex flex-col md:flex-row justify-center md:justify-start items-center gap-[10px] md:gap-[30px] font-medium text-base leading-[25px]">
+        <Link className="hover:gradient-text" target='_blank' rel='noopener noreferrer' href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/policies/privacy-policy">
+          <span>Privacy Policy</span>
         </Link>
         <Link className="hover:gradient-text" href="/terms-of-use">
           <span>Terms of use</span>
         </Link>
-        <Link className="hover:gradient-text" href="/get-api-access">
-          <span>API access</span>
+        <Link className="hover:gradient-text" target='_blank' rel='noopener noreferrer' href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/policies/user-data-policy">
+          <span>User Data Policy</span>
         </Link>
-        <Link className="hover:gradient-text" href="https://forms.monday.com/forms/9e469b4eca191951e784b45295532294?r=euc1">
-          <span>Partnership</span>
+        <Link className="hover:gradient-text" target='_blank' rel='noopener noreferrer' href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/policies/compliance-and-risk-policy">
+          <span>Compliance and Risk Policy</span>
         </Link>
-        <Link className="hover:gradient-text" href="/bug-bounty-program">
-          <span>Bug Bounty</span>
+      </div>
+      <div className="z-[1] flex flex-col md:flex-row justify-center md:justify-start items-center gap-[10px] md:gap-[38px] font-medium text-base leading-[25px]">
+        <Link className="hover:gradient-text" href="/dashboard">
+          <span>Staking</span>
+        </Link>
+        <Link className="hover:gradient-text" target='_blank' rel='noopener noreferrer' href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/tokenomics">
+          <span>Tokenomics</span>
+        </Link>
+        <Link className="hover:gradient-text" target='_blank' rel='noopener noreferrer' href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/tokenomics/usdlock-staking-progam">
+          <span>$LOCK Staking Program</span>
         </Link>
       </div>
     </div>
