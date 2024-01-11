@@ -1,11 +1,12 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CheckBox, Portal } from 'houdini-react-sdk'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'react-toastify'
 
+import { ConfirmDeposit } from '@/components/ConfirmDepositModal'
 import { Countdown } from '@/components/Countdown'
+import { EraseOrder } from '@/components/EraseModal'
 import { GeneralModal } from '@/components/GeneralModal'
 import { Clipboardbox } from '@/components/GeneralModal/Clipboardbox'
 import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCounterLockup'
@@ -14,19 +15,19 @@ import { MetalboarderedTransRoundbox } from '@/components/GeneralModal/Metalboar
 import { OrderDetailRoundbox } from '@/components/GeneralModal/OrderDetailRoundbox'
 import { WalletRoundbox } from '@/components/GeneralModal/WalletRoundbox'
 import { OpenWallet } from '@/components/OpenWallet'
+import OrderDeletedModal from '@/components/OrderDetailsComponents/OrderDeletedModal'
+import OrderIdRoundBox from '@/components/OrderDetailsComponents/OrderIdRoundBox'
 import { OrderProgress } from '@/components/OrderProgress'
 import { QrCode } from '@/components/QRCode'
 import { ChevronSvg, QRCodeSvg, SwapSvg } from '@/components/Svg'
-import { CONFIRM_DEPOSIT, TOKENS_QUERY } from '@/lib/apollo/query'
+import { TOKENS_QUERY } from '@/lib/apollo/query'
 import { ORDER_STATUS } from '@/utils/constants'
 import {
+  animation,
   getEllipsisTxt,
   getOrderStatusKey,
   getTokenDetails,
-  showErrorMessage,
 } from '@/utils/helpers'
-import OrderDeletedModal from '@/components/OrderDetailsComponents/OrderDeletedModal'
-import OrderIdRoundBox from '@/components/OrderDetailsComponents/OrderIdRoundBox'
 
 interface OrderDetailModalProps {
   orderID: string
@@ -49,41 +50,12 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
   const [qrCodeModal, setQrCodeModal] = useState(false)
   const [isLoading, setIsLoading] = useState()
 
-  const [txHash, setTxHash] = useState('')
   const [confirmDepositModal, setConfirmDepositModal] = useState(false)
+  const [eraseModal, setEraseModal] = useState(false)
 
   const toggleOpen = () => setIsCollapsed(!isCollapsed)
 
   const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
-
-  const [confirmDeposit] = useMutation(CONFIRM_DEPOSIT, {
-    variables: {
-      hash: props?.order?.senderAddress,
-      id: props?.order?.houdiniId,
-    },
-    onError: (err) => {
-      showErrorMessage(err, t)
-    },
-    onCompleted: (data) => {
-      const { confirmDeposit } = data
-      if (confirmDeposit) {
-        toast.success('Your request has been sent')
-      } else {
-        toast.error('Something went wrong. Please contact support!')
-      }
-    },
-  })
-
-  const handleConfirmDeposit = async () => {
-    await confirmDeposit()
-
-    setTxHash('')
-    setConfirmDepositModal(false)
-  }
-
-  const handleCloseConfirmDepositModal = () => {
-    setConfirmDepositModal(false)
-  }
 
   const DateFormatter = () => {
     const date = props.creationTime
@@ -105,17 +77,6 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
     })
     const formattedTime = formatter.format(date)
     return formattedTime
-  }
-
-  const animation = {
-    hidden: {
-      y: '100%',
-      transition: { duration: 0.3 },
-    },
-    visible: {
-      y: '0',
-      transition: { duration: 0.3 },
-    },
   }
 
   const findTokenBySymbol = useCallback(
@@ -160,8 +121,9 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                   additionalClassNames="rounded-full"
                 >
                   <ChevronSvg
-                    className={`${isCollapsed ? 'rotate-180' : 'rotate-0'
-                      } fill-white min-w-[20px] min-h-[20px]`}
+                    className={`${
+                      isCollapsed ? 'rotate-180' : 'rotate-0'
+                    } fill-white min-w-[20px] min-h-[20px]`}
                   />
                 </OrderDetailRoundbox>
               </div>
@@ -195,7 +157,9 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                           </div>
                           <img
                             alt="inSymbol"
-                            src={findTokenBySymbol(props?.order?.inSymbol)?.icon}
+                            src={
+                              findTokenBySymbol(props?.order?.inSymbol)?.icon
+                            }
                             className="w-[20px] h-[20px]"
                           />
                           <div className="text-sm whitespace-nowrap">
@@ -235,7 +199,7 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                     <div className="relative hover:cursor-pointer flex flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
                       <div
                         onClick={() => {
-                          confirmDeposit()
+                          setConfirmDepositModal(true)
                         }}
                         className="text-center lg:text-[15px] lg:font-bold font-medium whitespace-nowrap"
                       >
@@ -326,7 +290,10 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                         className="w-[20px] h-[20px]"
                       />
                       <div className="text-base whitespace-nowrap text-center lg:text-[15px] text-[14px] font-normal">
-                        {findTokenBySymbol(props?.order?.outSymbol)?.displayName}
+                        {
+                          findTokenBySymbol(props?.order?.outSymbol)
+                            ?.displayName
+                        }
                       </div>
                     </div>
                   </div>
@@ -339,7 +306,9 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                       rightText=""
                       disabled={true}
                     />
-                    <div className="text-xs whitespace-nowrap">SEMI-PRIVATE</div>
+                    <div className="text-xs whitespace-nowrap">
+                      SEMI-PRIVATE
+                    </div>
                   </div>
                 </div>
               </div>
@@ -398,7 +367,9 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                       rightText=""
                       disabled={true}
                     />
-                    <div className="text-xs whitespace-nowrap">SEMI-PRIVATE</div>
+                    <div className="text-xs whitespace-nowrap">
+                      SEMI-PRIVATE
+                    </div>
                   </div>
                 </div>
               </div>
@@ -444,6 +415,17 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
             </Portal>
           ) : null}
         </AnimatePresence>
+
+        <ConfirmDeposit
+          confirmDepositModal={confirmDepositModal}
+          setConfirmDepositModal={setConfirmDepositModal}
+          houdiniId={props?.order?.houdiniId}
+        />
+        <EraseOrder
+          eraseModal={eraseModal}
+          setEraseModal={setEraseModal}
+          houdiniId={props?.order?.houdiniId}
+        />
       </div>
     )
   }
