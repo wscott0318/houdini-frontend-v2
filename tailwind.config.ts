@@ -214,6 +214,12 @@ const config: Config = {
         '.custom-day-widthrawal-button-gradient': {
           background: 'linear-gradient(180deg, #86E1A0 0%, #4FBF67 100%)'
         },
+        '.custom-penalty-switch-button-gradient': {
+          background: 'var(--Gold, linear-gradient(106deg, #FB792F 23.3%, #F3C755 97.04%, #F5C341 164.88%))'
+        },
+        '.custom-nopenalty-switch-button-gradient': {
+          background: 'linear-gradient(180deg, #86E1A0 0%, #4FBF67 100%)'
+        }
       }
       addUtilities(newUtilities, ['responsive', 'hover'])
     },
