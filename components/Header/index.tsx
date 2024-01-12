@@ -56,7 +56,7 @@ export function Header() {
     <>
       <div className="relative z-[1]">
         <div className="w-full relative p-2">
-          <div className="flex flex-row gap-2 justify-center items-center absolute right-0">
+          <div className="flex flex-row gap-2 justify-center items-center absolute right-0 mt-[-12px]">
             <button
               aria-label="Toggle smoke effect"
               className={`rounded-[4px] p-[4px] flex justify-center items-center ${isSmokeEnabled ? 'box-content w-[24px] h-[24px] bg-[#81818140]' : 'w-[32px] h-[32px] border-2 border-[#81818140] bg-[transparent]'}`}

@@ -45,7 +45,7 @@ export const Footer = () => {
   const isSmallScreen = useMediaQuery('(max-width: 500px)');
 
   return (
-    <footer>
+    <footer className='relative z-[1]'>
       <div className="custom-footer-border h-[3px] mb-[-0.6px]" />
       <div className="col-span-1 grid grid-cols-1 place-content-center place-items-center gap-[35px] pb-10 custom-footer-shadow px-2">
         <div className={`flex flex-wrap justify-evenly gap-10 w-full max-w-screen-xl mt-[80px] ${isMediumScreen ? 'flex-col' : ''}`}>
