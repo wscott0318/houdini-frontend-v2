@@ -4,9 +4,9 @@ import { useState } from 'react';
 
 import { Logo } from '@/components/Footer/Logo';
 import { GitBookSvg, MediumSvg, MinusIcon, PlusIcon, TelegramSvg, YouTubeSvg } from '@/components/Svg';
-import { useWindowSize } from '@/utils/hooks/useWindowSize';
 import dayjs from 'dayjs';
 import NextLink from 'next/link';
+import useMediaQuery from '@/utils/hooks/useMediaQuery';
 
 const Link = ({ children, href, className, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) =>
   href ? (
@@ -40,10 +40,9 @@ const LinkCategory = ({
 };
 
 export const Footer = () => {
-  const [width] = useWindowSize();
   const today = dayjs();
-  const isMediumScreen = width < 768;
-  const isSmallScreen = width < 500;
+  const isMediumScreen = useMediaQuery('(max-width: 768px)');
+  const isSmallScreen = useMediaQuery('(max-width: 500px)');
 
   return (
     <footer>
