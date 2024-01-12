@@ -734,7 +734,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
     isLoadingMultiExchange ||
     isPriceQuoting ||
     isLoadingExchange ||
-    !(currentSwap?.send.value && currentSwap.receiveAddress)
+    (!swaps.length && !currentSwap?.send.value && !currentSwap?.receiveAddress)
 
   const handleSwapProceed = async (isMulti: boolean) => {
     if (walletId !== '' && !accountInfo?.accountExists) {
@@ -749,9 +749,15 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
     const widgetModeParam = widgetMode ? `&widgetMode=${widgetMode}` : ''
 
     if (isMulti) {
-      const orders = swaps.map((swap) => {
-        const order: { [key: string]: number | string | boolean | undefined } =
-          {
+      const orders = swaps
+        .filter(
+          (swap) =>
+            swap.send.value && swap.receive.value && swap.receiveAddress,
+        )
+        .map((swap) => {
+          const order: {
+            [key: string]: number | string | boolean | undefined
+          } = {
             amount: parseFloat(swap.send.value),
             from: swap.send.name,
             to: swap.receive.name,
@@ -760,12 +766,12 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
             // partnerId,
           }
 
-        if (walletId) {
-          order['walletId'] = walletId
-        }
+          if (walletId) {
+            order['walletId'] = walletId
+          }
 
-        return order
-      })
+          return order
+        })
 
       const response = await multi_exchange({
         variables: { orders },
@@ -893,7 +899,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
             </div>
           ) : null}
 
-          {!getWalletId ? (
+          {/* {!getWalletId ? (
             <div className="mt-10 w-full">
               <TextField
                 id="send"
@@ -903,7 +909,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
                 value={walletId}
               />
             </div>
-          ) : null}
+          ) : null} */}
 
           <div className="gradient-text my-[20px] font-medium text-xs font-poppins">
             {i18n?.bottomText ||
@@ -911,7 +917,6 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
           </div>
 
           <HoudiniButton
-            // text={i18n?.proceedButtonText || 'Proceed'}
             text={buttonTextState()}
             onClick={() => {
               handleSwapProceed(isMulti)
@@ -990,7 +995,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
                 </div>
               ) : null}
 
-              <div className="mt-10 w-full">
+              {/* <div className="mt-10 w-full">
                 <TextField
                   id="account_id"
                   label={i18n?.accountId || 'Account ID:'}
@@ -998,7 +1003,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
                   onChange={(e) => setWalletId(e.target.value)}
                   value={walletId}
                 />
-              </div>
+              </div> */}
 
               <div className="gradient-text my-[20px] font-medium text-xs font-poppins">
                 {i18n?.bottomText ||

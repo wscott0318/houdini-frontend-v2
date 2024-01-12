@@ -1,11 +1,12 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CheckBox, Portal } from 'houdini-react-sdk'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'react-toastify'
 
+import { ConfirmDeposit } from '@/components/ConfirmDepositModal'
 import { Countdown } from '@/components/Countdown'
+import { EraseOrder } from '@/components/EraseModal'
 import { GeneralModal } from '@/components/GeneralModal'
 import { Clipboardbox } from '@/components/GeneralModal/Clipboardbox'
 import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCounterLockup'
@@ -14,19 +15,19 @@ import { MetalboarderedTransRoundbox } from '@/components/GeneralModal/Metalboar
 import { OrderDetailRoundbox } from '@/components/GeneralModal/OrderDetailRoundbox'
 import { WalletRoundbox } from '@/components/GeneralModal/WalletRoundbox'
 import { OpenWallet } from '@/components/OpenWallet'
+import OrderDeletedModal from '@/components/OrderDetailsComponents/OrderDeletedModal'
+import OrderIdRoundBox from '@/components/OrderDetailsComponents/OrderIdRoundBox'
 import { OrderProgress } from '@/components/OrderProgress'
 import { QrCode } from '@/components/QRCode'
 import { ChevronSvg, QRCodeSvg, SwapSvg } from '@/components/Svg'
-import { CONFIRM_DEPOSIT, TOKENS_QUERY } from '@/lib/apollo/query'
+import { TOKENS_QUERY } from '@/lib/apollo/query'
 import { ORDER_STATUS } from '@/utils/constants'
 import {
+  animation,
   getEllipsisTxt,
   getOrderStatusKey,
   getTokenDetails,
-  showErrorMessage,
 } from '@/utils/helpers'
-import OrderDeletedModal from '@/components/OrderDetailsComponents/OrderDeletedModal'
-import OrderIdRoundBox from '@/components/OrderDetailsComponents/OrderIdRoundBox'
 
 interface OrderDetailModalProps {
   orderID: string
@@ -45,45 +46,16 @@ interface OrderDetailModalProps {
 export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
   const { t } = useTranslation()
 
-  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(true)
   const [qrCodeModal, setQrCodeModal] = useState(false)
   const [isLoading, setIsLoading] = useState()
 
-  const [txHash, setTxHash] = useState('')
   const [confirmDepositModal, setConfirmDepositModal] = useState(false)
+  const [eraseModal, setEraseModal] = useState(false)
 
-  const toggleOpen = () => setIsCollapsed(!isCollapsed)
+  const toggleOpen = () => setIsExpanded(!isExpanded)
 
   const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
-
-  const [confirmDeposit] = useMutation(CONFIRM_DEPOSIT, {
-    variables: {
-      hash: props?.order?.senderAddress,
-      id: props?.order?.houdiniId,
-    },
-    onError: (err) => {
-      showErrorMessage(err, t)
-    },
-    onCompleted: (data) => {
-      const { confirmDeposit } = data
-      if (confirmDeposit) {
-        toast.success('Your request has been sent')
-      } else {
-        toast.error('Something went wrong. Please contact support!')
-      }
-    },
-  })
-
-  const handleConfirmDeposit = async () => {
-    await confirmDeposit()
-
-    setTxHash('')
-    setConfirmDepositModal(false)
-  }
-
-  const handleCloseConfirmDepositModal = () => {
-    setConfirmDepositModal(false)
-  }
 
   const DateFormatter = () => {
     const date = props.creationTime
@@ -107,17 +79,6 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
     return formattedTime
   }
 
-  const animation = {
-    hidden: {
-      y: '100%',
-      transition: { duration: 0.3 },
-    },
-    visible: {
-      y: '0',
-      transition: { duration: 0.3 },
-    },
-  }
-
   const findTokenBySymbol = useCallback(
     (symbol: string) => {
       if (!loading) {
@@ -131,6 +92,8 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
     },
     [loading],
   )
+
+  console.log(props.order)
 
   if (props?.order?.status === ORDER_STATUS.DELETED) {
     return <OrderDeletedModal orderId={props.orderID} />
@@ -160,8 +123,9 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                   additionalClassNames="rounded-full"
                 >
                   <ChevronSvg
-                    className={`${isCollapsed ? 'rotate-180' : 'rotate-0'
-                      } fill-white min-w-[20px] min-h-[20px]`}
+                    className={`${
+                      isExpanded ? 'rotate-180' : 'rotate-0'
+                    } fill-white min-w-[20px] min-h-[20px]`}
                   />
                 </OrderDetailRoundbox>
               </div>
@@ -170,8 +134,8 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{
-              opacity: isCollapsed ? 1 : 0,
-              height: isCollapsed ? 'auto' : 0,
+              opacity: isExpanded ? 1 : 0,
+              height: isExpanded ? 'auto' : 0,
             }}
             transition={{ duration: 0.2 }}
             className="w-full"
@@ -179,95 +143,108 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
             {props.status === 0 || props.status === -1 ? (
               <IndustrialCounterLockup>
                 <div className="text-center w-full lg:text-[46px] text-[20px] lg:leading-[75px] font-bold ">
-                  {t('orderDetailModalSendFund')}
+                  {t(
+                    props.order.inCreated
+                      ? 'orderDetailModalSendFund'
+                      : 'creatingOrderPathway',
+                  )}
                 </div>
-                <div className="flex relative justify-center items-center flex-col lg:px-[30px] lg:py-[10px] lg:gap-[20px] gap-[10px] w-full">
-                  <div className="text-center w-full lg:text-[17px] text-[15px] leading-[21px] font-medium rainbow-text">
-                    {t('orderDetailModalFollowSteps')}
-                  </div>
-                  <MetalboarderedRoundbox>
-                    <div className="flex flex-row flex-wrap sm:flex-nowrap w-full justify-center sm:justify-start items-center ml-4 gap-4 mr-auto">
-                      <div className="text-sm">{t('orderDetailModalSend')}</div>
-                      <div className="flex flex-row w-full lg:w-auto justify-center items-center">
-                        <div className="flex flex-row justify-center items-center gap-2">
-                          <div className="text-sm whitespace-nowrap">
-                            {props.order.inAmount}
+                {props.order.inCreated ? (
+                  <>
+                    <div className="flex relative justify-center items-center flex-col lg:px-[30px] lg:py-[10px] lg:gap-[20px] gap-[10px] w-full">
+                      <div className="text-center w-full lg:text-[17px] text-[15px] leading-[21px] font-medium rainbow-text">
+                        {t('orderDetailModalFollowSteps')}
+                      </div>
+                      <MetalboarderedRoundbox>
+                        <div className="flex flex-row flex-wrap sm:flex-nowrap w-full justify-center sm:justify-start items-center ml-4 gap-4 mr-auto">
+                          <div className="text-sm">
+                            {t('orderDetailModalSend')}
                           </div>
-                          <img
-                            alt="inSymbol"
-                            src={findTokenBySymbol(props?.order?.inSymbol)?.icon}
-                            className="w-[20px] h-[20px]"
-                          />
-                          <div className="text-sm whitespace-nowrap">
-                            {
-                              findTokenBySymbol(props?.order?.inSymbol)
-                                ?.displayName
-                            }
+                          <div className="flex flex-row w-full lg:w-auto justify-center items-center">
+                            <div className="flex flex-row justify-center items-center gap-2">
+                              <div className="text-sm whitespace-nowrap">
+                                {props.order.inAmount}
+                              </div>
+                              <img
+                                alt="inSymbol"
+                                src={
+                                  findTokenBySymbol(props?.order?.inSymbol)
+                                    ?.icon
+                                }
+                                className="w-[20px] h-[20px]"
+                              />
+                              <div className="text-sm whitespace-nowrap">
+                                {
+                                  findTokenBySymbol(props?.order?.inSymbol)
+                                    ?.displayName
+                                }
+                              </div>
+                              <div>to:</div>
+                            </div>
                           </div>
-                          <div>to:</div>
+                          <div className="flex flex-row flex-wrap justify-center items-center mr-4">
+                            <Clipboardbox
+                              concept={`${props.receiveAddress}`}
+                              textColor="text-[#FBBF24]"
+                              fontSize="text-[14px]"
+                              fontWeight="text-semibold"
+                              lineHeight="leading-[24px]"
+                            />
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex flex-row flex-wrap justify-center items-center mr-4">
-                        <Clipboardbox
-                          concept={`${props.receiveAddress}`}
-                          textColor="text-[#FBBF24]"
-                          fontSize="text-[14px]"
-                          fontWeight="text-semibold"
-                          lineHeight="leading-[24px]"
-                        />
-                      </div>
+                      </MetalboarderedRoundbox>
                     </div>
-                  </MetalboarderedRoundbox>
-                </div>
-                <div className="flex gap-4 lg:flex-row flex-wrap justify-center lg:justify-between w-full items-center px-[30px] lg:pt-5 pt-[10px] left-0">
-                  <WalletRoundbox>
-                    <div
-                      onClick={() => {
-                        setQrCodeModal(!qrCodeModal)
-                      }}
-                      className="flex w-[50px] h-[50px] hover:cursor-pointer flex-row justify-center items-center lg:py-[10px] py-[5px]"
-                    >
-                      <QRCodeSvg className="w-full h-full" />
-                    </div>
-                  </WalletRoundbox>
+                    <div className="flex gap-4 lg:flex-row flex-wrap justify-center lg:justify-between w-full items-center px-[30px] lg:pt-5 pt-[10px] left-0">
+                      <WalletRoundbox>
+                        <div
+                          onClick={() => {
+                            setQrCodeModal(!qrCodeModal)
+                          }}
+                          className="flex w-[50px] h-[50px] hover:cursor-pointer flex-row justify-center items-center lg:py-[10px] py-[5px]"
+                        >
+                          <QRCodeSvg className="w-full h-full" />
+                        </div>
+                      </WalletRoundbox>
 
-                  <WalletRoundbox>
-                    <div className="relative hover:cursor-pointer flex flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
-                      <div
-                        onClick={() => {
-                          confirmDeposit()
-                        }}
-                        className="text-center lg:text-[15px] lg:font-bold font-medium whitespace-nowrap"
-                      >
-                        {t('alertSupport')}
+                      <WalletRoundbox>
+                        <div className="relative hover:cursor-pointer flex flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
+                          <div
+                            onClick={() => {
+                              setConfirmDepositModal(true)
+                            }}
+                            className="text-center lg:text-[15px] lg:font-bold font-medium whitespace-nowrap"
+                          >
+                            {t('alertSupport')}
+                          </div>
+                        </div>
+                      </WalletRoundbox>
+
+                      <div className="hidden sm:block">
+                        <Countdown order={props?.order} />
                       </div>
-                    </div>
-                  </WalletRoundbox>
 
-                  <div className="hidden sm:block">
-                    <Countdown order={props?.order} />
-                  </div>
-
-                  <WalletRoundbox>
-                    <div className="relative flex hover:cursor-pointer flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
-                      <OpenWallet
-                        amount={props?.order?.inAmount}
-                        to={props?.order?.senderAddress}
-                        token={{
-                          token: getTokenDetails(
-                            tokensData?.tokens,
-                            props?.order?.inSymbol,
-                          ),
-                        }}
-                        setIsLoading={setIsLoading}
-                      />
-                      {/* <QuestionSvg className="absolute top-1 right-1 w-[10px] h-[10px]"/> */}
+                      <WalletRoundbox>
+                        <div className="relative flex hover:cursor-pointer flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
+                          <OpenWallet
+                            amount={props?.order?.inAmount}
+                            to={props?.order?.senderAddress}
+                            token={{
+                              token: getTokenDetails(
+                                tokensData?.tokens,
+                                props?.order?.inSymbol,
+                              ),
+                            }}
+                            setIsLoading={setIsLoading}
+                          />
+                          {/* <QuestionSvg className="absolute top-1 right-1 w-[10px] h-[10px]"/> */}
+                        </div>
+                      </WalletRoundbox>
                     </div>
-                  </WalletRoundbox>
-                </div>
-                <div className="sm:hidden flex flex-wrap justify-center gap-[10px]">
-                  <Countdown order={props?.order} />
-                </div>
+                    <div className="sm:hidden flex flex-wrap justify-center gap-[10px]">
+                      <Countdown order={props?.order} />
+                    </div>
+                  </>
+                ) : null}
               </IndustrialCounterLockup>
             ) : (
               <IndustrialCounterLockup>
@@ -300,110 +277,127 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
             )}
           </motion.div>
 
-          {props.status === 0 || props.status === -1 ? (
-            <div className="pt-[15px] lg:px-[10px] pb-[5px] w-full">
-              <div className="p-[2px] w-full rounded-[20px] custom-houdini-id-gradient1">
-                <div className="flex flex-wrap lg:justify-between justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow lg:px-[30px] px-[5px] py-[10px]">
-                  <div className="sm:flex block lg:w-auto w-full lg:justify-start justify-center px-[4px] gap-2">
-                    <div className="text-center lg:text-[15px] whitespace-nowrap lg:leading-[24px] text-[14px] font-bold text-opacity-60 text-[#FFFFFF99]">
-                      {t('orderDetailModalRecipientWallet')}:
-                    </div>
-                    <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
-                      {getEllipsisTxt(props.recipientAddress)}
-                    </div>
-                  </div>
-                  <div className="flex lg:w-[40%] lg:justify-start justify-center flex-row items-center gap-2.5 px-[4px]">
-                    <div className="text-center whitespace-nowrap lg:text-[15px] lg:leading-[24px] text-[14px] font-normal text-opacity-50 text-[#FFFFFF99]">
-                      {t('orderDetailModalWillReceive')}
-                    </div>
-                    <div className="flex gap-2.5 items-center">
-                      <div className="text-center lg:text-[15px] text-[14px] font-normal">
-                        {props.order.outAmount}
+          {props.order.inCreated ? (
+            <>
+              {props.status === 0 || props.status === -1 ? (
+                <div className="pt-[15px] lg:px-[10px] pb-[5px] w-full">
+                  <div className="p-[2px] w-full rounded-[20px] custom-houdini-id-gradient1">
+                    <div className="flex flex-wrap lg:justify-between justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow lg:px-[30px] px-[5px] py-[10px]">
+                      <div className="sm:flex block lg:w-auto w-full lg:justify-start justify-center px-[4px] gap-2">
+                        <div className="text-center lg:text-[15px] whitespace-nowrap lg:leading-[24px] text-[14px] font-bold text-opacity-60 text-[#FFFFFF99]">
+                          {t('orderDetailModalRecipientWallet')}:
+                        </div>
+                        <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
+                          {getEllipsisTxt(props.recipientAddress)}
+                        </div>
                       </div>
-                      <img
-                        alt="outSymbol"
-                        src={findTokenBySymbol(props?.order?.outSymbol)?.icon}
-                        className="w-[20px] h-[20px]"
-                      />
-                      <div className="text-base whitespace-nowrap text-center lg:text-[15px] text-[14px] font-normal">
-                        {findTokenBySymbol(props?.order?.outSymbol)?.displayName}
+                      <div className="flex lg:w-[40%] lg:justify-start justify-center flex-row items-center gap-2.5 px-[4px]">
+                        <div className="text-center whitespace-nowrap lg:text-[15px] lg:leading-[24px] text-[14px] font-normal text-opacity-50 text-[#FFFFFF99]">
+                          {t('orderDetailModalWillReceive')}
+                        </div>
+                        <div className="flex gap-2.5 items-center">
+                          <div className="text-center lg:text-[15px] text-[14px] font-normal">
+                            {props.order.outAmount}
+                          </div>
+                          <img
+                            alt="outSymbol"
+                            src={
+                              findTokenBySymbol(props?.order?.outSymbol)?.icon
+                            }
+                            className="w-[20px] h-[20px]"
+                          />
+                          <div className="text-base whitespace-nowrap text-center lg:text-[15px] text-[14px] font-normal">
+                            {
+                              findTokenBySymbol(props?.order?.outSymbol)
+                                ?.displayName
+                            }
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex flex-row justify-start items-center gap-2">
+                        <CheckBox
+                          defaultValue={props?.order?.anonymous}
+                          leftText=""
+                          name="privateToggler"
+                          // onChange={() => handlePrivateSwap(swap.id)}
+                          rightText=""
+                          disabled={true}
+                        />
+                        <div className="text-xs whitespace-nowrap">
+                          SEMI-PRIVATE
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex flex-row justify-start items-center gap-2">
-                    <CheckBox
-                      defaultValue={props?.order?.anonymous}
-                      leftText=""
-                      name="privateToggler"
-                      // onChange={() => handlePrivateSwap(swap.id)}
-                      rightText=""
-                      disabled={true}
-                    />
-                    <div className="text-xs whitespace-nowrap">SEMI-PRIVATE</div>
                   </div>
                 </div>
-              </div>
-            </div>
-          ) : (
-            <div className="pt-[15px] lg:px-[10px] pb-[5px] w-full">
-              <div className="p-[2px] w-full rounded-[20px] custom-houdini-id-gradient1">
-                <div className="flex flex-wrap lg:justify-between justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow lg:px-[30px] px-[5px] py-[10px]">
-                  <div className="sm:flex block lg:w-auto w-full lg:justify-start justify-center px-[4px] gap-2">
-                    <div className="text-center lg:text-[15px] whitespace-nowrap lg:leading-[24px] text-[14px] font-bold text-opacity-60 text-[#FFFFFF99]">
-                      {t('recieverAddress')}:
-                    </div>
-                    <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
-                      {getEllipsisTxt(props.recipientAddress)}
-                    </div>
-                  </div>
-                  <div className="flex lg:w-[40%] lg:justify-start justify-center flex-row items-center gap-2.5 px-[4px]">
-                    <div className="flex gap-2.5 items-center">
-                      <div className="text-center lg:text-[15px] text-[14px] font-normal">
-                        {props.order.inAmount}
+              ) : (
+                <div className="pt-[15px] lg:px-[10px] pb-[5px] w-full">
+                  <div className="p-[2px] w-full rounded-[20px] custom-houdini-id-gradient1">
+                    <div className="flex flex-wrap lg:justify-between justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow lg:px-[30px] px-[5px] py-[10px]">
+                      <div className="sm:flex block lg:w-auto w-full lg:justify-start justify-center px-[4px] gap-2">
+                        <div className="text-center lg:text-[15px] whitespace-nowrap lg:leading-[24px] text-[14px] font-bold text-opacity-60 text-[#FFFFFF99]">
+                          {t('recieverAddress')}:
+                        </div>
+                        <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
+                          {getEllipsisTxt(props.recipientAddress)}
+                        </div>
                       </div>
-                      <img
-                        alt="inSymbol"
-                        src={findTokenBySymbol(props?.order?.inSymbol)?.icon}
-                        className="w-[20px] h-[20px]"
-                      />
-                      <div className="text-base text-center whitespace-nowrap lg:text-[15px] text-[14px] font-normal">
-                        {props?.order?.inSymbol}
+                      <div className="flex lg:w-[40%] lg:justify-start justify-center flex-row items-center gap-2.5 px-[4px]">
+                        <div className="flex gap-2.5 items-center">
+                          <div className="text-center lg:text-[15px] text-[14px] font-normal">
+                            {props.order.inAmount}
+                          </div>
+                          <img
+                            alt="inSymbol"
+                            src={
+                              findTokenBySymbol(props?.order?.inSymbol)?.icon
+                            }
+                            className="w-[20px] h-[20px]"
+                          />
+                          <div className="text-base text-center whitespace-nowrap lg:text-[15px] text-[14px] font-normal">
+                            {props?.order?.inSymbol}
+                          </div>
+                        </div>
+                        <SwapSvg className="min-w-[15px] min-h-[15px]" />
+                        <div className="flex gap-2.5 items-center">
+                          <div className="text-center lg:text-[15px] text-[14px] font-normal">
+                            {props.order.outAmount}
+                          </div>
+                          <img
+                            alt="outSymbol"
+                            src={
+                              findTokenBySymbol(props?.order?.outSymbol)?.icon
+                            }
+                            className="w-[20px] h-[20px]"
+                          />
+                          <div className="text-base text-center whitespace-nowrap lg:text-[15px] text-[14px] font-normal">
+                            {props?.order?.outSymbol}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="px-[4px] flex flex-row justify-start whitespace-nowrap items-center gap-2">
+                        <div>Status:</div>
+                        <div>{getOrderStatusKey(props.order.status)}</div>
+                      </div>
+                      <div className="flex flex-row justify-start items-center gap-2">
+                        <CheckBox
+                          defaultValue={props?.order?.anonymous}
+                          leftText=""
+                          name="privateToggler"
+                          // onChange={() => handlePrivateSwap(swap.id)}
+                          rightText=""
+                          disabled={true}
+                        />
+                        <div className="text-xs whitespace-nowrap">
+                          SEMI-PRIVATE
+                        </div>
                       </div>
                     </div>
-                    <SwapSvg className="min-w-[15px] min-h-[15px]" />
-                    <div className="flex gap-2.5 items-center">
-                      <div className="text-center lg:text-[15px] text-[14px] font-normal">
-                        {props.order.outAmount}
-                      </div>
-                      <img
-                        alt="outSymbol"
-                        src={findTokenBySymbol(props?.order?.outSymbol)?.icon}
-                        className="w-[20px] h-[20px]"
-                      />
-                      <div className="text-base text-center whitespace-nowrap lg:text-[15px] text-[14px] font-normal">
-                        {props?.order?.outSymbol}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="px-[4px] flex flex-row justify-start whitespace-nowrap items-center gap-2">
-                    <div>Status:</div>
-                    <div>{getOrderStatusKey(props.order.status)}</div>
-                  </div>
-                  <div className="flex flex-row justify-start items-center gap-2">
-                    <CheckBox
-                      defaultValue={props?.order?.anonymous}
-                      leftText=""
-                      name="privateToggler"
-                      // onChange={() => handlePrivateSwap(swap.id)}
-                      rightText=""
-                      disabled={true}
-                    />
-                    <div className="text-xs whitespace-nowrap">SEMI-PRIVATE</div>
                   </div>
                 </div>
-              </div>
-            </div>
-          )}
+              )}
+            </>
+          ) : null}
         </GeneralModal>
 
         <AnimatePresence>
@@ -444,6 +438,17 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
             </Portal>
           ) : null}
         </AnimatePresence>
+
+        <ConfirmDeposit
+          confirmDepositModal={confirmDepositModal}
+          setConfirmDepositModal={setConfirmDepositModal}
+          houdiniId={props?.order?.houdiniId}
+        />
+        <EraseOrder
+          eraseModal={eraseModal}
+          setEraseModal={setEraseModal}
+          houdiniId={props?.order?.houdiniId}
+        />
       </div>
     )
   }

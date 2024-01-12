@@ -161,11 +161,16 @@ export const SwapForm: React.FC<SwapFormProps> = ({
             <TextField
               id="receivingWallet"
               label={
-                i18n?.receiveInputLabel || 'Receiving Wallet (BTC) Address:'
+                i18n?.receiveInputLabel?.replace(
+                  '%token%',
+                  swap.receive.name,
+                ) || `Receiving Wallet (${swap.receive.name}) Address`
               }
               placeholder={
-                i18n?.receiverWalletPlaceholder ||
-                'Receiving Wallet (BTC) Address'
+                i18n?.receiverWalletPlaceholder?.replace(
+                  '%token%',
+                  swap.receive.name,
+                ) || `Receiving Wallet (${swap.receive.name}) Address`
               }
               onChange={(e) => handleReceiveAddress(e.target.value, swap.id)}
               value={swap?.receiveAddress || ''}
