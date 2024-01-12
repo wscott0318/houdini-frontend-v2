@@ -20,7 +20,7 @@ export default function ValueDropDown() {
           </span>
         </span>
       </div>
-      <div className="absolute w-[250px] top-[40px] rounded-[28px] p-[2px] custom-QTY-button-outline">
+      <div className="absolute w-[250px] top-[40px] rounded-[28px] p-[2px] custom-QTY-button-outline z-[1]">
         <div className="rounded-[28px]  py-[24px] pl-[29px] pr-[55px] bg-gradient-to-r from-[#212a36] to-[#363a50]">
           <div className="flex flex-col gap-[12px] ">
             {content.map((value, index) => {
