@@ -134,7 +134,6 @@ export default function RootLayout({ children }: LayoutProps) {
                         theme="colored"
                         className="m-10"
                       />
-                      <Footer />
                     </ResponsiveContainer>
                   </RainbowKitProvider>
                 </WagmiConfig>
@@ -167,6 +166,7 @@ export default function RootLayout({ children }: LayoutProps) {
             </ApolloProvider>
           </MatomoProvider>
         )}
+        {!widgetMode && <Footer />}
 
         <div id="portal"></div>
 

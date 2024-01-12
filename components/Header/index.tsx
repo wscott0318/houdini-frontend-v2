@@ -1,9 +1,9 @@
 'use client'
 
 import { AnimatePresence } from 'framer-motion'
-import { CheckBox, Portal } from 'houdini-react-sdk'
+import { Portal } from 'houdini-react-sdk'
 import { get } from 'lodash'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Drawer } from '@/components/Drawer'
 import { Logo } from '@/components/Footer/Logo'
@@ -15,6 +15,7 @@ import { useWindowSize } from '@/utils/hooks/useWindowSize'
 import { smokeEffect } from '@/utils/smokeEffect'
 
 import { Navbar } from './Navbar'
+import Image from 'next/image'
 
 export function Header() {
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -23,7 +24,7 @@ export function Header() {
   const [selectedLang, setSelectedLang] = useState('en')
   const [isSmokeEnabled, setIsSmokeEnabled] = useState(true)
 
-  const getSmokePreference = useCallback(() => {
+  useEffect(() => {
     const isClient = typeof window !== 'undefined'
     if (isClient) {
       const smokePreference = localStorage.getItem('smokePreference')
@@ -31,15 +32,10 @@ export function Header() {
         setIsSmokeEnabled(smokePreference === 'true')
       }
     }
-  }, [isSmokeEnabled])
-
-  useEffect(() => {
-    getSmokePreference()
-  }, [getSmokePreference])
+  }, [])
 
   const handleSmokeToggle = () => {
     const newValue = !isSmokeEnabled
-    smokeEffect(newValue)
     setIsSmokeEnabled(newValue)
     localStorage.setItem('smokePreference', JSON.stringify(newValue))
   }
@@ -61,31 +57,36 @@ export function Header() {
       <div className="relative z-[1]">
         <div className="w-full relative p-2">
           <div className="flex flex-row gap-2 justify-center items-center absolute right-0">
-            <CheckBox
-              onChange={handleSmokeToggle}
-              defaultValue={isSmokeEnabled}
-              name="smokeToggle"
-              icon={<SmokeSvg className="h-5 w-5" />}
-            />
             <button
-              className="relative rounded-[4px] bg-[#81818140] px-[4px] py-[4px]"
+              aria-label="Toggle smoke effect"
+              className={`rounded-[4px] p-[4px] flex justify-center items-center ${isSmokeEnabled ? 'box-content w-[24px] h-[24px] bg-[#81818140]' : 'w-[32px] h-[32px] border-2 border-[#81818140] bg-[transparent]'}`}
+              onClick={handleSmokeToggle}
+            >
+              <SmokeSvg
+                className={`${isSmokeEnabled ? '' : 'bg-[transparent] opacity-50'} w-[20px] h-[20px] hover:scale-110`}
+              />
+            </button>
+            <button
+              className="relative rounded-[4px] bg-[#81818140] px-[4px] py-[4px] h-[32px]"
               onClick={() => setOpenLanguage((prevState) => !prevState)}
             >
-              <div className="btn header-item ">
-                <img
+              <div className="btn header-item">
+                <Image
                   src={get(languages, `${selectedLang}.flag`).src}
                   alt="Language"
-                  className="h-5 w-7"
+                  width='28'
+                  height='20'
                 />
               </div>
               <LanguageDropDown
                 open={openLanguage}
                 selectedLang={selectedLang}
                 setSelectedLang={setSelectedLang}
+                setOpen={setOpenLanguage}
               />
             </button>
           </div>
-        </div>
+        </div >
         <div className="w-full">
           <nav className="col-span-1 flex flex-row justify-between w-full items-center">
             <Logo isHeader={true} />
@@ -102,7 +103,7 @@ export function Header() {
             {width >= 1024 ? <Navbar /> : null}
           </nav>
         </div>
-      </div>
+      </div >
       <AnimatePresence>
         {drawerOpen && width < 1024 ? (
           <Portal>
