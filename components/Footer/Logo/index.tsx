@@ -24,9 +24,9 @@ export const Logo = ({ isHeader = false }: { isHeader?: boolean }) => {
       className="hover:cursor-pointer flex flex-col gap-2 justify-center items-center"
     >
       {!isHeader && (
-        <Image src={logo} className="w-[144px] h-[151px]" alt="logo" />
+        <Image src={logo} className="w-[90px] h-[70px]" alt="logo" />
       )}
-      <LogoSvg className="w-[200px] h-[80px] fill-white" />
+      <LogoSvg className="w-[150px] h-[60px] fill-white" />
       {/* {!isHeader && (
         <div className="flex justify-start items-center">
           <Link
