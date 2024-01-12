@@ -7,9 +7,6 @@ import React, { useEffect, useState } from 'react'
 
 import { SwapBox } from '@/components'
 import { ResponsivePage } from '@/components/ResponsivePage'
-import HistoryModalBox from '@/components/StakingDashboard/HistoryModalBox'
-import PoolAPYBox from '@/components/StakingDashboard/PoolAPYBox'
-import WithdrawalBox from '@/components/StakingDashboard/WithdrawalBox'
 import {
   ArcSvg,
   BoltbotSvg,
@@ -125,10 +122,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* <SwapBox i18n={{ ...swapFormi18n, ...swapi18n }} /> */}
-          {/* <WithdrawalBox /> */}
-          {/* <PoolAPYBox /> */}
-          <HistoryModalBox />
+          <SwapBox i18n={{ ...swapFormi18n, ...swapi18n }} />
 
           <div className="rainbow-text flex flex-col justify-center items-center text-center">
             <div>

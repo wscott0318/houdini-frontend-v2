@@ -1,8 +1,6 @@
 import React from 'react'
 
-import { FCheckWhiteSvg, QuestionMarkSvg } from '@/components/Svg'
-
-import CTAButton from '../CTAButton'
+import CheckBox from './CheckBox'
 
 const HistoryModalBox = () => {
   return (
@@ -27,6 +25,19 @@ const HistoryModalBox = () => {
             <button className="px-[30px] py-[10px] rounded-[20px]">
               <span className="text-[18px] font-medium rainbow-text">Buys</span>
             </button>
+          </div>
+          <div className="flex flex-row px-[121px] py-[20px] gap-[178px] relative items-center">
+            <div className="absolute top-[26px] left-[27px]">
+              <CheckBox />
+            </div>
+            <span className="text-[18px] leading-normal font-medium">Type</span>
+            <span className="text-[18px] leading-normal font-medium">Date</span>
+            <span className="text-[18px] leading-normal font-medium">
+              Amount
+            </span>
+            <span className="text-[18px] leading-normal font-medium">
+              Address
+            </span>
           </div>
         </div>
       </div>
