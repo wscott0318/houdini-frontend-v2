@@ -89,7 +89,7 @@ export const SwapForm: React.FC<SwapFormProps> = ({
               !tokenLockOut ? '-space-y-6 md:-space-x-7' : ''
             }`}
           >
-            <div className="w-full max-w-full md:max-w-[345px] lg:max-w-[1000px]">
+            <div className="w-full max-w-full md:max-w-[330px] lg:max-w-[1000px]">
               <TextField
                 id="send"
                 label={i18n?.sendInputLabel || 'Send:'}
@@ -128,7 +128,7 @@ export const SwapForm: React.FC<SwapFormProps> = ({
               />
             ) : null}
 
-            <div className="w-full max-w-full md:max-w-[345px] lg:max-w-[1000px]">
+            <div className="w-full max-w-full md:max-w-[330px] lg:max-w-[1000px]">
               <TextField
                 id="receive"
                 label={i18n?.receiveInputLabel || 'Receive:'}
