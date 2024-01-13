@@ -184,7 +184,7 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                           </div>
                           <div className="flex flex-row flex-wrap justify-center items-center mr-4">
                             <Clipboardbox
-                              concept={`${props.receiveAddress}`}
+                              concept={`${props.recipientAddress}`}
                               textColor="text-[#FBBF24]"
                               fontSize="text-[14px]"
                               fontWeight="text-semibold"
@@ -288,7 +288,7 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                           {t('orderDetailModalRecipientWallet')}:
                         </div>
                         <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
-                          {getEllipsisTxt(props.recipientAddress)}
+                          {getEllipsisTxt(props.receiveAddress)}
                         </div>
                       </div>
                       <div className="flex lg:w-[40%] lg:justify-start justify-center flex-row items-center gap-2.5 px-[4px]">
