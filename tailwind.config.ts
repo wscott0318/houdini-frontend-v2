@@ -126,10 +126,13 @@ const config: Config = {
           background: "url(../assets/background.png)",
           backgroundSize: 'cover',
         },
+        '.custom-top-stakingDashboard-background-img': {
+          background: "url(../assets/staking-dashboard.png)",
+          backgroundSize: 'cover',
+        },
         '.custom-bottom-background-img': {
           background: "url(../assets/bottomBack.png)"
         },
-        
         '.custom-swap-wheel-outlinear-gradient': {
           background: 'radial-gradient(#457BBA, #AEC6C8, #8F8F8F)',
           boxShadow: '0px 17px 25px 0px #555, 0px 4px 17px 0px rgba(255, 255, 255, 0.25) inset, 10px 8px 30px 0px rgba(255, 255, 255, 0.70) inset, 8px 8px 10px 0px rgba(0, 0, 0, 0.50)',

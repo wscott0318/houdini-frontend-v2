@@ -1,0 +1,10 @@
+'use client'
+
+import { useTranslation } from 'react-i18next'
+
+import Performance from '@/components/Performance'
+
+export default function StakingDashboard() {
+  const { t } = useTranslation()
+  return <Performance />
+}

@@ -1,16 +1,24 @@
 import React, { useState } from 'react'
 
-import ValueDropDown from '../ValueDropDown'
+import { DownloadSvg, LoadingSvg } from '@/components/Svg'
+
+import CTAButton from '../CTAButton'
 import CheckBox from './CheckBox'
 import ListLine from './ListLine'
+import Timeframe from './Timeframe'
 
 const HistoryModalBox = () => {
   const [headValue, setHeadValue] = useState(0)
   return (
     <div className="flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-[1071px] p-[1px]">
       <div className="w-full h-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow relative">
-        <div className="flex flex-row gap-[10px] items-start absolute right-[30px] top-[30px] ">
-          <ValueDropDown />
+        <div className="flex flex-row gap-[10px] absolute right-[30px] top-[30px] justify-center items-center">
+          <CTAButton height="60px" width="56px">
+            <div className="w-[56px] h-[56px] justify-center items-center flex">
+              <DownloadSvg className="w-[20px] h-[20px]" />
+            </div>
+          </CTAButton>
+          <Timeframe />
         </div>
 
         <div className="flex flex-col gap-[20px]">
@@ -58,64 +66,7 @@ const HistoryModalBox = () => {
           </span>
           <div className="w-full flex items-center justify-center">
             <button className="w-[96px] h-[48px] rounded-[15px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9] items-center justify-center flex">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="17"
-                height="16"
-                viewBox="0 0 17 16"
-                fill="none"
-              >
-                <circle cx="8.57617" cy="2" r="1.5" fill="white" />
-                <circle
-                  opacity="0.4"
-                  cx="8.57617"
-                  cy="14"
-                  r="1.5"
-                  fill="white"
-                />
-                <circle
-                  opacity="0.6"
-                  cx="2.57617"
-                  cy="8"
-                  r="1.5"
-                  fill="white"
-                />
-                <circle
-                  opacity="0.4"
-                  cx="14.5762"
-                  cy="8"
-                  r="1.5"
-                  fill="white"
-                />
-                <circle
-                  opacity="0.4"
-                  cx="12.8193"
-                  cy="3.75684"
-                  r="1.5"
-                  fill="white"
-                />
-                <circle
-                  opacity="0.4"
-                  cx="4.33301"
-                  cy="12.2432"
-                  r="1.5"
-                  fill="white"
-                />
-                <circle
-                  opacity="0.8"
-                  cx="4.33301"
-                  cy="3.75684"
-                  r="1.5"
-                  fill="white"
-                />
-                <circle
-                  opacity="0.4"
-                  cx="12.8193"
-                  cy="12.2432"
-                  r="1.5"
-                  fill="white"
-                />
-              </svg>
+              <LoadingSvg className="w-[16px] h-[16px]" />
             </button>
           </div>
         </div>

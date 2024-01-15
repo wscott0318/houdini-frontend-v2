@@ -18,25 +18,23 @@ export function StackedBarChart({ data }: Props) {
   const axisBottomRef = useRef<SVGGElement>(null)
   const axisLeftRef = useRef<SVGGElement>(null)
 
-  const header = 'label,value1,value2,value3'
+  const header = 'label,value1,value2'
   const body = data
     .map(({ label, values }) => [label, ...values].join(','))
     .join('\n')
   const csv = d3.csvParse([header, body].join('\n'))
 
   const margin = { top: 10, right: 0, bottom: 20, left: 30 }
-  const width = 500 - margin.left - margin.right
+  const width = 300 - margin.left - margin.right
   const height = 300 - margin.top - margin.bottom
 
   const subgroups = header.split(',')
   const labels = csv.map((data) => data.label || '')
   const max = Math.max(
-    ...csv.map((data) =>
-      sum([data.value1, data.value2, data.value3].map(Number)),
-    ),
+    ...csv.map((data) => sum([data.value1, data.value2].map(Number))),
   )
 
-  const scaleX = d3.scaleBand().domain(labels).range([0, width]).padding(0.3)
+  const scaleX = d3.scaleBand().domain(labels).range([0, width]).padding(0.4)
   const scaleY = d3.scaleLinear().domain([0, max]).range([height, 0])
   const color = d3
     .scaleOrdinal<string>()
