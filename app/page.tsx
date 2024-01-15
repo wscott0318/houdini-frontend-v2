@@ -122,7 +122,7 @@ export default function Home() {
 
           <SwapBox i18n={{ ...swapFormi18n, ...swapi18n }} />
 
-          <div className="rainbow-text flex flex-col justify-center items-center text-center relative z-30">
+          <div className="rainbow-text flex flex-col justify-center items-center text-center relative z-[1]">
             <div>
               For your security. transaction data auto-deletes after 72 hours.
             </div>

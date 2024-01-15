@@ -564,6 +564,14 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
 
         return
       }
+
+      if (!currentSwap?.receiveAddress) {
+        toast.error(i18n?.invalidAddressError || 'Invalid address')
+
+        inputElem?.focus()
+
+        return
+      }
     }
 
     const newSwap: Swap = {
@@ -803,6 +811,12 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
       const validRes = validateWalletAddress(swaps[0].receiveAddress, token)
 
       if (!validRes) {
+        toast.error(i18n?.invalidAddressError || 'Invalid address')
+
+        return
+      }
+
+      if (swaps && !swaps[0].receiveAddress) {
         toast.error(i18n?.invalidAddressError || 'Invalid address')
 
         return
