@@ -14,27 +14,27 @@ const languages: any = {
     flag: ukFlag,
   },
   fr: {
-    label: 'French',
+    label: 'Français',
     flag: frFlag,
   },
   ru: {
-    label: 'Russian',
+    label: 'Русский',
     flag: russia,
   },
   ro: {
-    label: 'Romanian',
+    label: 'Română',
     flag: roFlag,
   },
   sp: {
-    label: 'Spanish',
+    label: 'Español',
     flag: spain,
   },
   de: {
-    label: 'German',
+    label: 'Deutsch',
     flag: germany,
   },
   it: {
-    label: 'Italian',
+    label: 'Italiano',
     flag: italy,
   },
 }

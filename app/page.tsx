@@ -2,6 +2,7 @@
 
 import { useQuery } from '@apollo/client'
 import { CardComponent } from 'houdini-react-sdk'
+import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
@@ -115,23 +116,24 @@ export default function Home() {
             </div>
             <div className="flex flex-col font-normal text-[19px] leading-[30px] items-center justify-center text-[#B8CAFC] text-center">
               <div>Privately swap, send or bridge with magical ease</div>
-              <div>
-                With no traceable connection between the sending and receiving
-                wallets
-              </div>
-              <div>It&rsquo;s safe, compliant and always lowest cost</div>
+              <div>With no trace between sending and receiving wallets,</div>
+              <div>it&rsquo;s safe, compliant and always lowest cost</div>
             </div>
           </div>
 
           <HistoryModalBox />
           <SwapBox i18n={{ ...swapFormi18n, ...swapi18n }} />
 
-          <div className="rainbow-text flex flex-col justify-center items-center text-center">
+          <div className="rainbow-text flex flex-col justify-center items-center text-center relative z-[1]">
             <div>
-              For your enhanced security, Houdini order details disappear after
-              48 hours.
+              For your security. transaction data auto-deletes after 72 hours.
             </div>
-            <div>If you ever need our support, we’re here for you 24/7</div>
+            <div>
+              Need help? Please contact our{' '}
+              <Link href="https://t.me/HoudiniSwapSupport_bot" target="_blank">
+                <strong>Support Team 24/7</strong>
+              </Link>
+            </div>
           </div>
 
           <div className="flex flex-col w-full lg:flex-row justify-center items-center gap-4">
@@ -171,9 +173,9 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex flex-col rounded-[24px] items-center justify-center gap-5  md:w-[650px] lg:w-[850px] max-w-[850px] md:h-[320px] lg:h-[230px] py-8 px-20">
+          <div className="flex flex-col w-full lg:flex-row justify-center items-center gap-4">
             <CardComponent
-              widthClass={width >= 768 ? 'w-[600px]' : 'w-full'}
+              widthClass={'w-full max-w-[1150px]'}
               heightClass={width >= 768 ? 'h-[300px]' : 'h-full'}
             >
               <div

@@ -15,27 +15,23 @@ import {
   WRONG_PWD,
 } from './constants'
 
-export const validateWalletAddress = (addressTo: string, token: Token) => {
-  let validator = token?.network?.addressValidation
-
-  console.log('validatior', validator)
-
+export const validateWalletAddress = (addressTo: string, token: any) => {
+  let validator = token?.network?.addressValidation;
   try {
-    if (validator && validator.startsWith('^') && validator.endsWith('$')) {
-      validator = new RegExp(validator.slice(1, -1)) as unknown as string
-    }
 
-    if ((validator as any) instanceof RegExp) {
-      if (!addressTo.match(validator)) {
-        return false
+    validator = new RegExp(validator);
+
+    if (validator instanceof RegExp) {
+      if (addressTo && !addressTo.match(validator)) {
+        return false;
       }
     }
-    return true
+    return true;
   } catch (error) {
-    console.log('validateWalletAddress catch error: ', error, validator)
-    return false
+    console.log('validateWalletAddress catch error: ', error, validator);
+    return false;
   }
-}
+};
 
 export const fixedFloat = (val: any, digits = 4) => {
   const input = Number(val)
@@ -220,4 +216,14 @@ export const animation = {
     y: '0',
     transition: { duration: 0.3 },
   },
+}
+
+export function formatNumberFromString(numberString: string) {
+  const number = parseFloat(numberString);
+  return !isNaN(number)
+    ? number.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    : '';
 }

@@ -20,7 +20,7 @@ export const NextStep = ({ order }: { order: any }) => {
       }`}
     >
       <div
-        className={`flex flex-col ${
+        className={`flex flex-col relative z-30 ${
           !widgetMode ? 'gap-[30px] py-[50px]' : 'mb-10'
         }`}
       >

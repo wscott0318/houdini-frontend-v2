@@ -148,9 +148,9 @@ export default function GetApiAccess() {
                 Request API access
               </div>
               <div className="text-[15px] font-medium font-poppins rainbow-text">
-                If you want access to the API, you need to contact us through
-                the form. You fill in the details, and we will reach you via
-                email.
+                Thank you for your interest in using our API to access Houdini
+                Swap. Please complete the details below and we will contact you
+                via email shortly.
               </div>
             </div>
             <div className="flex flex-row md:flex-nowrap flex-wrap w-full min-h-[100px] gap-2 h-full justify-center items-center sm:items-start">
@@ -198,7 +198,7 @@ export default function GetApiAccess() {
                 <TextField
                   id="description"
                   label={'Description'}
-                  placeholder="Describe the issue."
+                  placeholder="Brief description"
                   onChange={(e) => setDescription(e.target.value)}
                   value={description}
                 />

@@ -564,6 +564,14 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
 
         return
       }
+
+      if (!currentSwap?.receiveAddress) {
+        toast.error(i18n?.invalidAddressError || 'Invalid address')
+
+        inputElem?.focus()
+
+        return
+      }
     }
 
     const newSwap: Swap = {
@@ -808,6 +816,12 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
         return
       }
 
+      if (swaps && !swaps[0].receiveAddress) {
+        toast.error(i18n?.invalidAddressError || 'Invalid address')
+
+        return
+      }
+
       const response = await exchange({
         variables: order,
       })
@@ -1010,7 +1024,8 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
                   'Only send To/From wallets. Transactions sent To/From smart contracts are not accepted'}
               </div>
               <HoudiniButton
-                text={i18n?.proceedButtonText || 'Proceed'}
+                text={buttonTextState()}
+                // text={i18n?.proceedButtonText || 'Proceed'}
                 onClick={() => {
                   handleSwapProceed(isMulti)
                 }}

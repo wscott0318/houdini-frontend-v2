@@ -1,8 +1,11 @@
+import { useLazyQuery } from '@apollo/client'
 import { CheckBox, CollapsedSwap, Dropdown, TextField } from 'houdini-react-sdk'
 import Image from 'next/image'
-import { ChangeEvent } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 import upDown from '@/assets/up-down.png'
+import { GET_USD_PRICE } from '@/lib/apollo/query'
+import { formatNumberFromString } from '@/utils/helpers'
 
 interface SwapFormProps {
   swap: Swap
@@ -43,6 +46,33 @@ export const SwapForm: React.FC<SwapFormProps> = ({
   i18n,
   tokenLockOut,
 }) => {
+  const [getUsdPrice] = useLazyQuery(GET_USD_PRICE)
+
+  const [sendValue, setSendValue] = useState<string>('')
+
+  useEffect(() => {
+    const setPrice = async () => {
+      try {
+        if (swap?.send.value && swap?.send.name) {
+          const sendUsdPrice = await getUsdPrice({
+            variables: {
+              from: swap.send.name,
+            },
+          })
+          setSendValue(
+            (
+              parseFloat(sendUsdPrice.data.usdPrice) * (swap as any)?.send?.value
+            ).toString(),
+          )
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+
+    setPrice()
+  }, [swap, swap.receive.value, swap.send])
+
   return (
     <>
       {swap.collapsed ? (
@@ -89,7 +119,7 @@ export const SwapForm: React.FC<SwapFormProps> = ({
               !tokenLockOut ? '-space-y-6 md:-space-x-7' : ''
             }`}
           >
-            <div className="w-full max-w-full md:max-w-[345px] lg:max-w-[1000px]">
+            <div className="w-full relative max-w-full md:max-w-[330px] lg:max-w-[1000px]">
               <TextField
                 id="send"
                 label={i18n?.sendInputLabel || 'Send:'}
@@ -111,6 +141,11 @@ export const SwapForm: React.FC<SwapFormProps> = ({
                     disabled={tokenLockOut}
                   />
                 ) : null}
+                <span className="text-xs absolute left-[18px] bottom-1 text-white">
+                  {formatNumberFromString(sendValue) && swap?.send?.value
+                    ? '$ ' + formatNumberFromString(sendValue)
+                    : '$ 0'}
+                </span>
               </TextField>
             </div>
             {!tokenLockOut ? (
@@ -128,7 +163,7 @@ export const SwapForm: React.FC<SwapFormProps> = ({
               />
             ) : null}
 
-            <div className="w-full max-w-full md:max-w-[345px] lg:max-w-[1000px]">
+            <div className="w-full max-w-full md:max-w-[330px] lg:max-w-[1000px]">
               <TextField
                 id="receive"
                 label={i18n?.receiveInputLabel || 'Receive:'}
