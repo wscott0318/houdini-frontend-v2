@@ -221,3 +221,13 @@ export const animation = {
     transition: { duration: 0.3 },
   },
 }
+
+export function formatNumberFromString(numberString: string) {
+  const number = parseFloat(numberString);
+  return !isNaN(number)
+    ? number.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    : '';
+}
