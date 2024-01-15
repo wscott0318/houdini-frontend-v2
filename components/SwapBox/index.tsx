@@ -1010,7 +1010,8 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
                   'Only send To/From wallets. Transactions sent To/From smart contracts are not accepted'}
               </div>
               <HoudiniButton
-                text={i18n?.proceedButtonText || 'Proceed'}
+                text={buttonTextState()}
+                // text={i18n?.proceedButtonText || 'Proceed'}
                 onClick={() => {
                   handleSwapProceed(isMulti)
                 }}
