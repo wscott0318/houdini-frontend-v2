@@ -1,4 +1,5 @@
 import { CardComponent } from 'houdini-react-sdk'
+import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 
 import { TelegramSvg } from '@/components/Svg'
@@ -29,7 +30,9 @@ export const NeedHelp = () => {
       <div className="text-center w-full lg:text-[17px] font-medium rainbow-text ">
         {t('needHelpModalContent')}
       </div>
-      <TelegramSvg className="w-6 h-6 fill-white group-hover:fill-[#F5C341]" />
+      <Link href="https://t.me/HoudiniSwapSupport_bot" target="_blank">
+        <TelegramSvg className="w-6 h-6 fill-white group-hover:fill-[#F5C341]" />
+      </Link>
     </CardComponent>
   )
 }

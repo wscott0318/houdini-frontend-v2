@@ -153,7 +153,7 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
               </div>
               <div className="flex flex-row gap-[20px] lg:py-[10px] py-[5px] justify-center items-center">
                 <Clipboardbox
-                  concept={`${props?.receiveAddress}`}
+                  concept={`${props.recipientAddress}`}
                   textColor="text-[#FBBF24]"
                   fontSize="lg:text-[20px] text-[14px]"
                   fontWeight="text-semibold"
@@ -215,7 +215,7 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
                   {t('orderDetailModalRecipientWallet')}:
                 </div>
                 <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
-                  {`${props?.recipientAddress}`}
+                  {`${props?.receiveAddress}`}
                 </div>
               </div>
               <div className="flex lg:w-[40%] lg:justify-between justify-center flex-row items-center gap-2.5 px-[4px]">
