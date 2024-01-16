@@ -1,5 +1,6 @@
 import i18n from '@/app/i18n'
 import languages from '@/lib/locales/languages'
+import useHandleClickAway from '@/utils/hooks/useHandleClickAway'
 import { get, map } from 'lodash'
 import React, { Dispatch, SetStateAction, useEffect } from 'react'
 import { withTranslation } from 'react-i18next'
@@ -26,19 +27,7 @@ const LanguageDropdown = ({
     setSelectedLang(lang)
   }
 
-  const menuRef = React.useRef<HTMLMenuElement>(null)
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setOpen(false)
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [setOpen]);
+  const menuRef = useHandleClickAway(() => setOpen(false))
 
   return (
     <div className="absolute right-0 top-[120%] z-50">
