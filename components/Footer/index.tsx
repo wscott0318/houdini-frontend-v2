@@ -144,7 +144,7 @@ export const Footer = () => {
               </Link>
             </LinkCategory>
 
-            <LinkCategory isSmallScreen={isSmallScreen} name="Stake">
+            <LinkCategory isSmallScreen={isSmallScreen} name="Staking">
               <Link href="/dashboard">Stake</Link>
               <Link
                 target="_blank"
