@@ -14,6 +14,7 @@ const ProgressProvider = ({
   text,
 }: ProgressProviderProps) => {
   const [value, setValue] = React.useState(valueStart)
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (value == valueEnd) {

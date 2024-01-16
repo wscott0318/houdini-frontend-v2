@@ -5386,10 +5386,10 @@ hoist-non-react-statics@^3.3.2:
   dependencies:
     react-is "^16.7.0"
 
-houdini-react-sdk@0.0.102:
-  version "0.0.102"
-  resolved "https://registry.yarnpkg.com/houdini-react-sdk/-/houdini-react-sdk-0.0.102.tgz#1d9f51f6dc5715f6e2c4e88b68aa5539632b8473"
-  integrity sha512-cwxGCTGvSdo0VFuHAVeZ3+omeN1y84iZpusGylJQurWpOcjBw0K+6/NTAIyoTGxTS37aemAjdB+4W5HMmiFMOg==
+houdini-react-sdk@0.0.104:
+  version "0.0.104"
+  resolved "https://registry.yarnpkg.com/houdini-react-sdk/-/houdini-react-sdk-0.0.104.tgz#1d88cf3175d45ebff50489fe2bc1fbd822c04187"
+  integrity sha512-W/eump+yysdA5MZ2aUcVv4L7dhAr+XVRI65wxMbh0jD4M8V4x75xMiDBh0xnxcTEgj1DQXOl36tmjBwLsYsI8g==
   dependencies:
     react-i18next "^13.5.0"
     vite-plugin-static-copy "^1.0.0"

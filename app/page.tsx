@@ -137,14 +137,16 @@ export default function Home() {
           <div className="flex flex-col w-full lg:flex-row justify-center items-center gap-4">
             <div className="w-[260px] h-[140px] rounded-[24px] sm:flex hidden flex-col justify-center items-center">
               <CardComponent>
-                <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">
-                  Total Transactions
-                </div>
+                <div className="lg:py-5">
+                  <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">
+                    Total Transactions
+                  </div>
 
-                <div className="text-[35px] text-white leading-[50px] font-medium text-center">
-                  {data && data.totalVolume && data.totalVolume.count
-                    ? kformatter(data.totalVolume.count, 2)
-                    : 0}
+                  <div className="text-[35px] text-white leading-[50px] font-medium text-center">
+                    {data && data.totalVolume && data.totalVolume.count
+                      ? kformatter(data.totalVolume.count, 2)
+                      : 0}
+                  </div>
                 </div>
               </CardComponent>
             </div>
@@ -159,13 +161,15 @@ export default function Home() {
 
             <div className="w-[260px] rounded-[24px] h-[140px] sm:flex hidden flex-col justify-center items-center">
               <CardComponent>
-                <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">
-                  $LOCK Buybacks
-                </div>
-                <div className="text-[35px] text-white leading-[50px] font-medium text-center">
-                  {data && data.totalVolume && data.totalVolume.totalBuyback
-                    ? kformatter(data.totalVolume.totalBuyback, 2)
-                    : 0}
+                <div className="lg:py-5">
+                  <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">
+                    $LOCK Buybacks
+                  </div>
+                  <div className="text-[35px] text-white leading-[50px] font-medium text-center">
+                    {data && data.totalVolume && data.totalVolume.totalBuyback
+                      ? kformatter(data.totalVolume.totalBuyback, 2)
+                      : 0}
+                  </div>
                 </div>
               </CardComponent>
             </div>

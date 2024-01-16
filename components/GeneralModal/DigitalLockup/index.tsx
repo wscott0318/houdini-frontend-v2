@@ -8,18 +8,18 @@ interface DigitalProps {
   text: string
 }
 
-export const DigitalLockup = (props: DigitalProps) => {
+export const DigitalLockup = ({ value, text, status }: DigitalProps) => {
   const { t } = useTranslation()
 
   const circumference = 2 * 3.141592 * 73
-  const offset = circumference * ((100 - props.value) / 100)
+  const offset = circumference * ((100 - value) / 100)
 
   return (
     <div className="flex flex-col gap-[20px]">
       <div className="items-center ">
         <div className="relative">
           <RadialProgressSvg width={118} height={118} />
-          {props.value == 100 ? (
+          {value == 100 ? (
             <svg
               className="absolute top-0 left-0"
               width="118"
@@ -46,7 +46,7 @@ export const DigitalLockup = (props: DigitalProps) => {
               />
             </svg>
           ) : (
-            props.value != 0 && (
+            value != 0 && (
               <svg
                 className="absolute top-0 left-0"
                 width="118"
@@ -79,8 +79,16 @@ export const DigitalLockup = (props: DigitalProps) => {
       <div>
         <div className="p-[2px] custom-step-gradient1 rounded-[60px]">
           <div className="flex flex-col justify-center items-center custom-step-gradient custom-step-shadow rounded-[60px] px-[15px] py-[5px]">
-            <div className="text-center w-full leading-[21px] text-[10px] font-bold whitespace-nowrap">
-              {props.text}
+            <div
+              className={`text-center w-full leading-[21px] text-[10px] font-bold whitespace-nowrap ${
+                value === 100
+                  ? 'text-[#27C100]'
+                  : value !== 0
+                    ? 'text-[#FF9F0E]'
+                    : 'text-white'
+              }`}
+            >
+              {text}
             </div>
           </div>
         </div>
