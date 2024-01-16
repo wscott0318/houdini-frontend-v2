@@ -40,7 +40,7 @@ export function StackedBarChart({ data }: Props) {
     .scaleOrdinal<string>()
     .domain(subgroups)
     .range(['#e41a1c', '#377eb8', '#4daf4a'])
-  const stacked = d3.stack().keys(subgroups)(csv)
+  const stacked = d3.stack().keys(subgroups)(csv as any)
 
   useEffect(() => {
     if (axisBottomRef.current) {

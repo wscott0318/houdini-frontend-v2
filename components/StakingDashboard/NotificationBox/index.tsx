@@ -49,7 +49,7 @@ const buttonNames = ['All', 'Your Activity', 'Promotions', 'Alerts']
 
 const NotificationBox = () => {
   const [headValue, setHeadValue] = useState(0)
-  const [listData, setListData] = useState([])
+  const [listData, setListData] = useState<any[]>([])
 
   useEffect(() => {
     setListData(data)
@@ -88,7 +88,7 @@ const NotificationBox = () => {
                     removeItem={removeItem}
                     markAsRead={markAsRead}
                     index={index}
-                    imageUrl={NotificationIcon1}
+                    imageUrl={NotificationIcon1 as unknown as string}
                   />
                 </div>
               ))}

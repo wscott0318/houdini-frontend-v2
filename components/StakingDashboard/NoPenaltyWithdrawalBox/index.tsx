@@ -76,7 +76,7 @@ const NoPenaltyWithdrawalBox = () => {
           </div>
 
           <span className="font-bold text-[16px] leading-normal text-[#6CD185]">
-            'Wise Wizard's 90 Day Spell'
+          &lsquo;Wise Wizard&apos;s 90 Day Spell&rsquo;
           </span>
 
           <div className="flex relative">
