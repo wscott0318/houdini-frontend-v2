@@ -90,8 +90,7 @@ export default function RootLayout({ children }: LayoutProps) {
 
   const searchParams = useSearchParams()
 
-  // const widgetMode = searchParams.get('widgetMode')
-  const widgetMode = true
+  const widgetMode = searchParams.get('widgetMode')
   return (
     <html lang="en" className="m-0 p-0">
       <head>
