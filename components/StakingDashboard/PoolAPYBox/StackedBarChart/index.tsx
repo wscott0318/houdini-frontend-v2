@@ -1,7 +1,7 @@
 import * as d3 from 'd3'
 import { useEffect, useRef } from 'react'
 
-export interface IGroupedData {
+interface IGroupedData {
   label: string
   values: number[]
 }
@@ -40,7 +40,7 @@ export function StackedBarChart({ data }: Props) {
     .scaleOrdinal<string>()
     .domain(subgroups)
     .range(['#e41a1c', '#377eb8', '#4daf4a'])
-  const stacked = d3.stack().keys(subgroups)(csv)
+  const stacked = d3.stack().keys(subgroups)(csv as any)
 
   useEffect(() => {
     if (axisBottomRef.current) {

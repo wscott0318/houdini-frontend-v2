@@ -12,26 +12,24 @@ export interface IGroupedData {
 
 interface Props {
   data: IGroupedData
-  removeItem: object
-  markAsRead: object
+  removeItem: (index: number) => void
+  markAsRead: (index: number) => void
   index: number
-  imageUrl: string
 }
 
-const NotificationItem = ({
-  data,
-  removeItem,
-  markAsRead,
-  index,
-  imageUrl,
-}: Props) => {
+const NotificationItem = ({ data, removeItem, markAsRead, index }: Props) => {
   const [value, setValue] = useState(0)
 
   return (
     <div className="py-[20px] px-[30px]">
       <div className="flex w-full justify-between">
         <div className="flex gap-[24px] items-center">
-          <Image src={imageUrl} alt={imageUrl} className="w-[48px] h-[48px]" />
+          {/* <Image src={imageUrl} alt={imageUrl} className="w-[48px] h-[48px]" /> */}
+          <Image
+            src="/NotificationIcon1.png"
+            alt="NotificationIcon1"
+            className="w-[48px] h-[48px]"
+          />
           <div className="flex flex-col gap-[10px]">
             <span className="font-semibold text-[16px] leading-[20px]">
               {data.title}

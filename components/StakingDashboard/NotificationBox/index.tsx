@@ -45,11 +45,18 @@ const data = [
   },
 ]
 
+interface Item {
+  title: string
+  content: string
+  time: string
+  isRead: boolean
+}
+
 const buttonNames = ['All', 'Your Activity', 'Promotions', 'Alerts']
 
 const NotificationBox = () => {
   const [headValue, setHeadValue] = useState(0)
-  const [listData, setListData] = useState([])
+  const [listData, setListData] = useState<Item[]>([])
 
   useEffect(() => {
     setListData(data)
@@ -88,7 +95,6 @@ const NotificationBox = () => {
                     removeItem={removeItem}
                     markAsRead={markAsRead}
                     index={index}
-                    imageUrl={NotificationIcon1}
                   />
                 </div>
               ))}

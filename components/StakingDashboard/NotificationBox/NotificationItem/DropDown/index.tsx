@@ -6,8 +6,8 @@ const content = [{ text: 'Mark as read' }, { text: 'Remove this notification' }]
 
 interface Props {
   isRead: boolean
-  markAsRead: object
-  removeItem: object
+  markAsRead: (index: number) => void
+  removeItem: (index: number) => void
   index: number
 }
 
