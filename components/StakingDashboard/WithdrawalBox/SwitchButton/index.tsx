@@ -6,8 +6,8 @@ const SwitchButton = (props: any) => {
     <div
       className={
         value == 0
-          ? `flex flex-row justify-between rounded-[120px] w-[35px] h-[26px] border-white border-2 custom-penalty-switch-button-gradient py-[2px] px-[2px]`
-          : `flex flex-row justify-between rounded-[120px] w-[35px] h-[26px] border-white border-2 custom-nopenalty-switch-button-gradient py-[2px] px-[2px]`
+          ? `flex flex-row justify-start rounded-[120px] w-[35px] h-[26px] border-white border-2 custom-penalty-switch-button-gradient py-[2px] px-[2px]`
+          : `flex flex-row justify-end rounded-[120px] w-[35px] h-[26px] border-white border-2 custom-nopenalty-switch-button-gradient py-[2px] px-[2px]`
       }
     >
       <button

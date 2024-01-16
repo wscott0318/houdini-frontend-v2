@@ -62,23 +62,49 @@ export function StackedBarChart({ data }: Props) {
         <g ref={axisLeftRef} />
         {stacked.map((data, index) => {
           return (
-            <g key={`group-${index}`} fill={color(data.key)}>
-              {data.map((d, index) => {
-                const label = String(d.data.label)
-                const y0 = scaleY(d[0])
-                const y1 = scaleY(d[1])
+            <>
+              index == 1 && (
+              <g key={`group-${index}`} fill={color(data.key)}>
+                {data.map((d, index) => {
+                  const label = String(d.data.label)
+                  const y0 = scaleY(d[0])
+                  const y1 = scaleY(d[1])
 
-                return (
-                  <rect
-                    key={`rect-${index}`}
-                    x={scaleX(label)}
-                    y={y1}
-                    width={scaleX.bandwidth()}
-                    height={y0 - y1 || 0}
-                  />
-                )
-              })}
-            </g>
+                  return (
+                    <rect
+                      key={`rect-${index}`}
+                      x={scaleX(label)}
+                      y={y1}
+                      width={scaleX.bandwidth()}
+                      height={y0 - y1 || 0}
+                      rx={4}
+                      ry={4}
+                    />
+                  )
+                })}
+              </g>
+              ) index == 2 && (
+              <g key={`group-${index}`} fill={color(data.key)}>
+                {data.map((d, index) => {
+                  const label = String(d.data.label)
+                  const y0 = scaleY(d[0])
+                  const y1 = scaleY(d[1])
+
+                  return (
+                    <rect
+                      key={`rect-${index}`}
+                      x={scaleX(label)}
+                      y={y1}
+                      width={scaleX.bandwidth()}
+                      height={y0 - y1 || 0}
+                      rx={4}
+                      ry={4}
+                    />
+                  )
+                })}
+              </g>
+              )
+            </>
           )
         })}
       </g>

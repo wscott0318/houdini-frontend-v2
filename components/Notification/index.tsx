@@ -2,25 +2,28 @@
 
 import { useTranslation } from 'react-i18next'
 
-import BalanceBox from '@/components/StakingDashboard/BalanceBox'
-import PoolAPYBox from '@/components/StakingDashboard/PoolAPYBox'
+import NotificationBox from '@/components/StakingDashboard/NotificationBox'
 
-export default function Dashboard() {
+import NoPenaltyWithdrawalBox from '../StakingDashboard/NoPenaltyWithdrawalBox'
+import WithdrawalBox from '../StakingDashboard/WithdrawalBox'
+
+export default function Notification() {
   const { t } = useTranslation()
 
   return (
     <div className="px-[50px] pt-[50px] pb-[60px] flex flex-col gap-[40px]">
       <div className="flex flex-col">
         <span className="text-[24px] font-medium leading-[32px] text-[#fff]">
-          Hi Houdini-ID,
+          Hi Houdini-ID, here’s your
         </span>
         <span className="text-[48px] font-semibold leading-[32px] text-[#fff]">
-          Welcome Back
+          Notifications
         </span>
       </div>
       <div className="flex flex-row gap-[40px]">
-        <BalanceBox />
-        <PoolAPYBox />
+        {/* <NotificationBox /> */}
+        {/* <WithdrawalBox /> */}
+        <NoPenaltyWithdrawalBox />
       </div>
     </div>
   )

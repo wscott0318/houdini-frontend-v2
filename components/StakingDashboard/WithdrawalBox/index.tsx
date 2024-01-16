@@ -78,46 +78,49 @@ const WithdrawalBox = () => {
               </div>
             </div>
           </div>
-          <div className="bg-gradient-to-b from-[#fff] to-[#000] rounded-[16px] justify-center items-center flex p-[2px] w-[380px] h-[92px]">
-            <div className="rounded-[16px] w-full h-full pl-[23px] pt-[25px] flex flex-row justify-between bg-gradient-to-b from-[#0b0d11] to-[#343d50]">
-              <div className="flex justify-between w-[332px] items-start">
-                <div className="flex flex-col gap-[8px]">
-                  <span className="text-[10px] font-semibold uppercase">
-                    AMOUNT TO WITHDRAW
-                  </span>
-                  <span className="text-[20px] font-medium leading-[19px]">
-                    10,000.20 $LOCK
-                  </span>
-                </div>
-                <span className="text-[#9C8EFF] text-[12px] font-bold leading-normal uppercase">
-                  Max Amount
-                </span>
-              </div>
-            </div>
-          </div>
 
-          <div className="bg-gradient-to-b from-[#fff] to-[#000] rounded-t-[16px] rounded-b-[30px] justify-center items-center flex flex-col p-[2px] w-[380px] h-[115px]">
-            <div className="w-full h-[75px] pl-[23px] pt-[18px] rounded-t-[16px] flex flex-col justify-between bg-gradient-to-b from-[#0b0d11] to-[#343d50]">
-              <div className="flex justify-between w-[332px] items-start">
-                <div className="flex flex-col gap-[8px]">
-                  <span className="text-[10px] font-semibold uppercase">
-                    AMOUNT TO WITHDRAW
-                  </span>
-                  <span className="text-[20px] font-medium leading-[19px]">
-                    10,000.20 $LOCK
+          {value == 0 ? (
+            <div className="bg-gradient-to-b from-[#fff] to-[#000] rounded-t-[16px] rounded-b-[30px] justify-center items-center flex flex-col p-[2px] w-[380px] h-[115px]">
+              <div className="w-full h-[75px] pl-[23px] pt-[18px] rounded-t-[16px] flex flex-col justify-between bg-gradient-to-b from-[#0b0d11] to-[#343d50]">
+                <div className="flex justify-between w-[332px] items-start">
+                  <div className="flex flex-col gap-[8px]">
+                    <span className="text-[10px] font-semibold uppercase">
+                      AMOUNT TO WITHDRAW
+                    </span>
+                    <span className="text-[20px] font-medium leading-[19px]">
+                      10,000.20 $LOCK
+                    </span>
+                  </div>
+                  <span className="text-[#9C8EFF] text-[12px] font-bold leading-normal uppercase">
+                    Max Amount
                   </span>
                 </div>
-                <span className="text-[#9C8EFF] text-[12px] font-bold leading-normal uppercase">
-                  Max Amount
+              </div>
+              <div className="h-[40px] w-full bg-gradient-to-b rounded-b-[30px] from-[#6C5DD380] to-[#4154C980] flex items-center justify-center">
+                <span className="text-[10px] uppercase leading-normal font-semibold text-[#ffffff80]">
+                  A Penalty Cost will be applied to this amount
                 </span>
               </div>
             </div>
-            <div className="h-[40px] w-full bg-gradient-to-b rounded-b-[30px] from-[#6C5DD380] to-[#4154C980] flex items-center justify-center">
-              <span className="text-[10px] uppercase leading-normal font-semibold text-[#ffffff80]">
-                A Penalty Cost will be applied to this amount
-              </span>
+          ) : (
+            <div className="bg-gradient-to-b from-[#fff] to-[#000] rounded-[16px] justify-center items-center flex p-[2px] w-[380px] h-[92px]">
+              <div className="rounded-[16px] w-full h-full pl-[23px] pt-[25px] flex flex-row justify-between bg-gradient-to-b from-[#0b0d11] to-[#343d50]">
+                <div className="flex justify-between w-[332px] items-start">
+                  <div className="flex flex-col gap-[8px]">
+                    <span className="text-[10px] font-semibold uppercase">
+                      AMOUNT TO WITHDRAW
+                    </span>
+                    <span className="text-[20px] font-medium leading-[19px]">
+                      10,000.20 $LOCK
+                    </span>
+                  </div>
+                  <span className="text-[#9C8EFF] text-[12px] font-bold leading-normal uppercase">
+                    Max Amount
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="flex flex-row gap-[13px] items-center">
             <span
@@ -143,53 +146,64 @@ const WithdrawalBox = () => {
               <InfoCircleSvg className="w-[16px] h-[16px]" />
             </div>
           </div>
-          <div className="w-[380px] h-[80px] rounded-[16px] bg-gradient-to-b from-[#ffffff80] to-[#ffffff00] pt-[17px] pl-[24px]">
-            <div className="flex flex-col gap-[8px]">
-              <div className="flex flex-row gap-[5px] items-center">
-                <span className="text-[#F98F3B] text-[10px]">
-                  Fallen Wizard Tax
-                </span>
-                <InfoSquareSvg className="w-[16px] h-[16px]" />
+          {value == 0 && (
+            <div className="flex relative">
+              <div className="absolute top-0 left-0 w-[380px] h-[80px] rounded-[16px] bg-gradient-to-b from-[#ffffff80] to-[#ffffff00] pt-[17px] pl-[24px] opacity-[0.2]"></div>
+              <div className="w-[380px] h-[80px] rounded-[16px] pt-[17px] pl-[24px]">
+                <div className="flex flex-col gap-[8px]">
+                  <div className="flex flex-row gap-[5px] items-center">
+                    <span className="text-[#F98F3B] text-[10px]">
+                      Fallen Wizard Tax
+                    </span>
+                    <InfoSquareSvg className="w-[16px] h-[16px]" />
+                  </div>
+                  <span className="text-[#F98F3B] text-[20px] leading-[19px] font-semibold">
+                    5,000.20 $LOCK
+                  </span>
+                </div>
               </div>
-              <span className="text-[#F98F3B] text-[20px] leading-[19px] font-semibold">
-                5,000.20 $LOCK
-              </span>
+            </div>
+          )}
+          <div className="flex relative">
+            <div className="absolute top-0 left-0 w-[380px] rounded-[16px] h-[80px] bg-gradient-to-b from-[#ffffff80] to-[#ffffff00] opacity-[0.2]"></div>
+            <div className="w-[380px] h-[80px] rounded-[16px]  pt-[17px] pl-[24px]">
+              <div className="flex flex-col gap-[8px]">
+                <span className="text-[#fff] text-[10px] uppercase">TOTAL</span>
+                <span className="text-[#fff] text-[20px] leading-[19px] font-semibold">
+                  15,000.20 $LOCK
+                </span>
+              </div>
             </div>
           </div>
-          <div className="w-[380px] h-[80px] rounded-[16px] bg-gradient-to-b from-[#ffffff80] to-[#ffffff00] pt-[17px] pl-[24px]">
-            <div className="flex flex-col gap-[8px]">
-              <span className="text-[#fff] text-[10px] uppercase">TOTAL</span>
-              <span className="text-[#fff] text-[20px] leading-[19px] font-semibold">
-                5,000.20 $LOCK
-              </span>
-            </div>
-          </div>
-          <button
-            className={
-              'p-[16px] flex w-[271px] h-[58px] justify-center items-center rounded-[120px] custom-instant-withdrawal-button-gradient'
-            }
-            onClick={() => {}}
-          >
-            <div className="flex flex-row gap-[7px] justify-center items-center">
-              <WalletSvg className="w-[16px] h-[16px]" />
-              <span className="text-[20px] font-semibold">
-                Instant Withdrawal
-              </span>
-            </div>
-          </button>
-          <button
-            className={
-              'p-[16px] flex w-[271px] h-[58px] justify-center items-center rounded-[120px] custom-day-widthrawal-button-gradient'
-            }
-            onClick={() => {}}
-          >
-            <div className="flex flex-row gap-[7px] justify-center items-center">
-              <WalletSvg className="w-[16px] h-[16px]" />
-              <span className="text-[20px] font-semibold">
-                90 Day Withdrawal
-              </span>
-            </div>
-          </button>
+          {value == 0 ? (
+            <button
+              className={
+                'p-[16px] flex w-[271px] h-[58px] justify-center items-center rounded-[120px] custom-instant-withdrawal-button-gradient'
+              }
+              onClick={() => {}}
+            >
+              <div className="flex flex-row gap-[7px] justify-center items-center">
+                <WalletSvg className="w-[16px] h-[16px]" />
+                <span className="text-[20px] font-semibold">
+                  Instant Withdrawal
+                </span>
+              </div>
+            </button>
+          ) : (
+            <button
+              className={
+                'p-[16px] flex w-[271px] h-[58px] justify-center items-center rounded-[120px] custom-day-widthrawal-button-gradient'
+              }
+              onClick={() => {}}
+            >
+              <div className="flex flex-row gap-[7px] justify-center items-center">
+                <WalletSvg className="w-[16px] h-[16px]" />
+                <span className="text-[20px] font-semibold">
+                  90 Day Withdrawal
+                </span>
+              </div>
+            </button>
+          )}
         </div>
       </div>
     </div>

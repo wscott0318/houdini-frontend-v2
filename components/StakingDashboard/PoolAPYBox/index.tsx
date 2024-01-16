@@ -12,11 +12,11 @@ export interface IGroupedData {
 }
 
 const GROUPED_BAR_CHART_DATA: IGroupedData[] = [
-  { label: 'Jan', values: [60, 80] },
-  { label: 'Feb', values: [160, 200] },
-  { label: 'Mar', values: [60, 40] },
-  { label: 'Apr', values: [60, 40] },
-  { label: 'May', values: [60, 40] },
+  { label: 'Jan', values: [120, 30] },
+  { label: 'Feb', values: [100, 15] },
+  { label: 'Mar', values: [150, 30] },
+  { label: 'Apr', values: [170, 20] },
+  { label: 'May', values: [130, 10] },
 ]
 
 const PoolAPYBox = () => {
