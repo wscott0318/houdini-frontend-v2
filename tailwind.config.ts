@@ -125,10 +125,6 @@ const config: Config = {
           background: "url(../assets/background.png)",
           backgroundSize: 'cover',
         },
-        '.custom-top-stakingDashboard-background-img': {
-          background: "url(../assets/staking-dashboard.png)",
-          backgroundSize: 'cover',
-        },
         '.custom-bottom-background-img': {
           background: "url(../assets/bottomBack.png)"
         },
@@ -215,12 +211,6 @@ const config: Config = {
           background: 'linear-gradient(105.8deg, #FB792F 23.3%, #F3C755 97.04%, #F5C341 164.88%)'
         },
         '.custom-day-widthrawal-button-gradient': {
-          background: 'linear-gradient(180deg, #86E1A0 0%, #4FBF67 100%)'
-        },
-        '.custom-penalty-switch-button-gradient': {
-          background: 'var(--Gold, linear-gradient(106deg, #FB792F 23.3%, #F3C755 97.04%, #F5C341 164.88%))'
-        },
-        '.custom-nopenalty-switch-button-gradient': {
           background: 'linear-gradient(180deg, #86E1A0 0%, #4FBF67 100%)'
         },
         '.custom-footer-shadow': {

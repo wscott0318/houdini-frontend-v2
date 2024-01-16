@@ -15,7 +15,6 @@ import { bsc, mainnet } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 
 import { Footer, Header, ResponsiveContainer } from '@/components'
-import { SideBar } from '@/components/SideBar'
 import { userClient } from '@/lib/apollo/apollo-client'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
@@ -90,8 +89,8 @@ export default function RootLayout({ children }: LayoutProps) {
 
   const searchParams = useSearchParams()
 
-  // const widgetMode = searchParams.get('widgetMode')
-  const widgetMode = true
+  const widgetMode = searchParams.get('widgetMode')
+
   return (
     <html lang="en" className="m-0 p-0">
       <head>
@@ -111,12 +110,7 @@ export default function RootLayout({ children }: LayoutProps) {
             <div className="absolute w-full h-full top-[0px] left-[0px] bg-[#0e0e0e] z-[-3]" />
             <div className="absolute w-full h-full top-[0px] left-[0px] bg-cover custom-top-background-img z-[-2]" />
           </>
-        ) : (
-          <>
-            <div className="absolute w-full h-full top-[0px] left-[0px] bg-[#0e0e0e] z-[-3]" />
-            <div className="absolute w-full h-full top-[0px] left-[0px] bg-cover custom-top-stakingDashboard-background-img z-[-2]" />
-          </>
-        )}
+        ) : null}
 
         {!widgetMode ? (
           <div className="container mx-auto z-1">
