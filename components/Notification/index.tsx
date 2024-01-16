@@ -4,9 +4,6 @@ import { useTranslation } from 'react-i18next'
 
 import NotificationBox from '@/components/StakingDashboard/NotificationBox'
 
-import NoPenaltyWithdrawalBox from '../StakingDashboard/NoPenaltyWithdrawalBox'
-import WithdrawalBox from '../StakingDashboard/WithdrawalBox'
-
 export default function Notification() {
   const { t } = useTranslation()
 
@@ -21,9 +18,7 @@ export default function Notification() {
         </span>
       </div>
       <div className="flex flex-row gap-[40px]">
-        {/* <NotificationBox /> */}
-        {/* <WithdrawalBox /> */}
-        <NoPenaltyWithdrawalBox />
+        <NotificationBox />
       </div>
     </div>
   )
