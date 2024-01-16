@@ -76,27 +76,27 @@ export const Footer = () => {
               <Link
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/contact-us"
+                href="https://docs.houdiniswap.com/houdini-swap/contact-us"
               >
                 Contact Us
+              </Link>
+              <Link target="_blank" rel="noopener noreferrer" href="https://docs.houdiniswap.com/houdini-swap/">
+                Documentation
               </Link>
               <Link
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/whitepaper"
+                href="https://docs.houdiniswap.com/houdini-swap/whitepaper"
               >
                 Whitepaper
-              </Link>
-              <Link target="_blank" rel="noopener noreferrer" href="https://docs.houdiniswap.com/houdini-swap/">
-                Documentation
               </Link>
               <Link href="/get-api-access">Integrations</Link>
               <Link
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/bug-bounty-program"
+                href="https://docs.houdiniswap.com/houdini-swap/bug-bounty-program"
               >
-                Big Bounty
+                Bug Bounty
               </Link>
             </LinkCategory>
 
@@ -104,14 +104,14 @@ export const Footer = () => {
               <Link
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/get-started/how-it-works"
+                href="https://docs.houdiniswap.com/houdini-swap/get-started/how-it-works"
               >
                 How it Works
               </Link>
               <Link
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/faqs"
+                href="https://docs.houdiniswap.com/houdini-swap/faqs"
               >
                 FAQs
               </Link>
@@ -123,42 +123,42 @@ export const Footer = () => {
               <Link
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/policies/privacy-policy"
+                href="https://docs.houdiniswap.com/houdini-swap/policies/privacy-policy"
               >
                 Privacy Policy
+              </Link>
+              <Link
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://docs.houdiniswap.com/houdini-swap/policies/user-data-policy"
+              >
+                User Data Policy
               </Link>
               <Link href="/terms-of-use">Terms of use</Link>
               <Link
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/policies/user-data-policy"
+                href="https://docs.houdiniswap.com/houdini-swap/policies/compliance-and-risk-policy"
               >
-                User Data Policy
-              </Link>
-              <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/policies/compliance-and-risk-policy"
-              >
-                Compliance and Risk Policy
+                Compliance Policy
               </Link>
             </LinkCategory>
 
             <LinkCategory isSmallScreen={isSmallScreen} name="Stake">
-              <Link href="/dashboard">Staking</Link>
+              <Link href="/dashboard">Stake</Link>
               <Link
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/tokenomics"
+                href="https://docs.houdiniswap.com/houdini-swap/tokenomics/usdlock-staking-progam"
               >
-                Tokenomics
+                Staking Program
               </Link>
               <Link
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/tokenomics/usdlock-staking-progam"
+                href="https://docs.houdiniswap.com/houdini-swap/tokenomics"
               >
-                $LOCK Staking Program
+                Tokenomics
               </Link>
             </LinkCategory>
           </div>

@@ -9,6 +9,7 @@ import { ChevronSvg } from '@/components/Svg'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
+import useHandleClickAway from '@/utils/hooks/useHandleClickAway'
 
 
 const Links = ({ setIsOpen }: { setIsOpen?: any }) => {
@@ -20,7 +21,7 @@ const Links = ({ setIsOpen }: { setIsOpen?: any }) => {
         className="hover:gradient-text"
         href="/dashboard"
       >
-        <span>Staking</span>
+        <span>Stake</span>
       </Link>
       <Link
         onClick={closeNav}
@@ -34,7 +35,7 @@ const Links = ({ setIsOpen }: { setIsOpen?: any }) => {
       <Link
         onClick={closeNav}
         className="hover:gradient-text"
-        href="https://app.gitbook.com/o/M2Ytsk4f1xPDdmEhUc0Q/s/kUVqOh8SwvsL5KWOPTJX/faqs"
+        href="https://docs.houdiniswap.com/houdini-swap/faqs"
         target='_blank'
         rel='noopener noreferrer'
       >
@@ -67,6 +68,8 @@ const CommonNavbar = ({ setIsOpen }: { setIsOpen?: any }) => {
     return () => clearTimeout(delayDebounce)
   }, [searchTerm, router, t])
 
+  const lockMenuRef = useHandleClickAway(() => setOpenDropdown(false))
+
   return (
     <>
       <SearchInput
@@ -87,8 +90,8 @@ const CommonNavbar = ({ setIsOpen }: { setIsOpen?: any }) => {
           className={`${openDropdown ? 'rotate-180' : 'rotate-0'
             } fill-white mt-0.5 group-hover:fill-[#F5C341]`}
         />
-        {openDropdown ? (
-          <div className="absolute top-full lg:right-0 mt-2 flex flex-col justify-between items-center p-1">
+        {openDropdown && (
+          <menu ref={lockMenuRef} className="absolute top-full lg:right-0 mt-2 flex flex-col justify-between items-center p-1">
             <CardComponent widthClass="w-[210px]" heightClass="h-[80px]">
               <div className="flex flex-col justify-start items-start">
                 <Link
@@ -111,8 +114,8 @@ const CommonNavbar = ({ setIsOpen }: { setIsOpen?: any }) => {
                 </Link>
               </div>
             </CardComponent>
-          </div>
-        ) : null}
+          </menu>
+        )}
       </button>
     </>
   )
