@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react'
 
 import { SwapBox } from '@/components'
 import { ResponsivePage } from '@/components/ResponsivePage'
+import HistoryModalBox from '@/components/StakingDashboard/HistoryModalBox'
 import {
   ArcSvg,
   BoltbotSvg,
@@ -120,6 +121,7 @@ export default function Home() {
             </div>
           </div>
 
+          <HistoryModalBox />
           <SwapBox i18n={{ ...swapFormi18n, ...swapi18n }} />
 
           <div className="rainbow-text flex flex-col justify-center items-center text-center relative z-[1]">
