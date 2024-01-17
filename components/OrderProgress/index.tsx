@@ -34,7 +34,7 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
-  const fundsDuration = 5 * 60 * 1000
+  const fundsDuration = 10000
   const convertingDuration = 3 * 60 * 1000
   const anonymizingDuration = 20 * 60 * 1000
   const completingDuration = 10000
@@ -52,7 +52,7 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
     duration: number,
   ): void => {
     clearAnimation()
-    const updateInterval = 1000
+    const updateInterval = 100
     const totalSteps = duration / updateInterval
     const incrementPerStep = target / totalSteps
 
@@ -74,13 +74,14 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
     const orderStatus = order?.status
 
     if (startFundsReceived && orderStatus < ORDER_STATUS.EXCHANGING) {
-      animateProgressBar(setFundsReceivedProgress, 80, fundsDuration)
-      if (fundsReceivedProgress === 80) {
-        setIsOpen(true)
-      }
-    } else if (startFundsReceived) {
       animateProgressBar(setFundsReceivedProgress, 100, fundsDuration)
+      // if (fundsReceivedProgress === 80) {
+      //   setIsOpen(true)
+      // }
     }
+    // else if (startFundsReceived) {
+    //   animateProgressBar(setFundsReceivedProgress, 100, fundsDuration)
+    // }
 
     if (startConverting && orderStatus < ORDER_STATUS.ANONYMIZING) {
       animateProgressBar(setConvertingProgress, 80, convertingDuration)
@@ -112,6 +113,9 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
     ) {
       setOrderReceivedProgress(100)
       setStartFundsReceived(true)
+      if (fundsReceivedProgress === 100) {
+        setStartConverting(true)
+      }
     } else if (orderStatus === ORDER_STATUS.EXCHANGING) {
       setOrderReceivedProgress(100)
       setFundsReceivedProgress(100)
