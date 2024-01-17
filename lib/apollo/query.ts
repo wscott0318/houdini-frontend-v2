@@ -364,6 +364,7 @@ export const MULTI_STATUS_QUERY = gql`
       inCreated
       outCreated
       multiId
+      eta
     }
   }
 `

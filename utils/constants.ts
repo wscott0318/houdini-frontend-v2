@@ -72,3 +72,16 @@ export const ORDER_STATUS = {
   REFUNDED: 7,
   DELETED: 8,
 }
+
+export const ORDER_STATUS_FAKE: any = {
+  0: 'WAITING FOR DEPOSIT',
+  // 1: 'FUNDS RECIEVED',
+  1: 'CONVERTING',
+  2: 'CONVERTING',
+  3: 'ANONYMIZING',
+  4: 'ORDER COMPLETED',
+  5: 'EXPIRED',
+  6: 'FAILED',
+  7: 'REFUNDED',
+  8: 'DELETED',
+}

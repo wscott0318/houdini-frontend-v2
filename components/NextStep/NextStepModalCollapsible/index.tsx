@@ -21,11 +21,10 @@ import { OrderProgress } from '@/components/OrderProgress'
 import { QrCode } from '@/components/QRCode'
 import { ChevronSvg, QRCodeSvg, SwapSvg } from '@/components/Svg'
 import { TOKENS_QUERY } from '@/lib/apollo/query'
-import { ORDER_STATUS } from '@/utils/constants'
+import { ORDER_STATUS, ORDER_STATUS_FAKE } from '@/utils/constants'
 import {
   animation,
   getEllipsisTxt,
-  getOrderStatusKey,
   getTokenDetails,
 } from '@/utils/helpers'
 
@@ -377,7 +376,7 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                       </div>
                       <div className="px-[4px] flex flex-row justify-start whitespace-nowrap items-center gap-2">
                         <div>Status:</div>
-                        <div>{getOrderStatusKey(props.order.status)}</div>
+                        <div>{ORDER_STATUS_FAKE[props?.order?.status]}</div>
                       </div>
                       <div className="flex flex-row justify-start items-center gap-2">
                         <CheckBox

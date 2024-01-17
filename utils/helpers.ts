@@ -7,6 +7,7 @@ import {
   MISSING_QUOTE_FIXED,
   ORDER_ID,
   ORDER_STATUS,
+  ORDER_STATUS_FAKE,
   QUOTE_FAILED,
   REFERRAL_ID,
   SAME_ANONYMOUS,
@@ -16,22 +17,21 @@ import {
 } from './constants'
 
 export const validateWalletAddress = (addressTo: string, token: any) => {
-  let validator = token?.network?.addressValidation;
+  let validator = token?.network?.addressValidation
   try {
-
-    validator = new RegExp(validator);
+    validator = new RegExp(validator)
 
     if (validator instanceof RegExp) {
       if (addressTo && !addressTo.match(validator)) {
-        return false;
+        return false
       }
     }
-    return true;
+    return true
   } catch (error) {
-    console.log('validateWalletAddress catch error: ', error, validator);
-    return false;
+    console.log('validateWalletAddress catch error: ', error, validator)
+    return false
   }
-};
+}
 
 export const fixedFloat = (val: any, digits = 4) => {
   const input = Number(val)
@@ -44,13 +44,6 @@ export const getEllipsisTxt = (str: string, n = 6) => {
     return `${str.slice(0, n)}...${str.slice(str.length - n)}`
   }
   return ''
-}
-
-export const getOrderStatusKey = (statusValue: number) => {
-  const entry = Object.entries(ORDER_STATUS).find(
-    ([key, value]) => value === statusValue,
-  )
-  return entry ? entry[0] : null // return the key if found, otherwise return null
 }
 
 export const kformatter = (num: number, digits: number) => {
@@ -219,11 +212,11 @@ export const animation = {
 }
 
 export function formatNumberFromString(numberString: string) {
-  const number = parseFloat(numberString);
+  const number = parseFloat(numberString)
   return !isNaN(number)
     ? number.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       })
-    : '';
+    : ''
 }
