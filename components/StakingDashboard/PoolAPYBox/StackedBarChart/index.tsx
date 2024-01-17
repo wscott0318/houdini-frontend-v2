@@ -1,7 +1,7 @@
 import * as d3 from 'd3'
 import { useEffect, useRef } from 'react'
 
-export interface IGroupedData {
+interface IGroupedData {
   label: string
   values: number[]
 }
