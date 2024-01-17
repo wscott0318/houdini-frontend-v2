@@ -29,6 +29,7 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
 
   const [confirmDepositModal, setConfirmDepositModal] = useState(false)
   const [eraseModal, setEraseModal] = useState(false)
+  const orderExpired = props.order?.status === ORDER_STATUS.EXPIRED
 
   const DateFormatter = () => {
     const date = props.creationTime
@@ -98,25 +99,21 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
             <div className="items-center w-full justify-center">
               <MetalboarderedTransRoundbox>
                 <div className="relative flex flex-col lg:flex-row gap-[32px] px-[50px] py-[30px]">
-                  {props?.order?.status === ORDER_STATUS.EXPIRED ? (
-                    <div className="text-center md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
-                      Order expired
-                    </div>
-                  ) : (
-                    <OrderProgress order={props?.order} />
-                  )}
+                  <OrderProgress order={props?.order} />
                 </div>
               </MetalboarderedTransRoundbox>
             </div>
             <MetalboarderedTransRoundbox>
-              <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
-                <div className="text-center md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
-                  {t('orderDetailsModalTodaysAverageSwapTime')}:
-                </div>
-                <div className="text-center md:text-[19px] md:leading-[24px] font-bold md:whitespace-nowrap">
-                  {`${props.swapTime} ${t('orderDetailsSwapTimeMinute')}`}
-                </div>
-              </div>
+              {orderExpired ?
+                <h2 className='text-3xl text-red-600 mx-[50px] md:mx-[100px] my-[20px] text-center'>{t('orderExpiredText')}</h2> :
+                <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
+                  <div className="text-center md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
+                    {t('orderDetailsModalTodaysAverageSwapTime')}:
+                  </div>
+                  <div className="text-center md:text-[19px] md:leading-[24px] font-bold md:whitespace-nowrap">
+                    {`${props.swapTime} ${t('orderDetailsSwapTimeMinute')}`}
+                  </div>
+                </div>}
             </MetalboarderedTransRoundbox>
           </div>
         </IndustrialCounterLockup>
