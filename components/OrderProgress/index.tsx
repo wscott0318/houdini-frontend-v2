@@ -34,6 +34,11 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
+  const fundsDuration = 5 * 60 * 1000
+  const convertingDuration = 3 * 60 * 1000
+  const anonymizingDuration = 20 * 60 * 1000
+  const completingDuration = 10000
+
   const clearAnimation = (): void => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current)
@@ -69,37 +74,35 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
     const orderStatus = order?.status
 
     if (startFundsReceived && orderStatus < ORDER_STATUS.EXCHANGING) {
-      animateProgressBar(setFundsReceivedProgress, 80, 10 * 60 * 1000)
+      animateProgressBar(setFundsReceivedProgress, 80, fundsDuration)
       if (fundsReceivedProgress === 80) {
         setIsOpen(true)
       }
     } else if (startFundsReceived) {
-      animateProgressBar(setFundsReceivedProgress, 100, 10 * 60 * 1000)
+      animateProgressBar(setFundsReceivedProgress, 100, fundsDuration)
     }
 
     if (startConverting && orderStatus < ORDER_STATUS.ANONYMIZING) {
-      animateProgressBar(setConvertingProgress, 80, 3 * 60 * 1000)
+      animateProgressBar(setConvertingProgress, 80, convertingDuration)
       if (convertingProgress === 80) {
         setIsOpen(true)
       }
     } else if (startConverting) {
-      animateProgressBar(setConvertingProgress, 100, 3 * 60 * 1000)
+      animateProgressBar(setConvertingProgress, 100, convertingDuration)
     }
 
     if (startAnonymizing && orderStatus < ORDER_STATUS.FINISHED) {
-      animateProgressBar(setAnonymizingProgress, 80, 20 * 60 * 1000)
+      animateProgressBar(setAnonymizingProgress, 80, anonymizingDuration)
       if (anonymizingProgress === 80) {
         setIsOpen(true)
       }
     } else if (startAnonymizing) {
-      animateProgressBar(setAnonymizingProgress, 100, 20 * 60 * 1000)
+      animateProgressBar(setAnonymizingProgress, 100, anonymizingDuration)
     }
 
     if (startCompleting) {
-      animateProgressBar(setCompletedProgress, 100, 10000)
+      animateProgressBar(setCompletedProgress, 100, completingDuration)
     }
-
-    // {houdiniId: "okn8e1f65RMHk3yUbYTbFC"}
 
     // Update state variables based on order status
     if (
@@ -142,25 +145,21 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
     <>
       <ProgressProvider
         text={t('orderDetailsFundsReceived')}
-        valueStart={0}
-        valueEnd={fundsReceivedProgress}
+        value={fundsReceivedProgress}
       />
       <ProgressProvider
         text={t('orderDetailsConverting')}
-        valueStart={0}
-        valueEnd={convertingProgress}
+        value={convertingProgress}
       />
       {order?.anonymous === true ? (
         <ProgressProvider
           text={t('orderDetailsAnonymizing')}
-          valueStart={0}
-          valueEnd={anonymizingProgress}
+          value={anonymizingProgress}
         />
       ) : null}
       <ProgressProvider
         text={t('orderDetailsCompleted')}
-        valueStart={0}
-        valueEnd={completedProgress}
+        value={completedProgress}
       />
 
       <AnimatePresence>
