@@ -54,6 +54,8 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
 
   const toggleOpen = () => setIsExpanded(!isExpanded)
 
+  const isDeleted = props?.order?.status === ORDER_STATUS.DELETED
+
   const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
 
   const DateFormatter = () => {
@@ -268,6 +270,13 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                       </div>
                       <div className="text-center md:text-[19px] md:leading-[24px] font-bold md:whitespace-nowrap">
                         {`${props.swapTime} ${t('orderDetailsSwapTimeMinute')}`}
+                      </div>
+                    </div>
+                  </MetalboarderedTransRoundbox>
+                  <MetalboarderedTransRoundbox>
+                    <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
+                      <div onClick={() => {setEraseModal(true)}} className="text-center hover:cursor-pointer md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
+                        Delete Order
                       </div>
                     </div>
                   </MetalboarderedTransRoundbox>
