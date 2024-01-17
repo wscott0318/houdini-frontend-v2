@@ -32,7 +32,7 @@ export const OrderDetails = ({ order }: { order: any }) => {
 
       <div className="flex flex-col last:pb-[165px] w-full">
         <div className="flex flex-col items-center gap-[10px] w-full">
-          {/* {!isDeleted ? ( */}
+          {!isDeleted ? (
             <OrderDetailsModal
               receiveAmount={order?.outAmount}
               recipientWallet={order?.receiverAddress}
@@ -42,9 +42,9 @@ export const OrderDetails = ({ order }: { order: any }) => {
               swapTime={order?.eta}
               order={order}
             />
-          {/* ): (
+          ): (
             <OrderDeletedModal orderId={order?.houdiniId} />
-          )} */}
+          )}
 
           {!widgetMode ? (
             <div className="flex py-[10px] md:px-[100px] md:py-[50px] items-center w-full">

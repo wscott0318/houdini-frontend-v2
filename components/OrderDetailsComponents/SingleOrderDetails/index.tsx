@@ -46,12 +46,12 @@ export const SingleOrder = ({ t }: { t: any }) => {
     }
   }, [dataSingle, loadingSingle])
 
-  // if (!loadingSingle && dataSingle) {
-  //   if (order?.status === 0 || order?.status === -1) {
-  //     return <NextStep order={order} />
-  //   }
+  if (!loadingSingle && dataSingle) {
+    if (order?.status === 0 || order?.status === -1) {
+      return <NextStep order={order} />
+    }
     return <OrderDetails order={order} />
-  // } else {
-  //   return <Loading />
-  // }
+  } else {
+    return <Loading />
+  }
 }
