@@ -109,7 +109,7 @@ export default function Home() {
         <SwapBox i18n={{ ...swapFormi18n, ...swapi18n }} />
       ) : (
         <ResponsivePage>
-          <div>
+          <div className='z-[1]'>
             <div className="lg:text-[81px] text-center text-[35px] font-bold leading-normal capitalize tracking-[-0px]">
               Keep transactions private
             </div>
