@@ -141,7 +141,7 @@ export const SwapForm: React.FC<SwapFormProps> = ({
                     disabled={tokenLockOut}
                   />
                 ) : null}
-                <span className="text-xs absolute left-[18px] bottom-1 text-white">
+                <span className="text-xs absolute left-[18px] md:left-[35px] lg:left-[35px] bottom-1 text-white">
                   {formatNumberFromString(sendValue) && swap?.send?.value
                     ? '$ ' + formatNumberFromString(sendValue)
                     : '$ 0'}
