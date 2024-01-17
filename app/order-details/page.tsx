@@ -56,57 +56,6 @@ export default function OrderDetails() {
           <ResponsivePage>
             <OrderContent t={t} />
           </ResponsivePage>
-
-          <AnimatePresence>
-            {isOpen ? (
-              <Portal>
-                <motion.div
-                  className="z-10 fixed left-0 top-0 w-screen h-screen"
-                  aria-labelledby="modal-title"
-                  role="dialog"
-                  aria-modal="true"
-                  initial="hidden"
-                  exit="hidden"
-                  animate="visible"
-                  variants={animation}
-                >
-                  <div
-                    onClick={(e) => {
-                      e.preventDefault()
-                      const target = e.target as HTMLElement
-                      if (target.id === 'dropdownClickable') {
-                        setIsOpen(false)
-                      }
-                    }}
-                    className="fixed inset-0 z-10 w-screen overflow-y-auto bg-black/50 drop-shadow-2xl backdrop-blur-[5px]"
-                  >
-                    <div
-                      id="dropdownClickable"
-                      className="flex relative min-h-full items-end justify-center sm:items-center p-6 md:p-0"
-                    >
-                      <CardComponent
-                        widthClass={width > 1024 ? '540px' : '100%'}
-                        heightClass={width > 1024 ? '212px' : '100%'}
-                      >
-                        <div className="text-center w-full lg:text-[46px] text-[20px] lg:leading-[75px] font-semibold whitespace-nowrap">
-                          Taking a bit longer
-                        </div>
-                        <div className="text-center w-full lg:text-[17px] font-medium rainbow-text ">
-                          Things are busier than usual
-                        </div>
-                        <XLetterSvg
-                          onClick={() => {
-                            setIsOpen(false)
-                          }}
-                          className="absolute top-6 right-6 fill-white w-3 h-3 hover:cursor-pointer"
-                        />
-                      </CardComponent>
-                    </div>
-                  </div>
-                </motion.div>
-              </Portal>
-            ) : null}
-          </AnimatePresence>
         </>
       )}
     </>

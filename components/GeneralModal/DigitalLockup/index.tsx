@@ -15,7 +15,7 @@ export const DigitalLockup = ({ value, text, status }: DigitalProps) => {
   const offset = circumference * ((100 - value) / 100)
 
   return (
-    <div className="flex flex-col gap-[20px]">
+    <div className="flex flex-col gap-[20px] justify-center items-center">
       <div className="items-center ">
         <div className="relative">
           <RadialProgressSvg width={118} height={118} />

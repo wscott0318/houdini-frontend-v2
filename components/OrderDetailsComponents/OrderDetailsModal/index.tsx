@@ -98,13 +98,13 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
             <div className="items-center w-full justify-center">
               <MetalboarderedTransRoundbox>
                 <div className="relative flex flex-col lg:flex-row gap-[32px] px-[50px] py-[30px]">
-                  {props?.order?.status === ORDER_STATUS.EXPIRED ? (
+                  {/* {props?.order?.status === ORDER_STATUS.EXPIRED ? (
                     <div className="text-center md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
                       Order expired
                     </div>
-                  ) : (
+                  ) : ( */}
                     <OrderProgress order={props?.order} />
-                  )}
+                  {/* )} */}
                 </div>
               </MetalboarderedTransRoundbox>
             </div>
