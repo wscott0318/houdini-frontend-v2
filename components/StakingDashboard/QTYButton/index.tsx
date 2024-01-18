@@ -1,24 +1,25 @@
 import React, { useState } from 'react'
 
 interface QTYButtonProps {
-  text: string,
-  onClick?: () => void;
+  text: string
+  onClick?: () => void
 }
 
 export default function QTYButton(props: QTYButtonProps) {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState(false)
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
+    setIsHovered(true)
   }
-  
+
   const handleMouseLeave = () => {
-    setIsHovered(false);
+    setIsHovered(false)
   }
-  
+
   return (
-    <div className={`p-[2px] rounded-[12px] custom-QTY-button-outline`}
-      style={{cursor: 'pointer'}}
+    <div
+      className={`p-[2px] rounded-[12px] custom-QTY-button-outline`}
+      style={{ cursor: 'pointer' }}
       onClick={props.onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -27,5 +28,5 @@ export default function QTYButton(props: QTYButtonProps) {
         {props.text}
       </div>
     </div>
-  );
+  )
 }
