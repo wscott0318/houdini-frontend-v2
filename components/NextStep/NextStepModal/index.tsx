@@ -19,13 +19,17 @@ import { QRCodeSvg, QuestionSvg } from '@/components/Svg'
 import { useTokens } from '@/hooks'
 import { OrderStatusResult } from '@/types/backend/typegql/entities/abstract/order.status'
 import { dateFormatter, timeFormatter } from '@/utils/helpers'
+import { OrderStep } from '@/utils/constants'
+import { BulletButtons } from '@/components/BulletButton'
 
 interface OrderDetailModalProps {
   deliveryTime: string
+  setCurrentStep: Function
+  currentStep: OrderStep
   order: OrderStatusResult
 }
 
-export const OrderDetailModal = ({ order }: OrderDetailModalProps) => {
+export const OrderDetailModal = ({ order, setCurrentStep, currentStep }: OrderDetailModalProps) => {
   const { t } = useTranslation()
   const [qrCodeModal, setQrCodeModal] = useState(false)
   const [confirmDepositModal, setConfirmDepositModal] = useState(false)
@@ -145,8 +149,8 @@ export const OrderDetailModal = ({ order }: OrderDetailModalProps) => {
 
               {((order.fixed && minutes < 2) ||
                 (!order.fixed && minutes < 10)) &&
-              (order.status === 0 || order.status === 5) &&
-              !order.notified ? (
+                (order.status === 0 || order.status === 5) &&
+                !order.notified ? (
                 <WalletRoundbox>
                   <div className="relative hover:cursor-pointer flex flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
                     <div
@@ -160,7 +164,6 @@ export const OrderDetailModal = ({ order }: OrderDetailModalProps) => {
                   </div>
                 </WalletRoundbox>
               ) : null}
-
               <div className="hidden sm:block">
                 <Countdown order={order} setMinutes={setMinutes} />
               </div>
@@ -186,6 +189,7 @@ export const OrderDetailModal = ({ order }: OrderDetailModalProps) => {
             <div className="sm:hidden flex flex-wrap justify-center gap-[10px]">
               <Countdown order={order} setMinutes={setMinutes} />
             </div>
+            <BulletButtons currentStep={currentStep} setCurrentStep={setCurrentStep} order={order} />
           </IndustrialCounterLockup>
 
           <div className="pt-[15px] lg:px-[10px] pb-[5px] w-full">
@@ -197,9 +201,8 @@ export const OrderDetailModal = ({ order }: OrderDetailModalProps) => {
                   </div>
                   <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
                     <Link
-                      href={`${getAddressUrl(order.outSymbol)}${
-                        order.receiverAddress
-                      }`}
+                      href={`${getAddressUrl(order.outSymbol)}${order.receiverAddress
+                        }`}
                       target="_blank"
                     >{`${order.receiverAddress}`}</Link>
                   </div>

@@ -11,17 +11,20 @@ import { MetalboarderedTransRoundbox } from '@/components/GeneralModal/Metalboar
 import { OrderDetailRoundbox } from '@/components/GeneralModal/OrderDetailRoundbox'
 import { OrderProgress } from '@/components/OrderProgress'
 import { useTokens } from '@/hooks'
+import { ORDER_STATUS, OrderStep } from '@/utils/constants'
 import { OrderStatusResult } from '@/types/backend/typegql/entities/abstract/order.status'
-import { ORDER_STATUS } from '@/utils/constants'
 import { dateFormatter, timeFormatter } from '@/utils/helpers'
+import { BulletButtons } from '@/components/BulletButton'
 
 import { TransactionHash } from '../TransactionHash'
 
 interface OrderDetailsModalProps {
+  currentStep: OrderStep
+  setCurrentStep: Function
   order: OrderStatusResult
 }
 
-export const OrderDetailsModal = ({ order }: OrderDetailsModalProps) => {
+export const OrderDetailsModal = ({ order, currentStep, setCurrentStep }: OrderDetailsModalProps) => {
   const [confirmDepositModal, setConfirmDepositModal] = useState(false)
   const [eraseModal, setEraseModal] = useState(false)
 
@@ -107,6 +110,7 @@ export const OrderDetailsModal = ({ order }: OrderDetailsModalProps) => {
 
             <TransactionHash order={order} />
           </div>
+          <BulletButtons className='mt-4' order={order} currentStep={currentStep} setCurrentStep={setCurrentStep} />
         </IndustrialCounterLockup>
 
         <div className="pt-[15px] lg:px-[10px] pb-[5px] w-full">

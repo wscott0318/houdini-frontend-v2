@@ -6,6 +6,9 @@ import { Loading } from '@/components/Loading'
 import { NextStep } from '@/components/NextStep'
 import { OrderDetails } from '@/components/OrderDetailsComponents/OrderDetails'
 import { STATUS_QUERY } from '@/lib/apollo/query'
+import useOrderStep from '@/utils/hooks/useOrderStep'
+import { ORDER_STEPS } from '@/utils/constants'
+
 
 export const SingleOrder = ({ t }: { t: any }) => {
   const searchParams = useSearchParams()
@@ -40,6 +43,8 @@ export const SingleOrder = ({ t }: { t: any }) => {
     pollInterval: 3000,
   })
 
+  const { currentStep, setCurrentStep } = useOrderStep(order)
+
   useEffect(() => {
     if (!loadingSingle && dataSingle) {
       setOrder(dataSingle?.status)
@@ -47,10 +52,10 @@ export const SingleOrder = ({ t }: { t: any }) => {
   }, [dataSingle, loadingSingle])
 
   if (!loadingSingle && dataSingle) {
-    if (order?.status === 0 || order?.status === -1) {
-      return <NextStep order={order} />
+    if (currentStep === ORDER_STEPS.NEXT_STEP) {
+      return <NextStep setCurrentStep={setCurrentStep} currentStep={currentStep} order={order} />
     }
-    return <OrderDetails order={order} />
+    return <OrderDetails setCurrentStep={setCurrentStep} currentStep={currentStep} order={order} />
   } else {
     return <Loading />
   }
