@@ -55,6 +55,7 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
   const toggleOpen = () => setIsExpanded(!isExpanded)
 
   const isDeleted = props?.order?.status === ORDER_STATUS.DELETED
+  const isExpired = props?.order?.status === ORDER_STATUS.EXPIRED;
 
   const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
 
@@ -94,8 +95,6 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
     [loading],
   )
 
-  console.log(props.order)
-
   if (props?.order?.status === ORDER_STATUS.DELETED) {
     return <OrderDeletedModal orderId={props.orderID} />
   } else {
@@ -124,9 +123,8 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                   additionalClassNames="rounded-full"
                 >
                   <ChevronSvg
-                    className={`${
-                      isExpanded ? 'rotate-180' : 'rotate-0'
-                    } fill-white min-w-[20px] min-h-[20px]`}
+                    className={`${isExpanded ? 'rotate-180' : 'rotate-0'
+                      } fill-white min-w-[20px] min-h-[20px]`}
                   />
                 </OrderDetailRoundbox>
               </div>
@@ -253,29 +251,25 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                   <div className="items-center w-full justify-center">
                     <MetalboarderedTransRoundbox>
                       <div className="relative flex flex-col lg:flex-row py-[30px] gap-4">
-                        {props?.order?.status === ORDER_STATUS.EXPIRED ? (
-                          <div className="text-center md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
-                            Order expired
-                          </div>
-                        ) : (
-                          <OrderProgress order={props?.order} />
-                        )}
+                        <OrderProgress order={props?.order} />
                       </div>
                     </MetalboarderedTransRoundbox>
                   </div>
                   <MetalboarderedTransRoundbox>
-                    <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
-                      <div className="text-center md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
-                        {t('orderDetailsModalTodaysAverageSwapTime')}:
-                      </div>
-                      <div className="text-center md:text-[19px] md:leading-[24px] font-bold md:whitespace-nowrap">
-                        {`${props.swapTime} ${t('orderDetailsSwapTimeMinute')}`}
-                      </div>
-                    </div>
+                    {isExpired ?
+                      <h2 className='text-3xl text-red-600 mx-[50px] md:mx-[100px] my-[20px] text-center'>{t('orderExpiredText')}</h2> :
+                      <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
+                        <div className="text-center md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
+                          {t('orderDetailsModalTodaysAverageSwapTime')}:
+                        </div>
+                        <div className="text-center md:text-[19px] md:leading-[24px] font-bold md:whitespace-nowrap">
+                          {`${props.swapTime} ${t('orderDetailsSwapTimeMinute')}`}
+                        </div>
+                      </div>}
                   </MetalboarderedTransRoundbox>
                   <MetalboarderedTransRoundbox>
                     <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
-                      <div onClick={() => {setEraseModal(true)}} className="text-center hover:cursor-pointer md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
+                      <div onClick={() => { setEraseModal(true) }} className="text-center hover:cursor-pointer md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
                         Delete Order
                       </div>
                     </div>

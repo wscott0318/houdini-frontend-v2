@@ -13,10 +13,11 @@ export const OrderDetails = ({ order }: { order: any }) => {
 
   const { t } = useTranslation()
   const isDeleted = order?.status === ORDER_STATUS.DELETED
+  const isExpired = order?.status === ORDER_STATUS.EXPIRED
 
   return (
     <>
-      {!isDeleted && (
+      {!isDeleted && !isExpired && (
         <div
           id="orderdetails"
           className="flex flex-col justify-center items-center gap-[30px] lg:gap-[10px] w-full relative z-30"
@@ -42,7 +43,7 @@ export const OrderDetails = ({ order }: { order: any }) => {
               swapTime={order?.eta}
               order={order}
             />
-          ): (
+          ) : (
             <OrderDeletedModal orderId={order?.houdiniId} />
           )}
 

@@ -457,5 +457,6 @@
 	"orderPageP11": "Contactați suportul tehnic aici",
 	"orderPageP12": "Pentru a iniția schimburile, vă rugăm să trimiteți fondurile necesare către ",
 	"orderPageP13": "fiecare adresa individual.",
-	"invalidId": "ID nevalid. Contactați suportul tehnic"
+	"invalidId": "ID nevalid. Contactați suportul tehnic",
+	"orderExpiredText": "Comanda a expirat"
 }
