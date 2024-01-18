@@ -365,6 +365,7 @@ export const MULTI_STATUS_QUERY = gql`
       outCreated
       multiId
       eta
+      transactionHash
     }
   }
 `
@@ -419,17 +420,25 @@ export const EXCHANGE_MUTATION = gql`
   }
 `
 
-
 export const PERFORMANCE_STATS_QUERY = gql`
-query totalVolume {
- totalVolume: totalVolume {
-   count, totalTransactedUSD, totalBuyback, totalBuybackUSD
+  query totalVolume {
+    totalVolume: totalVolume {
+      count
+      totalTransactedUSD
+      totalBuyback
+      totalBuybackUSD
+    }
+    lastMonth: totalVolume(lastMonth: true) {
+      count
+      totalTransactedUSD
+      totalBuyback
+      totalBuybackUSD
+    }
+    lastWeek: totalVolume(lastWeek: true) {
+      count
+      totalTransactedUSD
+      totalBuyback
+      totalBuybackUSD
+    }
   }
-  lastMonth: totalVolume(lastMonth:true) {
-   count, totalTransactedUSD, totalBuyback, totalBuybackUSD
-  }
-  lastWeek: totalVolume(lastWeek:true) {
-   count, totalTransactedUSD, totalBuyback, totalBuybackUSD
-  }
-}
-`;
+`

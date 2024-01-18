@@ -34,15 +34,7 @@ export const OrderDetails = ({ order }: { order: any }) => {
       <div className="flex flex-col last:pb-[165px] w-full">
         <div className="flex flex-col items-center gap-[10px] w-full">
           {!isDeleted ? (
-            <OrderDetailsModal
-              receiveAmount={order?.outAmount}
-              recipientWallet={order?.receiverAddress}
-              creationTime={new Date(order?.created)}
-              orderId={order?.houdiniId}
-              tokenType={order?.outSymbol}
-              swapTime={order?.eta}
-              order={order}
-            />
+            <OrderDetailsModal order={order} />
           ) : (
             <OrderDeletedModal orderId={order?.houdiniId} />
           )}
