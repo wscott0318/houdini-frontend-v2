@@ -12,13 +12,16 @@ import { OrderDetailRoundbox } from '@/components/GeneralModal/OrderDetailRoundb
 import { OrderProgress } from '@/components/OrderProgress'
 import { useTokens } from '@/hooks'
 import { ORDER_STATUS, OrderStep } from '@/utils/constants'
+import { OrderStatusResult } from '@/types/backend/typegql/entities/abstract/order.status'
 import { dateFormatter, timeFormatter } from '@/utils/helpers'
 import { BulletButtons } from '@/components/BulletButton'
 
+import { TransactionHash } from '../TransactionHash'
+
 interface OrderDetailsModalProps {
-  order: any
   currentStep: OrderStep
   setCurrentStep: Function
+  order: OrderStatusResult
 }
 
 export const OrderDetailsModal = ({ order, currentStep, setCurrentStep }: OrderDetailsModalProps) => {
@@ -27,12 +30,12 @@ export const OrderDetailsModal = ({ order, currentStep, setCurrentStep }: OrderD
 
   const { t } = useTranslation()
 
-  const orderExpired = order?.status === ORDER_STATUS.EXPIRED
   const recipientWallet = order?.receiverAddress
   const orderId = order?.houdiniId
   const swapTime = order?.eta
+  const isExpired = order.status === ORDER_STATUS.EXPIRED
 
-  const { getAddressUrl, findTokenBySymbol } = useTokens()
+  const { getAddressUrl, findTokenBySymbol, getExplorerUrl } = useTokens()
 
   return (
     <>
@@ -72,11 +75,27 @@ export const OrderDetailsModal = ({ order, currentStep, setCurrentStep }: OrderD
                 </div>
               </MetalboarderedTransRoundbox>
             </div>
-            <MetalboarderedTransRoundbox>
-              {orderExpired ? (
+
+            {isExpired ? (
+              <MetalboarderedTransRoundbox>
                 <h2 className="text-3xl text-red-600 mx-[50px] md:mx-[100px] my-[20px] text-center">
                   {t('orderExpiredText')}
                 </h2>
+              </MetalboarderedTransRoundbox>
+            ) : null}
+
+            <MetalboarderedTransRoundbox>
+              {order.status === 4 ? (
+                <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
+                  <div
+                    onClick={() => {
+                      setEraseModal(true)
+                    }}
+                    className="text-center hover:cursor-pointer md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap"
+                  >
+                    Delete Order
+                  </div>
+                </div>
               ) : (
                 <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
                   <div className="text-center md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
@@ -88,6 +107,8 @@ export const OrderDetailsModal = ({ order, currentStep, setCurrentStep }: OrderD
                 </div>
               )}
             </MetalboarderedTransRoundbox>
+
+            <TransactionHash order={order} />
           </div>
           <BulletButtons className='mt-4' order={order} currentStep={currentStep} setCurrentStep={setCurrentStep} />
         </IndustrialCounterLockup>

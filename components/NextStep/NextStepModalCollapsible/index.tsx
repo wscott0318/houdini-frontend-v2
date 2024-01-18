@@ -17,10 +17,12 @@ import { WalletRoundbox } from '@/components/GeneralModal/WalletRoundbox'
 import { OpenWallet } from '@/components/OpenWallet'
 import OrderDeletedModal from '@/components/OrderDetailsComponents/OrderDeletedModal'
 import OrderIdRoundBox from '@/components/OrderDetailsComponents/OrderIdRoundBox'
+import { TransactionHash } from '@/components/OrderDetailsComponents/TransactionHash'
 import { OrderProgress } from '@/components/OrderProgress'
 import { QrCode } from '@/components/QRCode'
 import { ChevronSvg, QRCodeSvg, SwapSvg } from '@/components/Svg'
 import { useTokens } from '@/hooks'
+import { OrderStatusResult } from '@/types/backend/typegql/entities/abstract/order.status'
 import { ORDER_STATUS, ORDER_STATUS_FAKE } from '@/utils/constants'
 import {
   animation,
@@ -32,7 +34,7 @@ import useOrderStep from '@/utils/hooks/useOrderStep'
 import { BulletButtons } from '@/components/BulletButton'
 
 interface OrderDetailModalProps {
-  order: any
+  order: OrderStatusResult
 }
 
 export const OrderDetailModalCollapsible = ({
@@ -41,6 +43,7 @@ export const OrderDetailModalCollapsible = ({
   const [isExpanded, setIsExpanded] = useState(true)
   const [qrCodeModal, setQrCodeModal] = useState(false)
   const [isLoading, setIsLoading] = useState()
+  const [minutes, setMinutes] = useState(0)
 
   const [confirmDepositModal, setConfirmDepositModal] = useState(false)
   const [eraseModal, setEraseModal] = useState(false)
@@ -55,6 +58,8 @@ export const OrderDetailModalCollapsible = ({
   const swapTime = order?.eta
   const isDeleted = status === ORDER_STATUS.DELETED
   const isExpired = status === ORDER_STATUS.EXPIRED
+
+  console.log(order)
 
   const toggleOpen = () => setIsExpanded(!isExpanded)
 
@@ -169,21 +174,26 @@ export const OrderDetailModalCollapsible = ({
                         </div>
                       </WalletRoundbox>
 
-                      <WalletRoundbox>
-                        <div className="relative hover:cursor-pointer flex flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
-                          <div
-                            onClick={() => {
-                              setConfirmDepositModal(true)
-                            }}
-                            className="text-center lg:text-[15px] lg:font-bold font-medium whitespace-nowrap"
-                          >
-                            {t('alertSupport')}
+                      {((order.fixed && minutes < 2) ||
+                        (!order.fixed && minutes < 10)) &&
+                        (order.status === 0 || order.status === 5) &&
+                        !order.notified ? (
+                        <WalletRoundbox>
+                          <div className="relative hover:cursor-pointer flex flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
+                            <div
+                              onClick={() => {
+                                setConfirmDepositModal(true)
+                              }}
+                              className="text-center lg:text-[15px] lg:font-bold font-medium whitespace-nowrap"
+                            >
+                              {t('alertSupport')}
+                            </div>
                           </div>
-                        </div>
-                      </WalletRoundbox>
+                        </WalletRoundbox>
+                      ) : null}
 
                       <div className="hidden sm:block">
-                        <Countdown order={order} />
+                        <Countdown order={order} setMinutes={setMinutes} />
                       </div>
 
                       {getTokenDetails(order?.inSymbol)?.chain ? (
@@ -197,13 +207,12 @@ export const OrderDetailModalCollapsible = ({
                               }}
                               setIsLoading={setIsLoading}
                             />
-                            {/* <QuestionSvg className="absolute top-1 right-1 w-[10px] h-[10px]"/> */}
                           </div>
                         </WalletRoundbox>
                       ) : null}
                     </div>
                     <div className="sm:hidden flex flex-wrap justify-center gap-[10px]">
-                      <Countdown order={order} />
+                      <Countdown order={order} setMinutes={setMinutes} />
                     </div>
                     <BulletButtons
                       className="mt-4"
@@ -223,11 +232,26 @@ export const OrderDetailModalCollapsible = ({
                       </div>
                     </MetalboarderedTransRoundbox>
                   </div>
-                  <MetalboarderedTransRoundbox>
-                    {isExpired ? (
+                  {isExpired ? (
+                    <MetalboarderedTransRoundbox>
                       <h2 className="text-3xl text-red-600 mx-[50px] md:mx-[100px] my-[20px] text-center">
                         {t('orderExpiredText')}
                       </h2>
+                    </MetalboarderedTransRoundbox>
+                  ) : null}
+
+                  <MetalboarderedTransRoundbox>
+                    {status === 4 ? (
+                      <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
+                        <div
+                          onClick={() => {
+                            setEraseModal(true)
+                          }}
+                          className="text-center hover:cursor-pointer md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap"
+                        >
+                          Delete Order
+                        </div>
+                      </div>
                     ) : (
                       <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
                         <div className="text-center md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
@@ -239,23 +263,12 @@ export const OrderDetailModalCollapsible = ({
                       </div>
                     )}
                   </MetalboarderedTransRoundbox>
-                  <MetalboarderedTransRoundbox>
-                    <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
-                      <div
-                        onClick={() => {
-                          setEraseModal(true)
-                        }}
-                        className="text-center hover:cursor-pointer md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap"
-                      >
-                        Delete Order
-                      </div>
-                    </div>
-                  </MetalboarderedTransRoundbox>
                   <BulletButtons
                     className="mt-6"
                     order={order}
                     currentStep={currentStep}
                     setCurrentStep={setCurrentStep} />
+                  <TransactionHash order={order} />
                 </div>
               </IndustrialCounterLockup>
             )}

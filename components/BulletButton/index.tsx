@@ -9,7 +9,7 @@ interface BulletButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement
 interface BulletButtonsProps {
     currentStep: OrderStep,
     setCurrentStep: Function
-    order: Order
+    order: any
     className?: string
 }
 
