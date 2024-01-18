@@ -421,7 +421,7 @@ export const EXCHANGE_MUTATION = gql`
 
 
 export const PERFORMANCE_STATS_QUERY = gql`
-query totalVolume {
+query performanceStats {
  totalVolume: totalVolume {
    count, totalTransactedUSD, totalBuyback, totalBuybackUSD
   }
@@ -431,5 +431,8 @@ query totalVolume {
   lastWeek: totalVolume(lastWeek:true) {
    count, totalTransactedUSD, totalBuyback, totalBuybackUSD
   }
+  
+  nextBurnAmount: config(key: "burn_amount") {value}
+  nextBurnDate: config(key: "burn_date") {value}
 }
 `;
