@@ -159,7 +159,11 @@ export default function Home() {
               }
             />
 
-            <div className={`${widgetMode ? 'rounded-[24px]': 'rounded-[20px]'} w-[260px] lg:rounded-[35px]  h-[140px] sm:flex hidden flex-col justify-center items-center`}>
+            <div
+              className={`${
+                widgetMode ? 'rounded-[24px]' : 'rounded-[20px]'
+              } w-[260px] lg:rounded-[35px]  h-[140px] sm:flex hidden flex-col justify-center items-center`}
+            >
               <CardComponent>
                 <div className="lg:py-5">
                   <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">
