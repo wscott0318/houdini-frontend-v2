@@ -18,4 +18,5 @@ interface Token {
   hasFixed?: boolean
   hasFixedReverse?: boolean
   address: `0x${string}` | string | null
+  chain?: number
 }

@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import Link from 'next/link'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -14,42 +15,47 @@ import { TOKENS_QUERY } from '@/lib/apollo/query'
 import { ORDER_STATUS } from '@/utils/constants'
 
 interface OrderDetailsModalProps {
-  orderId: string
-  creationTime: Date
-  recipientWallet: string
-  receiveAmount: number
-  tokenType: string
-  swapTime: number
   order: any
 }
 
-export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
+export const OrderDetailsModal = ({ order }: OrderDetailsModalProps) => {
+  const [confirmDepositModal, setConfirmDepositModal] = useState(false)
+  const [eraseModal, setEraseModal] = useState(false)
+
   const { t } = useTranslation()
   const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
 
-  const [confirmDepositModal, setConfirmDepositModal] = useState(false)
-  const [eraseModal, setEraseModal] = useState(false)
-  const orderExpired = props.order?.status === ORDER_STATUS.EXPIRED
+  const orderExpired = order?.status === ORDER_STATUS.EXPIRED
+  const recipientWallet = order?.receiverAddress
+  const creationTime = new Date(order?.created)
+  const orderId = order?.houdiniId
+  const swapTime = order?.eta
 
   const DateFormatter = () => {
-    const date = props.creationTime
+    const date = creationTime
+
     const formatter = new Intl.DateTimeFormat('en-US', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
     })
+
     const formattedDate = formatter.format(date)
+
     return formattedDate
   }
   const TimeFormatter = () => {
-    const date = props.creationTime
+    const date = creationTime
+
     const formatter = new Intl.DateTimeFormat('en-US', {
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
       hourCycle: 'h23',
     })
+
     const formattedTime = formatter.format(date)
+
     return formattedTime
   }
 
@@ -58,14 +64,28 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
       if (!loading) {
         const tokens = tokensData?.tokens
         const token = tokens?.find((token: any) => token.symbol === symbol)
+
         return token
           ? { displayName: token.displayName, icon: token.icon }
           : null
       }
+
       return { displayName: '', icon: '' }
     },
     [loading],
   )
+
+  const getAddressUrl = (symbol: string) => {
+    const token = ((tokensData?.tokens || []) as Token[]).find(
+      (item) => item.id === symbol,
+    )
+
+    if (!token) {
+      return ''
+    }
+
+    return token.network.addressUrl
+  }
 
   return (
     <>
@@ -77,7 +97,7 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
                 {t('orderDetailModalOrderID')}:
               </div>
               <Clipboardbox
-                concept={`${props.orderId}`}
+                concept={`${orderId}`}
                 fontSize="lg:text-[15px] text-[12px]"
                 textColor="text-[#FFFFFF99]"
               />
@@ -99,21 +119,25 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
             <div className="items-center w-full justify-center">
               <MetalboarderedTransRoundbox>
                 <div className="relative flex flex-col lg:flex-row gap-[32px] px-[50px] py-[30px]">
-                  <OrderProgress order={props?.order} />
+                  <OrderProgress order={order} />
                 </div>
               </MetalboarderedTransRoundbox>
             </div>
             <MetalboarderedTransRoundbox>
-              {orderExpired ?
-                <h2 className='text-3xl text-red-600 mx-[50px] md:mx-[100px] my-[20px] text-center'>{t('orderExpiredText')}</h2> :
+              {orderExpired ? (
+                <h2 className="text-3xl text-red-600 mx-[50px] md:mx-[100px] my-[20px] text-center">
+                  {t('orderExpiredText')}
+                </h2>
+              ) : (
                 <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
                   <div className="text-center md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
                     {t('orderDetailsModalTodaysAverageSwapTime')}:
                   </div>
                   <div className="text-center md:text-[19px] md:leading-[24px] font-bold md:whitespace-nowrap">
-                    {`${props.swapTime} ${t('orderDetailsSwapTimeMinute')}`}
+                    {`${swapTime} ${t('orderDetailsSwapTimeMinute')}`}
                   </div>
-                </div>}
+                </div>
+              )}
             </MetalboarderedTransRoundbox>
           </div>
         </IndustrialCounterLockup>
@@ -126,7 +150,12 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
                   {t('orderDetailModalRecipientWallet')}:
                 </div>
                 <div className="text-center text-xs overflow-hidden lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
-                  {`${props.recipientWallet}`}
+                  <Link
+                    href={`${getAddressUrl(order.outSymbol)}${recipientWallet}`}
+                    target="_blank"
+                  >
+                    {recipientWallet}
+                  </Link>
                 </div>
               </div>
               <div className="flex lg:w-[40%] lg:justify-between justify-center flex-row items-center gap-2.5 px-[4px]">
@@ -135,15 +164,15 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
                 </div>
                 <div className="flex gap-2.5 items-center">
                   <div className="text-center lg:text-[15px] text-[14px] font-normal">
-                    {props?.order?.outAmount}
+                    {order?.outAmount}
                   </div>
                   <img
-                    src={findTokenBySymbol(props?.order?.outSymbol)?.icon}
+                    src={findTokenBySymbol(order?.outSymbol)?.icon}
                     className="w-[20px] h-[20px]"
                     alt="outSymbol"
                   />
                   <div className="text-base text-center lg:text-[15px] text-[14px] font-normal">
-                    {findTokenBySymbol(props?.order?.outSymbol)?.displayName}
+                    {findTokenBySymbol(order?.outSymbol)?.displayName}
                   </div>
                 </div>
               </div>
@@ -155,12 +184,13 @@ export const OrderDetailsModal = (props: OrderDetailsModalProps) => {
       <ConfirmDeposit
         confirmDepositModal={confirmDepositModal}
         setConfirmDepositModal={setConfirmDepositModal}
-        houdiniId={props?.order?.houdiniId}
+        houdiniId={order?.houdiniId}
       />
+
       <EraseOrder
         eraseModal={eraseModal}
         setEraseModal={setEraseModal}
-        houdiniId={props?.order?.houdiniId}
+        houdiniId={order?.houdiniId}
       />
     </>
   )

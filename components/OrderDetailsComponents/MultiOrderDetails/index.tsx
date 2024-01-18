@@ -57,19 +57,7 @@ export const MultipleOrders = ({ t }: { t: any }) => {
                   key={order?.houdiniId}
                   className="w-full flex flex-row justify-center items-center"
                 >
-                  <OrderDetailModalCollapsible
-                    order={order}
-                    status={order?.status}
-                    orderID={order?.houdiniId}
-                    creationTime={new Date(order?.created)}
-                    sendAmount={order?.inAmount}
-                    receiveAddress={order?.receiverAddress}
-                    deliveryTime="26 : 34"
-                    recipientAddress={order?.senderAddress}
-                    receiveAmount={order?.outAmount}
-                    tokenType={order?.outSymbol}
-                    swapTime={order?.eta}
-                  />
+                  <OrderDetailModalCollapsible order={order} />
                 </div>
               )
             })
