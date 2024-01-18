@@ -418,3 +418,18 @@ export const EXCHANGE_MUTATION = gql`
     }
   }
 `
+
+
+export const PERFORMANCE_STATS_QUERY = gql`
+query totalVolume {
+  totalVolume: totalVolume {
+    count, totalTransactedUSD, totalBuyback, burned
+   }
+   lastMonth: totalVolume(lastMonth:true) {
+    count, totalTransactedUSD, totalBuyback, burned
+   }
+   lastWeek: totalVolume(lastWeek:true) {
+    count, totalTransactedUSD, totalBuyback, burned
+   }
+ }
+`;
