@@ -18,13 +18,17 @@ import { QRCodeSvg, QuestionSvg } from '@/components/Svg'
 import { useTokens } from '@/hooks'
 import Order from '@/types/backend/typegql/entities/types/order.entity'
 import { dateFormatter, timeFormatter } from '@/utils/helpers'
+import { OrderStep } from '@/utils/constants'
+import { BulletButtons } from '@/components/BulletButton'
 
 interface OrderDetailModalProps {
   deliveryTime: string
   order: Order
+  setCurrentStep: Function
+  currentStep: OrderStep
 }
 
-export const OrderDetailModal = ({ order }: OrderDetailModalProps) => {
+export const OrderDetailModal = ({ order, setCurrentStep, currentStep }: OrderDetailModalProps) => {
   const { t } = useTranslation()
   const [qrCodeModal, setQrCodeModal] = useState(false)
 
@@ -160,6 +164,7 @@ export const OrderDetailModal = ({ order }: OrderDetailModalProps) => {
               </WalletRoundbox>
             ) : null}
           </div>
+          <BulletButtons currentStep={currentStep} setCurrentStep={setCurrentStep} order={order} />
           <div className="sm:hidden flex flex-wrap justify-center gap-[10px]">
             <Countdown order={order} />
           </div>
@@ -174,9 +179,8 @@ export const OrderDetailModal = ({ order }: OrderDetailModalProps) => {
                 </div>
                 <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
                   <Link
-                    href={`${getAddressUrl(order.outSymbol)}${
-                      order.receiverAddress
-                    }`}
+                    href={`${getAddressUrl(order.outSymbol)}${order.receiverAddress
+                      }`}
                     target="_blank"
                   >{`${order.receiverAddress}`}</Link>
                 </div>

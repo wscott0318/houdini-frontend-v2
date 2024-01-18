@@ -85,3 +85,10 @@ export const ORDER_STATUS_FAKE: any = {
   7: 'REFUNDED',
   8: 'DELETED',
 }
+
+export const ORDER_STEPS = Object.freeze({
+  NEXT_STEP: 'NEXT_STEP',
+  ORDER_DETAILS: 'ORDER_DETAILS',
+})
+
+export type OrderStep = keyof typeof ORDER_STEPS

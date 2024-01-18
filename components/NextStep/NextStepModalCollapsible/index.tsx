@@ -28,6 +28,8 @@ import {
   getEllipsisTxt,
   timeFormatter,
 } from '@/utils/helpers'
+import useOrderStep from '@/utils/hooks/useOrderStep'
+import { BulletButtons } from '@/components/BulletButton'
 
 interface OrderDetailModalProps {
   order: any
@@ -42,6 +44,7 @@ export const OrderDetailModalCollapsible = ({
 
   const [confirmDepositModal, setConfirmDepositModal] = useState(false)
   const [eraseModal, setEraseModal] = useState(false)
+  const { currentStep, setCurrentStep } = useOrderStep(order)
 
   const { t } = useTranslation()
 
@@ -87,9 +90,8 @@ export const OrderDetailModalCollapsible = ({
                   additionalClassNames="rounded-full"
                 >
                   <ChevronSvg
-                    className={`${
-                      isExpanded ? 'rotate-180' : 'rotate-0'
-                    } fill-white min-w-[20px] min-h-[20px]`}
+                    className={`${isExpanded ? 'rotate-180' : 'rotate-0'
+                      } fill-white min-w-[20px] min-h-[20px]`}
                   />
                 </OrderDetailRoundbox>
               </div>
@@ -104,7 +106,7 @@ export const OrderDetailModalCollapsible = ({
             transition={{ duration: 0.2 }}
             className="w-full"
           >
-            {status === 0 || status === -1 ? (
+            {currentStep === 'NEXT_STEP' ? (
               <IndustrialCounterLockup>
                 <div className="text-center w-full lg:text-[46px] text-[20px] lg:leading-[75px] font-bold ">
                   {t(
@@ -203,6 +205,11 @@ export const OrderDetailModalCollapsible = ({
                     <div className="sm:hidden flex flex-wrap justify-center gap-[10px]">
                       <Countdown order={order} />
                     </div>
+                    <BulletButtons
+                      className="mt-4"
+                      order={order}
+                      currentStep={currentStep}
+                      setCurrentStep={setCurrentStep} />
                   </>
                 ) : null}
               </IndustrialCounterLockup>
@@ -244,6 +251,11 @@ export const OrderDetailModalCollapsible = ({
                       </div>
                     </div>
                   </MetalboarderedTransRoundbox>
+                  <BulletButtons
+                    className="mt-6"
+                    order={order}
+                    currentStep={currentStep}
+                    setCurrentStep={setCurrentStep} />
                 </div>
               </IndustrialCounterLockup>
             )}
