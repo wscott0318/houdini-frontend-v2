@@ -20,7 +20,7 @@ export function SideBar() {
   const value = 3
   const { t } = useTranslation()
   return (
-    <div className="flex flex-col h-[1024px] lg:min-w-[271px] lg:max-w-[271px] min-w-[110px] max-w-[110px] pl-[29px] pr-[30px] pt-[44px] pb-[36px] overflow-y-auto custom-sidebar-background gap-[29px] rounded-r-[50px]">
+    <div className="flex flex-col h-full lg:min-w-[271px] lg:max-w-[271px] min-w-[110px] max-w-[110px] pl-[29px] pr-[30px] pt-[44px] pb-[36px] overflow-y-auto custom-sidebar-background gap-[29px] lg:rounded-[50px] rounded-l-[50px]">
       <a href="#" className="flex flex-col justify-center items-center">
         <SidebarBigLogo className="lg:w-[209px] lg:h-[71px] lg:block hidden fill-white" />
         <Image

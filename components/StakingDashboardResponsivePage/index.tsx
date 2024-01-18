@@ -12,7 +12,7 @@ export default function StakingDashboardResponsivePage({
 
   return (
     <div className="flex flex-row">
-      <div className="w-[271px]">
+      <div className="w-[271px] z-[1]">
         <SideBar />
       </div>
       <div className="flex flex-col w-full">
@@ -30,7 +30,7 @@ export default function StakingDashboardResponsivePage({
                 </span>
                 <Image
                   src={avatar}
-                  className="lg:w-[24px] lg:h-[24px] w-[40px] h-[40px]"
+                  className="lg:w-[24px] lg:h-[24px]"
                   alt="avatar"
                 />
               </div>

@@ -25,7 +25,7 @@ export default function CTAButton(props: CTAButtonProps) {
       onMouseLeave={handleMouseLeave}
     >
       <div
-        className={`flex items-center justify-center h-[${props.height}] w-[${props.width}] rounded-[12px] bg-black text-[16px] font-semibold hover:custom-QTA-button-hover-background`}
+        className={`flex items-center justify-center rounded-[12px] bg-black text-[16px] font-semibold hover:custom-QTA-button-hover-background`}
       >
         {props.children}
       </div>
