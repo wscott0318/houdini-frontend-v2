@@ -1,8 +1,7 @@
-import { useQuery } from '@apollo/client'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Portal } from 'houdini-react-sdk'
 import Link from 'next/link'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -16,9 +15,9 @@ import { WalletRoundbox } from '@/components/GeneralModal/WalletRoundbox'
 import { OpenWallet } from '@/components/OpenWallet'
 import { QrCode } from '@/components/QRCode'
 import { QRCodeSvg, QuestionSvg } from '@/components/Svg'
-import { TOKENS_QUERY } from '@/lib/apollo/query'
+import { useTokens } from '@/hooks'
 import Order from '@/types/backend/typegql/entities/types/order.entity'
-import { getTokenDetails } from '@/utils/helpers'
+import { dateFormatter, timeFormatter } from '@/utils/helpers'
 
 interface OrderDetailModalProps {
   deliveryTime: string
@@ -31,47 +30,7 @@ export const OrderDetailModal = ({ order }: OrderDetailModalProps) => {
 
   const [isLoading, setIsLoading] = useState()
 
-  const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
-
-  const DateFormatter = () => {
-    const date = new Date(order?.created)
-
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    })
-    const formattedDate = formatter.format(date)
-
-    return formattedDate
-  }
-
-  const TimeFormatter = () => {
-    const date = new Date(order?.created)
-
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hourCycle: 'h23',
-    })
-
-    const formattedTime = formatter.format(date)
-
-    return formattedTime
-  }
-
-  const getAddressUrl = (symbol: string) => {
-    const token = ((tokensData?.tokens || []) as Token[]).find(
-      (item) => item.id === symbol,
-    )
-
-    if (!token) {
-      return ''
-    }
-
-    return token.network.addressUrl
-  }
+  const { findTokenBySymbol, getTokenDetails, getAddressUrl } = useTokens()
 
   const animation = {
     hidden: {
@@ -83,21 +42,6 @@ export const OrderDetailModal = ({ order }: OrderDetailModalProps) => {
       transition: { duration: 0.3 },
     },
   }
-
-  const findTokenBySymbol = useCallback(
-    (symbol: string) => {
-      if (!loading) {
-        const tokens = tokensData?.tokens
-        // setTokens(tokens)
-        const token = tokens?.find((token: any) => token?.symbol === symbol)
-        return token
-          ? { displayName: token?.displayName, icon: token?.icon }
-          : null
-      }
-      return { displayName: '', icon: '' }
-    },
-    [loading],
-  )
 
   return (
     <div className="w-full flex flex-row justify-center items-center">
@@ -121,7 +65,9 @@ export const OrderDetailModal = ({ order }: OrderDetailModalProps) => {
                 {t('orderDetailModalCreationTime')}:
               </div>
               <div className="text-center lg:text-[15px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-50 font-normal">
-                {`${DateFormatter()}, ${TimeFormatter()}`}
+                {`${dateFormatter(order.created)}, ${timeFormatter(
+                  order?.created,
+                )}`}
               </div>
             </OrderDetailRoundbox>
           </div>
@@ -196,17 +142,14 @@ export const OrderDetailModal = ({ order }: OrderDetailModalProps) => {
               <Countdown order={order} />
             </div>
 
-            {getTokenDetails(tokensData?.tokens, order?.inSymbol)?.chain ? (
+            {getTokenDetails(order?.inSymbol)?.chain ? (
               <WalletRoundbox>
                 <div className="relative flex flex-row justify-center items-center custom-wallet-shadow custom-wallet-gradient rounded-[15px] w-[70px] h-[70px] lg:w-[118px] lg:h-[88px] bg-red-900 px-[10px] py-[20px] bg-gradient-to-r from">
                   <OpenWallet
                     amount={order?.inAmount}
                     to={order?.senderAddress}
                     token={{
-                      token: getTokenDetails(
-                        tokensData?.tokens,
-                        order?.inSymbol,
-                      ),
+                      token: getTokenDetails(order?.inSymbol),
                     }}
                     setIsLoading={setIsLoading}
                   />

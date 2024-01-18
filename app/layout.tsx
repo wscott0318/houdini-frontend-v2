@@ -15,10 +15,9 @@ import { bsc, mainnet } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 
 import { Footer, Header, ResponsiveContainer } from '@/components'
+import { useWindowSize } from '@/hooks'
 import { userClient } from '@/lib/apollo/apollo-client'
-import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
-// import { smokeEffect } from '@/utils/smokeEffect'
 import '../styles/globals.css'
 
 const outfit = Outfit({

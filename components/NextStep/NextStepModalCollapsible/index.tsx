@@ -1,8 +1,7 @@
-import { useQuery } from '@apollo/client'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CheckBox, Portal } from 'houdini-react-sdk'
 import Link from 'next/link'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ConfirmDeposit } from '@/components/ConfirmDepositModal'
@@ -21,9 +20,14 @@ import OrderIdRoundBox from '@/components/OrderDetailsComponents/OrderIdRoundBox
 import { OrderProgress } from '@/components/OrderProgress'
 import { QrCode } from '@/components/QRCode'
 import { ChevronSvg, QRCodeSvg, SwapSvg } from '@/components/Svg'
-import { TOKENS_QUERY } from '@/lib/apollo/query'
+import { useTokens } from '@/hooks'
 import { ORDER_STATUS, ORDER_STATUS_FAKE } from '@/utils/constants'
-import { animation, getEllipsisTxt, getTokenDetails } from '@/utils/helpers'
+import {
+  animation,
+  dateFormatter,
+  getEllipsisTxt,
+  timeFormatter,
+} from '@/utils/helpers'
 
 interface OrderDetailModalProps {
   order: any
@@ -43,7 +47,6 @@ export const OrderDetailModalCollapsible = ({
 
   const status = order?.status
   const orderID = order?.houdiniId
-  const creationTime = new Date(order?.created)
   const receiveAddress = order?.receiverAddress
   const recipientAddress = order?.senderAddress
   const swapTime = order?.eta
@@ -52,61 +55,7 @@ export const OrderDetailModalCollapsible = ({
 
   const toggleOpen = () => setIsExpanded(!isExpanded)
 
-  const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
-
-  const DateFormatter = () => {
-    const date = creationTime
-
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    })
-
-    const formattedDate = formatter.format(date)
-
-    return formattedDate
-  }
-  const TimeFormatter = () => {
-    const date = creationTime
-
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hourCycle: 'h23',
-    })
-
-    const formattedTime = formatter.format(date)
-
-    return formattedTime
-  }
-
-  const findTokenBySymbol = useCallback(
-    (symbol: string) => {
-      if (!loading) {
-        const tokens = tokensData?.tokens
-        const token = tokens?.find((token: any) => token.symbol === symbol)
-        return token
-          ? { displayName: token.displayName, icon: token.icon }
-          : null
-      }
-      return { displayName: '', icon: '' }
-    },
-    [loading],
-  )
-
-  const getAddressUrl = (symbol: string) => {
-    const token = ((tokensData?.tokens || []) as Token[]).find(
-      (item) => item.id === symbol,
-    )
-
-    if (!token) {
-      return ''
-    }
-
-    return token.network.addressUrl
-  }
+  const { findTokenBySymbol, getAddressUrl, getTokenDetails } = useTokens()
 
   if (isDeleted) {
     return <OrderDeletedModal orderId={orderID} />
@@ -123,7 +72,9 @@ export const OrderDetailModalCollapsible = ({
                     {t('orderDetailModalCreationTime')}:
                   </div>
                   <div className="text-center lg:text-[15px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-50 font-normal">
-                    {`${DateFormatter()}, ${TimeFormatter()}`}
+                    {`${dateFormatter(order?.created)}, ${timeFormatter(
+                      order?.created,
+                    )}`}
                   </div>
                 </OrderDetailRoundbox>
               </div>
@@ -233,18 +184,14 @@ export const OrderDetailModalCollapsible = ({
                         <Countdown order={order} />
                       </div>
 
-                      {getTokenDetails(tokensData?.tokens, order?.inSymbol)
-                        ?.chain ? (
+                      {getTokenDetails(order?.inSymbol)?.chain ? (
                         <WalletRoundbox>
                           <div className="relative flex hover:cursor-pointer flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
                             <OpenWallet
                               amount={order?.inAmount}
                               to={order?.senderAddress}
                               token={{
-                                token: getTokenDetails(
-                                  tokensData?.tokens,
-                                  order?.inSymbol,
-                                ),
+                                token: getTokenDetails(order?.inSymbol),
                               }}
                               setIsLoading={setIsLoading}
                             />

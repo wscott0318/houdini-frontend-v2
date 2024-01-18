@@ -1,6 +1,5 @@
-import { useQuery } from '@apollo/client'
 import Link from 'next/link'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ConfirmDeposit } from '@/components/ConfirmDepositModal'
@@ -11,8 +10,9 @@ import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCou
 import { MetalboarderedTransRoundbox } from '@/components/GeneralModal/MetalboarderedTransRoundbox'
 import { OrderDetailRoundbox } from '@/components/GeneralModal/OrderDetailRoundbox'
 import { OrderProgress } from '@/components/OrderProgress'
-import { TOKENS_QUERY } from '@/lib/apollo/query'
+import { useTokens } from '@/hooks'
 import { ORDER_STATUS } from '@/utils/constants'
+import { dateFormatter, timeFormatter } from '@/utils/helpers'
 
 interface OrderDetailsModalProps {
   order: any
@@ -23,69 +23,13 @@ export const OrderDetailsModal = ({ order }: OrderDetailsModalProps) => {
   const [eraseModal, setEraseModal] = useState(false)
 
   const { t } = useTranslation()
-  const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
 
   const orderExpired = order?.status === ORDER_STATUS.EXPIRED
   const recipientWallet = order?.receiverAddress
-  const creationTime = new Date(order?.created)
   const orderId = order?.houdiniId
   const swapTime = order?.eta
 
-  const DateFormatter = () => {
-    const date = creationTime
-
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    })
-
-    const formattedDate = formatter.format(date)
-
-    return formattedDate
-  }
-  const TimeFormatter = () => {
-    const date = creationTime
-
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hourCycle: 'h23',
-    })
-
-    const formattedTime = formatter.format(date)
-
-    return formattedTime
-  }
-
-  const findTokenBySymbol = useCallback(
-    (symbol: string) => {
-      if (!loading) {
-        const tokens = tokensData?.tokens
-        const token = tokens?.find((token: any) => token.symbol === symbol)
-
-        return token
-          ? { displayName: token.displayName, icon: token.icon }
-          : null
-      }
-
-      return { displayName: '', icon: '' }
-    },
-    [loading],
-  )
-
-  const getAddressUrl = (symbol: string) => {
-    const token = ((tokensData?.tokens || []) as Token[]).find(
-      (item) => item.id === symbol,
-    )
-
-    if (!token) {
-      return ''
-    }
-
-    return token.network.addressUrl
-  }
+  const { getAddressUrl, findTokenBySymbol } = useTokens()
 
   return (
     <>
@@ -109,7 +53,9 @@ export const OrderDetailsModal = ({ order }: OrderDetailsModalProps) => {
                 {t('orderDetailModalCreationTime')}
               </div>
               <div className="text-center lg:text-[15px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-50 font-normal">
-                {`${DateFormatter()}, ${TimeFormatter()}`}
+                {`${dateFormatter(order?.created)}, ${timeFormatter(
+                  order?.created,
+                )}`}
               </div>
             </OrderDetailRoundbox>
           </div>

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-const useLockScroll = (lock: boolean): void => {
+export const useLockScroll = (lock: boolean): void => {
   useEffect(() => {
     const toggleScrollLock = () => {
       if (lock) {
@@ -17,5 +17,3 @@ const useLockScroll = (lock: boolean): void => {
     }
   }, [lock])
 }
-
-export default useLockScroll

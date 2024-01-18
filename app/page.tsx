@@ -46,10 +46,10 @@ import {
   XenifySvg,
 } from '@/components/Svg'
 import { SwapVolume } from '@/components/SwapVolume'
+import { useWindowSize } from '@/hooks'
 import { TOTAL_VOLUME_QUERY } from '@/lib/apollo/query'
 import { swapFormi18n, swapi18n } from '@/utils/constants'
 import { kformatter } from '@/utils/helpers'
-import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
 const partnersIcons = [
   <BulletSvg className="w-[133px] h-[35px] gap-[60px]" key="bulletsvg" />,
