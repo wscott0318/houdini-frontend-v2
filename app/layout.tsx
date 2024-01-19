@@ -112,12 +112,7 @@ export default function RootLayout({ children }: LayoutProps) {
             <div className="absolute w-full h-full top-[0px] left-[0px] bg-[#0e0e0e] z-[-3]" />
             <div className="absolute w-full h-full top-[0px] left-[0px] bg-cover custom-top-background-img z-[-2]" />
           </>
-        ) : (
-          <>
-            <div className="absolute w-full h-full top-[0px] left-[0px] bg-[#0e0e0e] z-[-3]" />
-            <div className="absolute w-full h-full top-[0px] left-[0px] bg-cover custom-top-stakingDashboard-background-img z-[-2]" />
-          </>
-        )}
+        ) : null}
 
         {!widgetMode ? (
           <div className="container mx-auto z-1">
