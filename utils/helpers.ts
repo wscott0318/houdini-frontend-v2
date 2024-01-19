@@ -197,9 +197,6 @@ export const showErrorMessage = (err: any, t: any, timeout = 10000) => {
   )
 }
 
-export const getTokenDetails = (tokens: any, symbol: string) =>
-  tokens?.find((token: any) => token.id === symbol)
-
 export const animation = {
   hidden: {
     y: '100%',
@@ -219,4 +216,33 @@ export function formatNumberFromString(numberString: string) {
         maximumFractionDigits: 2,
       })
     : ''
+}
+
+export const timeFormatter = (value: string | Date) => {
+  const date = new Date(value)
+
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hourCycle: 'h23',
+  })
+
+  const formattedTime = formatter.format(date)
+
+  return formattedTime
+}
+
+export const dateFormatter = (value: string | Date) => {
+  const date = new Date(value)
+
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  })
+
+  const formattedDate = formatter.format(date)
+
+  return formattedDate
 }

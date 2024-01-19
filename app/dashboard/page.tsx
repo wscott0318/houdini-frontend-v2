@@ -9,11 +9,8 @@ import {
 import { ConnectButtonHoudini } from '@/components/ConnectButtonHoudini'
 import { ResponsivePage } from '@/components/ResponsivePage'
 import { QuestionSvg } from '@/components/Svg'
-import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
 export default function Dashboard() {
-  const [width] = useWindowSize()
-
   const poofData = [
     { amount: '100', percentage: '0.05 %' },
     { amount: '25,000', percentage: '0.10 %' },

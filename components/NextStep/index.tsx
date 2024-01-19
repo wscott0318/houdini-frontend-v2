@@ -33,17 +33,7 @@ export const NextStep = ({ order }: { order: any }) => {
       </div>
       <div className={`flex flex-col ${!widgetMode ? 'last:pb-[165px]' : ''}`}>
         <div className="flex flex-col items-center gap-[10px]">
-          <OrderDetailModal
-            orderID={order?.houdiniId}
-            creationTime={new Date(order?.created)}
-            sendAmount={order?.inAmount}
-            receiveAddress={order?.receiverAddress}
-            deliveryTime="26 : 34"
-            recipientAddress={order?.senderAddress}
-            receiveAmount={order?.outAmount}
-            tokenType={order?.outSymbol}
-            order={order}
-          />
+          <OrderDetailModal deliveryTime="26 : 34" order={order} />
 
           {!widgetMode ? (
             <>

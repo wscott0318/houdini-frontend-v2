@@ -5,7 +5,7 @@ import magic from '@/assets/magic.png'
 import secure from '@/assets/secure.png'
 import send from '@/assets/send.png'
 import swap from '@/assets/swap.png'
-import { useWindowSize } from '@/utils/hooks/useWindowSize'
+import { useWindowSize } from '@/hooks'
 
 const cardData = [
   {

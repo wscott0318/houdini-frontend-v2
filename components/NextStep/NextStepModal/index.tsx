@@ -1,7 +1,7 @@
-import { useQuery } from '@apollo/client'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Portal } from 'houdini-react-sdk'
-import { useCallback, useState } from 'react'
+import Link from 'next/link'
+import { useState } from 'react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -15,50 +15,22 @@ import { WalletRoundbox } from '@/components/GeneralModal/WalletRoundbox'
 import { OpenWallet } from '@/components/OpenWallet'
 import { QrCode } from '@/components/QRCode'
 import { QRCodeSvg, QuestionSvg } from '@/components/Svg'
-import { TOKENS_QUERY } from '@/lib/apollo/query'
-import { getTokenDetails } from '@/utils/helpers'
+import { useTokens } from '@/hooks'
+import Order from '@/types/backend/typegql/entities/types/order.entity'
+import { dateFormatter, timeFormatter } from '@/utils/helpers'
 
 interface OrderDetailModalProps {
-  orderID: string
-  creationTime: Date
-  sendAmount: number
-  receiveAddress: string
   deliveryTime: string
-  recipientAddress: string
-  receiveAmount: number
-  tokenType: string
-  order: any
+  order: Order
 }
 
-export const OrderDetailModal = (props: OrderDetailModalProps) => {
+export const OrderDetailModal = ({ order }: OrderDetailModalProps) => {
   const { t } = useTranslation()
   const [qrCodeModal, setQrCodeModal] = useState(false)
 
   const [isLoading, setIsLoading] = useState()
 
-  const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
-
-  const DateFormatter = () => {
-    const date = props?.creationTime
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    })
-    const formattedDate = formatter.format(date)
-    return formattedDate
-  }
-  const TimeFormatter = () => {
-    const date = props?.creationTime
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hourCycle: 'h23',
-    })
-    const formattedTime = formatter.format(date)
-    return formattedTime
-  }
+  const { findTokenBySymbol, getTokenDetails, getAddressUrl } = useTokens()
 
   const animation = {
     hidden: {
@@ -71,21 +43,6 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
     },
   }
 
-  const findTokenBySymbol = useCallback(
-    (symbol: string) => {
-      if (!loading) {
-        const tokens = tokensData?.tokens
-        // setTokens(tokens)
-        const token = tokens?.find((token: any) => token?.symbol === symbol)
-        return token
-          ? { displayName: token?.displayName, icon: token?.icon }
-          : null
-      }
-      return { displayName: '', icon: '' }
-    },
-    [loading],
-  )
-
   return (
     <div className="w-full flex flex-row justify-center items-center">
       <GeneralModal>
@@ -96,7 +53,7 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
                 {t('orderDetailModalOrderID')}:
               </div>
               <Clipboardbox
-                concept={`${props?.orderID}`}
+                concept={`${order.houdiniId}`}
                 fontSize="lg:text-[15px] text-[12px]"
                 textColor="text-[#FFFFFF99]"
               />
@@ -108,7 +65,9 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
                 {t('orderDetailModalCreationTime')}:
               </div>
               <div className="text-center lg:text-[15px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-50 font-normal">
-                {`${DateFormatter()}, ${TimeFormatter()}`}
+                {`${dateFormatter(order.created)}, ${timeFormatter(
+                  order?.created,
+                )}`}
               </div>
             </OrderDetailRoundbox>
           </div>
@@ -129,15 +88,15 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
               <div className="flex flex-row justify-center items-center gap-[10px]">
                 <img
                   alt="inSymbol"
-                  src={findTokenBySymbol(props?.order?.inSymbol)?.icon}
+                  src={findTokenBySymbol(order?.inSymbol)?.icon}
                   className="w-[64px] h-[64px]"
                 />
                 <div className="flex flex-row gap-[20px] justify-center items-center">
                   <div className="text-center leading-[24px] lg:text-[20px] text-[14px] font-semibold ">
-                    {findTokenBySymbol(props?.order?.inSymbol)?.displayName}
+                    {findTokenBySymbol(order?.inSymbol)?.displayName}
                   </div>
                   <Clipboardbox
-                    concept={`${props?.sendAmount}`}
+                    concept={`${order.inAmount}`}
                     textColor="text-[#FBBF24]"
                     fontSize="lg:text-[20px] text-[14px]"
                     fontWeight="text-semibold"
@@ -153,7 +112,7 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
               </div>
               <div className="flex flex-row gap-[20px] lg:py-[10px] py-[5px] justify-center items-center">
                 <Clipboardbox
-                  concept={`${props.recipientAddress}`}
+                  concept={`${order.senderAddress}`}
                   textColor="text-[#FBBF24]"
                   fontSize="lg:text-[20px] text-[14px]"
                   fontWeight="text-semibold"
@@ -180,30 +139,29 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
             </WalletRoundbox>
 
             <div className="hidden sm:block">
-              <Countdown order={props?.order} />
+              <Countdown order={order} />
             </div>
 
-            <WalletRoundbox>
-              <div className="relative flex flex-row justify-center items-center custom-wallet-shadow custom-wallet-gradient rounded-[15px] w-[70px] h-[70px] lg:w-[118px] lg:h-[88px] bg-red-900 px-[10px] py-[20px] bg-gradient-to-r from">
-                <OpenWallet
-                  amount={props?.order?.inAmount}
-                  to={props?.order?.senderAddress}
-                  token={{
-                    token: getTokenDetails(
-                      tokensData?.tokens,
-                      props?.order?.inSymbol,
-                    ),
-                  }}
-                  setIsLoading={setIsLoading}
-                />
-                <div className="absolute flex flex-row top-1 right-1 lg:top-5 lg:right-2.5">
-                  <QuestionSvg />
+            {getTokenDetails(order?.inSymbol)?.chain ? (
+              <WalletRoundbox>
+                <div className="relative flex flex-row justify-center items-center custom-wallet-shadow custom-wallet-gradient rounded-[15px] w-[70px] h-[70px] lg:w-[118px] lg:h-[88px] bg-red-900 px-[10px] py-[20px] bg-gradient-to-r from">
+                  <OpenWallet
+                    amount={order?.inAmount}
+                    to={order?.senderAddress}
+                    token={{
+                      token: getTokenDetails(order?.inSymbol),
+                    }}
+                    setIsLoading={setIsLoading}
+                  />
+                  <div className="absolute flex flex-row top-1 right-1 lg:top-5 lg:right-2.5">
+                    <QuestionSvg />
+                  </div>
                 </div>
-              </div>
-            </WalletRoundbox>
+              </WalletRoundbox>
+            ) : null}
           </div>
           <div className="sm:hidden flex flex-wrap justify-center gap-[10px]">
-            <Countdown order={props?.order} />
+            <Countdown order={order} />
           </div>
         </IndustrialCounterLockup>
 
@@ -215,7 +173,12 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
                   {t('orderDetailModalRecipientWallet')}:
                 </div>
                 <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
-                  {`${props?.receiveAddress}`}
+                  <Link
+                    href={`${getAddressUrl(order.outSymbol)}${
+                      order.receiverAddress
+                    }`}
+                    target="_blank"
+                  >{`${order.receiverAddress}`}</Link>
                 </div>
               </div>
               <div className="flex lg:w-[40%] lg:justify-between justify-center flex-row items-center gap-2.5 px-[4px]">
@@ -224,15 +187,15 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
                 </div>
                 <div className="flex gap-2.5 items-center">
                   <div className="text-center lg:text-[15px] text-[14px] font-normal">
-                    {`${props?.receiveAmount}`}
+                    {`${order.outAmount}`}
                   </div>
                   <img
                     alt="outSymbol"
-                    src={findTokenBySymbol(props?.order?.outSymbol)?.icon}
+                    src={findTokenBySymbol(order?.outSymbol)?.icon}
                     className="w-[20px] h-[20px]"
                   />
                   <div className="text-base text-center lg:text-[15px] text-[14px] whitespace-nowrap font-normal">
-                    {findTokenBySymbol(props?.order?.outSymbol)?.displayName}
+                    {findTokenBySymbol(order?.outSymbol)?.displayName}
                   </div>
                 </div>
               </div>
@@ -271,7 +234,7 @@ export const OrderDetailModal = (props: OrderDetailModalProps) => {
                   <QrCode
                     qrCodeModal={qrCodeModal}
                     setQrCodeModal={setQrCodeModal}
-                    senderAddress={props?.receiveAddress}
+                    senderAddress={order?.receiverAddress}
                   />
                 </div>
               </div>

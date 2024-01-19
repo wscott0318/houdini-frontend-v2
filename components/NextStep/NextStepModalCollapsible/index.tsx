@@ -1,7 +1,7 @@
-import { useQuery } from '@apollo/client'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CheckBox, Portal } from 'houdini-react-sdk'
-import { useCallback, useState } from 'react'
+import Link from 'next/link'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ConfirmDeposit } from '@/components/ConfirmDepositModal'
@@ -20,31 +20,22 @@ import OrderIdRoundBox from '@/components/OrderDetailsComponents/OrderIdRoundBox
 import { OrderProgress } from '@/components/OrderProgress'
 import { QrCode } from '@/components/QRCode'
 import { ChevronSvg, QRCodeSvg, SwapSvg } from '@/components/Svg'
-import { TOKENS_QUERY } from '@/lib/apollo/query'
+import { useTokens } from '@/hooks'
 import { ORDER_STATUS, ORDER_STATUS_FAKE } from '@/utils/constants'
 import {
   animation,
+  dateFormatter,
   getEllipsisTxt,
-  getTokenDetails,
+  timeFormatter,
 } from '@/utils/helpers'
 
 interface OrderDetailModalProps {
-  orderID: string
-  creationTime: Date
-  sendAmount: number
-  receiveAddress: string
-  deliveryTime: string
-  recipientAddress: string
-  receiveAmount: number
-  tokenType: string
-  status: number
-  swapTime: number
   order: any
 }
 
-export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
-  const { t } = useTranslation()
-
+export const OrderDetailModalCollapsible = ({
+  order,
+}: OrderDetailModalProps) => {
   const [isExpanded, setIsExpanded] = useState(true)
   const [qrCodeModal, setQrCodeModal] = useState(false)
   const [isLoading, setIsLoading] = useState()
@@ -52,57 +43,28 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
   const [confirmDepositModal, setConfirmDepositModal] = useState(false)
   const [eraseModal, setEraseModal] = useState(false)
 
+  const { t } = useTranslation()
+
+  const status = order?.status
+  const orderID = order?.houdiniId
+  const receiveAddress = order?.receiverAddress
+  const recipientAddress = order?.senderAddress
+  const swapTime = order?.eta
+  const isDeleted = status === ORDER_STATUS.DELETED
+  const isExpired = status === ORDER_STATUS.EXPIRED
+
   const toggleOpen = () => setIsExpanded(!isExpanded)
 
-  const isDeleted = props?.order?.status === ORDER_STATUS.DELETED
-  const isExpired = props?.order?.status === ORDER_STATUS.EXPIRED;
+  const { findTokenBySymbol, getAddressUrl, getTokenDetails } = useTokens()
 
-  const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
-
-  const DateFormatter = () => {
-    const date = props.creationTime
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    })
-    const formattedDate = formatter.format(date)
-    return formattedDate
-  }
-  const TimeFormatter = () => {
-    const date = props.creationTime
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hourCycle: 'h23',
-    })
-    const formattedTime = formatter.format(date)
-    return formattedTime
-  }
-
-  const findTokenBySymbol = useCallback(
-    (symbol: string) => {
-      if (!loading) {
-        const tokens = tokensData?.tokens
-        const token = tokens?.find((token: any) => token.symbol === symbol)
-        return token
-          ? { displayName: token.displayName, icon: token.icon }
-          : null
-      }
-      return { displayName: '', icon: '' }
-    },
-    [loading],
-  )
-
-  if (props?.order?.status === ORDER_STATUS.DELETED) {
-    return <OrderDeletedModal orderId={props.orderID} />
+  if (isDeleted) {
+    return <OrderDeletedModal orderId={orderID} />
   } else {
     return (
       <div className="w-full flex flex-row justify-center items-center">
         <GeneralModal>
           <div className="flex md:flex-row flex-wrap lg:justify-between lg:gap-0 gap-[5px] items-center justify-center w-full px-[10px] py-[5px]">
-            <OrderIdRoundBox orderId={props.orderID} />
+            <OrderIdRoundBox orderId={orderID} />
             <div className="flex flex-row justify-start items-center gap-2">
               <div className="md:w-10% md:pt-0 lg:pt-[5px] sm:w-50%">
                 <OrderDetailRoundbox border="custom-houdini-id-gradient1">
@@ -110,7 +72,9 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                     {t('orderDetailModalCreationTime')}:
                   </div>
                   <div className="text-center lg:text-[15px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-50 font-normal">
-                    {`${DateFormatter()}, ${TimeFormatter()}`}
+                    {`${dateFormatter(order?.created)}, ${timeFormatter(
+                      order?.created,
+                    )}`}
                   </div>
                 </OrderDetailRoundbox>
               </div>
@@ -123,8 +87,9 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                   additionalClassNames="rounded-full"
                 >
                   <ChevronSvg
-                    className={`${isExpanded ? 'rotate-180' : 'rotate-0'
-                      } fill-white min-w-[20px] min-h-[20px]`}
+                    className={`${
+                      isExpanded ? 'rotate-180' : 'rotate-0'
+                    } fill-white min-w-[20px] min-h-[20px]`}
                   />
                 </OrderDetailRoundbox>
               </div>
@@ -139,16 +104,16 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
             transition={{ duration: 0.2 }}
             className="w-full"
           >
-            {props.status === 0 || props.status === -1 ? (
+            {status === 0 || status === -1 ? (
               <IndustrialCounterLockup>
                 <div className="text-center w-full lg:text-[46px] text-[20px] lg:leading-[75px] font-bold ">
                   {t(
-                    props.order.inCreated
+                    order.inCreated
                       ? 'orderDetailModalSendFund'
                       : 'creatingOrderPathway',
                   )}
                 </div>
-                {props.order.inCreated ? (
+                {order.inCreated ? (
                   <>
                     <div className="flex relative justify-center items-center flex-col lg:px-[30px] lg:py-[10px] lg:gap-[20px] gap-[10px] w-full">
                       <div className="text-center w-full lg:text-[17px] text-[15px] leading-[21px] font-medium rainbow-text">
@@ -162,19 +127,16 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                           <div className="flex flex-row w-full lg:w-auto justify-center items-center">
                             <div className="flex flex-row justify-center items-center gap-2">
                               <div className="text-sm whitespace-nowrap">
-                                {props.order.inAmount}
+                                {order.inAmount}
                               </div>
                               <img
                                 alt="inSymbol"
-                                src={
-                                  findTokenBySymbol(props?.order?.inSymbol)
-                                    ?.icon
-                                }
+                                src={findTokenBySymbol(order?.inSymbol)?.icon}
                                 className="w-[20px] h-[20px]"
                               />
                               <div className="text-sm whitespace-nowrap">
                                 {
-                                  findTokenBySymbol(props?.order?.inSymbol)
+                                  findTokenBySymbol(order?.inSymbol)
                                     ?.displayName
                                 }
                               </div>
@@ -183,7 +145,7 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                           </div>
                           <div className="flex flex-row flex-wrap justify-center items-center mr-4">
                             <Clipboardbox
-                              concept={`${props.recipientAddress}`}
+                              concept={`${recipientAddress}`}
                               textColor="text-[#FBBF24]"
                               fontSize="text-[14px]"
                               fontWeight="text-semibold"
@@ -219,28 +181,27 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                       </WalletRoundbox>
 
                       <div className="hidden sm:block">
-                        <Countdown order={props?.order} />
+                        <Countdown order={order} />
                       </div>
 
-                      <WalletRoundbox>
-                        <div className="relative flex hover:cursor-pointer flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
-                          <OpenWallet
-                            amount={props?.order?.inAmount}
-                            to={props?.order?.senderAddress}
-                            token={{
-                              token: getTokenDetails(
-                                tokensData?.tokens,
-                                props?.order?.inSymbol,
-                              ),
-                            }}
-                            setIsLoading={setIsLoading}
-                          />
-                          {/* <QuestionSvg className="absolute top-1 right-1 w-[10px] h-[10px]"/> */}
-                        </div>
-                      </WalletRoundbox>
+                      {getTokenDetails(order?.inSymbol)?.chain ? (
+                        <WalletRoundbox>
+                          <div className="relative flex hover:cursor-pointer flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
+                            <OpenWallet
+                              amount={order?.inAmount}
+                              to={order?.senderAddress}
+                              token={{
+                                token: getTokenDetails(order?.inSymbol),
+                              }}
+                              setIsLoading={setIsLoading}
+                            />
+                            {/* <QuestionSvg className="absolute top-1 right-1 w-[10px] h-[10px]"/> */}
+                          </div>
+                        </WalletRoundbox>
+                      ) : null}
                     </div>
                     <div className="sm:hidden flex flex-wrap justify-center gap-[10px]">
-                      <Countdown order={props?.order} />
+                      <Countdown order={order} />
                     </div>
                   </>
                 ) : null}
@@ -251,25 +212,34 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                   <div className="items-center w-full justify-center">
                     <MetalboarderedTransRoundbox>
                       <div className="relative flex flex-col lg:flex-row py-[30px] gap-4">
-                        <OrderProgress order={props?.order} />
+                        <OrderProgress order={order} />
                       </div>
                     </MetalboarderedTransRoundbox>
                   </div>
                   <MetalboarderedTransRoundbox>
-                    {isExpired ?
-                      <h2 className='text-3xl text-red-600 mx-[50px] md:mx-[100px] my-[20px] text-center'>{t('orderExpiredText')}</h2> :
+                    {isExpired ? (
+                      <h2 className="text-3xl text-red-600 mx-[50px] md:mx-[100px] my-[20px] text-center">
+                        {t('orderExpiredText')}
+                      </h2>
+                    ) : (
                       <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
                         <div className="text-center md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
                           {t('orderDetailsModalTodaysAverageSwapTime')}:
                         </div>
                         <div className="text-center md:text-[19px] md:leading-[24px] font-bold md:whitespace-nowrap">
-                          {`${props.swapTime} ${t('orderDetailsSwapTimeMinute')}`}
+                          {`${swapTime} ${t('orderDetailsSwapTimeMinute')}`}
                         </div>
-                      </div>}
+                      </div>
+                    )}
                   </MetalboarderedTransRoundbox>
                   <MetalboarderedTransRoundbox>
                     <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
-                      <div onClick={() => { setEraseModal(true) }} className="text-center hover:cursor-pointer md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
+                      <div
+                        onClick={() => {
+                          setEraseModal(true)
+                        }}
+                        className="text-center hover:cursor-pointer md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap"
+                      >
                         Delete Order
                       </div>
                     </div>
@@ -279,9 +249,9 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
             )}
           </motion.div>
 
-          {props.order.inCreated ? (
+          {order.inCreated ? (
             <>
-              {props.status === 0 || props.status === -1 ? (
+              {status === 0 || status === -1 ? (
                 <div className="pt-[15px] lg:px-[10px] pb-[5px] w-full">
                   <div className="p-[2px] w-full rounded-[20px] custom-houdini-id-gradient1">
                     <div className="flex flex-wrap lg:justify-between justify-center items-center rounded-[20px] w-full custom-houdini-id-gradient custom-houdini-id-shadow lg:px-[30px] px-[5px] py-[10px]">
@@ -290,7 +260,14 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                           {t('orderDetailModalRecipientWallet')}:
                         </div>
                         <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
-                          {getEllipsisTxt(props.receiveAddress)}
+                          <Link
+                            href={`${getAddressUrl(
+                              order.outSymbol,
+                            )}${receiveAddress}`}
+                            target="_blank"
+                          >
+                            {getEllipsisTxt(receiveAddress)}
+                          </Link>
                         </div>
                       </div>
                       <div className="flex lg:w-[40%] lg:justify-start justify-center flex-row items-center gap-2.5 px-[4px]">
@@ -299,29 +276,23 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                         </div>
                         <div className="flex gap-2.5 items-center">
                           <div className="text-center lg:text-[15px] text-[14px] font-normal">
-                            {props.order.outAmount}
+                            {order.outAmount}
                           </div>
                           <img
                             alt="outSymbol"
-                            src={
-                              findTokenBySymbol(props?.order?.outSymbol)?.icon
-                            }
+                            src={findTokenBySymbol(order?.outSymbol)?.icon}
                             className="w-[20px] h-[20px]"
                           />
                           <div className="text-base whitespace-nowrap text-center lg:text-[15px] text-[14px] font-normal">
-                            {
-                              findTokenBySymbol(props?.order?.outSymbol)
-                                ?.displayName
-                            }
+                            {findTokenBySymbol(order?.outSymbol)?.displayName}
                           </div>
                         </div>
                       </div>
                       <div className="flex flex-row justify-start items-center gap-2">
                         <CheckBox
-                          defaultValue={props?.order?.anonymous}
+                          defaultValue={order?.anonymous}
                           leftText=""
                           name="privateToggler"
-                          // onChange={() => handlePrivateSwap(swap.id)}
                           rightText=""
                           disabled={true}
                         />
@@ -341,52 +312,47 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                           {t('recieverAddress')}:
                         </div>
                         <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
-                          {getEllipsisTxt(props.recipientAddress)}
+                          {getEllipsisTxt(recipientAddress)}
                         </div>
                       </div>
                       <div className="flex lg:w-[40%] lg:justify-start justify-center flex-row items-center gap-2.5 px-[4px]">
                         <div className="flex gap-2.5 items-center">
                           <div className="text-center lg:text-[15px] text-[14px] font-normal">
-                            {props.order.inAmount}
+                            {order.inAmount}
                           </div>
                           <img
                             alt="inSymbol"
-                            src={
-                              findTokenBySymbol(props?.order?.inSymbol)?.icon
-                            }
+                            src={findTokenBySymbol(order?.inSymbol)?.icon}
                             className="w-[20px] h-[20px]"
                           />
                           <div className="text-base text-center whitespace-nowrap lg:text-[15px] text-[14px] font-normal">
-                            {props?.order?.inSymbol}
+                            {order?.inSymbol}
                           </div>
                         </div>
                         <SwapSvg className="min-w-[15px] min-h-[15px]" />
                         <div className="flex gap-2.5 items-center">
                           <div className="text-center lg:text-[15px] text-[14px] font-normal">
-                            {props.order.outAmount}
+                            {order.outAmount}
                           </div>
                           <img
                             alt="outSymbol"
-                            src={
-                              findTokenBySymbol(props?.order?.outSymbol)?.icon
-                            }
+                            src={findTokenBySymbol(order?.outSymbol)?.icon}
                             className="w-[20px] h-[20px]"
                           />
                           <div className="text-base text-center whitespace-nowrap lg:text-[15px] text-[14px] font-normal">
-                            {props?.order?.outSymbol}
+                            {order?.outSymbol}
                           </div>
                         </div>
                       </div>
                       <div className="px-[4px] flex flex-row justify-start whitespace-nowrap items-center gap-2">
                         <div>Status:</div>
-                        <div>{ORDER_STATUS_FAKE[props?.order?.status]}</div>
+                        <div>{ORDER_STATUS_FAKE[order?.status]}</div>
                       </div>
                       <div className="flex flex-row justify-start items-center gap-2">
                         <CheckBox
-                          defaultValue={props?.order?.anonymous}
+                          defaultValue={order?.anonymous}
                           leftText=""
                           name="privateToggler"
-                          // onChange={() => handlePrivateSwap(swap.id)}
                           rightText=""
                           disabled={true}
                         />
@@ -432,7 +398,7 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
                     <QrCode
                       qrCodeModal={qrCodeModal}
                       setQrCodeModal={setQrCodeModal}
-                      senderAddress={props.receiveAddress}
+                      senderAddress={receiveAddress}
                     />
                   </div>
                 </div>
@@ -444,12 +410,12 @@ export const OrderDetailModalCollapsible = (props: OrderDetailModalProps) => {
         <ConfirmDeposit
           confirmDepositModal={confirmDepositModal}
           setConfirmDepositModal={setConfirmDepositModal}
-          houdiniId={props?.order?.houdiniId}
+          houdiniId={order?.houdiniId}
         />
         <EraseOrder
           eraseModal={eraseModal}
           setEraseModal={setEraseModal}
-          houdiniId={props?.order?.houdiniId}
+          houdiniId={order?.houdiniId}
         />
       </div>
     )
