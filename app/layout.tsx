@@ -10,7 +10,7 @@ import { Outfit, Poppins } from 'next/font/google'
 import { useSearchParams } from 'next/navigation'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { WagmiConfig, configureChains, createConfig } from 'wagmi'
+import { WagmiConfig, configureChains, createConfig, sepolia } from 'wagmi'
 import { bsc, mainnet } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 
@@ -37,7 +37,7 @@ const poppins = Poppins({
 })
 
 const { chains, publicClient } = configureChains(
-  [mainnet, bsc],
+  [mainnet, bsc, sepolia],
   [publicProvider()],
 )
 
