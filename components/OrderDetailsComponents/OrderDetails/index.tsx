@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { NeedHelp } from '@/components/NeedHelp'
 import OrderDeletedModal from '@/components/OrderDetailsComponents/OrderDeletedModal'
 import { OrderDetailsModal } from '@/components/OrderDetailsComponents/OrderDetailsModal'
-import { ORDER_STATUS } from '@/utils/constants'
+import { ORDER_STATUS, OrderStep } from '@/utils/constants'
 
-export const OrderDetails = ({ order }: { order: any }) => {
+export const OrderDetails = ({ order, currentStep, setCurrentStep }: { order: any, setCurrentStep: Function, currentStep: OrderStep }) => {
   const searchParams = useSearchParams()
 
   const widgetMode = searchParams.get('widgetMode')
@@ -34,7 +34,7 @@ export const OrderDetails = ({ order }: { order: any }) => {
       <div className="flex flex-col last:pb-[165px] w-full">
         <div className="flex flex-col items-center gap-[10px] w-full">
           {!isDeleted ? (
-            <OrderDetailsModal order={order} />
+            <OrderDetailsModal order={order} currentStep={currentStep} setCurrentStep={setCurrentStep} />
           ) : (
             <OrderDeletedModal orderId={order?.houdiniId} />
           )}

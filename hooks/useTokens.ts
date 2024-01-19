@@ -18,6 +18,18 @@ export const useTokens = () => {
     return token.network.addressUrl
   }
 
+  const getExplorerUrl = (symbol: string) => {
+    const token = ((tokensData?.tokens || []) as Token[]).find(
+      (item) => item.id === symbol,
+    )
+
+    if (!token) {
+      return ''
+    }
+
+    return token.network.explorerUrl
+  }
+
   const findTokenBySymbol = useCallback(
     (symbol: string) => {
       if (!loading) {
@@ -42,5 +54,6 @@ export const useTokens = () => {
     getAddressUrl,
     findTokenBySymbol,
     getTokenDetails,
+    getExplorerUrl,
   }
 }
