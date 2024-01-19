@@ -11,12 +11,12 @@ import { useSearchParams } from 'next/navigation'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { WagmiConfig, configureChains, createConfig } from 'wagmi'
-import { bsc, mainnet } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 
 import { Footer, Header, ResponsiveContainer } from '@/components'
 import { useWindowSize } from '@/hooks'
 import { userClient } from '@/lib/apollo/apollo-client'
+import { customChainsMain, customChainsTest } from '@/utils/chains'
 
 import '../styles/globals.css'
 
@@ -36,10 +36,14 @@ const poppins = Poppins({
   variable: '--font-poppins',
 })
 
-const { chains, publicClient } = configureChains(
-  [mainnet, bsc],
-  [publicProvider()],
-)
+let allChains = []
+if (process.env.NEXT_APP_NODE_ENV === 'development') {
+  allChains = [...customChainsMain, ...customChainsTest]
+} else {
+  allChains = [...customChainsMain]
+}
+
+const { chains, publicClient } = configureChains(allChains, [publicProvider()])
 
 const { connectors } = getDefaultWallets({
   appName: 'HoudiniSwap',
