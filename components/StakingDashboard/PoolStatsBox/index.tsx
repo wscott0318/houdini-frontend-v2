@@ -34,6 +34,15 @@ const PoolStatsBox = () => {
     functionName: "pool",
   } as any);
 
+  const { data: tokenSupply } = useScaffoldContractRead({
+    contractName: "Houdini",
+    functionName: "totalSupply",
+  } as any);
+
+  if (tokenSupply) {
+    console.log(tokenSupply ? parseFloat(formatUnits(supply, 18)) * 100 / parseFloat(formatUnits(tokenSupply as unknown as bigint, 18)) : 0);
+  }
+
   useEffect(() => {
     if (poolData) {
       const poolDataArr = poolData as any;
@@ -105,7 +114,7 @@ const PoolStatsBox = () => {
                   </button>
                 </div>
                 <div className="flex flex-row items-center pl-[40px] gap-[5px]">
-                  <span>2.75%</span>
+                  <span>{tokenSupply ? (parseFloat(formatUnits(supply, 18)) * 100 / parseFloat(formatUnits(tokenSupply as unknown as bigint, 18))).toFixed(2) : 0}%</span>
                 </div>
               </div>
               <div className="flex flex-col gap-[14px]">
