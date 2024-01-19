@@ -47,12 +47,12 @@ const ListLine = ({ data, index }: Props) => {
             </span>
             <div className="flex flex-col ">
               <span className="text-[15px] leading-[20px] font-semibold">
-                <Link href={`https://etherscan.io/tx/${data.addressUp}`}>
+                <Link target="_blank" href={`https://etherscan.io/tx/${data.addressUp}`}>
                   {data.addressUp?.substring(0, 6)}...{data.addressUp?.substring(data.addressUp.length - 4)}
                 </Link>
               </span>
               <span className="text-[12px] font-semibold leading-[24px] text-[#A0AEC0]">
-                <Link href={`https://etherscan.io/address/${data.addressDown}`}>
+                <Link target="_blank" href={`https://etherscan.io/address/${data.addressDown}`}>
                   {data.addressDown?.substring(0, 6)}...{data.addressDown?.substring(data.addressDown.length - 4)}
                 </Link>
               </span>
