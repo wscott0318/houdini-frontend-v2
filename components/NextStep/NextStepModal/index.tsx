@@ -23,7 +23,6 @@ import { OrderStep } from '@/utils/constants'
 import { BulletButtons } from '@/components/BulletButton'
 
 interface OrderDetailModalProps {
-  deliveryTime: string
   setCurrentStep: Function
   currentStep: OrderStep
   order: OrderStatusResult
