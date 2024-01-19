@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -13,9 +13,40 @@ import {
 
 import CTAButton from '../CTAButton'
 import DonutChart from './DonutChart'
+import { useScaffoldContractRead } from '@/staking/hooks/scaffold-eth'
+import { formatUnits } from 'viem'
+
+const formatter = Intl.NumberFormat('en', { notation: 'compact'});
+
 
 const PoolStatsBox = () => {
   const { t } = useTranslation()
+  // Pool stats
+  const [pool, setPool] = useState<any>();
+  const [supply, setSupply] = useState(0n);
+  const [weightedSupply, setWeightedSupply] = useState(0n);
+  const [rewardForDuration, setRewardForDuration] = useState(0n);
+  const [poolApy, setPoolApy] = useState(0n);
+  const [rewardRemaining, setRewardRemaining] = useState(0n);
+
+  const { data: poolData } = useScaffoldContractRead({
+    contractName: "Staker",
+    functionName: "pool",
+  } as any);
+
+  useEffect(() => {
+    if (poolData) {
+      const poolDataArr = poolData as any;
+      setPool(poolDataArr[0]);
+      setSupply(poolDataArr[1]);
+      setWeightedSupply(poolDataArr[2]);
+      setRewardForDuration(poolDataArr[3]);
+      setPoolApy(poolDataArr[4]);
+      setRewardRemaining(poolDataArr[5]);
+    }
+  }, [poolData]);
+
+
   return (
     <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-[482px] h-[697px] p-[1px]">
       <div className="p-[30px] w-full h-full rounded-[28px] custom-balances-box-inner-shadow">
@@ -41,7 +72,7 @@ const PoolStatsBox = () => {
                   </span>
                 </div>
                 <div className="flex flex-row items-center pl-[40px] gap-[5px]">
-                  <span>920.4M</span>
+                  <span>{formatter.format(Math.round(parseFloat(formatUnits(supply, 18))))}</span>
                   <span className="bg-[#0000004D] rounded-[8px] px-[8px] py-[5px] text-[10px] uppercase">
                     {t('lock')}
                   </span>
