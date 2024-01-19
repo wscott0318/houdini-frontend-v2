@@ -20,7 +20,7 @@ export default function Performance() {
         <div className="flex flex-col justify-between">
           <div className="flex flex-col">
             <span className="text-[24px] font-medium leading-[32px] text-[#fff]">
-              Hi Houdini-ID, here’s some
+              Hi Houdini Wizard, here’s some
             </span>
             <span className="text-[48px] font-semibold leading-[32px] text-[#fff]">
               Performance Data

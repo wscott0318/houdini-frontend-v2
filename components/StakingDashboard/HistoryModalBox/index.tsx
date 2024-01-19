@@ -8,8 +8,19 @@ import ListLine, { IGroupedData } from './ListLine'
 import Timeframe from './Timeframe'
 import { useScaffoldEventHistory } from '@/staking/hooks/scaffold-eth'
 import { useAccount, usePublicClient } from 'wagmi'
+import { formatUnits } from 'viem'
+import { t } from 'i18next'
 
-const buttonNames = ['All', 'Staking Rewards', 'Deposits', 'Buys']
+
+const eventTypes = {
+  Staked: t("Staked"),
+  Withdrawn: t("Withdrawn"),
+  RewardPaid: t("RewardPaid"),
+  RequestUnlock: t("RequestUnlock"),
+  FallenWizardFee: t("FallenWizardFee"),
+  MultiplierChanged: t("MultiplierChanged"),
+}
+const buttonNames = [t("all"),...Object.values(eventTypes)];
 
 const HistoryModalBox = () => {
   const { address } = useAccount();
@@ -149,9 +160,16 @@ const HistoryModalBox = () => {
    allEvents.map(v => {
     events.push({
       type: v.log.eventName,
-      date: v.block.timestamp,
-      amount: v.args.amount,
-      addressUp: v.block.hash,
+      date: new Date(Number(v.block.timestamp) * 1000).toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+      }),
+      amount: Math.round(parseFloat(formatUnits(v.args.amount, 18))).toString(),
+      addressUp: v.transaction.from,
       addressDown: v.block.hash,
     })
   })
@@ -162,7 +180,7 @@ const HistoryModalBox = () => {
     return <h1>Please connect your wallet first</h1>;
   }
   return (
-    <div className="flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-[1071px] p-[1px]">
+    <div className="flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-[1071px] p-[1px] z-[1]">
       <div className="w-full h-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow relative">
         <div className="flex flex-row gap-[10px] absolute right-[30px] top-[30px] justify-center items-center">
           {/* <button className="h-[56px] rounded-[16px] justify-center items-center flex bg-gradient-to-b from-[#6C5DD3] to-[#4154C9] px-[20px] py-[12px]">
@@ -173,12 +191,12 @@ const HistoryModalBox = () => {
 
         <div className="flex flex-col gap-[20px]">
           <span className="rainbow-text text-[18px] font-medium">History</span>
-          <ButtonGroup names={buttonNames} />
+          {/* <ButtonGroup names={buttonNames} /> */}
           <div className="flex flex-col">
-            <div className="flex flex-row px-[121px] py-[20px] gap-[178px] relative items-center">
-              <div className="absolute top-[26px] left-[27px]">
+            <div className="flex flex-row px-[21px] py-[20px] gap-[178px] relative items-center">
+              {/* <div className="absolute top-[26px] left-[27px]">
                 <CheckBox />
-              </div>
+              </div> */}
               <span className="text-[18px] leading-normal font-medium">
                 Type
               </span>
@@ -204,9 +222,10 @@ const HistoryModalBox = () => {
             Please note: Transaction times are displayed in UTC
           </span>
           <div className="w-full flex items-center justify-center">
-            <button className="w-[96px] h-[48px] rounded-[15px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9] items-center justify-center flex">
+            {isLoadingEvents || isLoadingWithdrawnEvents || isLoadingFallenWizardFee || isLoadingRequestUnlock || isLoadingMultiplierChanged ? 
+            <a className="w-[96px] h-[48px] rounded-[15px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9] items-center justify-center flex">
               <LoadingSvg className="w-[16px] h-[16px]" />
-            </button>
+            </a> : <></>}
           </div>
         </div>
       </div>

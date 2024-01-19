@@ -1033,6 +1033,19 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [],
+          name: "earlyStakePeriodEnd",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
           inputs: [
             {
               internalType: "address",
@@ -1104,6 +1117,11 @@ const deployedContracts = {
               internalType: "address",
               name: "_admin",
               type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "_earlyStakePeriodEnd",
+              type: "uint256",
             },
           ],
           name: "initialize",
@@ -1345,6 +1363,19 @@ const deployedContracts = {
           inputs: [
             {
               internalType: "uint256",
+              name: "_earlyStakePeriodEnd",
+              type: "uint256",
+            },
+          ],
+          name: "setEarlyStakePeriodEnd",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
               name: "_earlyUnstakeFee",
               type: "uint256",
             },
@@ -1571,7 +1602,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker_Implementation: {
-      address: "0x499AA73A1D27e54B33E7DB05ffd22854EC70257E",
+      address: "0xF8b299F87EBb62E0b625eAF440B73Cc6b7717dbd",
       abi: [
         {
           inputs: [],
@@ -2032,6 +2063,19 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [],
+          name: "earlyStakePeriodEnd",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
           inputs: [
             {
               internalType: "address",
@@ -2103,6 +2147,11 @@ const deployedContracts = {
               internalType: "address",
               name: "_admin",
               type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "_earlyStakePeriodEnd",
+              type: "uint256",
             },
           ],
           name: "initialize",
@@ -2336,6 +2385,19 @@ const deployedContracts = {
             },
           ],
           name: "setBackend",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "_earlyStakePeriodEnd",
+              type: "uint256",
+            },
+          ],
+          name: "setEarlyStakePeriodEnd",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
