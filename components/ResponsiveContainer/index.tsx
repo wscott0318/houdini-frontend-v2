@@ -58,7 +58,6 @@ export function ResponsiveContainer({ children }: LayoutProps) {
         <>
           <Header />
           <Maintenance />
-          <Footer />
         </>
       )}
     </main>
