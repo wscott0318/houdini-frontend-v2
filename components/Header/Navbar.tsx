@@ -17,7 +17,7 @@ const Links = ({ setIsOpen }: { setIsOpen?: any }) => {
       <Link
         onClick={closeNav}
         className="hover:gradient-text"
-        href="/dashboard"
+        href="/staking-dashboard"
       >
         <span>Stake</span>
       </Link>

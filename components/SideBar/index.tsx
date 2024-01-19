@@ -33,7 +33,7 @@ export function SideBar() {
         <ul className="space-y-2 font-semibold text-[14px]">
           <li>
             <a
-              href="#"
+              href="/staking-dashboard"
               className="flex items-center p-[16px] text-[#A0AEC0]  hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
             >
               <IconSvg className="w-[24px] h-[24px] stroke-white" />
@@ -44,7 +44,7 @@ export function SideBar() {
           </li>
           <li>
             <a
-              href="#"
+              href="/staking-dashboard/performance"
               className="flex items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
             >
               <ChartSvg className="w-[24px] h-[24px] " />
@@ -55,7 +55,7 @@ export function SideBar() {
           </li>
           <li>
             <a
-              href="#"
+              href="/staking-dashboard/history"
               className="flex items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
             >
               <DocumentSvg className="w-[24px] h-[24px] " />
@@ -64,9 +64,9 @@ export function SideBar() {
               </span>
             </a>
           </li>
-          <li>
+          {/* <li>
             <a
-              href="#"
+              href="/staking-dashboard/notifications"
               className="flex justify-between items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
             >
               <div className="relative flex items-center">
@@ -82,8 +82,8 @@ export function SideBar() {
                 {value}
               </span>
             </a>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <a
               href="#"
               className="flex items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
@@ -93,7 +93,7 @@ export function SideBar() {
                 {t('sidebarSettings')}
               </span>
             </a>
-          </li>
+          </li> */}
         </ul>
         <ul className="space-y-2 font-semibold text-[14px]">
           <li>
@@ -109,7 +109,8 @@ export function SideBar() {
           </li>
           <li>
             <a
-              href="#"
+              target='_blank'
+              href="https://t.me/HoudiniSwapSupport_bot"
               className="flex items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
             >
               <SidebarQuestionSvg className="w-[24px] h-[24px] fill-white" />
