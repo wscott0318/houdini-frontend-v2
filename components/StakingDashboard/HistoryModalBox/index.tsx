@@ -16,7 +16,7 @@ const HistoryModalBox = () => {
   const publicClient = usePublicClient();
 
   const [fromBlock, setFromBlock] = useState<bigint>(0n);
-  publicClient.getBlockNumber().then((data: bigint) => setFromBlock(800n + data));
+  publicClient.getBlockNumber().then((data: bigint) => setFromBlock(data - 800n));
 
   const {
     data: stakedEvents,
