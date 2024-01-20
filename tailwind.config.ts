@@ -16,6 +16,9 @@ const config: Config = {
       },
     },
   },
+  safelist: [
+    'md:px-8'
+  ],
   plugins: [
     function ({ addUtilities }: { addUtilities: any }) {
       const newUtilities = {
