@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { formatUnits } from 'viem'
+import { useNetwork } from 'wagmi'
 
 import {
   RainbowQuestionMarkSvg,
@@ -10,35 +12,19 @@ import {
   SupplyCircleIconSvg,
   TVLCircleIconSvg,
 } from '@/components/Svg'
+import {
+  useScaffoldContract,
+  useScaffoldContractRead,
+} from '@/staking/hooks/scaffold-eth'
+import { ADDRESSES, USD_DECIMALS } from '@/utils/constants'
 
 import CTAButton from '../CTAButton'
 import DonutChart from './DonutChart'
-import { useScaffoldContract, useScaffoldContractRead } from '@/staking/hooks/scaffold-eth'
-import { formatUnits } from 'viem'
-import { useNetwork } from 'wagmi'
 
-const formatter = Intl.NumberFormat('en', { notation: 'compact' });
-const USD_DECIMALS = 6;
-
-
-const addresses: any = {
-  1: {
-    weth: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-    usd: "0xdac17f958d2ee523a2206206994597c13d831ec7",
-  },
-  31337: {
-    weth: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-    usd: "0xdac17f958d2ee523a2206206994597c13d831ec7",
-  },
-  11155111: {
-    weth: "0x7b79995e5f793a07bc00c21412e50ecae098e7f9",
-    usd: "0x779877a7b0d9e8603169ddbd7836e478b4624789",
-  },
-}
-
+const formatter = Intl.NumberFormat('en', { notation: 'compact' })
 
 const PoolStatsBox = () => {
-  const { chain } = useNetwork();
+  const { chain } = useNetwork()
   const { t } = useTranslation()
   // Pool stats
   const [pool, setPool] = useState<{
@@ -55,60 +41,69 @@ const PoolStatsBox = () => {
     rewardsEnabled: boolean
     totalRewardFunds: bigint
     totalRewardsPaid: bigint
-  }>();
-  const [supply, setSupply] = useState(0n);
-  const [weightedSupply, setWeightedSupply] = useState(0n);
-  const [rewardForDuration, setRewardForDuration] = useState(0n);
-  const [poolApy, setPoolApy] = useState(0n);
-  const [rewardRemaining, setRewardRemaining] = useState(0n);
-  const [rewardsPaid, setRewardsPaid] = useState(0n);
+  }>()
+  const [supply, setSupply] = useState(0n)
+  const [weightedSupply, setWeightedSupply] = useState(0n)
+  const [rewardForDuration, setRewardForDuration] = useState(0n)
+  const [poolApy, setPoolApy] = useState(0n)
+  const [rewardRemaining, setRewardRemaining] = useState(0n)
+  const [rewardsPaid, setRewardsPaid] = useState(0n)
 
-  const { data: stakerContract } = useScaffoldContract({ contractName: "Staker" })
-  const { data: tokenContract } = useScaffoldContract({ contractName: "Houdini" })
+  const { data: stakerContract } = useScaffoldContract({
+    contractName: 'Staker',
+  })
+  const { data: tokenContract } = useScaffoldContract({
+    contractName: 'Houdini',
+  })
 
-  const fallenWizardApyPercent = parseFloat((Number(pool ? (pool?.fallenWizardFunds * 100n / pool?.totalRewardFunds) : 0n)).toFixed(2));
+  const fallenWizardApyPercent = parseFloat(
+    Number(
+      pool ? (pool?.fallenWizardFunds * 100n) / pool?.totalRewardFunds : 0n,
+    ).toFixed(2),
+  )
 
   const { data: poolData } = useScaffoldContractRead({
-    contractName: "Staker",
-    functionName: "pool",
-  } as any);
-
+    contractName: 'Staker',
+    functionName: 'pool',
+  } as any)
 
   const { data: tokensLocked } = useScaffoldContractRead({
-    contractName: "Houdini",
-    functionName: "balanceOf",
-    args: [stakerContract?.address]
-  } as any);
+    contractName: 'Houdini',
+    functionName: 'balanceOf',
+    args: [stakerContract?.address],
+  } as any)
 
-
-  const addressPath = [tokenContract?.address, addresses[chain?.id ?? 1].weth, addresses[chain?.id ?? 1].usd];
+  const addressPath = [
+    tokenContract?.address,
+    ADDRESSES[chain?.id ?? 1].weth,
+    ADDRESSES[chain?.id ?? 1].usd,
+  ]
   const { data: tvl } = useScaffoldContractRead({
-    contractName: "UniswapRouter2",
-    functionName: "getAmountsOut",
-    args: [tokensLocked, addressPath]
-  } as any);
+    contractName: 'UniswapRouter2',
+    functionName: 'getAmountsOut',
+    args: [tokensLocked, addressPath],
+  } as any)
 
   const { data: tokenSupply } = useScaffoldContractRead({
-    contractName: "Houdini",
-    functionName: "totalSupply",
-  } as any);
+    contractName: 'Houdini',
+    functionName: 'totalSupply',
+  } as any)
 
   useEffect(() => {
     if (poolData) {
-      const poolDataArr = poolData as any;
-      setPool(poolDataArr[0]);
-      setSupply(poolDataArr[1]);
-      setWeightedSupply(poolDataArr[2]);
-      setRewardForDuration(poolDataArr[3]);
-      setPoolApy(poolDataArr[4]);
-      setRewardRemaining(poolDataArr[5]);
-      setRewardsPaid(poolDataArr[6]);
+      const poolDataArr = poolData as any
+      setPool(poolDataArr[0])
+      setSupply(poolDataArr[1])
+      setWeightedSupply(poolDataArr[2])
+      setRewardForDuration(poolDataArr[3])
+      setPoolApy(poolDataArr[4])
+      setRewardRemaining(poolDataArr[5])
+      setRewardsPaid(poolDataArr[6])
     }
-  }, [poolData]);
-
+  }, [poolData])
 
   return (
-    <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-[482px] h-[697px] p-[1px]">
+    <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-full h-auto xl:w-[482px] xl:h-[697px] p-[1px]">
       <div className="p-[30px] w-full h-full rounded-[28px] custom-balances-box-inner-shadow">
         <div className="flex flex-col justify-between w-full h-full">
           <div className="flex flex-row justify-between w-full">
@@ -132,7 +127,11 @@ const PoolStatsBox = () => {
                   </span>
                 </div>
                 <div className="flex flex-row items-center pl-[40px] gap-[5px]">
-                  <span>{formatter.format(Math.round(parseFloat(formatUnits(supply, 18))))}</span>
+                  <span>
+                    {formatter.format(
+                      Math.round(parseFloat(formatUnits(supply, 18))),
+                    )}
+                  </span>
                   <span className="bg-[#0000004D] rounded-[8px] px-[8px] py-[5px] text-[10px] uppercase">
                     $LOCK
                   </span>
@@ -146,7 +145,19 @@ const PoolStatsBox = () => {
                   </span>
                 </div>
                 <div className="flex flex-row items-center pl-[40px] gap-[5px]">
-                  <span>${formatter.format(Math.round(parseFloat(formatUnits(tvl as unknown as bigint ?? 0n, USD_DECIMALS))))}</span>
+                  <span>
+                    $
+                    {formatter.format(
+                      Math.round(
+                        parseFloat(
+                          formatUnits(
+                            ((tvl as any)?.[2] as unknown as bigint) ?? 0n,
+                            USD_DECIMALS,
+                          ),
+                        ),
+                      ),
+                    )}{' '}
+                  </span>
                   <span className="bg-[#0000004D] rounded-[8px] px-[8px] py-[5px] text-[10px]">
                     $USD
                   </span>
@@ -165,7 +176,17 @@ const PoolStatsBox = () => {
                   </button>
                 </div>
                 <div className="flex flex-row items-center pl-[40px] gap-[5px]">
-                  <span>{tokenSupply ? (parseFloat(formatUnits(supply, 18)) * 100 / parseFloat(formatUnits(tokenSupply as unknown as bigint, 18))).toFixed(2) : 0}%</span>
+                  <span>
+                    {tokenSupply
+                      ? (
+                          (parseFloat(formatUnits(supply, 18)) * 100) /
+                          parseFloat(
+                            formatUnits(tokenSupply as unknown as bigint, 18),
+                          )
+                        ).toFixed(2)
+                      : 0}
+                    %
+                  </span>
                 </div>
               </div>
               <div className="flex flex-col gap-[14px]">
@@ -176,7 +197,11 @@ const PoolStatsBox = () => {
                   </span>
                 </div>
                 <div className="flex flex-row items-center pl-[40px] gap-[5px]">
-                  <span>{formatter.format(Math.round(parseFloat(formatUnits(rewardsPaid, 18))))}</span>
+                  <span>
+                    {formatter.format(
+                      Math.round(parseFloat(formatUnits(rewardsPaid, 18))),
+                    )}
+                  </span>
                   <span className="bg-[#0000004D] rounded-[8px] px-[8px] py-[5px] text-[10px]">
                     $LOCK
                   </span>
@@ -195,7 +220,7 @@ const PoolStatsBox = () => {
                     <span className="text-[18px] font-semibold rainbow-text">
                       {t('buyBack')}
                     </span>
-                    <span>{100-fallenWizardApyPercent}%</span>
+                    <span>{100 - fallenWizardApyPercent}%</span>
                   </div>
                 </div>
                 <div className="flex flex-row gap-[20px] items-center">

@@ -59,8 +59,6 @@ export const OrderDetailModalCollapsible = ({
   const isDeleted = status === ORDER_STATUS.DELETED
   const isExpired = status === ORDER_STATUS.EXPIRED
 
-  console.log(order)
-
   const toggleOpen = () => setIsExpanded(!isExpanded)
 
   const { findTokenBySymbol, getAddressUrl, getTokenDetails } = useTokens()

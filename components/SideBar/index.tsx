@@ -15,20 +15,21 @@ import {
   SidebarQuestionSvg,
   WidthrawSvg,
 } from '../Svg'
+import Link from 'next/link'
 
 export function SideBar() {
   const value = 3
   const { t } = useTranslation()
   return (
     <div className="flex flex-col h-full lg:min-w-[271px] lg:max-w-[271px] min-w-[110px] max-w-[110px] pl-[29px] pr-[30px] pt-[44px] pb-[36px] overflow-y-auto custom-sidebar-background gap-[29px] lg:rounded-[50px] rounded-l-[50px]">
-      <a href="#" className="flex flex-col justify-center items-center">
+      <Link href="/" className="flex flex-col justify-center items-center">
         <SidebarBigLogo className="lg:w-[209px] lg:h-[71px] lg:block hidden fill-white" />
         <Image
           src={logo}
           className="w-[55px] h-[55px] lg:hidden block"
           alt="logo"
         />
-      </a>
+      </Link>
       <div className="flex flex-col justify-between h-full">
         <ul className="space-y-2 font-semibold text-[14px]">
           <li>

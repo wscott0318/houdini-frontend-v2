@@ -17,7 +17,7 @@ export default function History() {
           Activity History
         </span>
       </div>
-      <div className="flex flex-row gap-[40px]">
+      <div className="flex flex-row flex-wrap gap-[40px]">
         <HistoryModalBox />
       </div>
     </div>

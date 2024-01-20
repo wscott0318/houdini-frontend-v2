@@ -18,7 +18,7 @@ export default function Dashboard() {
           Welcome Back
         </span>
       </div>
-      <div className="flex flex-row gap-[40px]">
+      <div className="flex flex-row flex-wrap gap-[40px]">
         <BalanceBox />
         <PoolAPYBox />
       </div>

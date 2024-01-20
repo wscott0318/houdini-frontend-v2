@@ -10,7 +10,6 @@ export const Logo = ({ isHeader = false }: { isHeader?: boolean }) => {
 
   function handleClick(event: React.MouseEvent) {
     const target = event.target as HTMLElement
-    console.log('target', target)
     if (target && target.id !== 'xblock') {
       router.push('/')
     }

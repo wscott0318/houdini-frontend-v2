@@ -243,8 +243,6 @@ export default function BugBountyProgram() {
       }
 
       console.log('errors', errors)
-      console.log(email, telegram, discord, twitter, description, files)
-
       if (errors) {
         return
       }
