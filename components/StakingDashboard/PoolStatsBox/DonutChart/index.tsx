@@ -1,11 +1,11 @@
 import * as d3 from 'd3'
 import React, { useEffect, useRef } from 'react'
 
-const DonutChart = () => {
+const DonutChart = ({fallen}: any) => {
   const chartRef = useRef(null)
 
   useEffect(() => {
-    const data = [90, 10]
+    const data = [100-fallen, fallen]
 
     const width = 150
     const height = 150

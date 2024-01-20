@@ -17,7 +17,7 @@ import { useScaffoldContract, useScaffoldContractRead } from '@/staking/hooks/sc
 import { formatUnits } from 'viem'
 import { useNetwork } from 'wagmi'
 
-const formatter = Intl.NumberFormat('en', { notation: 'compact'});
+const formatter = Intl.NumberFormat('en', { notation: 'compact' });
 const USD_DECIMALS = 6;
 
 
@@ -41,7 +41,21 @@ const PoolStatsBox = () => {
   const { chain } = useNetwork();
   const { t } = useTranslation()
   // Pool stats
-  const [pool, setPool] = useState<any>();
+  const [pool, setPool] = useState<{
+    earlyUnstakeFee: bigint
+    fallenDripWizardDuration: bigint
+    fallenWizardFunds: bigint
+    lastUpdateTime: bigint
+    locked: boolean
+    minWithdrawCooldown: bigint
+    periodFinish: bigint
+    rewardPerTokenStored: bigint
+    rewardRate: bigint
+    rewardsDuration: bigint
+    rewardsEnabled: boolean
+    totalRewardFunds: bigint
+    totalRewardsPaid: bigint
+  }>();
   const [supply, setSupply] = useState(0n);
   const [weightedSupply, setWeightedSupply] = useState(0n);
   const [rewardForDuration, setRewardForDuration] = useState(0n);
@@ -49,9 +63,10 @@ const PoolStatsBox = () => {
   const [rewardRemaining, setRewardRemaining] = useState(0n);
   const [rewardsPaid, setRewardsPaid] = useState(0n);
 
-  const {data: stakerContract} = useScaffoldContract({contractName: "Staker"})
-  const {data: tokenContract} = useScaffoldContract({contractName: "Houdini"})
+  const { data: stakerContract } = useScaffoldContract({ contractName: "Staker" })
+  const { data: tokenContract } = useScaffoldContract({ contractName: "Houdini" })
 
+  const fallenWizardApyPercent = parseFloat((Number(pool ? (pool?.fallenWizardFunds * 100n / pool?.totalRewardFunds) : 0n)).toFixed(2));
 
   const { data: poolData } = useScaffoldContractRead({
     contractName: "Staker",
@@ -66,7 +81,7 @@ const PoolStatsBox = () => {
   } as any);
 
 
-  const addressPath = [tokenContract?.address, addresses[chain?.id ?? 1].weth, addresses[chain?.id?? 1].usd];
+  const addressPath = [tokenContract?.address, addresses[chain?.id ?? 1].weth, addresses[chain?.id ?? 1].usd];
   const { data: tvl } = useScaffoldContractRead({
     contractName: "UniswapRouter2",
     functionName: "getAmountsOut",
@@ -172,7 +187,7 @@ const PoolStatsBox = () => {
           <div className="flex flex-col gap-[17px]">
             <span className="text-[20px]">{t('lastWeeksAPYbreakdown')}</span>
             <div className="flex flex-row gap-[71px]">
-              <DonutChart />
+              <DonutChart fallen={fallenWizardApyPercent} />
               <div className="flex flex-col gap-[16px]">
                 <div className="flex flex-row gap-[20px] items-center">
                   <div className="w-[10px] h-[36px] bg-gradient-to-b from-[#BCAAFF] to-[#B364D1] rounded-t-[100px] rounded-b-[100px]"></div>
@@ -180,7 +195,7 @@ const PoolStatsBox = () => {
                     <span className="text-[18px] font-semibold rainbow-text">
                       {t('buyBack')}
                     </span>
-                    <span>90%</span>
+                    <span>{100-fallenWizardApyPercent}%</span>
                   </div>
                 </div>
                 <div className="flex flex-row gap-[20px] items-center">
@@ -189,7 +204,7 @@ const PoolStatsBox = () => {
                     <span className="text-[18px] font-semibold rainbow-text">
                       {t('fallenWizards')}
                     </span>
-                    <span>10%</span>
+                    <span>{fallenWizardApyPercent}%</span>
                   </div>
                 </div>
               </div>
