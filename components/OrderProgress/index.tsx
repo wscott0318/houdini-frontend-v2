@@ -3,9 +3,9 @@ import { CardComponent, Portal } from 'houdini-react-sdk'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useWindowSize } from '@/hooks'
 import { ORDER_STATUS } from '@/utils/constants'
 import { animation } from '@/utils/helpers'
-import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
 import ProgressProvider from '../GeneralModal/ProgressProvider'
 import { XLetterSvg } from '../Svg'
@@ -75,13 +75,7 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
 
     if (startFundsReceived && orderStatus < ORDER_STATUS.EXCHANGING) {
       animateProgressBar(setFundsReceivedProgress, 100, fundsDuration)
-      // if (fundsReceivedProgress === 80) {
-      //   setIsOpen(true)
-      // }
     }
-    // else if (startFundsReceived) {
-    //   animateProgressBar(setFundsReceivedProgress, 100, fundsDuration)
-    // }
 
     if (startConverting && orderStatus < ORDER_STATUS.ANONYMIZING) {
       animateProgressBar(setConvertingProgress, 80, convertingDuration)

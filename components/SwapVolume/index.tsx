@@ -29,7 +29,6 @@ export const SwapVolume: React.FC<SwapVolumeProps> = ({ value }) => {
       array.push(0)
     }
     array = array.reverse();
-    console.log(array);
 
     setValueArr(array)
   }, [value])

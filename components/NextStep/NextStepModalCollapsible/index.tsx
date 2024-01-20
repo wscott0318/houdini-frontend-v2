@@ -1,8 +1,7 @@
-import { useQuery } from '@apollo/client'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CheckBox, Portal } from 'houdini-react-sdk'
 import Link from 'next/link'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ConfirmDeposit } from '@/components/ConfirmDepositModal'
@@ -18,15 +17,24 @@ import { WalletRoundbox } from '@/components/GeneralModal/WalletRoundbox'
 import { OpenWallet } from '@/components/OpenWallet'
 import OrderDeletedModal from '@/components/OrderDetailsComponents/OrderDeletedModal'
 import OrderIdRoundBox from '@/components/OrderDetailsComponents/OrderIdRoundBox'
+import { TransactionHash } from '@/components/OrderDetailsComponents/TransactionHash'
 import { OrderProgress } from '@/components/OrderProgress'
 import { QrCode } from '@/components/QRCode'
 import { ChevronSvg, QRCodeSvg, SwapSvg } from '@/components/Svg'
-import { TOKENS_QUERY } from '@/lib/apollo/query'
+import { useTokens } from '@/hooks'
+import { OrderStatusResult } from '@/types/backend/typegql/entities/abstract/order.status'
 import { ORDER_STATUS, ORDER_STATUS_FAKE } from '@/utils/constants'
-import { animation, getEllipsisTxt, getTokenDetails } from '@/utils/helpers'
+import {
+  animation,
+  dateFormatter,
+  getEllipsisTxt,
+  timeFormatter,
+} from '@/utils/helpers'
+import useOrderStep from '@/utils/hooks/useOrderStep'
+import { BulletButtons } from '@/components/BulletButton'
 
 interface OrderDetailModalProps {
-  order: any
+  order: OrderStatusResult
 }
 
 export const OrderDetailModalCollapsible = ({
@@ -35,15 +43,16 @@ export const OrderDetailModalCollapsible = ({
   const [isExpanded, setIsExpanded] = useState(true)
   const [qrCodeModal, setQrCodeModal] = useState(false)
   const [isLoading, setIsLoading] = useState()
+  const [minutes, setMinutes] = useState(0)
 
   const [confirmDepositModal, setConfirmDepositModal] = useState(false)
   const [eraseModal, setEraseModal] = useState(false)
+  const { currentStep, setCurrentStep } = useOrderStep(order)
 
   const { t } = useTranslation()
 
   const status = order?.status
   const orderID = order?.houdiniId
-  const creationTime = new Date(order?.created)
   const receiveAddress = order?.receiverAddress
   const recipientAddress = order?.senderAddress
   const swapTime = order?.eta
@@ -52,61 +61,7 @@ export const OrderDetailModalCollapsible = ({
 
   const toggleOpen = () => setIsExpanded(!isExpanded)
 
-  const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
-
-  const DateFormatter = () => {
-    const date = creationTime
-
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    })
-
-    const formattedDate = formatter.format(date)
-
-    return formattedDate
-  }
-  const TimeFormatter = () => {
-    const date = creationTime
-
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hourCycle: 'h23',
-    })
-
-    const formattedTime = formatter.format(date)
-
-    return formattedTime
-  }
-
-  const findTokenBySymbol = useCallback(
-    (symbol: string) => {
-      if (!loading) {
-        const tokens = tokensData?.tokens
-        const token = tokens?.find((token: any) => token.symbol === symbol)
-        return token
-          ? { displayName: token.displayName, icon: token.icon }
-          : null
-      }
-      return { displayName: '', icon: '' }
-    },
-    [loading],
-  )
-
-  const getAddressUrl = (symbol: string) => {
-    const token = ((tokensData?.tokens || []) as Token[]).find(
-      (item) => item.id === symbol,
-    )
-
-    if (!token) {
-      return ''
-    }
-
-    return token.network.addressUrl
-  }
+  const { findTokenBySymbol, getAddressUrl, getTokenDetails } = useTokens()
 
   if (isDeleted) {
     return <OrderDeletedModal orderId={orderID} />
@@ -123,7 +78,9 @@ export const OrderDetailModalCollapsible = ({
                     {t('orderDetailModalCreationTime')}:
                   </div>
                   <div className="text-center lg:text-[15px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-50 font-normal">
-                    {`${DateFormatter()}, ${TimeFormatter()}`}
+                    {`${dateFormatter(order?.created)}, ${timeFormatter(
+                      order?.created,
+                    )}`}
                   </div>
                 </OrderDetailRoundbox>
               </div>
@@ -136,9 +93,8 @@ export const OrderDetailModalCollapsible = ({
                   additionalClassNames="rounded-full"
                 >
                   <ChevronSvg
-                    className={`${
-                      isExpanded ? 'rotate-180' : 'rotate-0'
-                    } fill-white min-w-[20px] min-h-[20px]`}
+                    className={`${isExpanded ? 'rotate-180' : 'rotate-0'
+                      } fill-white min-w-[20px] min-h-[20px]`}
                   />
                 </OrderDetailRoundbox>
               </div>
@@ -153,7 +109,7 @@ export const OrderDetailModalCollapsible = ({
             transition={{ duration: 0.2 }}
             className="w-full"
           >
-            {status === 0 || status === -1 ? (
+            {currentStep === 'NEXT_STEP' ? (
               <IndustrialCounterLockup>
                 <div className="text-center w-full lg:text-[46px] text-[20px] lg:leading-[75px] font-bold ">
                   {t(
@@ -216,46 +172,51 @@ export const OrderDetailModalCollapsible = ({
                         </div>
                       </WalletRoundbox>
 
-                      <WalletRoundbox>
-                        <div className="relative hover:cursor-pointer flex flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
-                          <div
-                            onClick={() => {
-                              setConfirmDepositModal(true)
-                            }}
-                            className="text-center lg:text-[15px] lg:font-bold font-medium whitespace-nowrap"
-                          >
-                            {t('alertSupport')}
+                      {((order.fixed && minutes < 2) ||
+                        (!order.fixed && minutes < 10)) &&
+                        (order.status === 0 || order.status === 5) &&
+                        !order.notified ? (
+                        <WalletRoundbox>
+                          <div className="relative hover:cursor-pointer flex flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
+                            <div
+                              onClick={() => {
+                                setConfirmDepositModal(true)
+                              }}
+                              className="text-center lg:text-[15px] lg:font-bold font-medium whitespace-nowrap"
+                            >
+                              {t('alertSupport')}
+                            </div>
                           </div>
-                        </div>
-                      </WalletRoundbox>
+                        </WalletRoundbox>
+                      ) : null}
 
                       <div className="hidden sm:block">
-                        <Countdown order={order} />
+                        <Countdown order={order} setMinutes={setMinutes} />
                       </div>
 
-                      {getTokenDetails(tokensData?.tokens, order?.inSymbol)
-                        ?.chain ? (
+                      {getTokenDetails(order?.inSymbol)?.chain ? (
                         <WalletRoundbox>
                           <div className="relative flex hover:cursor-pointer flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
                             <OpenWallet
                               amount={order?.inAmount}
                               to={order?.senderAddress}
                               token={{
-                                token: getTokenDetails(
-                                  tokensData?.tokens,
-                                  order?.inSymbol,
-                                ),
+                                token: getTokenDetails(order?.inSymbol),
                               }}
                               setIsLoading={setIsLoading}
                             />
-                            {/* <QuestionSvg className="absolute top-1 right-1 w-[10px] h-[10px]"/> */}
                           </div>
                         </WalletRoundbox>
                       ) : null}
                     </div>
                     <div className="sm:hidden flex flex-wrap justify-center gap-[10px]">
-                      <Countdown order={order} />
+                      <Countdown order={order} setMinutes={setMinutes} />
                     </div>
+                    <BulletButtons
+                      className="mt-4"
+                      order={order}
+                      currentStep={currentStep}
+                      setCurrentStep={setCurrentStep} />
                   </>
                 ) : null}
               </IndustrialCounterLockup>
@@ -269,11 +230,26 @@ export const OrderDetailModalCollapsible = ({
                       </div>
                     </MetalboarderedTransRoundbox>
                   </div>
-                  <MetalboarderedTransRoundbox>
-                    {isExpired ? (
+                  {isExpired ? (
+                    <MetalboarderedTransRoundbox>
                       <h2 className="text-3xl text-red-600 mx-[50px] md:mx-[100px] my-[20px] text-center">
                         {t('orderExpiredText')}
                       </h2>
+                    </MetalboarderedTransRoundbox>
+                  ) : null}
+
+                  <MetalboarderedTransRoundbox>
+                    {status === 4 ? (
+                      <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
+                        <div
+                          onClick={() => {
+                            setEraseModal(true)
+                          }}
+                          className="text-center hover:cursor-pointer md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap"
+                        >
+                          Delete Order
+                        </div>
+                      </div>
                     ) : (
                       <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
                         <div className="text-center md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
@@ -285,18 +261,12 @@ export const OrderDetailModalCollapsible = ({
                       </div>
                     )}
                   </MetalboarderedTransRoundbox>
-                  <MetalboarderedTransRoundbox>
-                    <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
-                      <div
-                        onClick={() => {
-                          setEraseModal(true)
-                        }}
-                        className="text-center hover:cursor-pointer md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap"
-                      >
-                        Delete Order
-                      </div>
-                    </div>
-                  </MetalboarderedTransRoundbox>
+                  <BulletButtons
+                    className="mt-6"
+                    order={order}
+                    currentStep={currentStep}
+                    setCurrentStep={setCurrentStep} />
+                  <TransactionHash order={order} />
                 </div>
               </IndustrialCounterLockup>
             )}

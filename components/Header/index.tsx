@@ -3,19 +3,18 @@
 import { AnimatePresence } from 'framer-motion'
 import { Portal } from 'houdini-react-sdk'
 import { get } from 'lodash'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import { Drawer } from '@/components/Drawer'
 import { Logo } from '@/components/Footer/Logo'
 import { HamburgerSvg, SmokeSvg } from '@/components/Svg'
 import LanguageDropDown from '@/components/Translate/LanguageDropDown'
+import { useLockScroll, useWindowSize } from '@/hooks'
 import languages from '@/lib/locales/languages'
-import useLockScroll from '@/utils/hooks/useLockScroll'
-import { useWindowSize } from '@/utils/hooks/useWindowSize'
 import { smokeEffect } from '@/utils/smokeEffect'
 
 import { Navbar } from './Navbar'
-import Image from 'next/image'
 
 export function Header() {
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -59,11 +58,17 @@ export function Header() {
           <div className="flex flex-row gap-2 justify-center items-center absolute right-0 mt-[-12px]">
             <button
               aria-label="Toggle smoke effect"
-              className={`rounded-[4px] p-[4px] flex justify-center items-center ${isSmokeEnabled ? 'box-content w-[24px] h-[24px] bg-[#81818140]' : 'w-[32px] h-[32px] border-2 border-[#81818140] bg-[transparent]'}`}
+              className={`rounded-[4px] p-[4px] flex justify-center items-center ${
+                isSmokeEnabled
+                  ? 'box-content w-[24px] h-[24px] bg-[#81818140]'
+                  : 'w-[32px] h-[32px] border-2 border-[#81818140] bg-[transparent]'
+              }`}
               onClick={handleSmokeToggle}
             >
               <SmokeSvg
-                className={`${isSmokeEnabled ? '' : 'bg-[transparent] opacity-50'} w-[20px] h-[20px] hover:scale-110`}
+                className={`${
+                  isSmokeEnabled ? '' : 'bg-[transparent] opacity-50'
+                } w-[20px] h-[20px] hover:scale-110`}
               />
             </button>
             <button
@@ -74,8 +79,8 @@ export function Header() {
                 <Image
                   src={get(languages, `${selectedLang}.flag`).src}
                   alt="Language"
-                  width='28'
-                  height='20'
+                  width="28"
+                  height="20"
                 />
               </div>
               <LanguageDropDown
@@ -86,7 +91,7 @@ export function Header() {
               />
             </button>
           </div>
-        </div >
+        </div>
         <div className="w-full">
           <nav className="col-span-1 flex flex-row justify-between w-full items-center">
             <Logo isHeader={true} />
@@ -103,7 +108,7 @@ export function Header() {
             {width >= 1024 ? <Navbar /> : null}
           </nav>
         </div>
-      </div >
+      </div>
       <AnimatePresence>
         {drawerOpen && width < 1024 ? (
           <Portal>

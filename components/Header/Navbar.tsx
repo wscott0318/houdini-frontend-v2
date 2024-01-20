@@ -4,13 +4,11 @@ import { CardComponent, SearchInput } from 'houdini-react-sdk'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-
-import { ChevronSvg } from '@/components/Svg'
-import { useWindowSize } from '@/utils/hooks/useWindowSize'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-import useHandleClickAway from '@/utils/hooks/useHandleClickAway'
 
+import { ChevronSvg } from '@/components/Svg'
+import { useHandleClickAway, useWindowSize } from '@/hooks'
 
 const Links = ({ setIsOpen }: { setIsOpen?: any }) => {
   const closeNav = () => setIsOpen(false)
@@ -19,7 +17,7 @@ const Links = ({ setIsOpen }: { setIsOpen?: any }) => {
       <Link
         onClick={closeNav}
         className="hover:gradient-text"
-        href="/dashboard"
+        href="/staking-dashboard"
       >
         <span>Stake</span>
       </Link>
@@ -27,8 +25,8 @@ const Links = ({ setIsOpen }: { setIsOpen?: any }) => {
         onClick={closeNav}
         className="hover:gradient-text"
         href="https://docs.houdiniswap.com/houdini-swap/get-started/how-it-works"
-        target='_blank'
-        rel='noopener noreferrer'
+        target="_blank"
+        rel="noopener noreferrer"
       >
         <span>How it Works</span>
       </Link>
@@ -36,8 +34,8 @@ const Links = ({ setIsOpen }: { setIsOpen?: any }) => {
         onClick={closeNav}
         className="hover:gradient-text"
         href="https://docs.houdiniswap.com/houdini-swap/faqs"
-        target='_blank'
-        rel='noopener noreferrer'
+        target="_blank"
+        rel="noopener noreferrer"
       >
         <span>FAQs</span>
       </Link>
@@ -59,7 +57,7 @@ const CommonNavbar = ({ setIsOpen }: { setIsOpen?: any }) => {
     const delayDebounce = setTimeout(() => {
       if (searchTerm?.length === 22) {
         router.push(`/order-details?houdiniId=${searchTerm}`)
-        setSearchTerm('');
+        setSearchTerm('')
       } else if (searchTerm?.length > 0) {
         toast.error(t('invalidId'))
       }
@@ -87,11 +85,15 @@ const CommonNavbar = ({ setIsOpen }: { setIsOpen?: any }) => {
       >
         <span className="group-hover:gradient-text">$LOCK</span>
         <ChevronSvg
-          className={`${openDropdown ? 'rotate-180' : 'rotate-0'
-            } fill-white mt-0.5 group-hover:fill-[#F5C341]`}
+          className={`${
+            openDropdown ? 'rotate-180' : 'rotate-0'
+          } fill-white mt-0.5 group-hover:fill-[#F5C341]`}
         />
         {openDropdown && (
-          <menu ref={lockMenuRef} className="absolute top-full lg:right-0 mt-2 flex flex-col justify-between items-center p-1">
+          <menu
+            ref={lockMenuRef}
+            className="absolute top-full lg:right-0 mt-2 flex flex-col justify-between items-center p-1"
+          >
             <CardComponent widthClass="w-[210px]" heightClass="h-[80px]">
               <div className="flex flex-col justify-start items-start">
                 <Link
@@ -129,8 +131,9 @@ export const Navbar = ({ setIsOpen }: { setIsOpen?: any }) => {
 
   return (
     <div
-      className={`${width < 1024 ? mobileClassName : desktopClassName
-        } justify-center items-center gap-[35px] text-[19px] leading-[25px] font-normal`}
+      className={`${
+        width < 1024 ? mobileClassName : desktopClassName
+      } justify-center items-center gap-[35px] text-[19px] leading-[25px] font-normal`}
     >
       <CommonNavbar setIsOpen={setIsOpen} />
     </div>

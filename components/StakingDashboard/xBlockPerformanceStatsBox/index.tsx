@@ -1,12 +1,30 @@
-import React from 'react'
+import { useQuery } from '@apollo/client'
+import Humanize from 'humanize-plus'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { QuestionMarkSvg } from '@/components/Svg'
+import { PERFORMANCE_STATS_QUERY } from '@/lib/apollo/query'
 
 import CTAButton from '../CTAButton'
 
 const XBlockPerformanceStatsBox = () => {
   const { t } = useTranslation()
+
+  const { data, loading } = useQuery(PERFORMANCE_STATS_QUERY)
+
+  const [totalVolume, setTotalVolume] = useState<any>()
+  const [lastMonthVolume, setLastMonthVolume] = useState<any>()
+  const [lastWeekVolume, setLastWeekVolume] = useState<any>()
+
+  useEffect(() => {
+    if (!loading && data) {
+      setTotalVolume(data?.totalVolume)
+      setLastMonthVolume(data?.lastMonth)
+      setLastWeekVolume(data?.lastWeek)
+    }
+  }, [loading, data])
+
   return (
     <div className="flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-[422px] h-[447px] p-[1px]">
       <div className="w-full h-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow">
@@ -24,7 +42,7 @@ const XBlockPerformanceStatsBox = () => {
                   {t('lastWeekSwaps')}
                 </span>
                 <span className="text-[20px] font-medium leading-normal">
-                  1,234,456
+                  {Humanize.formatNumber(lastWeekVolume?.count) ?? 0}
                 </span>
               </div>
               <div className="flex flex-col gap-[10px]">
@@ -32,7 +50,7 @@ const XBlockPerformanceStatsBox = () => {
                   {t('totalSwaps')}
                 </span>
                 <span className="text-[20px] font-medium leading-normal">
-                  34,456,030
+                  {Humanize.formatNumber(totalVolume?.count) ?? 0}
                 </span>
               </div>
             </div>
@@ -43,7 +61,9 @@ const XBlockPerformanceStatsBox = () => {
                 </span>
                 <div className="flex flex-row gap-[5px] items-center">
                   <span className="text-[20px] font-medium leading-normal">
-                    34,456,030
+                    {Humanize.formatNumber(
+                      lastMonthVolume?.totalTransactedUSD,
+                    ) ?? 0}
                   </span>
                   <span className="bg-[#0000004D] rounded-[8px] px-[8px] py-[5px] text-[10px]">
                     $USD
@@ -56,7 +76,8 @@ const XBlockPerformanceStatsBox = () => {
                 </span>
                 <div className="flex flex-row gap-[5px] items-center">
                   <span className="text-[20px] font-medium leading-normal">
-                    34,456,030
+                    {Humanize.formatNumber(totalVolume?.totalTransactedUSD) ??
+                      0}
                   </span>
                   <span className="bg-[#0000004D] rounded-[8px] px-[8px] py-[5px] text-[10px]">
                     $USD
@@ -71,7 +92,8 @@ const XBlockPerformanceStatsBox = () => {
                 </span>
                 <div className="flex flex-row gap-[5px] items-center">
                   <span className="text-[20px] font-medium leading-normal">
-                    4,456.00
+                    {Humanize.formatNumber(lastWeekVolume?.totalBuybackUSD) ??
+                      0}
                   </span>
                   <span className="bg-[#0000004D] rounded-[8px] px-[8px] py-[5px] text-[10px]">
                     $USD
@@ -83,7 +105,10 @@ const XBlockPerformanceStatsBox = () => {
                   {t('totalBuybacks')}
                 </span>
                 <div className="flex flex-row gap-[5px] items-center">
-                  <span className="text-[20px] font-medium">3,234,456.00</span>
+                  <span className="text-[20px] font-medium">
+                    {Humanize.formatNumber(totalVolume?.totalBuybackUSD) ??
+                      0}
+                  </span>
                   <span className="bg-[#0000004D] rounded-[8px] px-[8px] py-[5px] text-[10px]">
                     $USD
                   </span>

@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react'
 
-export const Countdown = ({
+import { OrderStatusResult } from '@/types/backend/typegql/entities/abstract/order.status'
+
+interface CountdownProps {
+  order: OrderStatusResult
+  setMinutes?: (value: number) => void
+}
+
+export const Countdown: React.FC<CountdownProps> = ({
   order: { status, fixed, anonymous, created },
-}: any) => {
+  setMinutes,
+}) => {
   const [timerMinutes, setTimerMinutes] = useState(30) // default to 30 to avoid marking it expired by default
   const [timerSeconds, setTimerSeconds] = useState(0)
 
@@ -30,9 +38,17 @@ export const Countdown = ({
           clearInterval(id)
           setTimerMinutes(0)
           setTimerSeconds(0)
+
+          if (setMinutes) {
+            setMinutes(0)
+          }
         } else {
           setTimerMinutes(minutes)
           setTimerSeconds(seconds)
+
+          if (setMinutes) {
+            setMinutes(minutes)
+          }
         }
       }, 1000)
     }

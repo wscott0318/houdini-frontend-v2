@@ -1,9 +1,10 @@
-import i18n from '@/app/i18n'
-import languages from '@/lib/locales/languages'
-import useHandleClickAway from '@/utils/hooks/useHandleClickAway'
 import { get, map } from 'lodash'
 import React, { Dispatch, SetStateAction, useEffect } from 'react'
 import { withTranslation } from 'react-i18next'
+
+import i18n from '@/app/i18n'
+import { useHandleClickAway } from '@/hooks'
+import languages from '@/lib/locales/languages'
 
 const LanguageDropdown = ({
   open,
@@ -36,22 +37,32 @@ const LanguageDropdown = ({
           <menu ref={menuRef} className="language-switch dropdown-menu-end">
             {map(Object.keys(languages), (key: any) => {
               const isDisabled = key !== 'en'
-              return <li className={isDisabled ? 'cursor-not-allowed' : undefined} key={key}>
-                <div
-                  onClick={() => !isDisabled && changeLanguageAction(key)}
-                  className={`flex flex-row items-center justify-start gap-2 px-2 py-0.5 ${selectedLang === key ? 'rounded bg-[#404040]' : 'none'
-                    } ${isDisabled ? 'opacity-50 pointer-events-none' : 'hover:rounded hover:bg-[#404040]'}`}
+              return (
+                <li
+                  className={isDisabled ? 'cursor-not-allowed' : undefined}
+                  key={key}
                 >
-                  <span className="text-white ">
-                    {get(languages, `${key}.label`)}
-                  </span>
-                </div></li>
+                  <div
+                    onClick={() => !isDisabled && changeLanguageAction(key)}
+                    className={`flex flex-row items-center justify-start gap-2 px-2 py-0.5 ${
+                      selectedLang === key ? 'rounded bg-[#404040]' : 'none'
+                    } ${
+                      isDisabled
+                        ? 'opacity-50 pointer-events-none'
+                        : 'hover:rounded hover:bg-[#404040]'
+                    }`}
+                  >
+                    <span className="text-white ">
+                      {get(languages, `${key}.label`)}
+                    </span>
+                  </div>
+                </li>
+              )
             })}
-
           </menu>
         </div>
       )}
-    </div >
+    </div>
   )
 }
 

@@ -85,3 +85,27 @@ export const ORDER_STATUS_FAKE: any = {
   7: 'REFUNDED',
   8: 'DELETED',
 }
+
+export const ORDER_STEPS = Object.freeze({
+  NEXT_STEP: 'NEXT_STEP',
+  ORDER_DETAILS: 'ORDER_DETAILS',
+})
+
+export type OrderStep = keyof typeof ORDER_STEPS
+
+export const ADDRESSES: any = {
+  1: {
+    weth: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+    usd: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+  },
+  31337: {
+    weth: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+    usd: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+  },
+  11155111: {
+    weth: '0x7b79995e5f793a07bc00c21412e50ecae098e7f9',
+    usd: '0x779877a7b0d9e8603169ddbd7836e478b4624789',
+  },
+}
+
+export const USD_DECIMALS = 6

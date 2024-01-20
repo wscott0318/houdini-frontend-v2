@@ -7,7 +7,7 @@ import { useAccount, useToken } from 'wagmi'
 import { useBalance } from 'wagmi'
 
 import { StakeMoreSvg } from '@/components/Svg'
-import { useScaffoldContractWrite } from '@/contracts/hooks/scaffold-eth'
+import { useScaffoldContractWrite } from '@/staking/hooks/scaffold-eth'
 
 import QTYButton from '../QTYButton'
 import SwitchButton from './SwitchButton'

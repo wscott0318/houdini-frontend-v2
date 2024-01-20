@@ -46,10 +46,10 @@ import {
   XenifySvg,
 } from '@/components/Svg'
 import { SwapVolume } from '@/components/SwapVolume'
+import { useWindowSize } from '@/hooks'
 import { TOTAL_VOLUME_QUERY } from '@/lib/apollo/query'
 import { swapFormi18n, swapi18n } from '@/utils/constants'
 import { kformatter } from '@/utils/helpers'
-import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
 const partnersIcons = [
   <BulletSvg className="w-[133px] h-[35px] gap-[60px]" key="bulletsvg" />,
@@ -159,7 +159,11 @@ export default function Home() {
               }
             />
 
-            <div className="w-[260px] rounded-[24px] h-[140px] sm:flex hidden flex-col justify-center items-center">
+            <div
+              className={`${
+                widgetMode ? 'rounded-[24px]' : 'rounded-[20px]'
+              } w-[260px] lg:rounded-[35px]  h-[140px] sm:flex hidden flex-col justify-center items-center`}
+            >
               <CardComponent>
                 <div className="lg:py-5">
                   <div className="text-[23px] rainbow-text leading-[34px] text-center font-light">

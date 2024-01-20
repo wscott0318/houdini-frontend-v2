@@ -17,11 +17,11 @@ export default function Performance() {
 
   return (
     <div className="px-[50px] pt-[50px] pb-[60px] flex flex-col gap-[40px]">
-      <div className="flex lg:flex-row gap-[50px] flex-col">
+      <div className="flex xl:flex-row gap-[50px] flex-col">
         <div className="flex flex-col justify-between">
           <div className="flex flex-col">
             <span className="text-[24px] font-medium leading-[32px] text-[#fff]">
-              Hi Houdini-ID, here’s some
+              Hi Houdini Wizard, here’s some
             </span>
             <span className="text-[48px] font-semibold leading-[32px] text-[#fff]">
               Performance Data

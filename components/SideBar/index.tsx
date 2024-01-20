@@ -15,25 +15,26 @@ import {
   SidebarQuestionSvg,
   WidthrawSvg,
 } from '../Svg'
+import Link from 'next/link'
 
 export function SideBar() {
   const value = 3
   const { t } = useTranslation()
   return (
     <div className="flex flex-col h-full lg:min-w-[271px] lg:max-w-[271px] min-w-[110px] max-w-[110px] pl-[29px] pr-[30px] pt-[44px] pb-[36px] overflow-y-auto custom-sidebar-background gap-[29px] lg:rounded-[50px] rounded-l-[50px]">
-      <a href="#" className="flex flex-col justify-center items-center">
+      <Link href="/" className="flex flex-col justify-center items-center">
         <SidebarBigLogo className="lg:w-[209px] lg:h-[71px] lg:block hidden fill-white" />
         <Image
           src={logo}
           className="w-[55px] h-[55px] lg:hidden block"
           alt="logo"
         />
-      </a>
+      </Link>
       <div className="flex flex-col justify-between h-full">
         <ul className="space-y-2 font-semibold text-[14px]">
           <li>
             <a
-              href="#"
+              href="/staking-dashboard"
               className="flex items-center p-[16px] text-[#A0AEC0]  hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
             >
               <IconSvg className="w-[24px] h-[24px] stroke-white" />
@@ -44,7 +45,7 @@ export function SideBar() {
           </li>
           <li>
             <a
-              href="#"
+              href="/staking-dashboard/performance"
               className="flex items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
             >
               <ChartSvg className="w-[24px] h-[24px] " />
@@ -55,7 +56,7 @@ export function SideBar() {
           </li>
           <li>
             <a
-              href="#"
+              href="/staking-dashboard/history"
               className="flex items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
             >
               <DocumentSvg className="w-[24px] h-[24px] " />
@@ -64,9 +65,9 @@ export function SideBar() {
               </span>
             </a>
           </li>
-          <li>
+          {/* <li>
             <a
-              href="#"
+              href="/staking-dashboard/notifications"
               className="flex justify-between items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
             >
               <div className="relative flex items-center">
@@ -82,8 +83,8 @@ export function SideBar() {
                 {value}
               </span>
             </a>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <a
               href="#"
               className="flex items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
@@ -93,7 +94,7 @@ export function SideBar() {
                 {t('sidebarSettings')}
               </span>
             </a>
-          </li>
+          </li> */}
         </ul>
         <ul className="space-y-2 font-semibold text-[14px]">
           <li>
@@ -109,7 +110,8 @@ export function SideBar() {
           </li>
           <li>
             <a
-              href="#"
+              target='_blank'
+              href="https://t.me/HoudiniSwapSupport_bot"
               className="flex items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
             >
               <SidebarQuestionSvg className="w-[24px] h-[24px] fill-white" />

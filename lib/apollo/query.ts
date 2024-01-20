@@ -440,7 +440,6 @@ export const PERFORMANCE_STATS_QUERY = gql`
       totalBuyback
       totalBuybackUSD
     }
-
     nextBurnAmount: config(key: "burn_amount") {
       value
     }

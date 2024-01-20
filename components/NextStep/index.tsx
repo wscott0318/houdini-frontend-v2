@@ -2,10 +2,19 @@ import { useSearchParams } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
 
 import { NeedHelp } from '@/components/NeedHelp'
+import { OrderStep } from '@/utils/constants'
 
 import { OrderDetailModal } from './NextStepModal'
 
-export const NextStep = ({ order }: { order: any }) => {
+export const NextStep = ({
+  order,
+  setCurrentStep,
+  currentStep,
+}: {
+  order: any
+  setCurrentStep: Function
+  currentStep: OrderStep
+}) => {
   const searchParams = useSearchParams()
 
   const widgetMode = searchParams.get('widgetMode')
@@ -33,8 +42,11 @@ export const NextStep = ({ order }: { order: any }) => {
       </div>
       <div className={`flex flex-col ${!widgetMode ? 'last:pb-[165px]' : ''}`}>
         <div className="flex flex-col items-center gap-[10px]">
-          <OrderDetailModal deliveryTime="26 : 34" order={order} />
-
+          <OrderDetailModal
+            order={order}
+            currentStep={currentStep}
+            setCurrentStep={setCurrentStep}
+          />
           {!widgetMode ? (
             <>
               <div className="flex flex-col lg:px-[100px] lg:pt-[30px] pt-[30px]">

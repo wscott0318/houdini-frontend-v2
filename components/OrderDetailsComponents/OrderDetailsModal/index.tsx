@@ -1,6 +1,5 @@
-import { useQuery } from '@apollo/client'
 import Link from 'next/link'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ConfirmDeposit } from '@/components/ConfirmDepositModal'
@@ -11,81 +10,32 @@ import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCou
 import { MetalboarderedTransRoundbox } from '@/components/GeneralModal/MetalboarderedTransRoundbox'
 import { OrderDetailRoundbox } from '@/components/GeneralModal/OrderDetailRoundbox'
 import { OrderProgress } from '@/components/OrderProgress'
-import { TOKENS_QUERY } from '@/lib/apollo/query'
-import { ORDER_STATUS } from '@/utils/constants'
+import { useTokens } from '@/hooks'
+import { ORDER_STATUS, OrderStep } from '@/utils/constants'
+import { OrderStatusResult } from '@/types/backend/typegql/entities/abstract/order.status'
+import { dateFormatter, timeFormatter } from '@/utils/helpers'
+import { BulletButtons } from '@/components/BulletButton'
+
+import { TransactionHash } from '../TransactionHash'
 
 interface OrderDetailsModalProps {
-  order: any
+  currentStep: OrderStep
+  setCurrentStep: Function
+  order: OrderStatusResult
 }
 
-export const OrderDetailsModal = ({ order }: OrderDetailsModalProps) => {
+export const OrderDetailsModal = ({ order, currentStep, setCurrentStep }: OrderDetailsModalProps) => {
   const [confirmDepositModal, setConfirmDepositModal] = useState(false)
   const [eraseModal, setEraseModal] = useState(false)
 
   const { t } = useTranslation()
-  const { data: tokensData, loading } = useQuery(TOKENS_QUERY)
 
-  const orderExpired = order?.status === ORDER_STATUS.EXPIRED
   const recipientWallet = order?.receiverAddress
-  const creationTime = new Date(order?.created)
   const orderId = order?.houdiniId
   const swapTime = order?.eta
+  const isExpired = order.status === ORDER_STATUS.EXPIRED
 
-  const DateFormatter = () => {
-    const date = creationTime
-
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    })
-
-    const formattedDate = formatter.format(date)
-
-    return formattedDate
-  }
-  const TimeFormatter = () => {
-    const date = creationTime
-
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hourCycle: 'h23',
-    })
-
-    const formattedTime = formatter.format(date)
-
-    return formattedTime
-  }
-
-  const findTokenBySymbol = useCallback(
-    (symbol: string) => {
-      if (!loading) {
-        const tokens = tokensData?.tokens
-        const token = tokens?.find((token: any) => token.symbol === symbol)
-
-        return token
-          ? { displayName: token.displayName, icon: token.icon }
-          : null
-      }
-
-      return { displayName: '', icon: '' }
-    },
-    [loading],
-  )
-
-  const getAddressUrl = (symbol: string) => {
-    const token = ((tokensData?.tokens || []) as Token[]).find(
-      (item) => item.id === symbol,
-    )
-
-    if (!token) {
-      return ''
-    }
-
-    return token.network.addressUrl
-  }
+  const { getAddressUrl, findTokenBySymbol, getExplorerUrl } = useTokens()
 
   return (
     <>
@@ -109,7 +59,9 @@ export const OrderDetailsModal = ({ order }: OrderDetailsModalProps) => {
                 {t('orderDetailModalCreationTime')}
               </div>
               <div className="text-center lg:text-[15px] text-[12px] text-[#FFFFFF] leading-[24px] text-opacity-50 font-normal">
-                {`${DateFormatter()}, ${TimeFormatter()}`}
+                {`${dateFormatter(order?.created)}, ${timeFormatter(
+                  order?.created,
+                )}`}
               </div>
             </OrderDetailRoundbox>
           </div>
@@ -123,11 +75,27 @@ export const OrderDetailsModal = ({ order }: OrderDetailsModalProps) => {
                 </div>
               </MetalboarderedTransRoundbox>
             </div>
-            <MetalboarderedTransRoundbox>
-              {orderExpired ? (
+
+            {isExpired ? (
+              <MetalboarderedTransRoundbox>
                 <h2 className="text-3xl text-red-600 mx-[50px] md:mx-[100px] my-[20px] text-center">
                   {t('orderExpiredText')}
                 </h2>
+              </MetalboarderedTransRoundbox>
+            ) : null}
+
+            <MetalboarderedTransRoundbox>
+              {order.status === 4 ? (
+                <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
+                  <div
+                    onClick={() => {
+                      setEraseModal(true)
+                    }}
+                    className="text-center hover:cursor-pointer md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap"
+                  >
+                    Delete Order
+                  </div>
+                </div>
               ) : (
                 <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
                   <div className="text-center md:text-[19px] md:leading-[24px] font-medium rainbow-text md:whitespace-nowrap">
@@ -139,7 +107,10 @@ export const OrderDetailsModal = ({ order }: OrderDetailsModalProps) => {
                 </div>
               )}
             </MetalboarderedTransRoundbox>
+
+            <TransactionHash order={order} />
           </div>
+          <BulletButtons className='mt-4' order={order} currentStep={currentStep} setCurrentStep={setCurrentStep} />
         </IndustrialCounterLockup>
 
         <div className="pt-[15px] lg:px-[10px] pb-[5px] w-full">
