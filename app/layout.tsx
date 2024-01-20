@@ -177,9 +177,9 @@ export default function RootLayout({ children }: LayoutProps) {
 
         <div id="portal"></div>
 
-        {/* {!widgetMode ? (
+        {!widgetMode ? (
           <canvas className="banner_canvas" id="canvas_banner" />
-        ) : null} */}
+        ) : null}
       </body>
     </html>
   )
