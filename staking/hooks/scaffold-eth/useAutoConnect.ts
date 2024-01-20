@@ -1,4 +1,4 @@
-import { useEffectOnce, useLocalStorage, useReadLocalStorage } from "usehooks-ts";
+// import { useEffectOnce, useLocalStorage, useReadLocalStorage } from "usehooks-ts";
 import { Chain, hardhat } from "viem/chains";
 import { Connector, useAccount, useConnect } from "wagmi";
 import scaffoldConfig from "~~/scaffold.config";
