@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import avatar from '@/assets/avatar.png'

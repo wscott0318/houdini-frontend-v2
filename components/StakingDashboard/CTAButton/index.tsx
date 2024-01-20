@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 
 interface CTAButtonProps {
-  width: string
-  height: string
+  width?: string
+  height?: string
   onClick?: () => void
   children?: React.ReactNode
 }

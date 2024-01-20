@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 interface QTYButtonProps {
   text: string
+  isSet: boolean
   onClick?: () => void
 }
 
@@ -24,9 +25,15 @@ export default function QTYButton(props: QTYButtonProps) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="px-[20px] py-[6px] rounded-[12px] bg-black text-[16px] font-semibold hover:bg-[#101115]">
-        {props.text}
-      </div>
+      {props.isSet == true ? (
+        <div className="px-[20px] py-[6px] rounded-[12px]  text-[16px] font-semibold bg-gradient-to-b from-[#6C5DD3] to-[#4154C9]">
+          {props.text}
+        </div>
+      ) : (
+        <div className="px-[20px] py-[6px] rounded-[12px] bg-black text-[16px] font-semibold hover:bg-[#101115]">
+          {props.text}
+        </div>
+      )}
     </div>
   )
 }
