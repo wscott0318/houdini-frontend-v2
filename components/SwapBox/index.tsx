@@ -393,7 +393,6 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
 
           try {
             swapsImport = JSON.parse(res.data.getShortUrl.swaps)
-            console.log('swapsImport', swapsImport)
           } catch (error) {
             return
           }
@@ -653,7 +652,6 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
 
   // useEffect(() => {
   //   if (importedSwaps) {
-  //     console.log('intru aici!!!', swaps.length > 1 ? true : false)
   //     setIsMulti()
   //   }
   // }, [importedSwaps, swaps])

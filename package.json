@@ -30,6 +30,7 @@
     "dayjs": "^1.11.10",
     "framer-motion": "^10.17.6",
     "houdini-react-sdk": "0.0.104",
+    "humanize-plus": "^1.8.2",
     "husky": "^8.0.3",
     "i18next": "^23.7.16",
     "i18next-browser-languagedetector": "^7.2.0",

@@ -8,6 +8,7 @@ import 'houdini-react-sdk/styles.css'
 import { MatomoProvider, createInstance } from 'matomo-react'
 import { Outfit, Poppins } from 'next/font/google'
 import { useSearchParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { WagmiConfig, configureChains, createConfig } from 'wagmi'
@@ -90,6 +91,8 @@ const instance = createInstance({
 export default function RootLayout({ children }: LayoutProps) {
   const [width] = useWindowSize()
 
+  const pathName = usePathname()
+
   const searchParams = useSearchParams()
 
   const widgetMode = searchParams.get('widgetMode')
@@ -121,7 +124,9 @@ export default function RootLayout({ children }: LayoutProps) {
                 <WagmiConfig config={wagmiConfig}>
                   <RainbowKitProvider chains={chains}>
                     <ResponsiveContainer>
-                      <Header />
+                      {pathName.includes('/staking-dashboard') ? null : (
+                        <Header />
+                      )}
                       {children}
                       <ToastContainer
                         position={width <= 767 ? 'bottom-right' : 'top-right'}
@@ -172,9 +177,9 @@ export default function RootLayout({ children }: LayoutProps) {
 
         <div id="portal"></div>
 
-        {!widgetMode ? (
+        {/* {!widgetMode ? (
           <canvas className="banner_canvas" id="canvas_banner" />
-        ) : null}
+        ) : null} */}
       </body>
     </html>
   )

@@ -422,8 +422,24 @@ export const EXCHANGE_MUTATION = gql`
 
 export const PERFORMANCE_STATS_QUERY = gql`
   query performanceStats {
-
-
+    totalVolume: totalVolume {
+      count
+      totalTransactedUSD
+      totalBuyback
+      totalBuybackUSD
+    }
+    lastMonth: totalVolume(lastMonth: true) {
+      count
+      totalTransactedUSD
+      totalBuyback
+      totalBuybackUSD
+    }
+    lastWeek: totalVolume(lastWeek: true) {
+      count
+      totalTransactedUSD
+      totalBuyback
+      totalBuybackUSD
+    }
     nextBurnAmount: config(key: "burn_amount") {
       value
     }

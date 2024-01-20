@@ -22,7 +22,6 @@ const CustomFileInput = ({
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault()
-    console.log('intru aici??')
     const files = Array.from(event.target.files as FileList)
     const validImageTypes = [
       'image/png',
