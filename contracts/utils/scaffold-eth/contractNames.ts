@@ -1,5 +1,5 @@
-import scaffoldConfig from "~~/scaffold.config";
-import { ContractName, contracts } from "~~/utils/scaffold-eth/contract";
+import scaffoldConfig from "@/contracts/scaffold.config";
+import { ContractName, contracts } from "@/contracts/utils/scaffold-eth/contract";
 
 export function getContractNames() {
   const contractsData = contracts?.[scaffoldConfig.targetNetwork.id];

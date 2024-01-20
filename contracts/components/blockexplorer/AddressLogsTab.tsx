@@ -1,9 +1,10 @@
-import { Address } from "viem";
-import { useContractLogs } from "~~/hooks/scaffold-eth";
-import { replacer } from "~~/utils/scaffold-eth/common";
+import { Address } from 'viem'
+
+import { useContractLogs } from '@/contracts/hooks/scaffold-eth'
+import { replacer } from '@/contracts/utils/scaffold-eth/common'
 
 export const AddressLogsTab = ({ address }: { address: Address }) => {
-  const contractLogs = useContractLogs(address);
+  const contractLogs = useContractLogs(address)
 
   return (
     <div className="flex flex-col gap-3 p-4">
@@ -17,5 +18,5 @@ export const AddressLogsTab = ({ address }: { address: Address }) => {
         </pre>
       </div>
     </div>
-  );
-};
+  )
+}

@@ -5,6 +5,8 @@ import avatar from '@/assets/avatar.png'
 import { SideBar } from '@/components/SideBar'
 import CTAButton from '@/components/StakingDashboard/CTAButton'
 
+import { ConnectWalletAccount } from './ConnectWalletAccount'
+
 export default function StakingDashboardResponsivePage({
   children,
 }: LayoutProps) {
@@ -17,7 +19,7 @@ export default function StakingDashboardResponsivePage({
       </div>
       <div className="flex flex-col w-full">
         <div className="flex px-[50px] pt-[30px] justify-end gap-[24px]">
-          <CTAButton width="191px" height="44px">
+          {/* <CTAButton width="191px" height="44px">
             <span className="px-[30px] py-[12px] justify-center items-center">
               Disconnect Wallet
             </span>
@@ -35,7 +37,8 @@ export default function StakingDashboardResponsivePage({
                 />
               </div>
             </div>
-          </div>
+          </div> */}
+          {/* <ConnectWalletAccount user={user} token={token} staker={deployedStakerData} approved={approved} timeLeft={timeLeft}/> */}
         </div>
         {children}
       </div>

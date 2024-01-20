@@ -10,7 +10,7 @@ import {
   webSocket,
 } from "viem";
 import { hardhat } from "viem/chains";
-import { decodeTransactionData } from "~~/utils/scaffold-eth";
+import { decodeTransactionData } from "@/contracts/utils/scaffold-eth";
 
 const BLOCKS_PER_PAGE = 20;
 

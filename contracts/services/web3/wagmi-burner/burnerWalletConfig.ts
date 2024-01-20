@@ -1,13 +1,13 @@
 import { Chain, Wallet } from "@rainbow-me/rainbowkit";
 import { hardhat } from "viem/chains";
-import scaffoldConfig from "~~/scaffold.config";
+import scaffoldConfig from "@/contracts/scaffold.config";
 import {
   BurnerConnector,
   burnerWalletId,
   burnerWalletName,
   defaultBurnerChainId,
-} from "~~/services/web3/wagmi-burner/BurnerConnector";
-import { getTargetNetwork } from "~~/utils/scaffold-eth";
+} from "@/contracts/services/web3/wagmi-burner/BurnerConnector";
+import { getTargetNetwork } from "@/contracts/utils/scaffold-eth";
 
 const { onlyLocalBurnerWallet } = scaffoldConfig;
 const targetNetwork = getTargetNetwork();

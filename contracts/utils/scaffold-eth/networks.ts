@@ -1,5 +1,5 @@
 import * as chains from "viem/chains";
-import scaffoldConfig from "~~/scaffold.config";
+import scaffoldConfig from "@/contracts/scaffold.config";
 
 export type TChainAttributes = {
   // color | [lightThemeColor, darkThemeColor]

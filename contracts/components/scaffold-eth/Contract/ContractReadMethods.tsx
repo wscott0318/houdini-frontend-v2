@@ -1,30 +1,49 @@
-import { ReadOnlyFunctionForm } from "./ReadOnlyFunctionForm";
-import { Abi, AbiFunction } from "abitype";
-import { Contract, ContractName, GenericContract, InheritedFunctions } from "~~/utils/scaffold-eth/contract";
+import { Abi, AbiFunction } from 'abitype'
 
-export const ContractReadMethods = ({ deployedContractData }: { deployedContractData: Contract<ContractName> }) => {
+import {
+  Contract,
+  ContractName,
+  GenericContract,
+  InheritedFunctions,
+} from '@/contracts/utils/scaffold-eth/contract'
+
+import { ReadOnlyFunctionForm } from './ReadOnlyFunctionForm'
+
+export const ContractReadMethods = ({
+  deployedContractData,
+}: {
+  deployedContractData: Contract<ContractName>
+}) => {
   if (!deployedContractData) {
-    return null;
+    return null
   }
 
   const functionsToDisplay = (
-    ((deployedContractData.abi || []) as Abi).filter(part => part.type === "function") as AbiFunction[]
+    ((deployedContractData.abi || []) as Abi).filter(
+      (part) => part.type === 'function',
+    ) as AbiFunction[]
   )
-    .filter(fn => {
+    .filter((fn) => {
       const isQueryableWithParams =
-        (fn.stateMutability === "view" || fn.stateMutability === "pure") && fn.inputs.length > 0;
-      return isQueryableWithParams;
+        (fn.stateMutability === 'view' || fn.stateMutability === 'pure') &&
+        fn.inputs.length > 0
+      return isQueryableWithParams
     })
-    .map(fn => {
+    .map((fn) => {
       return {
         fn,
-        inheritedFrom: ((deployedContractData as GenericContract)?.inheritedFunctions as InheritedFunctions)?.[fn.name],
-      };
+        inheritedFrom: (
+          (deployedContractData as GenericContract)
+            ?.inheritedFunctions as InheritedFunctions
+        )?.[fn.name],
+      }
     })
-    .sort((a, b) => (b.inheritedFrom ? b.inheritedFrom.localeCompare(a.inheritedFrom) : 1));
+    .sort((a, b) =>
+      b.inheritedFrom ? b.inheritedFrom.localeCompare(a.inheritedFrom) : 1,
+    )
 
   if (!functionsToDisplay.length) {
-    return <>No read methods</>;
+    return <>No read methods</>
   }
 
   return (
@@ -38,5 +57,5 @@ export const ContractReadMethods = ({ deployedContractData }: { deployedContract
         />
       ))}
     </>
-  );
-};
+  )
+}

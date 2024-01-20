@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Abi, ExtractAbiFunctionNames } from "abitype";
 import { useContractWrite, useNetwork } from "wagmi";
-import { getParsedError } from "~~/components/scaffold-eth";
-import { useDeployedContractInfo, useTransactor } from "~~/hooks/scaffold-eth";
-import { getTargetNetwork, notification } from "~~/utils/scaffold-eth";
-import { ContractAbi, ContractName, UseScaffoldWriteConfig } from "~~/utils/scaffold-eth/contract";
+import { getParsedError } from "@/contracts/components/scaffold-eth";
+import { useDeployedContractInfo, useTransactor } from "@/contracts/hooks/scaffold-eth";
+import { getTargetNetwork, notification } from "@/contracts/utils/scaffold-eth";
+import { ContractAbi, ContractName, UseScaffoldWriteConfig } from "@/contracts/utils/scaffold-eth/contract";
 
 type UpdatedArgs = Parameters<ReturnType<typeof useContractWrite<Abi, string, undefined>>["writeAsync"]>[0];
 

@@ -7,6 +7,7 @@ import LockTokenIcon2 from '@/assets/LockTokenIcon2.png'
 import { StakeMoreSvg } from '@/components/Svg'
 
 import CTAButton from '../CTAButton'
+import MiniModalBox from '../MiniModalBox'
 import HalfCircledDonutChart from './HalfCircledDonutChart'
 
 const donutData = [

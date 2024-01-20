@@ -1,9 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
-import { CommonInputProps, InputBase, IntegerVariant, isValidInteger } from "~~/components/scaffold-eth";
+import { useCallback, useEffect, useState } from 'react'
+
+import {
+  CommonInputProps,
+  InputBase,
+  IntegerVariant,
+  isValidInteger,
+} from '@/contracts/components/scaffold-eth'
 
 type IntegerInputProps = CommonInputProps<string | bigint> & {
-  variant?: IntegerVariant;
-};
+  variant?: IntegerVariant
+}
 
 export const IntegerInput = ({
   value,
@@ -13,24 +19,24 @@ export const IntegerInput = ({
   disabled,
   variant = IntegerVariant.UINT256,
 }: IntegerInputProps) => {
-  const [inputError, setInputError] = useState(false);
+  const [inputError, setInputError] = useState(false)
   const multiplyBy1e18 = useCallback(() => {
     if (!value) {
-      return;
+      return
     }
-    if (typeof value === "bigint") {
-      return onChange(value * 10n ** 18n);
+    if (typeof value === 'bigint') {
+      return onChange(value * 10n ** 18n)
     }
-    return onChange(BigInt(Math.round(Number(value) * 10 ** 18)));
-  }, [onChange, value]);
+    return onChange(BigInt(Math.round(Number(value) * 10 ** 18)))
+  }, [onChange, value])
 
   useEffect(() => {
     if (isValidInteger(variant, value, false)) {
-      setInputError(false);
+      setInputError(false)
     } else {
-      setInputError(true);
+      setInputError(true)
     }
-  }, [value, variant]);
+  }, [value, variant])
 
   return (
     <InputBase
@@ -47,7 +53,9 @@ export const IntegerInput = ({
             data-tip="Multiply by 10^18 (wei)"
           >
             <button
-              className={`${disabled ? "cursor-not-allowed" : "cursor-pointer"} font-semibold px-4 text-accent`}
+              className={`${
+                disabled ? 'cursor-not-allowed' : 'cursor-pointer'
+              } font-semibold px-4 text-accent`}
               onClick={multiplyBy1e18}
               disabled={disabled}
             >
@@ -57,5 +65,5 @@ export const IntegerInput = ({
         )
       }
     />
-  );
-};
+  )
+}

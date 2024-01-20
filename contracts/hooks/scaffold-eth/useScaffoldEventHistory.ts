@@ -2,14 +2,14 @@ import { useEffect, useMemo, useState } from "react";
 import { Abi, AbiEvent, ExtractAbiEventNames } from "abitype";
 import { Hash } from "viem";
 import { usePublicClient } from "wagmi";
-import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
-import { replacer } from "~~/utils/scaffold-eth/common";
+import { useDeployedContractInfo } from "@/contracts/hooks/scaffold-eth";
+import { replacer } from "@/contracts/utils/scaffold-eth/common";
 import {
   ContractAbi,
   ContractName,
   UseScaffoldEventHistoryConfig,
   UseScaffoldEventHistoryData,
-} from "~~/utils/scaffold-eth/contract";
+} from "@/contracts/utils/scaffold-eth/contract";
 
 /**
  * @dev reads events from a deployed contract

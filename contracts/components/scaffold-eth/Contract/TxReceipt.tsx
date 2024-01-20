@@ -1,13 +1,23 @@
-import { useState } from "react";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import { TransactionReceipt } from "viem";
-import { CheckCircleIcon, DocumentDuplicateIcon } from "@heroicons/react/24/outline";
-import { displayTxResult } from "~~/components/scaffold-eth";
+import {
+  CheckCircleIcon,
+  DocumentDuplicateIcon,
+} from '@heroicons/react/24/outline'
+import { useState } from 'react'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { TransactionReceipt } from 'viem'
+
+import { displayTxResult } from '@/contracts/components/scaffold-eth'
 
 export const TxReceipt = (
-  txResult: string | number | bigint | Record<string, any> | TransactionReceipt | undefined,
+  txResult:
+    | string
+    | number
+    | bigint
+    | Record<string, any>
+    | TransactionReceipt
+    | undefined,
 ) => {
-  const [txResultCopied, setTxResultCopied] = useState(false);
+  const [txResultCopied, setTxResultCopied] = useState(false)
 
   return (
     <div className="flex text-sm rounded-3xl peer-checked:rounded-b-none min-h-0 bg-secondary py-0">
@@ -21,10 +31,10 @@ export const TxReceipt = (
           <CopyToClipboard
             text={displayTxResult(txResult) as string}
             onCopy={() => {
-              setTxResultCopied(true);
+              setTxResultCopied(true)
               setTimeout(() => {
-                setTxResultCopied(false);
-              }, 800);
+                setTxResultCopied(false)
+              }, 800)
             }}
           >
             <DocumentDuplicateIcon
@@ -44,5 +54,5 @@ export const TxReceipt = (
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

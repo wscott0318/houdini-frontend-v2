@@ -1,18 +1,24 @@
-import React from "react";
-import Link from "next/link";
-import { hardhat } from "viem/chains";
-import { CurrencyDollarIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { SwitchTheme } from "~~/components/SwitchTheme";
-import { Faucet } from "~~/components/scaffold-eth";
-import { useGlobalState } from "~~/services/store/store";
-import { getTargetNetwork } from "~~/utils/scaffold-eth";
+import {
+  CurrencyDollarIcon,
+  MagnifyingGlassIcon,
+} from '@heroicons/react/24/outline'
+import Link from 'next/link'
+import React from 'react'
+import { hardhat } from 'viem/chains'
+
+import { SwitchTheme } from '@/contracts/components/SwitchTheme'
+import { Faucet } from '@/contracts/components/scaffold-eth'
+import { useGlobalState } from '@/contracts/services/store/store'
+import { getTargetNetwork } from '@/contracts/utils/scaffold-eth'
 
 /**
  * Site footer
  */
 export const Footer = () => {
-  const nativeCurrencyPrice = useGlobalState(state => state.nativeCurrencyPrice);
-  const isLocalNetwork = getTargetNetwork().id === hardhat.id;
+  const nativeCurrencyPrice = useGlobalState(
+    (state) => state.nativeCurrencyPrice,
+  )
+  const isLocalNetwork = getTargetNetwork().id === hardhat.id
 
   return (
     <div className="min-h-0 py-5 px-1 mb-11 lg:mb-0">
@@ -30,16 +36,24 @@ export const Footer = () => {
             {isLocalNetwork && (
               <>
                 <Faucet />
-                <Link href="/blockexplorer" passHref className="btn btn-primary btn-sm font-normal normal-case gap-1">
+                <Link
+                  href="/blockexplorer"
+                  passHref
+                  className="btn btn-primary btn-sm font-normal normal-case gap-1"
+                >
                   <MagnifyingGlassIcon className="h-4 w-4" />
                   <span>Block Explorer</span>
                 </Link>
               </>
             )}
           </div>
-          <SwitchTheme className={`pointer-events-auto ${isLocalNetwork ? "self-end md:self-auto" : ""}`} />
+          <SwitchTheme
+            className={`pointer-events-auto ${
+              isLocalNetwork ? 'self-end md:self-auto' : ''
+            }`}
+          />
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

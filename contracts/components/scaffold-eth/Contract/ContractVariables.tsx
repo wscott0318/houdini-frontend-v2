@@ -1,36 +1,51 @@
-import { DisplayVariable } from "./DisplayVariable";
-import { Abi, AbiFunction } from "abitype";
-import { Contract, ContractName, GenericContract, InheritedFunctions } from "~~/utils/scaffold-eth/contract";
+import { Abi, AbiFunction } from 'abitype'
+
+import {
+  Contract,
+  ContractName,
+  GenericContract,
+  InheritedFunctions,
+} from '@/contracts/utils/scaffold-eth/contract'
+
+import { DisplayVariable } from './DisplayVariable'
 
 export const ContractVariables = ({
   refreshDisplayVariables,
   deployedContractData,
 }: {
-  refreshDisplayVariables: boolean;
-  deployedContractData: Contract<ContractName>;
+  refreshDisplayVariables: boolean
+  deployedContractData: Contract<ContractName>
 }) => {
   if (!deployedContractData) {
-    return null;
+    return null
   }
 
   const functionsToDisplay = (
-    (deployedContractData.abi as Abi).filter(part => part.type === "function") as AbiFunction[]
+    (deployedContractData.abi as Abi).filter(
+      (part) => part.type === 'function',
+    ) as AbiFunction[]
   )
-    .filter(fn => {
+    .filter((fn) => {
       const isQueryableWithNoParams =
-        (fn.stateMutability === "view" || fn.stateMutability === "pure") && fn.inputs.length === 0;
-      return isQueryableWithNoParams;
+        (fn.stateMutability === 'view' || fn.stateMutability === 'pure') &&
+        fn.inputs.length === 0
+      return isQueryableWithNoParams
     })
-    .map(fn => {
+    .map((fn) => {
       return {
         fn,
-        inheritedFrom: ((deployedContractData as GenericContract)?.inheritedFunctions as InheritedFunctions)?.[fn.name],
-      };
+        inheritedFrom: (
+          (deployedContractData as GenericContract)
+            ?.inheritedFunctions as InheritedFunctions
+        )?.[fn.name],
+      }
     })
-    .sort((a, b) => (b.inheritedFrom ? b.inheritedFrom.localeCompare(a.inheritedFrom) : 1));
+    .sort((a, b) =>
+      b.inheritedFrom ? b.inheritedFrom.localeCompare(a.inheritedFrom) : 1,
+    )
 
   if (!functionsToDisplay.length) {
-    return <>No contract variables</>;
+    return <>No contract variables</>
   }
 
   return (
@@ -45,5 +60,5 @@ export const ContractVariables = ({
         />
       ))}
     </>
-  );
-};
+  )
+}
