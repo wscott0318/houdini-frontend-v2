@@ -1238,6 +1238,11 @@ const deployedContracts = {
                 },
                 {
                   internalType: "uint256",
+                  name: "totalRewardsPaid",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
                   name: "fallenDripWizardDuration",
                   type: "uint256",
                 },
@@ -1269,6 +1274,11 @@ const deployedContracts = {
             {
               internalType: "uint256",
               name: "_rewardRemaining",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_totalEarned",
               type: "uint256",
             },
           ],
@@ -2268,6 +2278,11 @@ const deployedContracts = {
                 },
                 {
                   internalType: "uint256",
+                  name: "totalRewardsPaid",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
                   name: "fallenDripWizardDuration",
                   type: "uint256",
                 },
@@ -2299,6 +2314,11 @@ const deployedContracts = {
             {
               internalType: "uint256",
               name: "_rewardRemaining",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_totalEarned",
               type: "uint256",
             },
           ],

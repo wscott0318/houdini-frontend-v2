@@ -13,13 +13,32 @@ import {
 
 import CTAButton from '../CTAButton'
 import DonutChart from './DonutChart'
-import { useScaffoldContractRead } from '@/staking/hooks/scaffold-eth'
+import { useScaffoldContract, useScaffoldContractRead } from '@/staking/hooks/scaffold-eth'
 import { formatUnits } from 'viem'
+import { useNetwork } from 'wagmi'
 
 const formatter = Intl.NumberFormat('en', { notation: 'compact'});
+const USD_DECIMALS = 6;
+
+
+const addresses: any = {
+  1: {
+    weth: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    usd: "0xdac17f958d2ee523a2206206994597c13d831ec7",
+  },
+  31337: {
+    weth: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    usd: "0xdac17f958d2ee523a2206206994597c13d831ec7",
+  },
+  11155111: {
+    weth: "0x7b79995e5f793a07bc00c21412e50ecae098e7f9",
+    usd: "0x779877a7b0d9e8603169ddbd7836e478b4624789",
+  },
+}
 
 
 const PoolStatsBox = () => {
+  const { chain } = useNetwork();
   const { t } = useTranslation()
   // Pool stats
   const [pool, setPool] = useState<any>();
@@ -28,20 +47,36 @@ const PoolStatsBox = () => {
   const [rewardForDuration, setRewardForDuration] = useState(0n);
   const [poolApy, setPoolApy] = useState(0n);
   const [rewardRemaining, setRewardRemaining] = useState(0n);
+  const [rewardsPaid, setRewardsPaid] = useState(0n);
+
+  const {data: stakerContract} = useScaffoldContract({contractName: "Staker"})
+  const {data: tokenContract} = useScaffoldContract({contractName: "Houdini"})
+
 
   const { data: poolData } = useScaffoldContractRead({
     contractName: "Staker",
     functionName: "pool",
   } as any);
 
+
+  const { data: tokensLocked } = useScaffoldContractRead({
+    contractName: "Houdini",
+    functionName: "balanceOf",
+    args: [stakerContract?.address]
+  } as any);
+
+
+  const addressPath = [tokenContract?.address, addresses[chain?.id ?? 1].weth, addresses[chain?.id?? 1].usd];
+  const { data: tvl } = useScaffoldContractRead({
+    contractName: "UniswapRouter2",
+    functionName: "getAmountsOut",
+    args: [tokensLocked, addressPath]
+  } as any);
+
   const { data: tokenSupply } = useScaffoldContractRead({
     contractName: "Houdini",
     functionName: "totalSupply",
   } as any);
-
-  if (tokenSupply) {
-    console.log(tokenSupply ? parseFloat(formatUnits(supply, 18)) * 100 / parseFloat(formatUnits(tokenSupply as unknown as bigint, 18)) : 0);
-  }
 
   useEffect(() => {
     if (poolData) {
@@ -52,6 +87,7 @@ const PoolStatsBox = () => {
       setRewardForDuration(poolDataArr[3]);
       setPoolApy(poolDataArr[4]);
       setRewardRemaining(poolDataArr[5]);
+      setRewardsPaid(poolDataArr[6]);
     }
   }, [poolData]);
 
@@ -83,7 +119,7 @@ const PoolStatsBox = () => {
                 <div className="flex flex-row items-center pl-[40px] gap-[5px]">
                   <span>{formatter.format(Math.round(parseFloat(formatUnits(supply, 18))))}</span>
                   <span className="bg-[#0000004D] rounded-[8px] px-[8px] py-[5px] text-[10px] uppercase">
-                    {t('lock')}
+                    $LOCK
                   </span>
                 </div>
               </div>
@@ -95,7 +131,7 @@ const PoolStatsBox = () => {
                   </span>
                 </div>
                 <div className="flex flex-row items-center pl-[40px] gap-[5px]">
-                  <span>$48.4M</span>
+                  <span>${formatter.format(Math.round(parseFloat(formatUnits(tvl as unknown as bigint ?? 0n, USD_DECIMALS))))}</span>
                   <span className="bg-[#0000004D] rounded-[8px] px-[8px] py-[5px] text-[10px]">
                     $USD
                   </span>
@@ -125,9 +161,9 @@ const PoolStatsBox = () => {
                   </span>
                 </div>
                 <div className="flex flex-row items-center pl-[40px] gap-[5px]">
-                  <span>1,323,920.42 </span>
+                  <span>{formatter.format(Math.round(parseFloat(formatUnits(rewardsPaid, 18))))}</span>
                   <span className="bg-[#0000004D] rounded-[8px] px-[8px] py-[5px] text-[10px]">
-                    {t('lock')}
+                    $LOCK
                   </span>
                 </div>
               </div>
