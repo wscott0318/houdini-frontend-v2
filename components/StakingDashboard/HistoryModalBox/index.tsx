@@ -27,7 +27,6 @@ const HistoryModalBox = () => {
   const publicClient = usePublicClient();
 
   const [fromBlock, setFromBlock] = useState<bigint>(0n);
-  const [events, setEvents] = useState<IGroupedData[]>([]);
 
   useEffect(() => {
     publicClient.getBlockNumber().then((data: bigint) => setFromBlock(data - 800n));
@@ -123,59 +122,59 @@ const HistoryModalBox = () => {
     receiptData: false,
   });
 
-  useEffect(() => {
-    let allEvents: any[] = [];
-    stakedEvents?.map((event: any) => {
-      allEvents.push(event);
+  let allEvents: any[] = [];
+  stakedEvents?.map((event: any) => {
+    allEvents.push(event);
+  });
+  withdrawnEvents?.map((event: any) => {
+    allEvents.push(event);
+  });
+
+  rewardPaidEvents?.map((event: any) => {
+    allEvents.push(event);
+  });
+
+  requestUnlockEvents?.map((event: any) => {
+    allEvents.push(event);
+  });
+
+  fallenWizardFeeEvents?.map((event: any) => {
+    allEvents.push(event);
+  });
+
+  multiplierChangedEvents?.map((event: any) => {
+    allEvents.push(event);
+  });
+
+  allEvents = allEvents.sort((a: any, b: any) => {
+    if (a?.block?.timestamp > b?.block?.timestamp) {
+      return -1; // a should be sorted before b
+    } else if (a?.block?.timestamp < b?.block?.timestamp) {
+      return 1; // a should be sorted after b
+    } else {
+      return 0; // a and b are equal
+    }
+  });
+
+  const events: IGroupedData[] = [];
+
+  allEvents.map(v => {
+    // console.log(v)
+    events.push({
+      type: v?.log?.eventName,
+      date: new Date(Number(v?.block?.timestamp) * 1000).toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+      }),
+      amount: Math.round(parseFloat(formatUnits(v?.args?.amount ?? 0n, 18))).toString(),
+      addressUp: v.args?.user,
+      addressDown: v.log?.transactionHash,
     });
-    withdrawnEvents?.map((event: any) => {
-      allEvents.push(event);
-    });
-  
-    rewardPaidEvents?.map((event: any) => {
-      allEvents.push(event);
-    });
-  
-    requestUnlockEvents?.map((event: any) => {
-      allEvents.push(event);
-    });
-  
-    fallenWizardFeeEvents?.map((event: any) => {
-      allEvents.push(event);
-    });
-  
-    multiplierChangedEvents?.map((event: any) => {
-      allEvents.push(event);
-    });
-  
-    allEvents = allEvents.sort((a: any, b: any) => {
-      if (a?.block?.timestamp < b?.block?.timestamp) {
-        return -1; // a should be sorted before b
-      } else if (a?.block?.timestamp > b?.block?.timestamp) {
-        return 1; // a should be sorted after b
-      } else {
-        return 0; // a and b are equal
-      }
-    });
-    allEvents.map(v => {
-      setEvents([...events
-        , {
-        type: v?.log?.eventName,
-        date: new Date(Number(v?.block?.timestamp) * 1000).toLocaleString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          hour: 'numeric',
-          minute: 'numeric',
-          second: 'numeric'
-        }),
-        amount: Math.round(parseFloat(formatUnits(v?.args?.amount ?? 0n, 18))).toString(),
-        addressUp: v.transaction?.from,
-        addressDown: v.block?.hash,
-      }
-    ]);
-    })
-  },[fallenWizardFeeEvents, multiplierChangedEvents, requestUnlockEvents, rewardPaidEvents, stakedEvents, withdrawnEvents] )
+  })
 
   const [headValue, setHeadValue] = useState(0)
 
@@ -214,7 +213,7 @@ const HistoryModalBox = () => {
               </span>
             </div>
             <div className="flex flex-col">
-              {events && events.map((item, index) => (
+              {!events.length ? <span className='text-slate-400'>{t('noEvents')}</span> : events.map((item, index) => (
                 <div key={index}>
                   <ListLine data={item} index={index % 2} />
                 </div>
@@ -224,12 +223,12 @@ const HistoryModalBox = () => {
           <span className="text-[12px] font-semibold leading-[14px] text-center text-[#A0AEC0]">
             Please note: Transaction times are displayed in UTC
           </span>
-          <div className="w-full flex items-center justify-center">
-            {isLoadingEvents || isLoadingWithdrawnEvents || isLoadingFallenWizardFee || isLoadingRequestUnlock || isLoadingMultiplierChanged ? 
+          {/* <div className="w-full flex items-center justify-center">
+            {!allEvents.length || isLoadingEvents || isLoadingWithdrawnEvents || isLoadingFallenWizardFee || isLoadingRequestUnlock || isLoadingMultiplierChanged ? 
             <a className="w-[96px] h-[48px] rounded-[15px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9] items-center justify-center flex">
               <LoadingSvg className="w-[16px] h-[16px]" />
             </a> : <></>}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -565,5 +565,6 @@
   "RequestUnlock": "Request Unlock",
   "FallenWizardFee": "Fallen Wizard Fee",
   "MultiplierChanged": "Multiplier changed",
-  "all": "All"
+  "all": "All",
+  "noEvents": "No events.."
 }
