@@ -19,7 +19,7 @@ const ButtonGroup = ({ names, onSelect }: Props) => {
           }
           onClick={() => {
             setSelected(index)
-            onSelect(names[index])
+            onSelect?.(names[index])
           }}
         >
           <span
