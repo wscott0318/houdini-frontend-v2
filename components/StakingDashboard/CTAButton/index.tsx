@@ -18,14 +18,14 @@ export default function CTAButton(props: CTAButtonProps) {
   }
   return (
     <div
-      className={`p-[2px] rounded-[12px] custom-QTY-button-outline custom-cta-button-drop-shadow `}
+      className={`p-[2px] relative z-[999] rounded-[12px] custom-QTY-button-outline custom-cta-button-drop-shadow `}
       style={{ cursor: 'pointer' }}
       onClick={props.onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <div
-        className={`flex items-center justify-center rounded-[12px] bg-black text-[16px] font-semibold hover:custom-QTA-button-hover-background`}
+        className={`flex relative z-[999] items-center justify-center rounded-[12px] bg-black text-[16px] font-semibold hover:custom-QTA-button-hover-background`}
       >
         {props.children}
       </div>

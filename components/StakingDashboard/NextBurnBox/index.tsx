@@ -80,7 +80,7 @@ const NextBurnBox = () => {
   } as any)
 
   return (
-    <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-[422px] h-[297px] p-[1px]">
+    <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-full h-auto xl:w-[422px] xl:h-[297px] p-[1px]">
       <div className="w-full h-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow">
         <div className="flex flex-col justify-between w-full h-full gap-[20px]">
           <div className="flex flex-row justify-between">

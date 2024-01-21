@@ -1,7 +1,13 @@
 import * as d3 from 'd3'
 import React, { useEffect, useRef } from 'react'
 
-const HalfCircledDonutChart = () => {
+const HalfCircledDonutChart = ({
+  widthCustom,
+  heightCustom,
+}: {
+  widthCustom: number
+  heightCustom: number
+}) => {
   const svgRef = useRef(null)
 
   useEffect(() => {
@@ -13,8 +19,8 @@ const HalfCircledDonutChart = () => {
     const svg = d3.select(svgRef.current)
 
     // Define the chart dimensions
-    const width = 198
-    const height = 198
+    const width = widthCustom
+    const height = heightCustom
     const radius = Math.min(width, height) / 2
 
     const gradient = svg

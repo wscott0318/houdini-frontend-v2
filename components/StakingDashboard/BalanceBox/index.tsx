@@ -18,14 +18,14 @@ const donutData = [
 const BalanceBox = () => {
   const { t } = useTranslation()
   return (
-    <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-[360px] h-[706px] p-[1px]">
+    <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-full xl:w-[360px] xl:h-[706px] p-[1px]">
       <div className="w-full h-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow">
         <div className="flex flex-col justify-between w-full h-full">
           <div className="flex flex-col justify-start items-start ">
             <div className="flex flex-col gap-[26px]">
               {t('balanceboxTitle')}
-              <div className="relative w-[198px] h-[109px]">
-                <HalfCircledDonutChart />
+              <div className="relative lg:w-[198px] lg:h-[109px] w-[100px] h-[50px]">
+                <HalfCircledDonutChart heightCustom={100} widthCustom={100} />
               </div>
             </div>
             <div className="flex flex-col pt-[20px]">
@@ -33,7 +33,7 @@ const BalanceBox = () => {
                 <div className="text-[18px] font-normal text-[#D9D9D9] leading-normal">
                   {t('totakLockBalance')}
                 </div>
-                <div className="text-[50px] font-normal leading-normal">
+                <div className="text-[20px] lg:text-[50px] font-normal leading-normal">
                   45,492.07
                 </div>
                 <div className="text-[14px] font-normal text-[#A5A5A5] leading-normal">
@@ -90,7 +90,7 @@ const BalanceBox = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-col  mt-[30px] gap-[20px] lg:gap-0 lg:flex-row justify-between z-[999] relative">
             <CTAButton height="48px" width="123px">
               <div className="flex flex-row gap-[7px] justify-center items-center mx-[20px] my-[14px]">
                 <span className="text-[16px] font-semibold">

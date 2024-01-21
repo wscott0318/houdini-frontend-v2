@@ -1,14 +1,14 @@
 import * as d3 from 'd3'
 import React, { useEffect, useRef } from 'react'
 
-const DonutChart = ({fallen}: any) => {
+const DonutChart = ({fallen, customWidth, customHeight}: any) => {
   const chartRef = useRef(null)
 
   useEffect(() => {
     const data = [100-fallen, fallen]
 
-    const width = 150
-    const height = 150
+    const width = customWidth
+    const height = customHeight
     const radius = Math.min(width, height) / 2
 
     const svg = d3

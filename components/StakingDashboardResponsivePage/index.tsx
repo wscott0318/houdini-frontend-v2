@@ -13,12 +13,12 @@ export default function StakingDashboardResponsivePage({
   const { t } = useTranslation()
 
   return (
-    <div className="flex flex-row">
-      <div className="w-[271px] z-[1]">
+    <div className="flex flex-row w-full">
+      <div className="md:w-[271px] z-[1] w-[20px]">
         <SideBar />
       </div>
       <div className="flex flex-col w-full">
-        <div className="flex px-[50px] pt-[30px] justify-end gap-[24px]">
+        <div className="flex pt-[0] xl:px-[50px] w-full px-[10px] xl:pt-[30px] justify-end gap-[24px]">
           <ConnectWalletAccount />
         </div>
         {children}

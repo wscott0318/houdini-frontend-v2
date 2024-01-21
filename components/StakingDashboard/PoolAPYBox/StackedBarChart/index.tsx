@@ -8,13 +8,15 @@ interface IGroupedData {
 
 interface Props {
   data: IGroupedData[]
+  widthCustom: number
+  heightCustom: number
 }
 
 function sum(values: number[]) {
   return values.reduce((prev, value) => prev + value, 0)
 }
 
-export function StackedBarChart({ data }: Props) {
+export function StackedBarChart({ data, widthCustom, heightCustom }: Props) {
   const axisBottomRef = useRef<SVGGElement>(null)
   const axisLeftRef = useRef<SVGGElement>(null)
 
@@ -25,8 +27,8 @@ export function StackedBarChart({ data }: Props) {
   const csv = d3.csvParse([header, body].join('\n'))
 
   const margin = { top: 10, right: 0, bottom: 20, left: 30 }
-  const width = 300 - margin.left - margin.right
-  const height = 300 - margin.top - margin.bottom
+  const width = widthCustom - margin.left - margin.right
+  const height = heightCustom - margin.top - margin.bottom
 
   const subgroups = header.split(',')
   const labels = csv.map((data) => data.label || '')

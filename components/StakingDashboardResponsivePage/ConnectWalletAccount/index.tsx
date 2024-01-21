@@ -50,7 +50,7 @@ export const ConnectWalletAccount = () => {
                   // </button>
 
                   <CTAButton onClick={openConnectModal}>
-                    <span className="px-[30px] py-[12px] justify-center items-center">
+                    <span className="px-[30px] relative z-[50] py-[12px] justify-center items-center">
                       Connect Wallet
                     </span>
                   </CTAButton>
@@ -66,7 +66,7 @@ export const ConnectWalletAccount = () => {
               }
 
               return (
-                <div style={{ display: 'flex', gap: 12 }}>
+                <div className="flex flex-col lg:flex-row relative gap-[12px] z-[50]">
                   <CTAButton
                     width="191px"
                     height="44px"

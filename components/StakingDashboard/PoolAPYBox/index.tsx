@@ -22,7 +22,7 @@ const GROUPED_BAR_CHART_DATA: IGroupedData[] = [
 const PoolAPYBox = () => {
   const { t } = useTranslation()
   return (
-    <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] h-[706px]">
+    <div className="relative flex flex-col items-center backdrop-blur-[46px] w-full custom-modal-step2-drop-shadow rounded-[28px] h-auto xl:w-[360px] xl:h-[706px]">
       <div className="w-full h-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow">
         <div className="flex flex-col justify-between w-full h-full">
           <div className="flex flex-col gap-[10px]">
@@ -42,13 +42,17 @@ const PoolAPYBox = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-[10px]">
-            <div className="flex flex-row pb-[10px] justify-between">
+          <div className="flex flex-col gap-[10px] w-full">
+            <div className="flex flex-row pb-[10px] w-full justify-between">
               <span className="text-[20px]">{t('poolApyAccEarnings')}</span>
               <InfoCircleSvg className="w-[20px] h-[20px]" />
             </div>
-            <div>
-              <StackedBarChart data={GROUPED_BAR_CHART_DATA} />
+            <div className="w-full">
+              <StackedBarChart
+                data={GROUPED_BAR_CHART_DATA}
+                widthCustom={100}
+                heightCustom={100}
+              />
             </div>
           </div>
           <div className="justify-center items-center w-full flex">

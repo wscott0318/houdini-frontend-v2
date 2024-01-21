@@ -117,7 +117,7 @@ const PoolStatsBox = () => {
               </div>
             </CTAButton>
           </div>
-          <div className="flex flex-row gap-[20px] pt-[10px] pb-[20px]">
+          <div className="flex flex-col md:flex-row gap-[20px] pt-[10px] pb-[20px]">
             <div className="flex flex-col gap-[30px]">
               <div className="flex flex-col gap-[14px]">
                 <div className="flex flex-row gap-[5px] items-center">
@@ -211,8 +211,12 @@ const PoolStatsBox = () => {
           </div>
           <div className="flex flex-col gap-[17px]">
             <span className="text-[20px]">{t('lastWeeksAPYbreakdown')}</span>
-            <div className="flex flex-row gap-[71px]">
-              <DonutChart fallen={fallenWizardApyPercent} />
+            <div className="flex flex-col md:flex-row gap-[71px]">
+              <DonutChart
+                fallen={fallenWizardApyPercent}
+                customWidth={50}
+                customHeight={50}
+              />
               <div className="flex flex-col gap-[16px]">
                 <div className="flex flex-row gap-[20px] items-center">
                   <div className="w-[10px] h-[36px] bg-gradient-to-b from-[#BCAAFF] to-[#B364D1] rounded-t-[100px] rounded-b-[100px]"></div>
@@ -235,16 +239,16 @@ const PoolStatsBox = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-row justify-center items-center gap-[50px]">
+          <div className="flex flex-row justify-center relative z-[999] items-center gap-[50px]">
             <CTAButton height="48px" width="150px">
-              <div className="flex flex-row gap-[7px] w-full h-full justify-center items-center">
+              <div className="flex flex-row gap-[7px] w-full h-full justify-center items-center mx-[20px] my-[14px]">
                 <span className="text-[16px] font-semibold">
                   {t('buyLock')}
                 </span>
               </div>
             </CTAButton>
             <CTAButton height="48px" width="150px">
-              <div className="flex flex-row gap-[7px] w-full h-full justify-center items-center">
+              <div className="flex flex-row gap-[7px] w-full h-full justify-center items-center mx-[20px] my-[14px]">
                 <StakeMoreSvg className="w-[16px] h-[16px]" />
                 <span className="text-[16px] font-semibold">
                   {t('stakeMore')}

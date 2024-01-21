@@ -232,16 +232,13 @@ const HistoryModalBox = () => {
 
         <div className="flex flex-col gap-[20px]">
           <span className="rainbow-text text-[18px] font-medium">History</span>
-          <ButtonGroup
-            names={buttonNames}
-            onSelect={handleSelectType}
-          />
+          <ButtonGroup names={buttonNames} onSelect={handleSelectType} />
           <div className="flex flex-col min-h-[400px]">
-            <div className="flex flex-row px-[21px] py-[20px] gap-[178px] justify-between relative items-center">
+            <div className="flex flex-row flex-wrap md:flex-nowrap lg:px-[21px] lg:py-[20px] gap-[20px] lg:gap-[178px] justify-between relative items-center">
               {/* <div className="absolute left-4">
                 <CheckBox />
               </div> */}
-              <span className="text-[18px] ml-[50px] leading-normal font-medium">
+              <span className="text-[18px] lg:ml-[50px] leading-normal font-medium">
                 Type
               </span>
               <span className="text-[18px] leading-normal font-medium">

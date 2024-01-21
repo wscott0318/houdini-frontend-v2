@@ -26,7 +26,7 @@ const XBlockPerformanceStatsBox = () => {
   }, [loading, data])
 
   return (
-    <div className="flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-[422px] h-[447px] p-[1px]">
+    <div className="flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] h-auto w-full xl:w-[422px] xl:h-[447px] p-[1px]">
       <div className="w-full h-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow">
         <div className="flex flex-col justify-between w-full h-full">
           <div className="flex flex-row justify-between">
@@ -36,7 +36,7 @@ const XBlockPerformanceStatsBox = () => {
             </button>
           </div>
           <div className="flex flex-col gap-[30px]">
-            <div className="flex flex-row gap-[55px]">
+            <div className="flex flex-col md:flex-row gap-[50px]">
               <div className="flex flex-col gap-[10px]">
                 <span className="text-[18px] font-medium custom-xBlock-gold-gradient-text leading-normal">
                   {t('lastWeekSwaps')}
@@ -54,7 +54,7 @@ const XBlockPerformanceStatsBox = () => {
                 </span>
               </div>
             </div>
-            <div className="flex flex-row gap-[50px]">
+            <div className="flex flex-col md:flex-row gap-[50px]">
               <div className="flex flex-col gap-[10px]">
                 <span className="text-[18px] font-medium custom-xBlock-blue-gradient-text leading-normal">
                   {t('monthlyVolume')}
@@ -85,7 +85,7 @@ const XBlockPerformanceStatsBox = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-row gap-[30px]">
+            <div className="flex flex-col  md:flex-row gap-[30px]">
               <div className="flex flex-col gap-[10px]">
                 <span className="text-[18px] font-medium custom-xBlock-purple-gradient-text leading-normal">
                   {t('lastWeekBuybacks')}
@@ -106,8 +106,7 @@ const XBlockPerformanceStatsBox = () => {
                 </span>
                 <div className="flex flex-row gap-[5px] items-center">
                   <span className="text-[20px] font-medium">
-                    {Humanize.formatNumber(totalVolume?.totalBuybackUSD) ??
-                      0}
+                    {Humanize.formatNumber(totalVolume?.totalBuybackUSD) ?? 0}
                   </span>
                   <span className="bg-[#0000004D] rounded-[8px] px-[8px] py-[5px] text-[10px]">
                     $USD
