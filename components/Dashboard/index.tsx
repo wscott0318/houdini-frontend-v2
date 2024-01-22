@@ -13,6 +13,7 @@ import {
 } from '@/staking/hooks/scaffold-eth'
 
 import MiniModalBox from '../StakingDashboard/MiniModalBox'
+import UnstakeModalBox from '../StakingDashboard/UnstakeModalBox'
 
 export default function Dashboard() {
   const { t } = useTranslation()
@@ -105,15 +106,18 @@ export default function Dashboard() {
         <BalanceBox />
         <PoolAPYBox />
       </div>
-      {deployedStakerData && (
-        <MiniModalBox
-          user={user}
-          token={token}
-          staker={deployedStakerData}
-          approved={approved}
-          timeLeft={timeLeft}
-        />
-      )}
+      <MiniModalBox
+        user={user}
+        token={token}
+        staker={deployedStakerData}
+        approved={approved}
+        timeLeft={timeLeft}
+      />
+      <UnstakeModalBox
+        token={token}
+        staker={deployedStakerData}
+        approved={approved}
+      />
     </div>
   )
 }
