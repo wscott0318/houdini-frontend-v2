@@ -200,7 +200,7 @@ const MiniModalBox = ({ user, token, staker, approved, timeLeft }: any) => {
               <span className="text-[10px] font-semibold uppercase">
                 {t('amountToStake')}
               </span>
-              <input
+              {/* <input
                 type="text"
                 id="amount"
                 className="stake-amount join-item input-bordered 0 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -213,7 +213,8 @@ const MiniModalBox = ({ user, token, staker, approved, timeLeft }: any) => {
                 min="0.0"
                 disabled={parseFloat(balance) == 0}
                 required
-              ></input>
+              ></input> */}
+              <span>{inputAmount}</span>
             </div>
             <div className="flex items-end">
               <span className="text-[14px] font-bold leading-[24px] uppercase">
@@ -227,18 +228,32 @@ const MiniModalBox = ({ user, token, staker, approved, timeLeft }: any) => {
             I understand & accept the Staking Terms & Conditions
           </span>
         </div>
-        <button
-          disabled={parseInt(inputAmount, 10) <= 0}
-          className={
-            'p-[16px] flex justify-center items-center rounded-[120px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9]'
-          }
-          onClick={() => handleStakePool()}
-        >
-          <div className="flex flex-row gap-[7px] justify-center items-center">
-            <StakeMoreSvg className="w-[16px] h-[16px]" />
-            <span className="text-[16px] font-semibold">{t('stake')}</span>
-          </div>
-        </button>
+        {!approved || BigInt(approved) === 0n ? (
+          <button
+            className={
+              'p-[16px] flex justify-center items-center rounded-[120px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9]'
+            }
+            onClick={() => handleApprove()}
+          >
+            <div className="flex flex-row gap-[7px] justify-center items-center">
+              <StakeMoreSvg className="w-[16px] h-[16px]" />
+              <span className="text-[16px] font-semibold">Approve</span>
+            </div>
+          </button>
+        ) : (
+          <button
+            disabled={parseInt(inputAmount, 10) <= 0}
+            className={
+              'p-[16px] flex justify-center items-center rounded-[120px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9]'
+            }
+            onClick={() => handleStakePool()}
+          >
+            <div className="flex flex-row gap-[7px] justify-center items-center">
+              <StakeMoreSvg className="w-[16px] h-[16px]" />
+              <span className="text-[16px] font-semibold">{t('stake')}</span>
+            </div>
+          </button>
+        )}
       </div>
     </div>
   )
