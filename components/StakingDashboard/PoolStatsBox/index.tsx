@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import html2canvas from 'html2canvas';
 import { useTranslation } from 'react-i18next'
 import { formatUnits } from 'viem'
 import { useNetwork } from 'wagmi'
@@ -102,20 +103,36 @@ const PoolStatsBox = () => {
     }
   }, [poolData])
 
+  const componentRef = useRef<any>(null);
+  const handleDownload = async () => {
+    const canvas = await html2canvas(componentRef.current);
+  
+    // Convert canvas to base64 image
+    const base64Image = canvas.toDataURL("image/png");
+  
+    // Create a link element
+    const downloadLink = document.createElement("a");
+    
+    // Set properties for the link and download the image
+    downloadLink.href = base64Image;
+    downloadLink.download = "component.png";
+    downloadLink.click();
+  };
+
   return (
-    <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-full h-auto xl:w-[482px] xl:h-[697px] p-[1px]">
+    <div ref={componentRef} className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-full h-auto xl:w-[482px] xl:h-[697px] p-[1px]">
       <div className="p-[30px] w-full h-full rounded-[28px] custom-balances-box-inner-shadow">
         <div className="flex flex-col justify-between w-full h-full">
           <div className="flex flex-row justify-between w-full">
             <span className="text-[20px] font-medium">{t('poolStats')}</span>
-            <CTAButton height="42px" width="98px">
+            {/* <CTAButton height="42px" width="98px">
               <div className="flex flex-row gap-[7px] w-full h-full justify-center items-center my-[11px] mx-[18px]">
                 <ShareSvg className="w-[14px] h-[14px]" />
                 <span className="text-[14px] font-semibold leading-normal">
                   {t('share')}
                 </span>
               </div>
-            </CTAButton>
+            </CTAButton> */}
           </div>
           <div className="flex flex-col md:flex-row gap-[20px] pt-[10px] pb-[20px]">
             <div className="flex flex-col gap-[30px]">

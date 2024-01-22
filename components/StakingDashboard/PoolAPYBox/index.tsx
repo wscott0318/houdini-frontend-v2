@@ -55,14 +55,14 @@ const PoolAPYBox = ({poolApy, userApy}: {poolApy: bigint, userApy: bigint}) => {
               />
             </div>
           </div>
-          <div className="justify-center items-center w-full flex">
+          {/* <div className="justify-center items-center w-full flex">
             <CTAButton width="204px" height="48px">
               <div className="w-[204px] h-[48px] justify-center items-center text-center flex flex-row gap-[7px]">
                 <ShareSvg className="w-[14px] h-[14px]" />
                 <span>{t('share')}</span>
               </div>
             </CTAButton>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
