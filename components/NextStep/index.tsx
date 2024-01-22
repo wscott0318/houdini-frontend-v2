@@ -24,14 +24,10 @@ export const NextStep = ({
   return (
     <div
       id="nextstep"
-      className={`flex flex-col items-center ${
-        !widgetMode ? 'py-[50px] gap-[50px]' : ''
-      }`}
+      className="flex flex-col items-center"
     >
       <div
-        className={`flex flex-col relative z-30 ${
-          !widgetMode ? 'gap-[30px] py-[50px]' : 'mb-10'
-        }`}
+        className={`flex flex-col relative z-30 ${!widgetMode ? 'gap-[30px] pb-[50px]' : 'mb-10'}`}
       >
         <div className="lg:text-[81px] text-[50px] text-center font-extrabold text-[#FFFFFF] lg:leading-[102px] leading-[50px]">
           {t('nextStepPage')}

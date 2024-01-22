@@ -51,6 +51,7 @@ export const Countdown: React.FC<CountdownProps> = ({
           }
         }
       }, 1000)
+      return () => clearInterval(id)
     }
   }, [created, status])
 
