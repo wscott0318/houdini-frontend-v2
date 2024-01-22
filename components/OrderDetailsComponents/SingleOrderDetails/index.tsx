@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Loading } from '@/components/Loading'
 import { NextStep } from '@/components/NextStep'
@@ -51,12 +51,20 @@ export const SingleOrder = ({ t }: { t: any }) => {
     }
   }, [dataSingle, loadingSingle])
 
-  if (!loadingSingle && dataSingle) {
-    if (currentStep === ORDER_STEPS.NEXT_STEP) {
-      return <NextStep setCurrentStep={setCurrentStep} currentStep={currentStep} order={order} />
-    }
-    return <OrderDetails setCurrentStep={setCurrentStep} currentStep={currentStep} order={order} />
-  } else {
-    return <Loading />
-  }
+
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [currentStep])
+
+  const ref = useRef<HTMLDivElement>(null);
+
+  return <div ref={ref} className='mt-1'>
+    {!loadingSingle && dataSingle ?
+      (currentStep === ORDER_STEPS.NEXT_STEP ?
+        <NextStep setCurrentStep={setCurrentStep} currentStep={currentStep} order={order} />
+        : <OrderDetails setCurrentStep={setCurrentStep} currentStep={currentStep} order={order} />)
+      : <Loading />}
+  </div>
+
+
 }

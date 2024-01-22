@@ -177,6 +177,7 @@ export const OrderDetailModal = ({ order, setCurrentStep, currentStep }: OrderDe
                         token: getTokenDetails(order?.inSymbol),
                       }}
                       setIsLoading={setIsLoading}
+                      orderStatus={order?.status}
                     />
                     <div className="absolute flex flex-row top-1 right-1 lg:top-5 lg:right-2.5">
                       <QuestionSvg />

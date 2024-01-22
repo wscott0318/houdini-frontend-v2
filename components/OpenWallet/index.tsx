@@ -1,3 +1,4 @@
+import { ORDER_STATUS } from '@/utils/constants'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useMatomo } from 'matomo-react'
 import React from 'react'
@@ -19,7 +20,7 @@ import {
 
 // import { ChainPresets } from '@/utils/ChainPresets';
 
-export const OpenWallet = ({ amount, token, to, setIsLoading }: any) => {
+export const OpenWallet = ({ amount, token, to, setIsLoading, orderStatus }: any) => {
   const { openConnectModal } = useConnectModal()
   const { chain } = useNetwork()
   const { isConnected, address } = useAccount()
@@ -98,7 +99,7 @@ export const OpenWallet = ({ amount, token, to, setIsLoading }: any) => {
 
   try {
     value = parseEther(amount.toFixed(18).toString())
-  } catch (e) {}
+  } catch (e) { }
 
   const { config, error: prepareError } = usePrepareSendTransaction({
     chainId: token?.token?.chain,
@@ -203,11 +204,13 @@ export const OpenWallet = ({ amount, token, to, setIsLoading }: any) => {
     return null
   }
 
+  const isDisabled = orderStatus > ORDER_STATUS.WAITING
+
   return (
     <>
       <div
         onClick={() => handleOpenWallet()}
-        className="text-center relative text-white text-xs w-full h-full flex flex-row justify-center items-center lg:text-[15px] lg:font-bold font-medium hover:cursor-pointer"
+        className={`text-center relative text-white text-xs w-full h-full flex flex-row justify-center items-center lg:text-[15px] lg:font-bold font-medium ${isDisabled ? 'pointer-events-none opacity-50 cursor-not-allowed' : 'hover:cursor-pointer'}`}
       >
         {t('orderDetailModalOpenWallet')}
       </div>

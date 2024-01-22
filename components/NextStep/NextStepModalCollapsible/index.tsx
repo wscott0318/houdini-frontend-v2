@@ -105,6 +105,9 @@ export const OrderDetailModalCollapsible = ({
             animate={{
               opacity: isExpanded ? 1 : 0,
               height: isExpanded ? 'auto' : 0,
+              transitionEnd: {
+                display: "none",
+              },
             }}
             transition={{ duration: 0.2 }}
             className="w-full"
@@ -204,6 +207,7 @@ export const OrderDetailModalCollapsible = ({
                                 token: getTokenDetails(order?.inSymbol),
                               }}
                               setIsLoading={setIsLoading}
+                              orderStatus={order?.status}
                             />
                           </div>
                         </WalletRoundbox>
