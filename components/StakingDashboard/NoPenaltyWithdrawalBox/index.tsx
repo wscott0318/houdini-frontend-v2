@@ -12,17 +12,35 @@ import {
   InfoSquarewhiteSvg,
   WalletSvg,
 } from '@/components/Svg'
+import { toast } from 'react-toastify'
 
-const NoPenaltyWithdrawalBox = () => {
+const NoPenaltyWithdrawalBox = ({
+  handleNext,
+  handlePrevious,
+  handleClose,
+  handleResetState,
+}: {
+  handleNext: any
+  handlePrevious: any
+  handleClose: any
+  handleResetState: any
+}) => {
   const [value, setValue] = useState(0)
   const { t } = useTranslation()
+
+  const handleWithraw = () => {
+    toast.success('Withdrawal Successful')
+    handleClose()
+    handleResetState()
+  }
+
   return (
     <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px]">
       <div className="w-full h-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow flex flex-col gap-[10px]">
         <div className="flex flex-col gap-[22px] items-center">
           <div className="flex flex-row justify-between w-full items-center">
             <div className="flex flex-row gap-[16px] items-center">
-              <button>
+              <button onClick={handlePrevious}>
                 <BackIconSvg className="w-[20px] h-[20px]" />
               </button>
               <div className="flex flex-row gap-[10px] items-center">
@@ -36,7 +54,7 @@ const NoPenaltyWithdrawalBox = () => {
                 </span>
               </div>
             </div>
-            <button>
+            <button onClick={handleClose}>
               <CloseSvg className="w-[20px] h-[20px]" />
             </button>
           </div>
@@ -96,7 +114,7 @@ const NoPenaltyWithdrawalBox = () => {
             className={
               'p-[16px] flex w-[271px] h-[58px] justify-center items-center rounded-[120px] custom-day-widthrawal-button-gradient'
             }
-            onClick={() => {}}
+            onClick={handleWithraw}
           >
             <div className="flex flex-row gap-[7px] justify-center items-center">
               <WalletSvg className="w-[16px] h-[16px]" />

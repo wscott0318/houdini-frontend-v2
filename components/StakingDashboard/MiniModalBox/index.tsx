@@ -1,6 +1,7 @@
 import { MaxUint256 } from '@uniswap/sdk-core'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
 import { Account } from 'viem'
 import { formatEther, parseEther } from 'viem'
 import { useAccount, useToken } from 'wagmi'
@@ -23,7 +24,17 @@ const styles = {
   inputField: `w-full border-0 outline-none bg-transparent`,
 }
 
-const MiniModalBox = ({ user, token, staker, approved, timeLeft }: any) => {
+const MiniModalBox = ({
+  user,
+  token,
+  staker,
+  approved,
+  timeLeft,
+  handleNext,
+  handlePrevious,
+  handleClose,
+  handleResetState,
+}: any) => {
   const { t } = useTranslation()
   const [inputAmount, setInputAmount] = useState('0')
   const [balance, setBalance] = useState('0')
@@ -127,6 +138,8 @@ const MiniModalBox = ({ user, token, staker, approved, timeLeft }: any) => {
 
   const handleApprove = () => {
     writeApprove()
+    toast.success('Approve Successful')
+    handleNext()
   }
 
   const handleStakePool = () => {
@@ -146,9 +159,9 @@ const MiniModalBox = ({ user, token, staker, approved, timeLeft }: any) => {
     writeEmergencyExit()
   }
 
-  if (!staker) {
-    return <>Please switch to correct chain...</>
-  }
+  // if (!staker) {
+  //   return <>Please switch to correct chain...</>
+  // }
 
   return (
     <div className="flex items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px] w-[409px]">

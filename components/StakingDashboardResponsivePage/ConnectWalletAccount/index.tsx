@@ -58,7 +58,7 @@ export const ConnectWalletAccount = () => {
                   // </button>
 
                   <CTAButton onClick={openConnectModal}>
-                    <span className="px-[30px] relative z-[50] py-[12px] justify-center items-center">
+                    <span className="px-[30px] relative z-10 py-[12px] justify-center items-center">
                       Connect Wallet
                     </span>
                   </CTAButton>
@@ -67,7 +67,7 @@ export const ConnectWalletAccount = () => {
 
               if (chain?.unsupported || chain?.id !== targetNetwork.id) {
                 return (
-                  <div className="flex flex-col lg:flex-row relative gap-[12px] z-[50]">
+                  <div className="flex flex-col lg:flex-row relative gap-[12px] z-10">
                     <div className="inline-flex items-center justify-center p-[2px] rounded-[120px] bg-gradient-to-b from-white to-black" >
                       <div className="inline-flex justify-center rounded-[120px] w-full h-full items-center bg-gradient-to-br from-black to-[#252932] px-[30px] py-[8px]">
                         <button type='button' className=''
@@ -82,7 +82,7 @@ export const ConnectWalletAccount = () => {
               }
 
               return (
-                <div className="flex flex-col lg:flex-row relative gap-[12px] z-[50]">
+                <div className="flex flex-col lg:flex-row relative gap-[12px] z-10">
                   <CTAButton
                     width="191px"
                     height="44px"

@@ -21,7 +21,7 @@ const donutData = [
   { name: 'earned', value: 10 },
 ]
 
-const BalanceBox = ({ user, earned }: any) => {
+const BalanceBox = ({ user, earned, setStakeOpen }: any) => {
   const { t } = useTranslation()
 
   const userTotalLocked = (user?.balance as bigint ?? 0n) + (earned as bigint ?? 0n);
@@ -142,7 +142,7 @@ const BalanceBox = ({ user, earned }: any) => {
                 </span>
               </div>
             </CTAButton>
-            <CTAButton height="48px" width="146px">
+            <CTAButton onClick={() => {setStakeOpen(true)}} height="48px" width="146px">
               <div className="flex flex-row gap-[7px] justify-center items-center mx-[20px] my-[14px]">
                 <StakeMoreSvg className="w-[16px] h-[16px]" />
                 <span className="text-[16px] font-semibold">
