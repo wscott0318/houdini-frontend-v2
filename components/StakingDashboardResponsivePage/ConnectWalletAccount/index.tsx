@@ -1,12 +1,17 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import Image from 'next/image'
-import { useDisconnect } from 'wagmi'
+import { useDisconnect, useSwitchNetwork } from 'wagmi'
 
-import avatar from '@/assets/avatar.png'
 import CTAButton from '@/components/StakingDashboard/CTAButton'
+import { BlockieAvatar } from '@/components/StakingDashboard/RainbowKitCustomConnectButton/BlockieAvatar'
+import { getBlockExplorerAddressLink } from '@/staking/utils/scaffold-eth'
+import { useTargetNetwork } from '@/staking/hooks/scaffold-eth/useTargetNetwork'
+import { WrongNetworkDropdown } from '@/components/StakingDashboard/RainbowKitCustomConnectButton/WrongNetworkDropdown'
 
 export const ConnectWalletAccount = () => {
   const { disconnect } = useDisconnect()
+  const { targetNetwork } = useTargetNetwork();
+  const { chains, error, isLoading, pendingChainId, switchNetwork } = useSwitchNetwork()
+
   return (
     <ConnectButton.Custom>
       {({
@@ -18,6 +23,10 @@ export const ConnectWalletAccount = () => {
         authenticationStatus,
         mounted,
       }) => {
+        const blockExplorerAddressLink = account
+          ? getBlockExplorerAddressLink(targetNetwork, account.address)
+          : undefined;
+
         // Note: If your app doesn't use authentication, you
         // can remove all 'authenticationStatus' checks
         const ready = mounted && authenticationStatus !== 'loading'
@@ -57,9 +66,9 @@ export const ConnectWalletAccount = () => {
                 )
               }
 
-              if (chain.unsupported) {
+              if (chain?.unsupported || chain?.id !== targetNetwork.id) {
                 return (
-                  <button onClick={openChainModal} type="button">
+                  <button onClick={() => switchNetwork?.(targetNetwork.id)} type="button">
                     Wrong network
                   </button>
                 )
@@ -80,15 +89,15 @@ export const ConnectWalletAccount = () => {
                     <div className="inline-flex justify-center rounded-[120px] w-full h-full items-center bg-gradient-to-br from-black to-[#252932] px-[30px] py-[8px]">
                       <div className="flex flex-row gap-[10px]">
                         <span className="text-[16px] font-semibold leading-normal">
-                          {account.displayName}
-                          {/* {account.address} */}
-                          {/* 0xeed9978.....e372b0154 */}
+                          <a
+                            target="_blank"
+                            href={blockExplorerAddressLink}
+                            rel="noopener noreferrer"
+                            className="whitespace-nowrap"
+                          >
+                            {account.displayName}</a>
                         </span>
-                        <Image
-                          src={avatar}
-                          className="lg:w-[24px] lg:h-[24px]"
-                          alt="avatar"
-                        />
+                        <BlockieAvatar size={24} address={account.address} ensImage={account.ensAvatar} />
                       </div>
                     </div>
                   </div>

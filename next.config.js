@@ -5,7 +5,8 @@ const nextConfig = {
   images: {
     domains: [
       'localhost',
-      'karma.houdiniswap.com',
+      'houdiniswap.com',
+      'xblock.tech',
     ],
   },
   env: {

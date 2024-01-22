@@ -70,8 +70,8 @@ const NextBurnBox = () => {
 
   const addressPath = [
     tokenContract?.address,
-    ADDRESSES[chain?.id ?? 1].weth,
-    ADDRESSES[chain?.id ?? 1].usd,
+    ADDRESSES[chain?.id ?? 1]?.weth,
+    ADDRESSES[chain?.id ?? 1]?.usd,
   ]
   const { data: tvl } = useScaffoldContractRead({
     contractName: 'UniswapRouter2',

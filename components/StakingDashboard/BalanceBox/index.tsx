@@ -32,8 +32,8 @@ const BalanceBox = ({ user, earned }: any) => {
   })
   const addressPath = [
     tokenContract?.address,
-    ADDRESSES[chain?.id ?? 1].weth,
-    ADDRESSES[chain?.id ?? 1].usd,
+    ADDRESSES[chain?.id ?? 1]?.weth,
+    ADDRESSES[chain?.id ?? 1]?.usd,
   ]
   const { data: totalUsd } = useScaffoldContractRead({
     contractName: 'UniswapRouter2',
