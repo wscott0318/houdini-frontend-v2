@@ -90,7 +90,7 @@ const UnstakeModalBox = ({
     } as any)
 
   const handleApprove = () => {
-    // writeApprove()
+    writeApprove()
     toast.success('Stake Successful')
     handleClose()
     handleResetState()

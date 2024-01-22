@@ -137,7 +137,7 @@ const MiniModalBox = ({
     } as any)
 
   const handleApprove = () => {
-    // writeApprove()
+    writeApprove()
     toast.success('Approve Successful')
     handleNext()
   }
