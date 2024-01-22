@@ -39,7 +39,7 @@ export default function Dashboard() {
   const [user, setUser] = useState<any>()
   const [timeLeft, setTimeLeft] = useState(0)
   const [earned, setEarned] = useState(0n)
-  const [apy, setApy] = useState(0n)
+  const [userApy, setUserApy] = useState(0n)
   const [approved, setApproved] = useState(0n)
 
   const { data: userData } = useScaffoldContractRead({
@@ -60,7 +60,7 @@ export default function Dashboard() {
       setUser(userDataArr[0])
       setTimeLeft(Number(userDataArr[1]))
       setEarned(userDataArr[2])
-      setApy(userDataArr[3])
+      setUserApy(userDataArr[3])
     }
     if (approvedData) {
       setApproved(approvedData as any)
@@ -104,7 +104,7 @@ export default function Dashboard() {
       </div>
       <div className="flex flex-row flex-wrap gap-[40px]">
         <BalanceBox user={user} earned={earned} />
-        <PoolAPYBox />
+        <PoolAPYBox poolApy={poolApy} userApy={userApy} />
       </div>
       <MiniModalBox
         user={user}

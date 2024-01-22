@@ -69,7 +69,7 @@ const BalanceBox = ({ user, earned }: any) => {
             <div className="flex flex-col gap-[26px]">
               {t('balanceboxTitle')}
               <div className="relative lg:w-[198px] lg:h-[109px] w-[100px] h-[50px]">
-                <HalfCircledDonutChart deposited={userBalanceNumber} earned={userEarnedNumber} heightCustom={100} widthCustom={100} />
+                <HalfCircledDonutChart deposited={userBalanceNumber} earned={userEarnedNumber} heightCustom={198} widthCustom={198} />
               </div>
             </div>
             <div className="flex flex-col pt-[20px]">

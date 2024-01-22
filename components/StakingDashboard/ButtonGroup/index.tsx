@@ -14,8 +14,8 @@ const ButtonGroup = ({ names, onSelect }: Props) => {
           key={index}
           className={
             selected == index
-              ? `px-[10px] min-h-[60px] h-auto py-[5px] rounded-[20px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9]`
-              : `px-[10px] min-h-[60px] h-auto py-[5px] rounded-[20px]`
+              ? `px-[30px] py-[10px] rounded-[20px] rounded-[20px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9]`
+              : `px-[30px] py-[10px] rounded-[20px]]`
           }
           onClick={() => {
             setSelected(index)

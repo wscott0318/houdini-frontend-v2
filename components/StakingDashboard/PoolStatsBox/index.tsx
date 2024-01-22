@@ -214,8 +214,8 @@ const PoolStatsBox = () => {
             <div className="flex flex-col md:flex-row gap-[71px]">
               <DonutChart
                 fallen={fallenWizardApyPercent}
-                customWidth={50}
-                customHeight={50}
+                customWidth={150}
+                customHeight={150}
               />
               <div className="flex flex-col gap-[16px]">
                 <div className="flex flex-row gap-[20px] items-center">

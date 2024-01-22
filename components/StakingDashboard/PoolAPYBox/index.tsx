@@ -12,14 +12,14 @@ export interface IGroupedData {
 }
 
 const GROUPED_BAR_CHART_DATA: IGroupedData[] = [
-  { label: 'Jan', values: [120, 30] },
-  { label: 'Feb', values: [100, 15] },
-  { label: 'Mar', values: [150, 30] },
-  { label: 'Apr', values: [170, 20] },
-  { label: 'May', values: [130, 10] },
+  { label: 'Jan', values: [120] },
+  { label: 'Feb', values: [100] },
+  { label: 'Mar', values: [150] },
+  { label: 'Apr', values: [170] },
+  { label: 'May', values: [130] },
 ]
 
-const PoolAPYBox = () => {
+const PoolAPYBox = ({poolApy, userApy}: {poolApy: bigint, userApy: bigint}) => {
   const { t } = useTranslation()
   return (
     <div className="relative flex flex-col items-center backdrop-blur-[46px] w-full custom-modal-step2-drop-shadow rounded-[28px] h-auto xl:w-[360px] xl:h-[706px]">
@@ -32,13 +32,13 @@ const PoolAPYBox = () => {
             </div>
             <div className="flex flex-col gap-[10px]">
               <span className="bg-gradient-to-b from-green-300 to-green-700 font-medium bg-clip-text text-transparent text-[50px]">
-                +17.40%
+                +{Number(poolApy)}%
               </span>
               <div className="flex flex-col gap-[6px]">
                 <span className="pb-[10px] text-[20px]">
                   {t('poolApycustomerAvgApy')}
                 </span>
-                <span className="text-[50px] font-medium">+15.00%</span>
+                <span className="text-[50px] font-medium">+{Number(userApy)}%</span>
               </div>
             </div>
           </div>

@@ -16,10 +16,19 @@ const HalfCircledDonutChart = ({
   const svgRef = useRef(null)
 
   useEffect(() => {
-    const data: any = [
-      { label: t("earned"), value: earned*100/(deposited + earned)},
-      { label: t("deposited"), value:deposited*100/(deposited + earned) },
-    ]
+    let data: any = [];
+    if (deposited) {
+      data = [
+        { label: t("earned"), value: earned * 100 / (deposited + earned) },
+        { label: t("deposited"), value: deposited * 100 / (deposited + earned) },
+      ]
+    } else {
+      data = [
+        { label: t("earned"), value: 0 },
+        { label: t("deposited"), value: 100 },
+      ]
+    }
+
 
     const svg = d3.select(svgRef.current)
 
