@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 
-import { StakeMoreSvg } from '@/components/Svg'
+import { CloseSvg, StakeMoreSvg } from '@/components/Svg'
 
 import QTYButton from '../QTYButton'
 
@@ -11,21 +11,32 @@ const WithdrawalExplainerBox = ({
   handlePrevious,
   handleClose,
   handleResetState,
+  setIsPenalty,
 }: {
   handleNext: any
   handlePrevious: any
   handleClose: any
   handleResetState: any
+  setIsPenalty: any
 }) => {
-  const handleWithraw = () => {
-    toast.success('Withdrawal Successful')
-    handleClose()
-    handleResetState()
+  const handlePenalty = () => {
+    setIsPenalty(true)
+    handleNext()
+  }
+
+  const handleNoPenalty = () => {
+    setIsPenalty(false)
+    handleNext()
   }
 
   const { t } = useTranslation()
   return (
     <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px]">
+      <div className="absolute top-[30px] right-[30px]">
+        <button onClick={handleClose}>
+          <CloseSvg className="w-[20px] h-[20px]" />
+        </button>
+      </div>
       <div className="w-[612px] p-[30px] rounded-[28px] custom-balances-box-inner-shadow flex flex-col gap-[10px]  justify-center items-center">
         <div className="flex flex-col gap-[10px] pb-[20px] text-center w-[496px]">
           <div className="flex flex-col gap-[5px]">
@@ -89,7 +100,7 @@ const WithdrawalExplainerBox = ({
             className={
               'p-[16px] flex w-full justify-center items-center rounded-[120px] custom-day-widthrawal-button-gradient'
             }
-            onClick={handleWithraw}
+            onClick={handleNoPenalty}
           >
             <div className="flex flex-row gap-[7px] justify-center items-center">
               <StakeMoreSvg className="w-[16px] h-[16px]" />
@@ -102,7 +113,7 @@ const WithdrawalExplainerBox = ({
             className={
               'p-[16px] flex w-full justify-center items-center rounded-[120px] custom-instant-withdrawal-button-gradient'
             }
-            onClick={handleWithraw}
+            onClick={handlePenalty}
           >
             <div className="flex flex-row gap-[7px] justify-center items-center">
               <StakeMoreSvg className="w-[16px] h-[16px]" />

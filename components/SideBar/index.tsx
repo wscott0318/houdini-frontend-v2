@@ -98,7 +98,7 @@ export function SideBar() {
     },
   }
 
-  const MAX_STEP = 2
+  const MAX_STEP = 1
   const MIN_STEP = 0
 
   const handleNext = () => {
@@ -119,38 +119,11 @@ export function SideBar() {
     })
   }
 
-  const PenaltyDecision = () => {
-    return (
-      <div className="flex flex-row justify-center items-center gap-[40px]">
-        <button
-          onClick={() => {
-            setIsPenalty(false)
-            handleNext()
-          }}
-        >
-          Without Penalty
-        </button>
-        <button
-          onClick={() => {
-            setIsPenalty(true)
-            handleNext()
-          }}
-        >
-          With Penalty
-        </button>
-      </div>
-    )
-  }
-
   const components = [
-    { Component: PenaltyDecision, key: 'withdraw-step-0' },
+    { Component: WithdrawalExplainerBox, key: 'withdraw-step-0' },
     {
       Component: isPenalty ? WithdrawalBox : NoPenaltyWithdrawalBox,
       key: 'withdraw-step-1',
-    },
-    {
-      Component: WithdrawalExplainerBox,
-      key: 'withdraw-step-2',
     },
   ]
 
@@ -335,6 +308,7 @@ export function SideBar() {
                       handlePrevious={handlePrevious}
                       handleClose={handleClose}
                       handleResetState={handleResetState}
+                      setIsPenalty={setIsPenalty}
                     />
                   </div>
                 </div>
