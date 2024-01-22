@@ -1,6 +1,7 @@
 import { MaxUint256 } from '@uniswap/sdk-core'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
 import { Account } from 'viem'
 import { formatEther, parseEther } from 'viem'
 import { useAccount, useToken } from 'wagmi'
@@ -23,7 +24,15 @@ const styles = {
   inputField: `w-full border-0 outline-none bg-transparent`,
 }
 
-const UnstakeModalBox = ({ token, staker, approved }: any) => {
+const UnstakeModalBox = ({
+  token,
+  staker,
+  approved,
+  handleNext,
+  handlePrevious,
+  handleClose,
+  handleResetState,
+}: any) => {
   const { t } = useTranslation()
   const [inputAmount, setInputAmount] = useState('0')
   const [balance, setBalance] = useState('0')
@@ -81,12 +90,15 @@ const UnstakeModalBox = ({ token, staker, approved }: any) => {
     } as any)
 
   const handleApprove = () => {
-    writeApprove()
+    // writeApprove()
+    toast.success('Stake Successful')
+    handleClose()
+    handleResetState()
   }
 
-  if (!staker) {
-    return <>Please switch to correct chain...</>
-  }
+  // if (!staker) {
+  //   return <>Please switch to correct chain...</>
+  // }
   return (
     <div className="flex items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px] w-[409px]">
       <div className="flex flex-col w-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow gap-[30px]">
@@ -174,7 +186,7 @@ const UnstakeModalBox = ({ token, staker, approved }: any) => {
           >
             <div className="flex flex-row gap-[7px] justify-center items-center">
               <StakeMoreSvg className="w-[16px] h-[16px]" />
-              <span className="text-[16px] font-semibold">Approve</span>
+              <span className="text-[16px] font-semibold">Stake</span>
             </div>
           </button>
         ) : (
