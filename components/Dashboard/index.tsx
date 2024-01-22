@@ -25,6 +25,15 @@ export default function Dashboard() {
   const [clientAddress] = useState<Account>()
   const { address } = useAccount()
 
+  const { data: historicalData } = useScaffoldContractRead({
+    contractName: 'Staker',
+    functionName: 'UserInfo',
+    args: [address],
+    blockNumber: 123323,
+  } as any)
+
+  console.log(historicalData)
+
   const { data: deployedTokenData, isLoading: deployedTokenLoading } =
     useScaffoldContract({
       contractName: 'Houdini',
@@ -169,7 +178,7 @@ export default function Dashboard() {
         </div>
         <div className="flex flex-row flex-wrap gap-[40px]">
           <BalanceBox setStakeOpen={setStakeOpen} user={user} earned={earned} />
-          <PoolAPYBox poolApy={poolApy} userApy={userApy} />
+          <PoolAPYBox poolApy={poolApy} userApy={userApy} earned={earned} balance={user?.balance} />
         </div>
       </div>
       <AnimatePresence>
