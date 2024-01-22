@@ -20,12 +20,12 @@ export const OrderDetails = ({ order, currentStep, setCurrentStep }: { order: an
       {!isDeleted && !isExpired && (
         <div
           id="orderdetails"
-          className="flex flex-col justify-center items-center gap-[30px] lg:gap-[10px] w-full relative z-30"
+          className={`flex flex-col relative z-30 ${!widgetMode ? 'gap-[30px] pb-[50px]' : 'mb-10'}`}
         >
-          <div className="lg:text-[81px] text-center font-bold leading-[102px] capitalize tracking-[-0px] w-full">
+          <div className="lg:text-[81px] text-[50px] text-center font-extrabold text-[#FFFFFF] lg:leading-[102px] leading-[50px]">
             {t('orderDetailsPageTitle')}
           </div>
-          <div className="flex flex-col font-normal lg:text-[19px] w-full leading-[30px] items-center justify-center text-[#B8CAFC] text-center">
+          <div className="lg:text-[19px] font-normal lg:leading-[30px] leading-[20px] text-[#B8CAFC] text-center">
             {t('orderDetailsContent')}
           </div>
         </div>
