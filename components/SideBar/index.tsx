@@ -1,12 +1,22 @@
+import { AnimatePresence, motion } from 'framer-motion'
+import { Portal } from 'houdini-react-sdk'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { isAddress } from 'viem'
+import { useAccount, useEnsAvatar, useEnsName } from 'wagmi'
 
 import avatar from '@/assets/avatar.png'
 import logo from '@/assets/logo.png'
+import { useTargetNetwork } from '@/staking/hooks/scaffold-eth/useTargetNetwork'
+import { getBlockExplorerAddressLink } from '@/staking/utils/scaffold-eth'
+import { animation } from '@/utils/helpers'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
+import NoPenaltyWithdrawalBox from '../StakingDashboard/NoPenaltyWithdrawalBox'
+import { BlockieAvatar } from '../StakingDashboard/RainbowKitCustomConnectButton/BlockieAvatar'
+import WithdrawalBox from '../StakingDashboard/WithdrawalBox'
 import {
   ChartSvg,
   DocumentSvg,
@@ -17,11 +27,7 @@ import {
   SidebarQuestionSvg,
   WidthrawSvg,
 } from '../Svg'
-import { BlockieAvatar } from '../StakingDashboard/RainbowKitCustomConnectButton/BlockieAvatar'
-import { useTargetNetwork } from '@/staking/hooks/scaffold-eth/useTargetNetwork'
-import { useAccount, useEnsAvatar, useEnsName } from 'wagmi'
-import { getBlockExplorerAddressLink } from '@/staking/utils/scaffold-eth'
-import { isAddress } from 'viem'
+import WithdrawalExplainerBox from '../StakingDashboard/WithdrawalExplainerBox'
 
 export function SideBar() {
   const { t } = useTranslation()
@@ -30,8 +36,10 @@ export function SideBar() {
   const account = useAccount()
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const [ens, setEns] = useState<string | null>();
-  const [ensAvatar, setEnsAvatar] = useState<string | null>();
+  const [ens, setEns] = useState<string | null>()
+  const [ensAvatar, setEnsAvatar] = useState<string | null>()
+  const [withdrawOpen, setWithdrawOpen] = useState(false)
+  const [isPenalty, setIsPenalty] = useState(false)
 
   useEffect(() => {
     if (width > 768) {
@@ -44,25 +52,117 @@ export function SideBar() {
   }
 
   const blockExplorerAddressLink = account
-    ? getBlockExplorerAddressLink(targetNetwork, account?.address ?? "")
-    : undefined;
+    ? getBlockExplorerAddressLink(targetNetwork, account?.address ?? '')
+    : undefined
 
-    const { data: fetchedEns } = useEnsName({ address: account?.address, enabled: isAddress(account?.address ?? ""), chainId: 1 });
-    const { data: fetchedEnsAvatar } = useEnsAvatar({
-      name: fetchedEns,
-      enabled: Boolean(fetchedEns),
-      chainId: 1,
-      cacheTime: 30_000,
-    });
-  
-    // We need to apply this pattern to avoid Hydration errors.
-    useEffect(() => {
-      setEns(fetchedEns);
-    }, [fetchedEns]);
-  
-    useEffect(() => {
-      setEnsAvatar(fetchedEnsAvatar);
-    }, [fetchedEnsAvatar]);
+  const { data: fetchedEns } = useEnsName({
+    address: account?.address,
+    enabled: isAddress(account?.address ?? ''),
+    chainId: 1,
+  })
+  const { data: fetchedEnsAvatar } = useEnsAvatar({
+    name: fetchedEns,
+    enabled: Boolean(fetchedEns),
+    chainId: 1,
+    cacheTime: 30_000,
+  })
+
+  // We need to apply this pattern to avoid Hydration errors.
+  useEffect(() => {
+    setEns(fetchedEns)
+  }, [fetchedEns])
+
+  useEffect(() => {
+    setEnsAvatar(fetchedEnsAvatar)
+  }, [fetchedEnsAvatar])
+
+  const initialState = {
+    step: 0,
+  }
+  const [state, setState] = useState(initialState)
+
+  const currentState = `step${state.step}`
+
+  const stateMachine = {
+    step0: {
+      previous: 'step0',
+      next: 'step1',
+    },
+    step1: {
+      previous: 'step0',
+      next: 'step2',
+    },
+    step2: {
+      previous: 'step1',
+      next: 'step3',
+    },
+  }
+
+  const MAX_STEP = 2
+  const MIN_STEP = 0
+
+  const handleNext = () => {
+    const nextState = (stateMachine as any)[currentState]?.next ?? ''
+    const nextStep = parseInt(nextState.slice(-1), 10)
+
+    setState({
+      step: Math.min(nextStep, MAX_STEP),
+    })
+  }
+
+  const handlePrevious = () => {
+    const previousState = (stateMachine as any)[currentState]?.previous ?? ''
+    const previousStep = parseInt(previousState.slice(-1), 10)
+
+    setState({
+      step: Math.max(previousStep, MIN_STEP),
+    })
+  }
+
+  const PenaltyDecision = () => {
+    return (
+      <div className="flex flex-row justify-center items-center gap-[40px]">
+        <button
+          onClick={() => {
+            setIsPenalty(false)
+            handleNext()
+          }}
+        >
+          Without Penalty
+        </button>
+        <button
+          onClick={() => {
+            setIsPenalty(true)
+            handleNext()
+          }}
+        >
+          With Penalty
+        </button>
+      </div>
+    )
+  }
+
+  const components = [
+    { Component: PenaltyDecision, key: 'withdraw-step-0' },
+    {
+      Component: isPenalty ? WithdrawalBox : NoPenaltyWithdrawalBox,
+      key: 'withdraw-step-1',
+    },
+    {
+      Component: WithdrawalExplainerBox,
+      key: 'withdraw-step-2',
+    },
+  ]
+
+  const { Component, key } = components[state.step] as any
+
+  const handleClose = () => {
+    setWithdrawOpen(false)
+  }
+
+  const handleResetState = () => {
+    setState(initialState)
+  }
 
   return (
     <>
@@ -151,15 +251,15 @@ export function SideBar() {
             </ul>
             <ul className="space-y-2 font-semibold text-[14px]">
               <li>
-                <a
-                  href="#"
-                  className="flex items-center p-[16px] text-[#A0AEC0]  hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
+                <div
+                  onClick={() => setWithdrawOpen(true)}
+                  className="flex items-center cursor-pointer p-[16px] text-[#A0AEC0]  hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
                 >
                   <WidthrawSvg className="w-[24px] h-[24px] stroke-white" />
                   <span className="lg:text-[14px] text-[0px] lg:ms-[16px]">
                     {t('sidebarWidthraw')}
                   </span>
-                </a>
+                </div>
               </li>
               <li>
                 <a
@@ -180,14 +280,19 @@ export function SideBar() {
                   rel="noopener noreferrer"
                   className="flex items-center lg:pl-[16px] lg:justify-start justify-center text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
                 >
-                  {account?.address ?
-                    <BlockieAvatar size={24} address={account?.address ?? ""} ensImage={ensAvatar ?? ""} />
-                    : <Image
+                  {account?.address ? (
+                    <BlockieAvatar
+                      size={24}
+                      address={account?.address ?? ''}
+                      ensImage={ensAvatar ?? ''}
+                    />
+                  ) : (
+                    <Image
                       src={avatar}
                       className="lg:w-[24px] lg:h-[24px] w-[40px] h-[40px]"
                       alt="avatar"
                     />
-                  }
+                  )}
                   <span className="lg:text-[14px] text-[0px] lg:ms-[16px]">
                     {t('sidebarAccount')}
                   </span>
@@ -197,6 +302,47 @@ export function SideBar() {
           </div>
         </div>
       ) : null}
+      <AnimatePresence>
+        {withdrawOpen ? (
+          <Portal>
+            <motion.div
+              className="z-10 fixed left-0 top-0 w-screen h-screen"
+              aria-labelledby="modal-title"
+              role="dialog"
+              aria-modal="true"
+              initial="hidden"
+              exit="hidden"
+              animate="visible"
+              variants={animation}
+            >
+              <div
+                onClick={(e) => {
+                  e.preventDefault()
+                  const target = e.target as HTMLElement
+                  if (target.id === 'dropdownClickable') {
+                    handleClose()
+                  }
+                }}
+                className="fixed inset-0 z-10 w-screen overflow-y-auto bg-black/50 drop-shadow-2xl backdrop-blur-[5px]"
+              >
+                <div
+                  id="dropdownClickable"
+                  className="flex relative min-h-full items-start justify-center sm:items-center p-6 md:p-0"
+                >
+                  <div className="flex flex-col xl:flex-row justify-center items-start gap-[56px]">
+                    <Component
+                      handleNext={handleNext}
+                      handlePrevious={handlePrevious}
+                      handleClose={handleClose}
+                      handleResetState={handleResetState}
+                    />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </Portal>
+        ) : null}
+      </AnimatePresence>
     </>
   )
 }

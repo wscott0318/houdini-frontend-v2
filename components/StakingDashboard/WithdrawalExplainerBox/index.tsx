@@ -1,11 +1,28 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
 
 import { StakeMoreSvg } from '@/components/Svg'
 
 import QTYButton from '../QTYButton'
 
-const WithdrawalExplainerBox = () => {
+const WithdrawalExplainerBox = ({
+  handleNext,
+  handlePrevious,
+  handleClose,
+  handleResetState,
+}: {
+  handleNext: any
+  handlePrevious: any
+  handleClose: any
+  handleResetState: any
+}) => {
+  const handleWithraw = () => {
+    toast.success('Withdrawal Successful')
+    handleClose()
+    handleResetState()
+  }
+
   const { t } = useTranslation()
   return (
     <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px]">
@@ -72,7 +89,7 @@ const WithdrawalExplainerBox = () => {
             className={
               'p-[16px] flex w-full justify-center items-center rounded-[120px] custom-day-widthrawal-button-gradient'
             }
-            onClick={() => {}}
+            onClick={handleWithraw}
           >
             <div className="flex flex-row gap-[7px] justify-center items-center">
               <StakeMoreSvg className="w-[16px] h-[16px]" />
@@ -85,7 +102,7 @@ const WithdrawalExplainerBox = () => {
             className={
               'p-[16px] flex w-full justify-center items-center rounded-[120px] custom-instant-withdrawal-button-gradient'
             }
-            onClick={() => {}}
+            onClick={handleWithraw}
           >
             <div className="flex flex-row gap-[7px] justify-center items-center">
               <StakeMoreSvg className="w-[16px] h-[16px]" />

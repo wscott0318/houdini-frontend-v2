@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
 
 import LockTokenIcon1 from '@/assets/LockTokenIcon1.png'
 import {
@@ -16,16 +17,33 @@ import {
 
 import SwitchButton from './SwitchButton'
 
-const WithdrawalBox = () => {
+const WithdrawalBox = ({
+  handleNext,
+  handlePrevious,
+  handleClose,
+  handleResetState,
+}: {
+  handleNext: any
+  handlePrevious: any
+  handleClose: any
+  handleResetState: any
+}) => {
   const [value, setValue] = useState(0)
   const { t } = useTranslation()
+
+  const handleWithraw = () => {
+    toast.success('Withdrawal Successful')
+    handleClose()
+    handleResetState()
+  }
+
   return (
     <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px]">
       <div className="w-full h-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow flex flex-col gap-[10px]">
         <div className="flex flex-col gap-[22px] items-center">
           <div className="flex flex-row justify-between w-full items-center">
             <div className="flex flex-row gap-[16px] items-center">
-              <button>
+              <button onClick={handlePrevious}>
                 <BackIconSvg className="w-[20px] h-[20px]" />
               </button>
               <div className="flex flex-row gap-[10px] items-center">
@@ -40,7 +58,7 @@ const WithdrawalBox = () => {
                 </div>
               </div>
             </div>
-            <button>
+            <button onClick={handleClose}>
               <CloseSvg className="w-[20px] h-[20px]" />
             </button>
           </div>
@@ -180,7 +198,7 @@ const WithdrawalBox = () => {
               className={
                 'p-[16px] flex w-[271px] h-[58px] justify-center items-center rounded-[120px] custom-instant-withdrawal-button-gradient'
               }
-              onClick={() => {}}
+              onClick={handleNext}
             >
               <div className="flex flex-row gap-[7px] justify-center items-center">
                 <WalletSvg className="w-[16px] h-[16px]" />
@@ -194,7 +212,7 @@ const WithdrawalBox = () => {
               className={
                 'p-[16px] flex w-[271px] h-[58px] justify-center items-center rounded-[120px] custom-day-widthrawal-button-gradient'
               }
-              onClick={() => {}}
+              onClick={handleWithraw}
             >
               <div className="flex flex-row gap-[7px] justify-center items-center">
                 <WalletSvg className="w-[16px] h-[16px]" />

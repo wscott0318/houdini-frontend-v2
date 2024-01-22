@@ -14,7 +14,7 @@ import { ResponsivePage } from '@/components/ResponsivePage'
 import { TranslatedContent } from '@/components/TranslatedContent'
 import { userClientUpload } from '@/lib/apollo/apollo-client'
 import { SEND_BUG_MUTATION } from '@/lib/apollo/query'
-import { showErrorMessage } from '@/utils/helpers'
+import { animation, showErrorMessage } from '@/utils/helpers'
 
 const bugBountyKeys = [
   {
@@ -280,17 +280,6 @@ export default function BugBountyProgram() {
 
   const handleClose = () => {
     setModalOpen(false)
-  }
-
-  const animation = {
-    hidden: {
-      y: '100%',
-      transition: { duration: 0.3 },
-    },
-    visible: {
-      y: '0',
-      transition: { duration: 0.3 },
-    },
   }
 
   return (
