@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import Humanize from 'humanize-plus'
+import { formatUnits, parseUnits } from 'viem'
 
 import LockTokenIcon1 from '@/assets/LockTokenIcon1.png'
 import LockTokenIcon2 from '@/assets/LockTokenIcon2.png'
@@ -9,14 +11,56 @@ import { StakeMoreSvg } from '@/components/Svg'
 import CTAButton from '../CTAButton'
 import MiniModalBox from '../MiniModalBox'
 import HalfCircledDonutChart from './HalfCircledDonutChart'
+import { useScaffoldContract, useScaffoldContractRead } from '@/staking/hooks/scaffold-eth'
+import { ADDRESSES, USD_DECIMALS } from '@/utils/constants'
+import { chain } from 'lodash'
+import { useNetwork } from 'wagmi'
 
 const donutData = [
   { name: 'deposited', value: 50 },
   { name: 'earned', value: 10 },
 ]
 
-const BalanceBox = () => {
+const BalanceBox = ({ user, earned }: any) => {
   const { t } = useTranslation()
+
+  const userTotalLocked = (user?.balance as bigint ?? 0n) + (earned as bigint ?? 0n);
+
+  const { chain } = useNetwork()
+  const { data: tokenContract } = useScaffoldContract({
+    contractName: 'Houdini',
+  })
+  const addressPath = [
+    tokenContract?.address,
+    ADDRESSES[chain?.id ?? 1].weth,
+    ADDRESSES[chain?.id ?? 1].usd,
+  ]
+  const { data: totalUsd } = useScaffoldContractRead({
+    contractName: 'UniswapRouter2',
+    functionName: 'getAmountsOut',
+    args: [userTotalLocked ?? 0n, addressPath],
+  } as any)
+
+  const { data: balanceUsd } = useScaffoldContractRead({
+    contractName: 'UniswapRouter2',
+    functionName: 'getAmountsOut',
+    args: [user?.balance ?? 0n, addressPath],
+  } as any)
+
+  const userBalanceNumber = parseFloat(
+    formatUnits(
+      (user?.balance as bigint) ?? 0n,
+      18,
+    ),
+  );
+
+  const userEarnedNumber = parseFloat(
+    formatUnits(
+      (earned as bigint) ?? 0n,
+      18,
+    ),
+  );
+
   return (
     <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-full xl:w-[360px] xl:h-[706px] p-[1px]">
       <div className="w-full h-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow">
@@ -25,7 +69,7 @@ const BalanceBox = () => {
             <div className="flex flex-col gap-[26px]">
               {t('balanceboxTitle')}
               <div className="relative lg:w-[198px] lg:h-[109px] w-[100px] h-[50px]">
-                <HalfCircledDonutChart heightCustom={100} widthCustom={100} />
+                <HalfCircledDonutChart deposited={userBalanceNumber} earned={userEarnedNumber} heightCustom={100} widthCustom={100} />
               </div>
             </div>
             <div className="flex flex-col pt-[20px]">
@@ -34,10 +78,10 @@ const BalanceBox = () => {
                   {t('totakLockBalance')}
                 </div>
                 <div className="text-[20px] lg:text-[50px] font-normal leading-normal">
-                  45,492.07
+                  {Humanize.formatNumber(parseFloat(formatUnits(userTotalLocked, 18)))}
                 </div>
                 <div className="text-[14px] font-normal text-[#A5A5A5] leading-normal">
-                  (3,700.96 USD)
+                  ({Humanize.formatNumber(parseFloat(formatUnits((totalUsd as any)?.[2] as unknown as bigint ?? 0n, USD_DECIMALS)), 2)} USD)
                 </div>
               </div>
             </div>
@@ -57,9 +101,9 @@ const BalanceBox = () => {
                     {t('deposited')}
                   </span>
                   <span className="text-[20px] font-medium leading-[19px]">
-                    42,000.00 $LOCK
+                    {Humanize.formatNumber(userBalanceNumber)} $LOCK
                   </span>
-                  <span className="text-[#A5A5A5]">3,000.00 USD</span>
+                  <span className="text-[#A5A5A5]">{Humanize.formatNumber(parseFloat(formatUnits((balanceUsd as any)?.[2] as unknown as bigint ?? 0n, USD_DECIMALS)), 2)} USD</span>
                 </div>
               </div>
               <div className="flex flex-row gap-[20px] items-center">
@@ -77,14 +121,14 @@ const BalanceBox = () => {
                     {t('earned')}
                   </span>
                   <span className="text-[20px] font-medium leading-[19px]">
-                    3,492.07 $LOCK
+                    {Humanize.formatNumber(userEarnedNumber)} $LOCK
                   </span>
                   <span
                     className={
                       'bg-gradient-to-t from-green-300 to-green-700 bg-clip-text text-transparent text-[14px] font-medium'
                     }
                   >
-                    + 700.96 USD
+                    + {Humanize.formatNumber(parseFloat(formatUnits(((totalUsd as any)?.[2] as unknown as bigint ?? 0n) - ((balanceUsd as any)?.[2] as unknown as bigint ?? 0n), USD_DECIMALS)), 2)} USD
                   </span>
                 </div>
               </div>

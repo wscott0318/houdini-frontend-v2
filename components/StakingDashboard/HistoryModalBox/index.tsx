@@ -213,13 +213,13 @@ const HistoryModalBox = () => {
   )
   const buttonNames = [t('all'), ...availableEventTypes.map((type) => t(type))]
 
-  if (!address) {
-    return (
-      <div className="p-4 mb-4 w-[100%] text-sm text-white rounded-lg bg-orange-900 dark:bg-gray-800 dark:text-red-400">
-        Please connect your wallet first
-      </div>
-    )
-  }
+  // if (!address) {
+  //   return (
+  //     <div className="p-4 mb-4 w-[100%] text-sm text-white rounded-lg bg-orange-900 dark:bg-gray-800 dark:text-red-400">
+  //       Please connect your wallet first
+  //     </div>
+  //   )
+  // }
   return (
     <div className="flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-full xl:w-[1071px] p-[1px] z-[1]">
       <div className="w-full h-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow relative">

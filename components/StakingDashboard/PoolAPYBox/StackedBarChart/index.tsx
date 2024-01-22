@@ -82,7 +82,7 @@ export function StackedBarChart({ data, widthCustom, heightCustom }: Props) {
           </linearGradient>
         </defs>
         {stacked.map((data, index) => {
-          console.log(index, 'stacked.map')
+          // console.log(index, 'stacked.map')
           if (index == 1)
             return (
               <>
@@ -96,8 +96,8 @@ export function StackedBarChart({ data, widthCustom, heightCustom }: Props) {
                     // y0 = y0 - (y1 - y0)
                     // y1 = temp
                     const height = d.data.value2
-                    console.log(d, index, 'data.map')
-                    console.log(height, 'height')
+                    // console.log(d, index, 'data.map')
+                    // console.log(height, 'height')
                     return (
                       <>
                         <g style={{ display: 'flex', alignItems: 'center' }}>

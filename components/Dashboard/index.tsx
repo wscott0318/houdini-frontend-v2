@@ -30,7 +30,7 @@ export default function Dashboard() {
     useScaffoldContract({
       contractName: 'Staker',
     })
-  console.log(deployedStakerData, 'deployedStakerData')
+  // console.log(deployedStakerData, 'deployedStakerData')
   const { data: token } = useToken({
     address: deployedTokenData?.address as `0x${string}` | undefined,
   } as any)
@@ -103,7 +103,7 @@ export default function Dashboard() {
         </span>
       </div>
       <div className="flex flex-row flex-wrap gap-[40px]">
-        <BalanceBox />
+        <BalanceBox user={user} earned={earned} />
         <PoolAPYBox />
       </div>
       <MiniModalBox

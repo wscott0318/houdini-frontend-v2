@@ -1,19 +1,24 @@
 import * as d3 from 'd3'
+import { t } from 'i18next'
 import React, { useEffect, useRef } from 'react'
 
 const HalfCircledDonutChart = ({
   widthCustom,
   heightCustom,
+  deposited,
+  earned,
 }: {
   widthCustom: number
   heightCustom: number
+  deposited: number
+  earned: number
 }) => {
   const svgRef = useRef(null)
 
   useEffect(() => {
     const data: any = [
-      { label: 'Slice 1', value: 20 },
-      { label: 'Slice 2', value: 80 },
+      { label: t("earned"), value: earned*100/(deposited + earned)},
+      { label: t("deposited"), value:deposited*100/(deposited + earned) },
     ]
 
     const svg = d3.select(svgRef.current)
@@ -86,7 +91,7 @@ const HalfCircledDonutChart = ({
       .attr('fill', function (d, i: any): any {
         return colorScale(i)
       })
-  }, [])
+  }, [earned, deposited])
 
   return <svg className="absolute" ref={svgRef}></svg>
 }
