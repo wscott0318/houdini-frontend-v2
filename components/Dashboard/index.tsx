@@ -104,7 +104,7 @@ export default function Dashboard() {
       </div>
       <div className="flex flex-row flex-wrap gap-[40px]">
         <BalanceBox user={user} earned={earned} />
-        <PoolAPYBox poolApy={poolApy} userApy={userApy} />
+        <PoolAPYBox poolApy={poolApy} userApy={userApy} earned={earned} balance={user?.balance} />
       </div>
       <MiniModalBox
         user={user}

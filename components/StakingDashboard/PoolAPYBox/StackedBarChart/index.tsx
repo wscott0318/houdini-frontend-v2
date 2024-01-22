@@ -1,4 +1,5 @@
 import * as d3 from 'd3'
+import humanize from 'humanize-plus'
 import { useEffect, useRef } from 'react'
 
 interface IGroupedData {
@@ -15,6 +16,8 @@ interface Props {
 function sum(values: number[]) {
   return values.reduce((prev, value) => prev + value, 0)
 }
+
+const formatter = Intl.NumberFormat('en', { notation: 'compact' })
 
 export function StackedBarChart({ data, widthCustom, heightCustom }: Props) {
   const axisBottomRef = useRef<SVGGElement>(null)
@@ -50,7 +53,7 @@ export function StackedBarChart({ data, widthCustom, heightCustom }: Props) {
     }
 
     if (axisLeftRef.current) {
-      d3.select(axisLeftRef.current).call(d3.axisLeft(scaleY).tickSize(0))
+      d3.select(axisLeftRef.current).call(d3.axisLeft(scaleY).tickSize(0).tickFormat(formatter.format as any))
     }
   }, [scaleX, scaleY])
 
@@ -119,9 +122,9 @@ export function StackedBarChart({ data, widthCustom, heightCustom }: Props) {
                             height={y0 - y1 || 0}
                             rx={4}
                             ry={4}
-                            fill="url(#grad2)"
+                            fill="url(#grad3)"
                           />
-                          <text
+                          {/* <text
                             key={`rect-${index}`}
                             x={scaleX(label)}
                             y={y1 - 5}
@@ -130,7 +133,7 @@ export function StackedBarChart({ data, widthCustom, heightCustom }: Props) {
                             dominant-baseline="middle"
                           >
                             {height}
-                          </text>
+                          </text> */}
                         </g>
                       </>
                     )
