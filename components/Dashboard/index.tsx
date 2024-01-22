@@ -17,6 +17,7 @@ import { animation } from '@/utils/helpers'
 
 import MiniModalBox from '../StakingDashboard/MiniModalBox'
 import UnstakeModalBox from '../StakingDashboard/UnstakeModalBox'
+import StakedReport from '../StakingDashboard/StakedReport'
 
 export default function Dashboard() {
   const { t } = useTranslation()
@@ -118,7 +119,7 @@ export default function Dashboard() {
     },
   }
 
-  const MAX_STEP = 1
+  const MAX_STEP = 2
   const MIN_STEP = 0
 
   const handleNext = () => {
@@ -142,6 +143,7 @@ export default function Dashboard() {
   const components = [
     { Component: MiniModalBox, key: 'withdraw-step-0' },
     { Component: UnstakeModalBox, key: 'withdraw-step-1' },
+    { Component: StakedReport, key: 'withdraw-step-2'}
   ]
 
   const { Component, key } = components[state.step] as any

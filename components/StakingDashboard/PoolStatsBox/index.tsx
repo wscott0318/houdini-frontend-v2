@@ -25,6 +25,7 @@ import CTAButton from '../CTAButton'
 import MiniModalBox from '../MiniModalBox'
 import UnstakeModalBox from '../UnstakeModalBox'
 import DonutChart from './DonutChart'
+import StakedReport from '../StakedReport'
 
 const formatter = Intl.NumberFormat('en', { notation: 'compact' })
 
@@ -149,7 +150,7 @@ const PoolStatsBox = () => {
     },
   }
 
-  const MAX_STEP = 1
+  const MAX_STEP = 2
   const MIN_STEP = 0
 
   const handleNext = () => {
@@ -173,6 +174,7 @@ const PoolStatsBox = () => {
   const components = [
     { Component: MiniModalBox, key: 'withdraw-step-0' },
     { Component: UnstakeModalBox, key: 'withdraw-step-1' },
+    { Component: StakedReport, key: 'withdraw-step-2'}
   ]
 
   const { Component, key } = components[state.step] as any

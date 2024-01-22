@@ -98,7 +98,7 @@ export function SideBar() {
     },
   }
 
-  const MAX_STEP = 1
+  const MAX_STEP = 2
   const MIN_STEP = 0
 
   const handleNext = () => {
