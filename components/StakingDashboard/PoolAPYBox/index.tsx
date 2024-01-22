@@ -50,8 +50,8 @@ const PoolAPYBox = () => {
             <div className="w-full">
               <StackedBarChart
                 data={GROUPED_BAR_CHART_DATA}
-                widthCustom={100}
-                heightCustom={100}
+                widthCustom={300}
+                heightCustom={287}
               />
             </div>
           </div>

@@ -23,7 +23,7 @@ const styles = {
   inputField: `w-full border-0 outline-none bg-transparent`,
 }
 
-const MiniModalBox = ({ user, token, staker, approved, timeLeft }: any) => {
+const UnstakeModalBox = ({ token, staker, approved }: any) => {
   const { t } = useTranslation()
   const [inputAmount, setInputAmount] = useState('0')
   const [balance, setBalance] = useState('0')
@@ -39,11 +39,11 @@ const MiniModalBox = ({ user, token, staker, approved, timeLeft }: any) => {
     },
   } as any)
 
-  const { writeAsync: writeStake, isLoading: stakeLoading } =
+  const { writeAsync: writeBuyback, isLoading: stakeLoading } =
     useScaffoldContractWrite({
       contractName: 'Staker',
-      functionName: 'stake',
-      args: [parseEther(inputAmount) - 1n],
+      functionName: 'addRewardAmount',
+      args: [parseEther(inputAmount)],
       onBlockConfirmation: (txnReceipt: {
         blockHash: any
         contractAddress: any
@@ -56,6 +56,12 @@ const MiniModalBox = ({ user, token, staker, approved, timeLeft }: any) => {
         setInputAmount('0')
       },
     } as any)
+
+  const handleBuyback = () => {
+    if (parseFloat(inputAmount) > 0) {
+      writeBuyback()
+    }
+  }
 
   const { writeAsync: writeApprove, isLoading: approveLoading } =
     useScaffoldContractWrite({
@@ -74,82 +80,13 @@ const MiniModalBox = ({ user, token, staker, approved, timeLeft }: any) => {
       },
     } as any)
 
-  const { writeAsync: writeRequestExit, isLoading: requestExitLoading } =
-    useScaffoldContractWrite({
-      contractName: 'Staker',
-      functionName: 'requestUnlock',
-      args: [],
-      onBlockConfirmation: (txnReceipt: {
-        blockHash: any
-        contractAddress: any
-      }) => {
-        console.log(
-          '📦 Transaction blockHash',
-          txnReceipt.blockHash,
-          txnReceipt,
-        )
-      },
-    } as any)
-
-  const { writeAsync: writeExit, isLoading: exitLoading } =
-    useScaffoldContractWrite({
-      contractName: 'Staker',
-      functionName: 'exit',
-      args: [],
-      onBlockConfirmation: (txnReceipt: {
-        blockHash: any
-        contractAddress: any
-      }) => {
-        console.log(
-          '📦 Transaction blockHash',
-          txnReceipt.blockHash,
-          txnReceipt,
-        )
-      },
-    } as any)
-
-  const { writeAsync: writeEmergencyExit, isLoading: emergencyExitLoading } =
-    useScaffoldContractWrite({
-      contractName: 'Staker',
-      functionName: 'emergencyWithdraw',
-      args: [user?.balance ?? 0],
-      onBlockConfirmation: (txnReceipt: {
-        blockHash: any
-        contractAddress: any
-      }) => {
-        console.log(
-          '📦 Transaction blockHash',
-          txnReceipt.blockHash,
-          txnReceipt,
-        )
-      },
-    } as any)
-
   const handleApprove = () => {
     writeApprove()
-  }
-
-  const handleStakePool = () => {
-    if (parseFloat(inputAmount) > 0) {
-      writeStake()
-    }
-  }
-
-  const handleRequestExit = () => {
-    writeRequestExit()
-  }
-  const handleExit = () => {
-    writeExit()
-  }
-
-  const handleEmergencyExit = () => {
-    writeEmergencyExit()
   }
 
   if (!staker) {
     return <>Please switch to correct chain...</>
   }
-
   return (
     <div className="flex items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px] w-[409px]">
       <div className="flex flex-col w-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow gap-[30px]">
@@ -246,11 +183,11 @@ const MiniModalBox = ({ user, token, staker, approved, timeLeft }: any) => {
             className={
               'p-[16px] flex justify-center items-center rounded-[120px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9]'
             }
-            onClick={() => handleStakePool()}
+            onClick={() => handleBuyback()}
           >
             <div className="flex flex-row gap-[7px] justify-center items-center">
               <StakeMoreSvg className="w-[16px] h-[16px]" />
-              <span className="text-[16px] font-semibold">{t('stake')}</span>
+              <span className="text-[16px] font-semibold">Buy Back</span>
             </div>
           </button>
         )}
@@ -259,4 +196,4 @@ const MiniModalBox = ({ user, token, staker, approved, timeLeft }: any) => {
   )
 }
 
-export default MiniModalBox
+export default UnstakeModalBox
