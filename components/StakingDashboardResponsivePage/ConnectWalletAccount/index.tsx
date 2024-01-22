@@ -5,7 +5,6 @@ import CTAButton from '@/components/StakingDashboard/CTAButton'
 import { BlockieAvatar } from '@/components/StakingDashboard/RainbowKitCustomConnectButton/BlockieAvatar'
 import { getBlockExplorerAddressLink } from '@/staking/utils/scaffold-eth'
 import { useTargetNetwork } from '@/staking/hooks/scaffold-eth/useTargetNetwork'
-import { WrongNetworkDropdown } from '@/components/StakingDashboard/RainbowKitCustomConnectButton/WrongNetworkDropdown'
 
 export const ConnectWalletAccount = () => {
   const { disconnect } = useDisconnect()
@@ -68,9 +67,17 @@ export const ConnectWalletAccount = () => {
 
               if (chain?.unsupported || chain?.id !== targetNetwork.id) {
                 return (
-                  <button onClick={() => switchNetwork?.(targetNetwork.id)} type="button">
-                    Wrong network
-                  </button>
+                  <div className="flex flex-col lg:flex-row relative gap-[12px] z-[50]">
+                    <div className="inline-flex items-center justify-center p-[2px] rounded-[120px] bg-gradient-to-b from-white to-black" >
+                      <div className="inline-flex justify-center rounded-[120px] w-full h-full items-center bg-gradient-to-br from-black to-[#252932] px-[30px] py-[8px]">
+                        <button type='button' className=''
+                          onClick={() => switchNetwork?.(targetNetwork.id)}>
+                          Wrong network, please select <b>{targetNetwork.name}</b>
+                        </button>
+                      </div>
+                    </div>
+
+                  </div>
                 )
               }
 
@@ -85,22 +92,21 @@ export const ConnectWalletAccount = () => {
                       Disconnect Wallet
                     </span>
                   </CTAButton>
-                  <div className="inline-flex items-center justify-center p-[2px] rounded-[120px] bg-gradient-to-b from-white to-black">
+                  <a
+                    target="_blank"
+                    href={blockExplorerAddressLink}
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center p-[2px] rounded-[120px] bg-gradient-to-b from-white to-black"
+                  >
                     <div className="inline-flex justify-center rounded-[120px] w-full h-full items-center bg-gradient-to-br from-black to-[#252932] px-[30px] py-[8px]">
                       <div className="flex flex-row gap-[10px]">
                         <span className="text-[16px] font-semibold leading-normal">
-                          <a
-                            target="_blank"
-                            href={blockExplorerAddressLink}
-                            rel="noopener noreferrer"
-                            className="whitespace-nowrap"
-                          >
-                            {account.displayName}</a>
+                          {account?.displayName}
                         </span>
-                        <BlockieAvatar size={24} address={account.address} ensImage={account.ensAvatar} />
+                        <BlockieAvatar size={24} address={account?.address} ensImage={account?.ensAvatar} />
                       </div>
                     </div>
-                  </div>
+                  </a>
                 </div>
               )
             })()}

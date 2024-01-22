@@ -17,12 +17,21 @@ import {
   SidebarQuestionSvg,
   WidthrawSvg,
 } from '../Svg'
+import { BlockieAvatar } from '../StakingDashboard/RainbowKitCustomConnectButton/BlockieAvatar'
+import { useTargetNetwork } from '@/staking/hooks/scaffold-eth/useTargetNetwork'
+import { useAccount, useEnsAvatar, useEnsName } from 'wagmi'
+import { getBlockExplorerAddressLink } from '@/staking/utils/scaffold-eth'
+import { isAddress } from 'viem'
 
 export function SideBar() {
   const { t } = useTranslation()
   const [width] = useWindowSize()
+  const { targetNetwork } = useTargetNetwork()
+  const account = useAccount()
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [ens, setEns] = useState<string | null>();
+  const [ensAvatar, setEnsAvatar] = useState<string | null>();
 
   useEffect(() => {
     if (width > 768) {
@@ -33,6 +42,27 @@ export function SideBar() {
   const handleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen)
   }
+
+  const blockExplorerAddressLink = account
+    ? getBlockExplorerAddressLink(targetNetwork, account?.address ?? "")
+    : undefined;
+
+    const { data: fetchedEns } = useEnsName({ address: account?.address, enabled: isAddress(account?.address ?? ""), chainId: 1 });
+    const { data: fetchedEnsAvatar } = useEnsAvatar({
+      name: fetchedEns,
+      enabled: Boolean(fetchedEns),
+      chainId: 1,
+      cacheTime: 30_000,
+    });
+  
+    // We need to apply this pattern to avoid Hydration errors.
+    useEffect(() => {
+      setEns(fetchedEns);
+    }, [fetchedEns]);
+  
+    useEffect(() => {
+      setEnsAvatar(fetchedEnsAvatar);
+    }, [fetchedEnsAvatar]);
 
   return (
     <>
@@ -145,14 +175,19 @@ export function SideBar() {
               </li>
               <li>
                 <a
-                  href="#"
+                  target="_blank"
+                  href={blockExplorerAddressLink}
+                  rel="noopener noreferrer"
                   className="flex items-center lg:pl-[16px] lg:justify-start justify-center text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
                 >
-                  <Image
-                    src={avatar}
-                    className="lg:w-[24px] lg:h-[24px] w-[40px] h-[40px]"
-                    alt="avatar"
-                  />
+                  {account?.address ?
+                    <BlockieAvatar size={24} address={account?.address ?? ""} ensImage={ensAvatar ?? ""} />
+                    : <Image
+                      src={avatar}
+                      className="lg:w-[24px] lg:h-[24px] w-[40px] h-[40px]"
+                      alt="avatar"
+                    />
+                  }
                   <span className="lg:text-[14px] text-[0px] lg:ms-[16px]">
                     {t('sidebarAccount')}
                   </span>
