@@ -169,7 +169,7 @@ const MiniModalBox = ({ user, token, staker, approved, timeLeft }: any) => {
             isSet={percentAmount == 0.5}
             onClick={() => {
               setPercentAmount(0.5)
-              setInputAmount((parseInt(inputAmount)*percentAmount).toString())
+              setInputAmount((parseInt(inputAmount) * percentAmount).toString())
             }}
           />
           <QTYButton

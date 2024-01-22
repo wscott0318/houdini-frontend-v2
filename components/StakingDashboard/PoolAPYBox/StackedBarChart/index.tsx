@@ -46,11 +46,11 @@ export function StackedBarChart({ data, widthCustom, heightCustom }: Props) {
 
   useEffect(() => {
     if (axisBottomRef.current) {
-      d3.select(axisBottomRef.current).call(d3.axisBottom(scaleX))
+      d3.select(axisBottomRef.current).call(d3.axisBottom(scaleX).tickSize(0))
     }
 
     if (axisLeftRef.current) {
-      d3.select(axisLeftRef.current).call(d3.axisLeft(scaleY))
+      d3.select(axisLeftRef.current).call(d3.axisLeft(scaleY).tickSize(0))
     }
   }, [scaleX, scaleY])
 
@@ -62,52 +62,82 @@ export function StackedBarChart({ data, widthCustom, heightCustom }: Props) {
       <g transform={`translate(${margin.left}, ${margin.top})`}>
         <g ref={axisBottomRef} transform={`translate(0, ${height})`} />
         <g ref={axisLeftRef} />
+        <defs>
+          <linearGradient id="grad1" x1="0%" x2="0%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#9687FF" />
+            <stop offset="100%" stop-color="#334AD3" />
+          </linearGradient>
+        </defs>
+        <defs>
+          <linearGradient id="grad2" x1="0%" x2="0%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#595ACF80" />
+            <stop offset="100%" stop-color="#595ACF00" />
+          </linearGradient>
+        </defs>
+        <defs>
+          <linearGradient id="grad3" x1="0%" x2="0%" y1="0%" y2="100%">
+            <stop offset="33%" stop-color="#FB792F" />
+            <stop offset="66%" stop-color="#F3C755" />
+            <stop offset="100%" stop-color="#F5C341" />
+          </linearGradient>
+        </defs>
         {stacked.map((data, index) => {
-          return (
-            <>
-              index == 1 && (
-              <g key={`group-${index}`} fill={color(data.key)}>
-                {data.map((d, index) => {
-                  const label = String(d.data.label)
-                  const y0 = scaleY(d[0])
-                  const y1 = scaleY(d[1])
-
-                  return (
-                    <rect
-                      key={`rect-${index}`}
-                      x={scaleX(label)}
-                      y={y1}
-                      width={scaleX.bandwidth()}
-                      height={y0 - y1 || 0}
-                      rx={4}
-                      ry={4}
-                    />
-                  )
-                })}
-              </g>
-              ) index == 2 && (
-              <g key={`group-${index}`} fill={color(data.key)}>
-                {data.map((d, index) => {
-                  const label = String(d.data.label)
-                  const y0 = scaleY(d[0])
-                  const y1 = scaleY(d[1])
-
-                  return (
-                    <rect
-                      key={`rect-${index}`}
-                      x={scaleX(label)}
-                      y={y1}
-                      width={scaleX.bandwidth()}
-                      height={y0 - y1 || 0}
-                      rx={4}
-                      ry={4}
-                    />
-                  )
-                })}
-              </g>
-              )
-            </>
-          )
+          console.log(index, 'stacked.map')
+          if (index == 1)
+            return (
+              <>
+                {/* <g key={`group-${index}`} fill={color(data.key)}> */}
+                <g key={`group-${index}`}>
+                  {data.map((d, index) => {
+                    const label = String(d.data.label)
+                    let y0 = scaleY(d[0])
+                    let y1 = scaleY(d[1])
+                    // let temp = y0
+                    // y0 = y0 - (y1 - y0)
+                    // y1 = temp
+                    const height = d.data.value2
+                    console.log(d, index, 'data.map')
+                    console.log(height, 'height')
+                    return (
+                      <>
+                        <g style={{ display: 'flex', alignItems: 'center' }}>
+                          <rect
+                            key={`rect-${index}-1`}
+                            x={scaleX(label)}
+                            y={y1}
+                            width={scaleX.bandwidth()}
+                            height={height || 0}
+                            rx={4}
+                            ry={4}
+                            fill={'url(#grad1)'}
+                          />
+                          <rect
+                            key={`rect-${index}-2`}
+                            x={scaleX(label)}
+                            y={y1}
+                            width={scaleX.bandwidth()}
+                            height={y0 - y1 || 0}
+                            rx={4}
+                            ry={4}
+                            fill="url(#grad2)"
+                          />
+                          <text
+                            key={`rect-${index}`}
+                            x={scaleX(label)}
+                            y={y1 - 5}
+                            fill="white"
+                            fontSize={'10'}
+                            dominant-baseline="middle"
+                          >
+                            {height}
+                          </text>
+                        </g>
+                      </>
+                    )
+                  })}
+                </g>
+              </>
+            )
         })}
       </g>
     </svg>
