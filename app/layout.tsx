@@ -10,6 +10,7 @@ import { Outfit, Poppins } from 'next/font/google'
 import { useSearchParams } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { ToastContainer } from 'react-toastify'
+import toast, { Toaster } from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css'
 import { WagmiConfig, configureChains, createConfig } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
@@ -141,6 +142,7 @@ export default function RootLayout({ children }: LayoutProps) {
                         theme="colored"
                         className="m-10"
                       />
+                      <Toaster />
                     </ResponsiveContainer>
                   </RainbowKitProvider>
                 </WagmiConfig>
@@ -167,6 +169,7 @@ export default function RootLayout({ children }: LayoutProps) {
                       theme="colored"
                       className="m-10"
                     />
+                    <Toaster />
                   </ResponsiveContainer>
                 </RainbowKitProvider>
               </WagmiConfig>

@@ -17,7 +17,12 @@ const config: Config = {
     },
   },
   safelist: [
-    'md:px-8'
+    'md:px-8',
+    'bg-green-500',
+    'text-white',
+    'bg-red-500',
+    'bg-yellow-500',
+    'bg-blue-500',
   ],
   plugins: [
     function ({ addUtilities }: { addUtilities: any }) {
