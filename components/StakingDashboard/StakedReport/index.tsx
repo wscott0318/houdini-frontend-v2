@@ -41,7 +41,7 @@ const StakedReport = ({
               <br />
               Your Total Staked Balance is
               <br />
-              <h1 className='text-[24px]'>{Humanize.formatNumber(parseFloat(formatUnits(user?.balance, 18)))}</h1>
+              <h1 className='text-[24px]'>{Humanize.formatNumber(parseFloat(formatUnits(user?.balance ?? 0n, 18)))}</h1>
               <br />
               <button onClick={handleFinish}>OK</button>
             </div>

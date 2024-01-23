@@ -1,6 +1,7 @@
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import Humanize from 'humanize-plus'
 
 import LockTokenIcon1 from '@/assets/LockTokenIcon1.png'
 import {
@@ -13,6 +14,10 @@ import {
   WalletSvg,
 } from '@/components/Svg'
 import { toast } from 'react-toastify'
+import { ADDRESSES, USD_DECIMALS } from '@/utils/constants'
+import { useScaffoldContract, useScaffoldContractRead } from '@/staking/hooks/scaffold-eth'
+import { formatUnits } from 'viem'
+import { useNetwork } from 'wagmi'
 
 const NoPenaltyWithdrawalBox = ({
   handleNext,
@@ -29,6 +34,70 @@ const NoPenaltyWithdrawalBox = ({
 }) => {
   const [value, setValue] = useState(0)
   const { t } = useTranslation()
+  const { chain } = useNetwork()
+  const { data: tokenContract } = useScaffoldContract({
+    contractName: 'Houdini',
+  })
+
+  // User stats
+  const [user, setUser] = useState<any>()
+  const [timeLeft, setTimeLeft] = useState(0)
+  const [earned, setEarned] = useState(0n)
+
+  const { data: userData } = useScaffoldContractRead({
+    contractName: 'Staker',
+    functionName: 'UserInfo',
+    args: [address],
+  } as any)
+  useEffect(() => {
+    if (userData) {
+      const userDataArr = userData as any
+      setUser(userDataArr[0])
+      setTimeLeft(Number(userDataArr[1]))
+      setEarned(userDataArr[2])
+    }
+
+  }, [userData, address])
+
+  const addressPath = [
+    tokenContract?.address,
+    ADDRESSES[chain?.id ?? 1]?.weth,
+    ADDRESSES[chain?.id ?? 1]?.usd,
+  ]
+  const userTotalLocked = (user?.balance as bigint ?? 0n) + (earned as bigint ?? 0n);
+
+  const { data: totalUsd } = useScaffoldContractRead({
+    contractName: 'UniswapRouter2',
+    functionName: 'getAmountsOut',
+    args: [userTotalLocked ?? 0n, addressPath],
+  } as any)
+
+  const { data: balanceUsd } = useScaffoldContractRead({
+    contractName: 'UniswapRouter2',
+    functionName: 'getAmountsOut',
+    args: [userTotalLocked ?? 0n, addressPath],
+  } as any)
+
+  const userTotalLockedNumber = parseFloat(
+    formatUnits(
+      (userTotalLocked as bigint) ?? 0n,
+      18,
+    ),
+  );
+
+  // const userEarnedNumber = parseFloat(
+  //   formatUnits(
+  //     (earned as bigint) ?? 0n,
+  //     18,
+  //   ),
+  // );
+
+  const totalUsdNumber = parseFloat(
+    formatUnits(
+      (balanceUsd?.[2] as unknown as bigint) ?? 0n,
+      USD_DECIMALS,
+    ),
+  );
 
   const handleWithraw = () => {
     toast.success('Withdrawal Successful')
@@ -72,7 +141,8 @@ const NoPenaltyWithdrawalBox = ({
                 <div className="w-full flex flex-row justify-between">
                   <div className="flex flex-row gap-[10px]">
                     <span className="text-[20px] font-medium leading-[19px]">
-                      {address}
+                      {address.substring(0, 18)}...
+                      {address.substring(address.length - 4)}
                     </span>
                     <div className="w-[2px] h-[20px] bg-white" />
                   </div>
@@ -86,10 +156,10 @@ const NoPenaltyWithdrawalBox = ({
               <span className="text-[10px]">AVAILABLE BALANCE</span>
               <div className="gap-[5px] h-[49px] flex flex-col">
                 <span className="text-[25px] font-medium leading-[20px]">
-                  420,000.74 $LOCK
+                  {Humanize.formatNumber(userTotalLockedNumber)} $LOCK
                 </span>
                 <span className="text-[14px] font-medium leading-normal text-[#ffffff80]">
-                  $1,224.56 USD
+                  ${Humanize.formatNumber(totalUsdNumber)} USD
                 </span>
               </div>
             </div>
@@ -106,7 +176,7 @@ const NoPenaltyWithdrawalBox = ({
                   You Recieve
                 </span>
                 <span className="text-[#fff] text-[20px] leading-[19px] font-semibold">
-                  420,000.74 $LOCK
+                {Humanize.formatNumber(userTotalLockedNumber)} $LOCK
                 </span>
               </div>
             </div>
