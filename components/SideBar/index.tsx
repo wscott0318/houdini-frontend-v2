@@ -113,7 +113,7 @@ export function SideBar() {
           <div className="flex flex-col justify-between h-full">
             <ul className="space-y-2 font-semibold text-[14px]">
               <li>
-                <a
+                <Link
                   href="/staking-dashboard"
                   className="flex items-center p-[16px] text-[#A0AEC0]  hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
                 >
@@ -121,10 +121,10 @@ export function SideBar() {
                   <span className="lg:text-[14px] lg:block hidden lg:ms-[16px]">
                     {t('sidebarDashboard')}
                   </span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/staking-dashboard/performance"
                   className="flex items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
                 >
@@ -132,10 +132,10 @@ export function SideBar() {
                   <span className="lg:text-[14px] text-[0px] lg:ms-[16px]">
                     {t('sidebarPerformance')}
                   </span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/staking-dashboard/history"
                   className="flex items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
                 >
@@ -143,7 +143,7 @@ export function SideBar() {
                   <span className="lg:text-[14px] text-[0px] lg:ms-[16px]">
                     {t('sidebarHistory')}
                   </span>
-                </a>
+                </Link>
               </li>
               {/* <li>
             <a
