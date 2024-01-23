@@ -21,8 +21,6 @@ interface StateMachineProps {
 
 interface CustomProps {
   user?: any
-  token?: any
-  staker?: any
   timeLeft?: any
   address?: any
   setIsPenalty?: any
@@ -107,6 +105,7 @@ const StateMachine = ({
                       handleNext={handleNext}
                       handlePrevious={handlePrevious}
                       handleClose={handleClose}
+                      handleResetState={handleResetState}
                       {...componentProps}
                     />
                   </div>

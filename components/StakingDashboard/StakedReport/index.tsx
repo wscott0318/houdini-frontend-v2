@@ -1,28 +1,47 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Humanize from 'humanize-plus'
 import { CloseSvg } from '@/components/Svg'
 import { formatUnits } from 'viem'
+import { useScaffoldContractRead } from '@/staking/hooks/scaffold-eth'
+import { useAccount } from 'wagmi'
 
 const StakedReport = ({
   handleNext,
   handlePrevious,
   handleClose,
   handleResetState,
-  user
 }: {
   handleNext: any
   handlePrevious: any
   handleClose: any
   handleResetState: any
-  user: any
 }) => {
+  const { t } = useTranslation()
+
+  const { address } = useAccount()
+
+  // User stats
+  const [user, setUser] = useState<any>()
+
+  const { data: userData } = useScaffoldContractRead({
+    contractName: 'Staker',
+    functionName: 'UserInfo',
+    args: [address],
+  } as any)
+
+  useEffect(() => {
+    if (userData) {
+      const userDataArr = userData as any
+      setUser(userDataArr[0])
+    }
+  }, [userData, address])
+
   const handleFinish = () => {
     handleClose()
     handleResetState?.()
   }
 
-  const { t } = useTranslation()
   return (
     <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px]">
       <div className="absolute top-[30px] right-[30px]">

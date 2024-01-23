@@ -3,14 +3,11 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Account } from 'viem'
-import { useAccount, useToken } from 'wagmi'
+import { useAccount } from 'wagmi'
 
 import BalanceBox from '@/components/StakingDashboard/BalanceBox'
 import PoolAPYBox from '@/components/StakingDashboard/PoolAPYBox'
-import {
-  useScaffoldContract,
-  useScaffoldContractRead,
-} from '@/staking/hooks/scaffold-eth'
+import { useScaffoldContractRead } from '@/staking/hooks/scaffold-eth'
 
 import MiniModalBox from '../StakingDashboard/MiniModalBox'
 import StakedReport from '../StakingDashboard/StakedReport'
@@ -27,20 +24,6 @@ export default function Dashboard() {
     functionName: 'UserInfo',
     args: [address],
     blockNumber: 123323,
-  } as any)
-
-  const { data: deployedTokenData, isLoading: deployedTokenLoading } =
-    useScaffoldContract({
-      contractName: 'Houdini',
-    })
-
-  const { data: deployedStakerData, isLoading: deployedStakerLoading } =
-    useScaffoldContract({
-      contractName: 'Staker',
-    })
-  // console.log(deployedStakerData, 'deployedStakerData')
-  const { data: token } = useToken({
-    address: deployedTokenData?.address as `0x${string}` | undefined,
   } as any)
 
   // User stats
@@ -119,12 +102,8 @@ export default function Dashboard() {
       </div>
       <StateMachine
         steps={[
-          {
-            Component: MiniModalBox,
-            key: 'stake-step-0',
-            props: { user, token, staker: deployedStakerData, timeLeft },
-          },
-          { Component: StakedReport, key: 'stake-step-1', props: { user } },
+          { Component: MiniModalBox, key: 'stake-step-0' },
+          { Component: StakedReport, key: 'stake-step-1' },
         ]}
         isOpen={stakeOpen}
         onClose={() => setStakeOpen(false)}

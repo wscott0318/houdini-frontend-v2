@@ -1,14 +1,18 @@
 import { MaxUint256 } from '@uniswap/sdk-core'
+import Humanize from 'humanize-plus'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-import {  parseEther } from 'viem'
-import { useAccount } from 'wagmi'
+import { parseEther } from 'viem'
 import { useBalance } from 'wagmi'
-import Humanize from 'humanize-plus'
+import { useAccount, useToken } from 'wagmi'
 
 import { StakeMoreSvg } from '@/components/Svg'
-import { useScaffoldContractRead, useScaffoldContractWrite } from '@/staking/hooks/scaffold-eth'
+import {
+  useScaffoldContract,
+  useScaffoldContractRead,
+  useScaffoldContractWrite,
+} from '@/staking/hooks/scaffold-eth'
 
 import QTYButton from '../QTYButton'
 
@@ -24,15 +28,25 @@ const styles = {
 }
 
 const MiniModalBox = ({
-  user,
-  token,
-  staker,
-  timeLeft,
   handleNext,
   handlePrevious,
   handleClose,
   handleResetState,
 }: any) => {
+  const { data: deployedTokenData, isLoading: deployedTokenLoading } =
+    useScaffoldContract({
+      contractName: 'Houdini',
+    })
+
+  const { data: deployedStakerData, isLoading: deployedStakerLoading } =
+    useScaffoldContract({
+      contractName: 'Staker',
+    })
+
+  const { data: token } = useToken({
+    address: deployedTokenData?.address as `0x${string}` | undefined,
+  } as any)
+
   const { t } = useTranslation()
   const [inputAmount, setInputAmount] = useState('0')
   const [balance, setBalance] = useState('0')
@@ -44,7 +58,7 @@ const MiniModalBox = ({
   const { data: approvedData } = useScaffoldContractRead({
     contractName: 'Houdini',
     functionName: 'allowance',
-    args: [address, staker?.address],
+    args: [address, deployedStakerData?.address],
   } as any)
 
   useEffect(() => {
@@ -53,14 +67,13 @@ const MiniModalBox = ({
     }
   }, [address, approvedData])
 
-
   useBalance({
     address,
     token: token?.address,
     watch: true,
     onSuccess(data: any) {
       // console.log('Success', data)
-      if(token?.address) {
+      if (token?.address) {
         setBalanceInt(parseFloat(data.formatted))
         setBalance(Humanize.formatNumber(parseFloat(data.formatted)))
       }
@@ -92,7 +105,7 @@ const MiniModalBox = ({
     useScaffoldContractWrite({
       contractName: 'Houdini',
       functionName: 'approve',
-      args: [staker?.address, MaxUint256],
+      args: [deployedStakerData?.address, MaxUint256],
       onBlockConfirmation: (txnReceipt: {
         blockHash: any
         contractAddress: any
@@ -159,7 +172,7 @@ const MiniModalBox = ({
             isSet={percentAmount == 1}
             onClick={() => {
               setPercentAmount(1)
-              setInputAmount((balanceInt).toString())
+              setInputAmount(balanceInt.toString())
             }}
           />
         </div>
@@ -169,7 +182,7 @@ const MiniModalBox = ({
               <span className="text-[10px] font-semibold uppercase">
                 {t('amountToStake')}
               </span>
-              <input                 
+              <input
                 type="text"
                 id="amount"
                 className="stake-amount bg-transparent text-sm rounded-lg block w-full p-2.5 "
@@ -181,7 +194,8 @@ const MiniModalBox = ({
                 max={balanceInt}
                 min="0.0"
                 disabled={parseFloat(balance) == 0 || !approved}
-                required />
+                required
+              />
             </div>
             <div className="flex items-end">
               <span className="text-[14px] font-bold leading-[24px] uppercase">
