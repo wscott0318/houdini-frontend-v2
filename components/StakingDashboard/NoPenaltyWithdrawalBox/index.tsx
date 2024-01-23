@@ -19,11 +19,13 @@ const NoPenaltyWithdrawalBox = ({
   handlePrevious,
   handleClose,
   handleResetState,
+  address,
 }: {
   handleNext: any
   handlePrevious: any
   handleClose: any
   handleResetState: any
+  address: string
 }) => {
   const [value, setValue] = useState(0)
   const { t } = useTranslation()
@@ -70,7 +72,7 @@ const NoPenaltyWithdrawalBox = ({
                 <div className="w-full flex flex-row justify-between">
                   <div className="flex flex-row gap-[10px]">
                     <span className="text-[20px] font-medium leading-[19px]">
-                      JH74XU73UUdqwdq....32wd01
+                      {address}
                     </span>
                     <div className="w-[2px] h-[20px] bg-white" />
                   </div>

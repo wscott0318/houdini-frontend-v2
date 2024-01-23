@@ -28,11 +28,14 @@ import {
   WidthrawSvg,
 } from '../Svg'
 import WithdrawalExplainerBox from '../StakingDashboard/WithdrawalExplainerBox'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 
 export function SideBar() {
   const { t } = useTranslation()
   const [width] = useWindowSize()
   const { targetNetwork } = useTargetNetwork()
+  const { openConnectModal } = useConnectModal()
+
   const account = useAccount()
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -225,7 +228,7 @@ export function SideBar() {
             <ul className="space-y-2 font-semibold text-[14px]">
               <li>
                 <div
-                  onClick={() => setWithdrawOpen(true)}
+                  onClick={() => account?.address ? setWithdrawOpen(true) : openConnectModal?.() }
                   className="flex items-center cursor-pointer p-[16px] text-[#A0AEC0]  hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
                 >
                   <WidthrawSvg className="w-[24px] h-[24px] stroke-white" />
@@ -309,6 +312,7 @@ export function SideBar() {
                       handleClose={handleClose}
                       handleResetState={handleResetState}
                       setIsPenalty={setIsPenalty}
+                      address={account?.address}
                     />
                   </div>
                 </div>
