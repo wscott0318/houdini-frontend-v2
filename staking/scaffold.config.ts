@@ -8,10 +8,12 @@ export type ScaffoldConfig = {
   onlyLocalBurnerWallet: boolean;
   walletAutoConnect: boolean;
 };
+console.log("targetNetwork", process.env.NEXT_APP_TARGET_NETWORK)
+let target = process.env.NEXT_APP_TARGET_NETWORK === "hardhat" ? chains.hardhat : (process.env.NEXT_APP_TARGET_NETWORK === "sepolia"  ? chains.sepolia : chains.mainnet)
 
 const scaffoldConfig = {
   // The networks on which your DApp is live
-  targetNetworks: [process.env.NEXT_APP_NODE_ENV === "development" ? chains.hardhat : chains.sepolia],
+  targetNetworks: [target],
 
   // The interval at which your front-end polls the RPC servers for new data
   // it has no effect if you only target the local network (default is 4000)
