@@ -1,5 +1,7 @@
 import { MaxUint256 } from '@uniswap/sdk-core'
+import { CheckBox } from 'houdini-react-sdk'
 import Humanize from 'humanize-plus'
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
@@ -7,7 +9,7 @@ import { parseEther } from 'viem'
 import { useBalance } from 'wagmi'
 import { useAccount, useToken } from 'wagmi'
 
-import { StakeMoreSvg } from '@/components/Svg'
+import { CloseSvg, StakeMoreSvg } from '@/components/Svg'
 import {
   useScaffoldContract,
   useScaffoldContractRead,
@@ -54,6 +56,11 @@ const MiniModalBox = ({
   const { address } = useAccount()
   const [percentAmount, setPercentAmount] = useState(0.5)
   const [approved, setApproved] = useState(0n)
+  const [termsApproved, setTermsApproved] = useState(false)
+
+  const handleTerms = () => {
+    console.log('apelez asta!!', termsApproved)
+  }
 
   const { data: approvedData } = useScaffoldContractRead({
     contractName: 'Houdini',
@@ -120,7 +127,11 @@ const MiniModalBox = ({
     } as any)
 
   const handleApprove = () => {
-    writeApprove()
+    if (termsApproved) {
+      writeApprove()
+    } else {
+      toast.warning('Please accept the terms and conditions')
+    }
   }
 
   const handleStakePool = () => {
@@ -130,7 +141,12 @@ const MiniModalBox = ({
   }
 
   return (
-    <div className="flex items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px] w-[409px]">
+    <div className="flex relative items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px] w-[409px]">
+      <div className="absolute top-[30px] right-[30px]">
+        <button onClick={handleClose}>
+          <CloseSvg className="w-[20px] h-[20px]" />
+        </button>
+      </div>
       <div className="flex flex-col w-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow gap-[30px]">
         {/* <div className="flex flex-col gap-[30px]"> */}
         {/* <SwitchButton /> */}
@@ -204,10 +220,31 @@ const MiniModalBox = ({
             </div>
           </div>
         </div>
-        <div className="flex flex-row gap-[10px]">
-          <span className="text-[12px] leading-[16px] font-medium">
-            I understand & accept the Staking Terms & Conditions
-          </span>
+        <div className="flex flex-row items-center justify-start gap-[10px]">
+          <div className="flex items-center gap-[8px] cursor-pointer">
+            <input
+              type="checkbox"
+              id="customCheckbox2"
+              className="custom-checkbox hidden"
+              checked={termsApproved}
+              onChange={(e) => setTermsApproved(e.target.checked)}
+            />
+
+            <label
+              onClick={() => setTermsApproved(!termsApproved)}
+              htmlFor="customCheckbox2"
+              className="w-6 h-6 bg-black border-2 border-gray-400 rounded-sm relative cursor-pointer"
+            />
+
+          </div>
+          <div className="text-[12px] leading-[16px] font-medium">
+            I understand & accept the{' '}
+            <span className="underline font-semibold hover:cursor-pointer">
+              <Link target="_blank" href="https://docs.houdiniswap.com/">
+                Staking Terms & Conditions
+              </Link>
+            </span>
+          </div>
         </div>
         {!approved || BigInt(approved) === 0n ? (
           <button
