@@ -1,10 +1,9 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import { Portal } from 'houdini-react-sdk'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { formatUnits } from 'viem'
 import { useNetwork, useToken } from 'wagmi'
 
+import StateMachine from '@/components/StateMachine'
 import {
   RainbowQuestionMarkSvg,
   RewardsCircleIconSvg,
@@ -19,12 +18,11 @@ import {
   useScaffoldContractRead,
 } from '@/staking/hooks/scaffold-eth'
 import { ADDRESSES, USD_DECIMALS } from '@/utils/constants'
-import { animation } from '@/utils/helpers'
 
 import CTAButton from '../CTAButton'
 import MiniModalBox from '../MiniModalBox'
-import DonutChart from './DonutChart'
 import StakedReport from '../StakedReport'
+import DonutChart from './DonutChart'
 
 const formatter = Intl.NumberFormat('en', { notation: 'compact' })
 
@@ -66,11 +64,13 @@ const PoolStatsBox = () => {
     contractName: 'Houdini',
   })
 
-  const fallenWizardApyPercent = pool?.totalRewardFunds ? parseFloat(
-    Number(
-      pool ? (pool?.fallenWizardFunds * 100n) / pool?.totalRewardFunds : 0n,
-    ).toFixed(2),
-  ) : 0;
+  const fallenWizardApyPercent = pool?.totalRewardFunds
+    ? parseFloat(
+        Number(
+          pool ? (pool?.fallenWizardFunds * 100n) / pool?.totalRewardFunds : 0n,
+        ).toFixed(2),
+      )
+    : 0
 
   const { data: poolData } = useScaffoldContractRead({
     contractName: 'Staker',
@@ -111,64 +111,6 @@ const PoolStatsBox = () => {
       setRewardsPaid(poolDataArr[6])
     }
   }, [poolData])
-
-  const initialState = {
-    step: 0,
-  }
-  const [state, setState] = useState(initialState)
-
-  const currentState = `step${state.step}`
-
-  const stateMachine = {
-    step0: {
-      previous: 'step0',
-      next: 'step1',
-    },
-    step1: {
-      previous: 'step0',
-      next: 'step2',
-    },
-    step2: {
-      previous: 'step1',
-      next: 'step3',
-    },
-  }
-
-  const MAX_STEP = 1
-  const MIN_STEP = 0
-
-  const handleNext = () => {
-    const nextState = (stateMachine as any)[currentState]?.next ?? ''
-    const nextStep = parseInt(nextState.slice(-1), 10)
-
-    setState({
-      step: Math.min(nextStep, MAX_STEP),
-    })
-  }
-
-  const handlePrevious = () => {
-    const previousState = (stateMachine as any)[currentState]?.previous ?? ''
-    const previousStep = parseInt(previousState.slice(-1), 10)
-
-    setState({
-      step: Math.max(previousStep, MIN_STEP),
-    })
-  }
-
-  const components = [
-    { Component: MiniModalBox, key: 'stake-step-0' },
-    { Component: StakedReport, key: 'stake-step-1' }
-  ]
-
-  const { Component, key } = components[state.step] as any
-
-  const handleClose = () => {
-    setStakeOpen(false)
-  }
-
-  const handleResetState = () => {
-    setState(initialState)
-  }
 
   return (
     <>
@@ -248,11 +190,11 @@ const PoolStatsBox = () => {
                     <span>
                       {tokenSupply
                         ? (
-                          (parseFloat(formatUnits(supply, 18)) * 100) /
-                          parseFloat(
-                            formatUnits(tokenSupply as unknown as bigint, 18),
-                          )
-                        ).toFixed(2)
+                            (parseFloat(formatUnits(supply, 18)) * 100) /
+                            parseFloat(
+                              formatUnits(tokenSupply as unknown as bigint, 18),
+                            )
+                          ).toFixed(2)
                         : 0}
                       %
                     </span>
@@ -334,51 +276,30 @@ const PoolStatsBox = () => {
           </div>
         </div>
       </div>
-      <AnimatePresence>
-        {stakeOpen ? (
-          <Portal>
-            <motion.div
-              className="z-10 fixed left-0 top-0 w-screen h-screen"
-              aria-labelledby="modal-title"
-              role="dialog"
-              aria-modal="true"
-              initial="hidden"
-              exit="hidden"
-              animate="visible"
-              variants={animation}
-            >
-              <div
-                onClick={(e) => {
-                  e.preventDefault()
-                  const target = e.target as HTMLElement
-                  if (target.id === 'dropdownClickable') {
-                    handleClose()
-                  }
-                }}
-                className="fixed inset-0 z-10 w-screen overflow-y-auto bg-black/50 drop-shadow-2xl backdrop-blur-[5px]"
-              >
-                <div
-                  id="dropdownClickable"
-                  className="flex relative min-h-full items-start justify-center sm:items-center p-6 md:p-0"
-                >
-                  <div className="flex flex-col xl:flex-row justify-center items-start gap-[56px]">
-                    <Component
-                      handleNext={handleNext}
-                      handlePrevious={handlePrevious}
-                      handleClose={handleClose}
-                      handleResetState={handleResetState}
-                      user={user}
-                      token={tokenContract}
-                      staker={stakerContract}
-                      timeLeft={timeLeft}
-                    />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </Portal>
-        ) : null}
-      </AnimatePresence>
+      <StateMachine
+        steps={[
+          {
+            Component: MiniModalBox,
+            key: 'stake-step-0',
+            props: { user },
+          },
+          { Component: StakedReport, key: 'stake-step-1', props: { user } },
+        ]}
+        isOpen={stakeOpen}
+        onClose={() => setStakeOpen(false)}
+        stateMachine={{
+          step0: {
+            previous: 'step0',
+            next: 'step1',
+          },
+          step1: {
+            previous: 'step0',
+            next: 'step1',
+          },
+        }}
+        maxStep={1}
+        minStep={0}
+      />
     </>
   )
 }
