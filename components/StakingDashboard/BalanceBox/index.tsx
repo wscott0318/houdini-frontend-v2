@@ -2,24 +2,17 @@ import Image from 'next/image'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Humanize from 'humanize-plus'
-import { formatUnits, parseUnits } from 'viem'
+import { formatUnits } from 'viem'
 
 import LockTokenIcon1 from '@/assets/LockTokenIcon1.png'
 import LockTokenIcon2 from '@/assets/LockTokenIcon2.png'
 import { StakeMoreSvg } from '@/components/Svg'
 
 import CTAButton from '../CTAButton'
-import MiniModalBox from '../MiniModalBox'
 import HalfCircledDonutChart from './HalfCircledDonutChart'
 import { useScaffoldContract, useScaffoldContractRead } from '@/staking/hooks/scaffold-eth'
 import { ADDRESSES, USD_DECIMALS } from '@/utils/constants'
-import { chain } from 'lodash'
 import { useNetwork } from 'wagmi'
-
-const donutData = [
-  { name: 'deposited', value: 50 },
-  { name: 'earned', value: 10 },
-]
 
 const BalanceBox = ({ user, earned, setStakeOpen }: any) => {
   const { t } = useTranslation()
@@ -146,7 +139,7 @@ const BalanceBox = ({ user, earned, setStakeOpen }: any) => {
               <div className="flex flex-row gap-[7px] justify-center items-center mx-[20px] my-[14px]">
                 <StakeMoreSvg className="w-[16px] h-[16px]" />
                 <span className="text-[16px] font-semibold">
-                  {t('stakeMore')}
+                  {user?.balance > 0n ? t('stakeMore') : t('Stake')}
                 </span>
               </div>
             </CTAButton>

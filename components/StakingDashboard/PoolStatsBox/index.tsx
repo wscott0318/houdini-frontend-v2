@@ -82,11 +82,11 @@ const PoolStatsBox = () => {
     contractName: 'Houdini',
   })
 
-  const fallenWizardApyPercent = parseFloat(
+  const fallenWizardApyPercent = pool?.totalRewardFunds ? parseFloat(
     Number(
       pool ? (pool?.fallenWizardFunds * 100n) / pool?.totalRewardFunds : 0n,
     ).toFixed(2),
-  )
+  ) : 0;
 
   const { data: poolData } = useScaffoldContractRead({
     contractName: 'Staker',
@@ -174,7 +174,7 @@ const PoolStatsBox = () => {
   const components = [
     { Component: MiniModalBox, key: 'withdraw-step-0' },
     { Component: UnstakeModalBox, key: 'withdraw-step-1' },
-    { Component: StakedReport, key: 'withdraw-step-2'}
+    { Component: StakedReport, key: 'withdraw-step-2' }
   ]
 
   const { Component, key } = components[state.step] as any
@@ -265,11 +265,11 @@ const PoolStatsBox = () => {
                     <span>
                       {tokenSupply
                         ? (
-                            (parseFloat(formatUnits(supply, 18)) * 100) /
-                            parseFloat(
-                              formatUnits(tokenSupply as unknown as bigint, 18),
-                            )
-                          ).toFixed(2)
+                          (parseFloat(formatUnits(supply, 18)) * 100) /
+                          parseFloat(
+                            formatUnits(tokenSupply as unknown as bigint, 18),
+                          )
+                        ).toFixed(2)
                         : 0}
                       %
                     </span>
@@ -343,7 +343,7 @@ const PoolStatsBox = () => {
                 <div className="flex flex-row gap-[7px] w-full h-full justify-center items-center mx-[20px] my-[14px]">
                   <StakeMoreSvg className="w-[16px] h-[16px]" />
                   <span className="text-[16px] font-semibold">
-                    {t('stakeMore')}
+                    {user?.balance > 0n ? t('stakeMore') : t('Stake')}
                   </span>
                 </div>
               </CTAButton>

@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     DefaultProxyAdmin: {
-      address: "0xEb0fCBB68Ca7Ba175Dc1D3dABFD618e7a3F582F6",
+      address: "0xf93b0549cD50c849D792f0eAE94A598fA77C7718",
       abi: [
         {
           inputs: [
@@ -173,7 +173,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Houdini: {
-      address: "0x76a999d5F7EFDE0a300e710e6f52Fb0A4b61aD58",
+      address: "0xE401FBb0d6828e9f25481efDc9dd18Da9E500983",
       abi: [
         {
           inputs: [],
@@ -454,7 +454,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker: {
-      address: "0x8B342f4Ddcc71Af65e4D2dA9CD00cc0E945cFD12",
+      address: "0x29023DE63D7075B4cC2CE30B55f050f9c67548d4",
       abi: [
         {
           anonymous: false,
@@ -1612,7 +1612,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker_Implementation: {
-      address: "0xaE2abbDE6c9829141675fA0A629a675badbb0d9F",
+      address: "0x8CeA85eC7f3D314c4d144e34F2206C8Ac0bbadA1",
       abi: [
         {
           inputs: [],
@@ -2631,7 +2631,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker_Proxy: {
-      address: "0x8B342f4Ddcc71Af65e4D2dA9CD00cc0E945cFD12",
+      address: "0x29023DE63D7075B4cC2CE30B55f050f9c67548d4",
       abi: [
         {
           inputs: [
@@ -2783,7 +2783,7 @@ const deployedContracts = {
   },
   11155111: {
     DefaultProxyAdmin: {
-      address: "0x552649af4bBA8763c1466E80b04371Df142A88dc",
+      address: "0x7526D191843207F4545eC48EC3e9e10E79ca6E41",
       abi: [
         {
           inputs: [
@@ -2949,7 +2949,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Houdini: {
-      address: "0xFFc75cEe8D74D6f603DAC4c13915b3c934c27BDD",
+      address: "0x975497c487adAEE1A7B5393a40B45A829Ed3eB77",
       abi: [
         {
           inputs: [],
@@ -3230,7 +3230,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker: {
-      address: "0x59a0cAC431AD5dd8455e1B53de0CD0130972b580",
+      address: "0x86696791eaE1C68169AD0E984B227B03C68FF513",
       abi: [
         {
           anonymous: false,
@@ -4014,6 +4014,11 @@ const deployedContracts = {
                 },
                 {
                   internalType: "uint256",
+                  name: "totalRewardsPaid",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
                   name: "fallenDripWizardDuration",
                   type: "uint256",
                 },
@@ -4045,6 +4050,11 @@ const deployedContracts = {
             {
               internalType: "uint256",
               name: "_rewardRemaining",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_totalEarned",
               type: "uint256",
             },
           ],
@@ -4378,7 +4388,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker_Implementation: {
-      address: "0x0D39942dD1804785f8883316b01f1b2b224b48F4",
+      address: "0x2E673850CD04892a949A16f317d450608D263d30",
       abi: [
         {
           inputs: [],
@@ -5044,6 +5054,11 @@ const deployedContracts = {
                 },
                 {
                   internalType: "uint256",
+                  name: "totalRewardsPaid",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
                   name: "fallenDripWizardDuration",
                   type: "uint256",
                 },
@@ -5075,6 +5090,11 @@ const deployedContracts = {
             {
               internalType: "uint256",
               name: "_rewardRemaining",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "_totalEarned",
               type: "uint256",
             },
           ],
@@ -5387,7 +5407,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker_Proxy: {
-      address: "0x59a0cAC431AD5dd8455e1B53de0CD0130972b580",
+      address: "0x86696791eaE1C68169AD0E984B227B03C68FF513",
       abi: [
         {
           inputs: [
