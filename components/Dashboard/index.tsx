@@ -1,7 +1,5 @@
 'use client'
 
-import { AnimatePresence, motion } from 'framer-motion'
-import { Portal } from 'houdini-react-sdk'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Account } from 'viem'
@@ -13,10 +11,10 @@ import {
   useScaffoldContract,
   useScaffoldContractRead,
 } from '@/staking/hooks/scaffold-eth'
-import { animation } from '@/utils/helpers'
 
 import MiniModalBox from '../StakingDashboard/MiniModalBox'
 import StakedReport from '../StakingDashboard/StakedReport'
+import StateMachine from '../StateMachine'
 
 export default function Dashboard() {
   const { t } = useTranslation()
@@ -30,8 +28,6 @@ export default function Dashboard() {
     args: [address],
     blockNumber: 123323,
   } as any)
-
-  console.log(historicalData)
 
   const { data: deployedTokenData, isLoading: deployedTokenLoading } =
     useScaffoldContract({
@@ -60,7 +56,6 @@ export default function Dashboard() {
     args: [address],
   } as any)
 
-
   useEffect(() => {
     if (userData) {
       const userDataArr = userData as any
@@ -69,7 +64,6 @@ export default function Dashboard() {
       setEarned(userDataArr[2])
       setUserApy(userDataArr[3])
     }
-
   }, [userData, address])
 
   // Pool stats
@@ -97,64 +91,6 @@ export default function Dashboard() {
     }
   }, [poolData])
 
-  const initialState = {
-    step: 0,
-  }
-  const [state, setState] = useState(initialState)
-
-  const currentState = `step${state.step}`
-
-  const stateMachine = {
-    step0: {
-      previous: 'step0',
-      next: 'step1',
-    },
-    step1: {
-      previous: 'step0',
-      next: 'step2',
-    },
-    step2: {
-      previous: 'step1',
-      next: 'step3',
-    },
-  }
-
-  const MAX_STEP = 1
-  const MIN_STEP = 0
-
-  const handleNext = () => {
-    const nextState = (stateMachine as any)[currentState]?.next ?? ''
-    const nextStep = parseInt(nextState.slice(-1), 10)
-
-    setState({
-      step: Math.min(nextStep, MAX_STEP),
-    })
-  }
-
-  const handlePrevious = () => {
-    const previousState = (stateMachine as any)[currentState]?.previous ?? ''
-    const previousStep = parseInt(previousState.slice(-1), 10)
-
-    setState({
-      step: Math.max(previousStep, MIN_STEP),
-    })
-  }
-
-  const components = [
-    { Component: MiniModalBox, key: 'stake-step-0' },
-    { Component: StakedReport, key: 'stake-step-1'}
-  ]
-
-  const { Component, key } = components[state.step] as any
-
-  const handleClose = () => {
-    setStakeOpen(false)
-  }
-
-  const handleResetState = () => {
-    setState(initialState)
-  }
-
   return (
     <>
       <div className="px-[50px] pt-[50px] pb-[60px] flex flex-col gap-[40px]">
@@ -167,55 +103,44 @@ export default function Dashboard() {
           </span>
         </div>
         <div className="flex flex-row flex-wrap gap-[40px]">
-          <BalanceBox address={address} setStakeOpen={setStakeOpen} user={user} earned={earned} />
-          <PoolAPYBox poolApy={poolApy} userApy={userApy} earned={earned} balance={user?.balance} />
+          <BalanceBox
+            address={address}
+            setStakeOpen={setStakeOpen}
+            user={user}
+            earned={earned}
+          />
+          <PoolAPYBox
+            poolApy={poolApy}
+            userApy={userApy}
+            earned={earned}
+            balance={user?.balance}
+          />
         </div>
       </div>
-      <AnimatePresence>
-        {stakeOpen ? (
-          <Portal>
-            <motion.div
-              className="z-10 fixed left-0 top-0 w-screen h-screen"
-              aria-labelledby="modal-title"
-              role="dialog"
-              aria-modal="true"
-              initial="hidden"
-              exit="hidden"
-              animate="visible"
-              variants={animation}
-            >
-              <div
-                onClick={(e) => {
-                  e.preventDefault()
-                  const target = e.target as HTMLElement
-                  if (target.id === 'dropdownClickable') {
-                    handleClose()
-                  }
-                }}
-                className="fixed inset-0 z-10 w-screen overflow-y-auto bg-black/50 drop-shadow-2xl backdrop-blur-[5px]"
-              >
-                <div
-                  id="dropdownClickable"
-                  className="flex relative min-h-full items-start justify-center sm:items-center p-6 md:p-0"
-                >
-                  <div className="flex flex-col xl:flex-row justify-center items-start gap-[56px]">
-                    <Component
-                      handleNext={handleNext}
-                      handlePrevious={handlePrevious}
-                      handleClose={handleClose}
-                      handleResetState={handleResetState}
-                      user={user}
-                      token={token}
-                      staker={deployedStakerData}
-                      timeLeft={timeLeft}
-                    />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </Portal>
-        ) : null}
-      </AnimatePresence>
+      <StateMachine
+        steps={[
+          {
+            Component: MiniModalBox,
+            key: 'stake-step-0',
+            props: { user, token, staker: deployedStakerData, timeLeft },
+          },
+          { Component: StakedReport, key: 'stake-step-1', props: { user } },
+        ]}
+        isOpen={stakeOpen}
+        onClose={() => setStakeOpen(false)}
+        stateMachine={{
+          step0: {
+            previous: 'step0',
+            next: 'step1',
+          },
+          step1: {
+            previous: 'step0',
+            next: 'step1',
+          },
+        }}
+        maxStep={1}
+        minStep={0}
+      />
     </>
   )
 }
