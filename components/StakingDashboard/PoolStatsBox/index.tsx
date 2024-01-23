@@ -279,12 +279,8 @@ const PoolStatsBox = () => {
       </div>
       <StateMachine
         steps={[
-          {
-            Component: MiniModalBox,
-            key: 'stake-step-0',
-            props: { user },
-          },
-          { Component: StakedReport, key: 'stake-step-1', props: { user } },
+          { Component: MiniModalBox, key: 'stake-step-0' },
+          { Component: StakedReport, key: 'stake-step-1' },
         ]}
         isOpen={stakeOpen}
         onClose={() => setStakeOpen(false)}

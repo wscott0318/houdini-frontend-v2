@@ -1,14 +1,20 @@
 import { MaxUint256 } from '@uniswap/sdk-core'
+import { CheckBox } from 'houdini-react-sdk'
+import Humanize from 'humanize-plus'
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-import {  parseEther } from 'viem'
-import { useAccount } from 'wagmi'
+import { parseEther } from 'viem'
 import { useBalance } from 'wagmi'
-import Humanize from 'humanize-plus'
+import { useAccount, useToken } from 'wagmi'
 
-import { StakeMoreSvg } from '@/components/Svg'
-import { useScaffoldContractRead, useScaffoldContractWrite } from '@/staking/hooks/scaffold-eth'
+import { CloseSvg, StakeMoreSvg } from '@/components/Svg'
+import {
+  useScaffoldContract,
+  useScaffoldContractRead,
+  useScaffoldContractWrite,
+} from '@/staking/hooks/scaffold-eth'
 
 import QTYButton from '../QTYButton'
 
@@ -24,15 +30,25 @@ const styles = {
 }
 
 const MiniModalBox = ({
-  user,
-  token,
-  staker,
-  timeLeft,
   handleNext,
   handlePrevious,
   handleClose,
   handleResetState,
 }: any) => {
+  const { data: deployedTokenData, isLoading: deployedTokenLoading } =
+    useScaffoldContract({
+      contractName: 'Houdini',
+    })
+
+  const { data: deployedStakerData, isLoading: deployedStakerLoading } =
+    useScaffoldContract({
+      contractName: 'Staker',
+    })
+
+  const { data: token } = useToken({
+    address: deployedTokenData?.address as `0x${string}` | undefined,
+  } as any)
+
   const { t } = useTranslation()
   const [inputAmount, setInputAmount] = useState('0')
   const [balance, setBalance] = useState('0')
@@ -40,11 +56,16 @@ const MiniModalBox = ({
   const { address } = useAccount()
   const [percentAmount, setPercentAmount] = useState(0.5)
   const [approved, setApproved] = useState(0n)
+  const [termsApproved, setTermsApproved] = useState(false)
+
+  const handleTerms = () => {
+    console.log('apelez asta!!', termsApproved)
+  }
 
   const { data: approvedData } = useScaffoldContractRead({
     contractName: 'Houdini',
     functionName: 'allowance',
-    args: [address, staker?.address],
+    args: [address, deployedStakerData?.address],
   } as any)
 
   useEffect(() => {
@@ -53,14 +74,13 @@ const MiniModalBox = ({
     }
   }, [address, approvedData])
 
-
   useBalance({
     address,
     token: token?.address,
     watch: true,
     onSuccess(data: any) {
       // console.log('Success', data)
-      if(token?.address) {
+      if (token?.address) {
         setBalanceInt(parseFloat(data.formatted))
         setBalance(Humanize.formatNumber(parseFloat(data.formatted)))
       }
@@ -92,7 +112,7 @@ const MiniModalBox = ({
     useScaffoldContractWrite({
       contractName: 'Houdini',
       functionName: 'approve',
-      args: [staker?.address, MaxUint256],
+      args: [deployedStakerData?.address, MaxUint256],
       onBlockConfirmation: (txnReceipt: {
         blockHash: any
         contractAddress: any
@@ -107,7 +127,11 @@ const MiniModalBox = ({
     } as any)
 
   const handleApprove = () => {
-    writeApprove()
+    if (termsApproved) {
+      writeApprove()
+    } else {
+      toast.warning('Please accept the terms and conditions')
+    }
   }
 
   const handleStakePool = () => {
@@ -117,7 +141,12 @@ const MiniModalBox = ({
   }
 
   return (
-    <div className="flex items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px] w-[409px]">
+    <div className="flex relative items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px] w-[409px]">
+      <div className="absolute top-[30px] right-[30px]">
+        <button onClick={handleClose}>
+          <CloseSvg className="w-[20px] h-[20px]" />
+        </button>
+      </div>
       <div className="flex flex-col w-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow gap-[30px]">
         {/* <div className="flex flex-col gap-[30px]"> */}
         {/* <SwitchButton /> */}
@@ -159,7 +188,7 @@ const MiniModalBox = ({
             isSet={percentAmount == 1}
             onClick={() => {
               setPercentAmount(1)
-              setInputAmount((balanceInt).toString())
+              setInputAmount(balanceInt.toString())
             }}
           />
         </div>
@@ -169,7 +198,7 @@ const MiniModalBox = ({
               <span className="text-[10px] font-semibold uppercase">
                 {t('amountToStake')}
               </span>
-              <input                 
+              <input
                 type="text"
                 id="amount"
                 className="stake-amount bg-transparent text-sm rounded-lg block w-full p-2.5 "
@@ -181,7 +210,8 @@ const MiniModalBox = ({
                 max={balanceInt}
                 min="0.0"
                 disabled={parseFloat(balance) == 0 || !approved}
-                required />
+                required
+              />
             </div>
             <div className="flex items-end">
               <span className="text-[14px] font-bold leading-[24px] uppercase">
@@ -190,10 +220,31 @@ const MiniModalBox = ({
             </div>
           </div>
         </div>
-        <div className="flex flex-row gap-[10px]">
-          <span className="text-[12px] leading-[16px] font-medium">
-            I understand & accept the Staking Terms & Conditions
-          </span>
+        <div className="flex flex-row items-center justify-start gap-[10px]">
+          <div className="flex items-center gap-[8px] cursor-pointer">
+            <input
+              type="checkbox"
+              id="customCheckbox2"
+              className="custom-checkbox hidden"
+              checked={termsApproved}
+              onChange={(e) => setTermsApproved(e.target.checked)}
+            />
+
+            <label
+              onClick={() => setTermsApproved(!termsApproved)}
+              htmlFor="customCheckbox2"
+              className="w-6 h-6 bg-black border-2 border-gray-400 rounded-sm relative cursor-pointer"
+            />
+
+          </div>
+          <div className="text-[12px] leading-[16px] font-medium">
+            I understand & accept the{' '}
+            <span className="underline font-semibold hover:cursor-pointer">
+              <Link target="_blank" href="https://docs.houdiniswap.com/">
+                Staking Terms & Conditions
+              </Link>
+            </span>
+          </div>
         </div>
         {!approved || BigInt(approved) === 0n ? (
           <button
