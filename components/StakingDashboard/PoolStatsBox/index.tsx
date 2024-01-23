@@ -61,20 +61,6 @@ const PoolStatsBox = () => {
   const [approved, setApproved] = useState(0n)
   const [stakeOpen, setStakeOpen] = useState(false)
 
-  const { data: deployedTokenData, isLoading: deployedTokenLoading } =
-    useScaffoldContract({
-      contractName: 'Houdini',
-    })
-
-  const { data: deployedStakerData, isLoading: deployedStakerLoading } =
-    useScaffoldContract({
-      contractName: 'Staker',
-    })
-  // console.log(deployedStakerData, 'deployedStakerData')
-  const { data: token } = useToken({
-    address: deployedTokenData?.address as `0x${string}` | undefined,
-  } as any)
-
   const { data: stakerContract } = useScaffoldContract({
     contractName: 'Staker',
   })
@@ -385,8 +371,8 @@ const PoolStatsBox = () => {
                       handleClose={handleClose}
                       handleResetState={handleResetState}
                       user={user}
-                      token={token}
-                      staker={deployedStakerData}
+                      token={tokenContract}
+                      staker={stakerContract}
                       approved={approved}
                       timeLeft={timeLeft}
                     />

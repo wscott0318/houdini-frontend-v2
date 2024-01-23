@@ -6,6 +6,7 @@ import { Account } from 'viem'
 import { formatEther, parseEther } from 'viem'
 import { useAccount, useToken } from 'wagmi'
 import { useBalance } from 'wagmi'
+import Humanize from 'humanize-plus'
 
 import { StakeMoreSvg } from '@/components/Svg'
 import { useScaffoldContractWrite } from '@/staking/hooks/scaffold-eth'
@@ -45,8 +46,10 @@ const MiniModalBox = ({
     token: token?.address,
     watch: true,
     onSuccess(data: any) {
-      console.log('Success', data)
-      setBalance(data.formatted)
+      // console.log('Success', data)
+      if(token?.address) {
+        setBalance(Humanize.formatNumber(parseFloat(data.formatted), 2))
+      }
     },
   } as any)
 
