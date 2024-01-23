@@ -1,21 +1,21 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'react-toastify'
-
-import { CloseSvg, StakeMoreSvg } from '@/components/Svg'
-
-import QTYButton from '../QTYButton'
+import Humanize from 'humanize-plus'
+import { CloseSvg } from '@/components/Svg'
+import { formatUnits } from 'viem'
 
 const StakedReport = ({
   handleNext,
   handlePrevious,
   handleClose,
   handleResetState,
+  user
 }: {
   handleNext: any
   handlePrevious: any
   handleClose: any
   handleResetState: any
+  user: any
 }) => {
   const handleFinish = () => {
     handleClose()
@@ -41,7 +41,7 @@ const StakedReport = ({
               <br />
               Your Total Staked Balance is
               <br />
-              45,492.07
+              <h1 className='text-[24px]'>{Humanize.formatNumber(parseFloat(formatUnits(user?.balance, 18)))}</h1>
               <br />
               <button onClick={handleFinish}>OK</button>
             </div>

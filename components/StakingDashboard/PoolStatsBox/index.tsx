@@ -23,7 +23,6 @@ import { animation } from '@/utils/helpers'
 
 import CTAButton from '../CTAButton'
 import MiniModalBox from '../MiniModalBox'
-import UnstakeModalBox from '../UnstakeModalBox'
 import DonutChart from './DonutChart'
 import StakedReport from '../StakedReport'
 
@@ -58,7 +57,6 @@ const PoolStatsBox = () => {
   const [timeLeft, setTimeLeft] = useState(0)
   const [earned, setEarned] = useState(0n)
   const [userApy, setUserApy] = useState(0n)
-  const [approved, setApproved] = useState(0n)
   const [stakeOpen, setStakeOpen] = useState(false)
 
   const { data: stakerContract } = useScaffoldContract({
@@ -136,7 +134,7 @@ const PoolStatsBox = () => {
     },
   }
 
-  const MAX_STEP = 2
+  const MAX_STEP = 1
   const MIN_STEP = 0
 
   const handleNext = () => {
@@ -158,9 +156,8 @@ const PoolStatsBox = () => {
   }
 
   const components = [
-    { Component: MiniModalBox, key: 'withdraw-step-0' },
-    { Component: UnstakeModalBox, key: 'withdraw-step-1' },
-    { Component: StakedReport, key: 'withdraw-step-2' }
+    { Component: MiniModalBox, key: 'stake-step-0' },
+    { Component: StakedReport, key: 'stake-step-1' }
   ]
 
   const { Component, key } = components[state.step] as any
@@ -373,7 +370,6 @@ const PoolStatsBox = () => {
                       user={user}
                       token={tokenContract}
                       staker={stakerContract}
-                      approved={approved}
                       timeLeft={timeLeft}
                     />
                   </div>

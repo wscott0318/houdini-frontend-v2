@@ -16,7 +16,6 @@ import {
 import { animation } from '@/utils/helpers'
 
 import MiniModalBox from '../StakingDashboard/MiniModalBox'
-import UnstakeModalBox from '../StakingDashboard/UnstakeModalBox'
 import StakedReport from '../StakingDashboard/StakedReport'
 
 export default function Dashboard() {
@@ -53,7 +52,6 @@ export default function Dashboard() {
   const [timeLeft, setTimeLeft] = useState(0)
   const [earned, setEarned] = useState(0n)
   const [userApy, setUserApy] = useState(0n)
-  const [approved, setApproved] = useState(0n)
   const [stakeOpen, setStakeOpen] = useState(false)
 
   const { data: userData } = useScaffoldContractRead({
@@ -62,11 +60,6 @@ export default function Dashboard() {
     args: [address],
   } as any)
 
-  const { data: approvedData } = useScaffoldContractRead({
-    contractName: 'Houdini',
-    functionName: 'allowance',
-    args: [address, deployedStakerData?.address],
-  } as any)
 
   useEffect(() => {
     if (userData) {
@@ -76,10 +69,8 @@ export default function Dashboard() {
       setEarned(userDataArr[2])
       setUserApy(userDataArr[3])
     }
-    if (approvedData) {
-      setApproved(approvedData as any)
-    }
-  }, [userData, address, approvedData])
+
+  }, [userData, address])
 
   // Pool stats
   const [pool, setPool] = useState<any>()
@@ -128,7 +119,7 @@ export default function Dashboard() {
     },
   }
 
-  const MAX_STEP = 2
+  const MAX_STEP = 1
   const MIN_STEP = 0
 
   const handleNext = () => {
@@ -150,9 +141,8 @@ export default function Dashboard() {
   }
 
   const components = [
-    { Component: MiniModalBox, key: 'withdraw-step-0' },
-    { Component: UnstakeModalBox, key: 'withdraw-step-1' },
-    { Component: StakedReport, key: 'withdraw-step-2'}
+    { Component: MiniModalBox, key: 'stake-step-0' },
+    { Component: StakedReport, key: 'stake-step-1'}
   ]
 
   const { Component, key } = components[state.step] as any
@@ -177,7 +167,7 @@ export default function Dashboard() {
           </span>
         </div>
         <div className="flex flex-row flex-wrap gap-[40px]">
-          <BalanceBox setStakeOpen={setStakeOpen} user={user} earned={earned} />
+          <BalanceBox address={address} setStakeOpen={setStakeOpen} user={user} earned={earned} />
           <PoolAPYBox poolApy={poolApy} userApy={userApy} earned={earned} balance={user?.balance} />
         </div>
       </div>
@@ -217,7 +207,6 @@ export default function Dashboard() {
                       user={user}
                       token={token}
                       staker={deployedStakerData}
-                      approved={approved}
                       timeLeft={timeLeft}
                     />
                   </div>

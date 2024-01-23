@@ -1,4 +1,5 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { t } from 'i18next'
 
 export const ConnectButtonHoudini = () => {
   return (
@@ -40,7 +41,7 @@ export const ConnectButtonHoudini = () => {
                     type="button"
                     className="text-[#FBD20F] relative z-[999] flex justify-center items-center rounded-full border border-[#FBD20F] w-[178px] h-[48px] bg-black font-bold text-[19px] leading-[31px]"
                   >
-                    Connect Wallet
+                    {t('connectWallet')}
                   </button>
                 )
               }

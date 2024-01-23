@@ -567,5 +567,6 @@
   "MultiplierChanged": "Multiplier changed",
   "all": "All",
   "noEvents": "No events..",
-  "Stake": "Stake"
+  "Stake": "Stake",
+  "connectWallet": "Connect Wallet"
 }

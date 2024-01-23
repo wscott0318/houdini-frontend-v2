@@ -13,9 +13,11 @@ import HalfCircledDonutChart from './HalfCircledDonutChart'
 import { useScaffoldContract, useScaffoldContractRead } from '@/staking/hooks/scaffold-eth'
 import { ADDRESSES, USD_DECIMALS } from '@/utils/constants'
 import { useNetwork } from 'wagmi'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 
-const BalanceBox = ({ user, earned, setStakeOpen }: any) => {
+const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
   const { t } = useTranslation()
+  const { openConnectModal } = useConnectModal()
 
   const userTotalLocked = (user?.balance as bigint ?? 0n) + (earned as bigint ?? 0n);
 
@@ -135,11 +137,14 @@ const BalanceBox = ({ user, earned, setStakeOpen }: any) => {
                 </span>
               </div>
             </CTAButton>
-            <CTAButton onClick={() => {setStakeOpen(true)}} height="48px" width="146px">
+            <CTAButton onClick={() => { address ? setStakeOpen(true) : openConnectModal?.() }} height="48px" width="146px">
               <div className="flex flex-row gap-[7px] justify-center items-center mx-[20px] my-[14px]">
                 <StakeMoreSvg className="w-[16px] h-[16px]" />
                 <span className="text-[16px] font-semibold">
-                  {user?.balance > 0n ? t('stakeMore') : t('Stake')}
+                  {address ?
+                    user?.balance > 0n ? t('stakeMore') : t('Stake') :
+                    t('Stake')
+                  }
                 </span>
               </div>
             </CTAButton>

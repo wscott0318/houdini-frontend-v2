@@ -2,17 +2,15 @@ import { MaxUint256 } from '@uniswap/sdk-core'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-import { Account } from 'viem'
-import { formatEther, parseEther } from 'viem'
-import { useAccount, useToken } from 'wagmi'
+import {  parseEther } from 'viem'
+import { useAccount } from 'wagmi'
 import { useBalance } from 'wagmi'
 import Humanize from 'humanize-plus'
 
 import { StakeMoreSvg } from '@/components/Svg'
-import { useScaffoldContractWrite } from '@/staking/hooks/scaffold-eth'
+import { useScaffoldContractRead, useScaffoldContractWrite } from '@/staking/hooks/scaffold-eth'
 
 import QTYButton from '../QTYButton'
-import SwitchButton from './SwitchButton'
 
 const styles = {
   modal: `flex justify-center place-self-center vertical-align-center`,
@@ -29,7 +27,6 @@ const MiniModalBox = ({
   user,
   token,
   staker,
-  approved,
   timeLeft,
   handleNext,
   handlePrevious,
@@ -39,8 +36,24 @@ const MiniModalBox = ({
   const { t } = useTranslation()
   const [inputAmount, setInputAmount] = useState('0')
   const [balance, setBalance] = useState('0')
+  const [balanceInt, setBalanceInt] = useState(0)
   const { address } = useAccount()
   const [percentAmount, setPercentAmount] = useState(0.5)
+  const [approved, setApproved] = useState(0n)
+
+  const { data: approvedData } = useScaffoldContractRead({
+    contractName: 'Houdini',
+    functionName: 'allowance',
+    args: [address, staker?.address],
+  } as any)
+
+  useEffect(() => {
+    if (approvedData) {
+      setApproved(approvedData as any)
+    }
+  }, [address, approvedData])
+
+
   useBalance({
     address,
     token: token?.address,
@@ -48,7 +61,8 @@ const MiniModalBox = ({
     onSuccess(data: any) {
       // console.log('Success', data)
       if(token?.address) {
-        setBalance(Humanize.formatNumber(parseFloat(data.formatted), 2))
+        setBalanceInt(parseFloat(data.formatted))
+        setBalance(Humanize.formatNumber(parseFloat(data.formatted)))
       }
     },
   } as any)
@@ -62,6 +76,9 @@ const MiniModalBox = ({
         blockHash: any
         contractAddress: any
       }) => {
+        toast.success('Stake Successful')
+        handleNext()
+
         console.log(
           '📦 Transaction blockHash',
           txnReceipt.blockHash,
@@ -80,57 +97,7 @@ const MiniModalBox = ({
         blockHash: any
         contractAddress: any
       }) => {
-        console.log(
-          '📦 Transaction blockHash',
-          txnReceipt.blockHash,
-          txnReceipt,
-        )
-      },
-    } as any)
-
-  const { writeAsync: writeRequestExit, isLoading: requestExitLoading } =
-    useScaffoldContractWrite({
-      contractName: 'Staker',
-      functionName: 'requestUnlock',
-      args: [],
-      onBlockConfirmation: (txnReceipt: {
-        blockHash: any
-        contractAddress: any
-      }) => {
-        console.log(
-          '📦 Transaction blockHash',
-          txnReceipt.blockHash,
-          txnReceipt,
-        )
-      },
-    } as any)
-
-  const { writeAsync: writeExit, isLoading: exitLoading } =
-    useScaffoldContractWrite({
-      contractName: 'Staker',
-      functionName: 'exit',
-      args: [],
-      onBlockConfirmation: (txnReceipt: {
-        blockHash: any
-        contractAddress: any
-      }) => {
-        console.log(
-          '📦 Transaction blockHash',
-          txnReceipt.blockHash,
-          txnReceipt,
-        )
-      },
-    } as any)
-
-  const { writeAsync: writeEmergencyExit, isLoading: emergencyExitLoading } =
-    useScaffoldContractWrite({
-      contractName: 'Staker',
-      functionName: 'emergencyWithdraw',
-      args: [user?.balance ?? 0],
-      onBlockConfirmation: (txnReceipt: {
-        blockHash: any
-        contractAddress: any
-      }) => {
+        toast.success('Approve Successful')
         console.log(
           '📦 Transaction blockHash',
           txnReceipt.blockHash,
@@ -141,8 +108,6 @@ const MiniModalBox = ({
 
   const handleApprove = () => {
     writeApprove()
-    toast.success('Approve Successful')
-    handleNext()
   }
 
   const handleStakePool = () => {
@@ -150,21 +115,6 @@ const MiniModalBox = ({
       writeStake()
     }
   }
-
-  const handleRequestExit = () => {
-    writeRequestExit()
-  }
-  const handleExit = () => {
-    writeExit()
-  }
-
-  const handleEmergencyExit = () => {
-    writeEmergencyExit()
-  }
-
-  // if (!staker) {
-  //   return <>Please switch to correct chain...</>
-  // }
 
   return (
     <div className="flex items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px] w-[409px]">
@@ -185,7 +135,7 @@ const MiniModalBox = ({
             isSet={percentAmount == 0.5}
             onClick={() => {
               setPercentAmount(0.5)
-              setInputAmount((parseInt(inputAmount) * percentAmount).toString())
+              setInputAmount((balanceInt * percentAmount).toString())
             }}
           />
           <QTYButton
@@ -193,6 +143,7 @@ const MiniModalBox = ({
             isSet={percentAmount == 0.75}
             onClick={() => {
               setPercentAmount(0.75)
+              setInputAmount((balanceInt * percentAmount).toString())
             }}
           />
           <QTYButton
@@ -200,6 +151,7 @@ const MiniModalBox = ({
             isSet={percentAmount == 0.9}
             onClick={() => {
               setPercentAmount(0.9)
+              setInputAmount((balanceInt * percentAmount).toString())
             }}
           />
           <QTYButton
@@ -207,6 +159,7 @@ const MiniModalBox = ({
             isSet={percentAmount == 1}
             onClick={() => {
               setPercentAmount(1)
+              setInputAmount((balanceInt).toString())
             }}
           />
         </div>
@@ -216,21 +169,19 @@ const MiniModalBox = ({
               <span className="text-[10px] font-semibold uppercase">
                 {t('amountToStake')}
               </span>
-              {/* <input
+              <input                 
                 type="text"
                 id="amount"
-                className="stake-amount join-item input-bordered 0 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="stake-amount bg-transparent text-sm rounded-lg block w-full p-2.5 "
                 placeholder="0"
                 onChange={(e) => {
                   setInputAmount(e.target.value)
                 }}
                 value={inputAmount}
-                max={balance}
+                max={balanceInt}
                 min="0.0"
-                disabled={parseFloat(balance) == 0}
-                required
-              ></input> */}
-              <span>{inputAmount}</span>
+                disabled={parseFloat(balance) == 0 || !approved}
+                required />
             </div>
             <div className="flex items-end">
               <span className="text-[14px] font-bold leading-[24px] uppercase">
