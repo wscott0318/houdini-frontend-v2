@@ -1,5 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import { Portal } from 'houdini-react-sdk'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
@@ -11,12 +10,13 @@ import avatar from '@/assets/avatar.png'
 import logo from '@/assets/logo.png'
 import { useTargetNetwork } from '@/staking/hooks/scaffold-eth/useTargetNetwork'
 import { getBlockExplorerAddressLink } from '@/staking/utils/scaffold-eth'
-import { animation } from '@/utils/helpers'
 import { useWindowSize } from '@/utils/hooks/useWindowSize'
 
 import NoPenaltyWithdrawalBox from '../StakingDashboard/NoPenaltyWithdrawalBox'
 import { BlockieAvatar } from '../StakingDashboard/RainbowKitCustomConnectButton/BlockieAvatar'
 import WithdrawalBox from '../StakingDashboard/WithdrawalBox'
+import WithdrawalExplainerBox from '../StakingDashboard/WithdrawalExplainerBox'
+import StateMachine from '../StateMachine'
 import {
   ChartSvg,
   DocumentSvg,
@@ -27,9 +27,6 @@ import {
   SidebarQuestionSvg,
   WidthrawSvg,
 } from '../Svg'
-import WithdrawalExplainerBox from '../StakingDashboard/WithdrawalExplainerBox'
-import { useConnectModal } from '@rainbow-me/rainbowkit'
-// import { useScaffoldContractRead } from '@/staking/hooks/scaffold-eth'
 
 export function SideBar() {
   const { t } = useTranslation()
@@ -93,67 +90,6 @@ export function SideBar() {
   useEffect(() => {
     setEnsAvatar(fetchedEnsAvatar)
   }, [fetchedEnsAvatar])
-
-  const initialState = {
-    step: 0,
-  }
-  const [state, setState] = useState(initialState)
-
-  const currentState = `step${state.step}`
-
-  const stateMachine = {
-    step0: {
-      previous: 'step0',
-      next: 'step1',
-    },
-    step1: {
-      previous: 'step0',
-      next: 'step2',
-    },
-    step2: {
-      previous: 'step1',
-      next: 'step3',
-    },
-  }
-
-  const MAX_STEP = 2
-  const MIN_STEP = 0
-
-  const handleNext = () => {
-    const nextState = (stateMachine as any)[currentState]?.next ?? ''
-    const nextStep = parseInt(nextState.slice(-1), 10)
-
-    setState({
-      step: Math.min(nextStep, MAX_STEP),
-    })
-  }
-
-  const handlePrevious = () => {
-    const previousState = (stateMachine as any)[currentState]?.previous ?? ''
-    const previousStep = parseInt(previousState.slice(-1), 10)
-
-    setState({
-      step: Math.max(previousStep, MIN_STEP),
-    })
-  }
-
-  const components = [
-    { Component: WithdrawalExplainerBox, key: 'withdraw-step-0' },
-    {
-      Component: isPenalty ? WithdrawalBox : NoPenaltyWithdrawalBox,
-      key: 'withdraw-step-1',
-    },
-  ]
-
-  const { Component, key } = components[state.step] as any
-
-  const handleClose = () => {
-    setWithdrawOpen(false)
-  }
-
-  const handleResetState = () => {
-    setState(initialState)
-  }
 
   return (
     <>
@@ -243,7 +179,11 @@ export function SideBar() {
             <ul className="space-y-2 font-semibold text-[14px]">
               <li>
                 <div
-                  onClick={() => account?.address ?setWithdrawOpen(true) : openConnectModal?.() }
+                  onClick={() =>
+                    account?.address
+                      ? setWithdrawOpen(true)
+                      : openConnectModal?.()
+                  }
                   className="flex items-center cursor-pointer p-[16px] text-[#A0AEC0]  hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
                 >
                   <WidthrawSvg className="w-[24px] h-[24px] stroke-white" />
@@ -293,49 +233,35 @@ export function SideBar() {
           </div>
         </div>
       ) : null}
-      <AnimatePresence>
-        {withdrawOpen ? (
-          <Portal>
-            <motion.div
-              className="z-10 fixed left-0 top-0 w-screen h-screen"
-              aria-labelledby="modal-title"
-              role="dialog"
-              aria-modal="true"
-              initial="hidden"
-              exit="hidden"
-              animate="visible"
-              variants={animation}
-            >
-              <div
-                onClick={(e) => {
-                  e.preventDefault()
-                  const target = e.target as HTMLElement
-                  if (target.id === 'dropdownClickable') {
-                    handleClose()
-                  }
-                }}
-                className="fixed inset-0 z-10 w-screen overflow-y-auto bg-black/50 drop-shadow-2xl backdrop-blur-[5px]"
-              >
-                <div
-                  id="dropdownClickable"
-                  className="flex relative min-h-full items-start justify-center sm:items-center p-6 md:p-0"
-                >
-                  <div className="flex flex-col xl:flex-row justify-center items-start gap-[56px]">
-                    <Component
-                      handleNext={handleNext}
-                      handlePrevious={handlePrevious}
-                      handleClose={handleClose}
-                      handleResetState={handleResetState}
-                      setIsPenalty={setIsPenalty}
-                      address={account?.address}
-                    />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </Portal>
-        ) : null}
-      </AnimatePresence>
+
+      <StateMachine
+        steps={[
+          {
+            Component: WithdrawalExplainerBox,
+            key: 'withdraw-step-0',
+            props: { setIsPenalty: setIsPenalty, address: account?.address },
+          },
+          {
+            Component: isPenalty ? WithdrawalBox : NoPenaltyWithdrawalBox,
+            key: 'withdraw-step-1',
+            props: { setIsPenalty: setIsPenalty, address: account?.address },
+          },
+        ]}
+        isOpen={withdrawOpen}
+        onClose={() => setWithdrawOpen(false)}
+        stateMachine={{
+          step0: {
+            previous: 'step0',
+            next: 'step1',
+          },
+          step1: {
+            previous: 'step0',
+            next: 'step1',
+          },
+        }}
+        maxStep={1}
+        minStep={0}
+      />
     </>
   )
 }
