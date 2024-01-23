@@ -1,7 +1,8 @@
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
+import Humanize from 'humanize-plus'
 
 import LockTokenIcon1 from '@/assets/LockTokenIcon1.png'
 import {
@@ -16,26 +17,146 @@ import {
 } from '@/components/Svg'
 
 import SwitchButton from './SwitchButton'
+import { useScaffoldContract, useScaffoldContractRead, useScaffoldContractWrite } from '@/staking/hooks/scaffold-eth'
+import { ADDRESSES, USD_DECIMALS } from '@/utils/constants'
+import { formatUnits } from 'viem'
+import { useNetwork } from 'wagmi'
 
 const WithdrawalBox = ({
   handleNext,
   handlePrevious,
   handleClose,
   handleResetState,
+  address,
 }: {
   handleNext: any
   handlePrevious: any
   handleClose: any
   handleResetState: any
+  address: string
 }) => {
   const [value, setValue] = useState(0)
   const { t } = useTranslation()
+  const { chain } = useNetwork()
+  const { data: tokenContract } = useScaffoldContract({
+    contractName: 'Houdini',
+  })
 
-  const handleWithraw = () => {
-    toast.success('Withdrawal Successful')
-    handleClose()
-    handleResetState()
-  }
+  // User stats
+  const [user, setUser] = useState<any>()
+  const [timeLeft, setTimeLeft] = useState(0)
+  const [earned, setEarned] = useState(0n)
+  const [unstakeFee, setUnstakeFee] = useState(0)
+
+  const { data: userData } = useScaffoldContractRead({
+    contractName: 'Staker',
+    functionName: 'UserInfo',
+    args: [address],
+  } as any)
+  useEffect(() => {
+    if (userData) {
+      const userDataArr = userData as any
+      setUser(userDataArr[0])
+      setTimeLeft(Number(userDataArr[1]))
+      setEarned(userDataArr[2])
+    }
+
+  }, [userData, address])
+
+
+  // Pool Data
+  const { data: poolData } = useScaffoldContractRead({
+    contractName: 'Staker',
+    functionName: 'pool',
+  } as any)
+
+  useEffect(() => {
+    if (poolData && poolData[0]) {
+      setUnstakeFee((Number((poolData?.[0] as any).earlyUnstakeFee)) / 10000)
+    }
+  }, [poolData])
+
+
+  const addressPath = [
+    tokenContract?.address,
+    ADDRESSES[chain?.id ?? 1]?.weth,
+    ADDRESSES[chain?.id ?? 1]?.usd,
+  ]
+  const userTotalLocked = (user?.balance as bigint ?? 0n) + (earned as bigint ?? 0n);
+
+  const { data: balanceUsd } = useScaffoldContractRead({
+    contractName: 'UniswapRouter2',
+    functionName: 'getAmountsOut',
+    args: [userTotalLocked ?? 0n, addressPath],
+  } as any)
+
+  const userTotalLockedNumber = parseFloat(
+    formatUnits(
+      (userTotalLocked as bigint) ?? 0n,
+      18,
+    ),
+  );
+
+  const totalUsdNumber = parseFloat(
+    formatUnits(
+      (balanceUsd?.[2] as unknown as bigint) ?? 0n,
+      USD_DECIMALS,
+    ),
+  );
+
+  const { writeAsync: writeRequestExit, isLoading: requestExitLoading } = useScaffoldContractWrite({
+    contractName: "Staker",
+    functionName: "requestUnlock",
+    args: [],
+    onBlockConfirmation: (txnReceipt: { blockHash: any; contractAddress: any }) => {
+      toast.success('Your request to unstake has been submitted!')
+      handleClose()
+      handleResetState()
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash, txnReceipt);
+    },
+  } as any);
+
+  const { writeAsync: writeEmergencyExit, isLoading: emergencyExitLoading } = useScaffoldContractWrite({
+    contractName: "Staker",
+    functionName: "emergencyWithdraw",
+    args: [user?.balance ?? 0],
+    onBlockConfirmation: (txnReceipt: { blockHash: any; contractAddress: any }) => {
+      toast.success('Withdrawal Successful')
+      handleClose()
+      handleResetState()
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash, txnReceipt);
+    },
+  } as any);
+
+  // const handleEmergencyExit = () => {
+  //   toast.success('Withdrawal Successful')
+  //   handleClose()
+  //   handleResetState()
+  // }
+
+  // const handleRequestExit = () => {
+  //   toast.success('Withdrawal Successful')
+  //   handleClose()
+  //   handleResetState()
+  // }
+
+  const handleRequestExit = () => {
+    if (!user?.balance) {
+      toast.error('You have no funds staked!')
+      return
+    }
+    writeRequestExit();
+  };
+
+
+  const handleEmergencyExit = () => {
+    if (!user?.balance) {
+      toast.error('You have no funds staked!')
+      return
+    }
+    writeEmergencyExit();
+  };
+
 
   return (
     <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px]">
@@ -74,7 +195,8 @@ const WithdrawalBox = ({
                 <div className="w-full flex flex-row justify-between">
                   <div className="flex flex-row gap-[10px]">
                     <span className="text-[20px] font-medium leading-[19px]">
-                      JH74XU73UUdqwdq....32wd01
+                      {address.substring(0, 18)}...
+                      {address.substring(address.length - 4)}
                     </span>
                     <div className="w-[2px] h-[20px] bg-white" />
                   </div>
@@ -88,10 +210,10 @@ const WithdrawalBox = ({
               <span className="text-[10px]">AVAILABLE BALANCE</span>
               <div className="gap-[5px] h-[49px] flex flex-col">
                 <span className="text-[25px] font-medium leading-[20px]">
-                  420,000.74 $LOCK
+                  {Humanize.formatNumber(userTotalLockedNumber, 2)} $LOCK
                 </span>
                 <span className="text-[14px] font-medium leading-normal text-[#ffffff80]">
-                  $1,224.56 USD
+                  ${Humanize.formatNumber(totalUsdNumber, 2)} USD
                 </span>
               </div>
             </div>
@@ -106,12 +228,12 @@ const WithdrawalBox = ({
                       AMOUNT TO WITHDRAW
                     </span>
                     <span className="text-[20px] font-medium leading-[19px]">
-                      10,000.20 $LOCK
+                      {Humanize.formatNumber(userTotalLockedNumber * (1 - unstakeFee), 2)} $LOCK
                     </span>
                   </div>
-                  <span className="text-[#9C8EFF] text-[12px] font-bold leading-normal uppercase">
+                  {/* <span className="text-[#9C8EFF] text-[12px] font-bold leading-normal uppercase">
                     Max Amount
-                  </span>
+                  </span> */}
                 </div>
               </div>
               <div className="h-[40px] w-full bg-gradient-to-b rounded-b-[30px] from-[#6C5DD380] to-[#4154C980] flex items-center justify-center">
@@ -129,12 +251,12 @@ const WithdrawalBox = ({
                       AMOUNT TO WITHDRAW
                     </span>
                     <span className="text-[20px] font-medium leading-[19px]">
-                      10,000.20 $LOCK
+                      {Humanize.formatNumber(userTotalLockedNumber, 2)} $LOCK
                     </span>
                   </div>
-                  <span className="text-[#9C8EFF] text-[12px] font-bold leading-normal uppercase">
+                  {/* <span className="text-[#9C8EFF] text-[12px] font-bold leading-normal uppercase">
                     Max Amount
-                  </span>
+                  </span> */}
                 </div>
               </div>
             </div>
@@ -176,7 +298,7 @@ const WithdrawalBox = ({
                     <InfoSquareSvg className="w-[16px] h-[16px]" />
                   </div>
                   <span className="text-[#F98F3B] text-[20px] leading-[19px] font-semibold">
-                    5,000.20 $LOCK
+                    {Humanize.formatNumber(userTotalLockedNumber * unstakeFee, 2)} $LOCK
                   </span>
                 </div>
               </div>
@@ -188,7 +310,7 @@ const WithdrawalBox = ({
               <div className="flex flex-col gap-[8px]">
                 <span className="text-[#fff] text-[10px] uppercase">TOTAL</span>
                 <span className="text-[#fff] text-[20px] leading-[19px] font-semibold">
-                  15,000.20 $LOCK
+                  {Humanize.formatNumber(userTotalLockedNumber * (!value ? 1 - unstakeFee : 1), 2)} $LOCK
                 </span>
               </div>
             </div>
@@ -198,7 +320,7 @@ const WithdrawalBox = ({
               className={
                 'p-[16px] flex w-[271px] h-[58px] justify-center items-center rounded-[120px] custom-instant-withdrawal-button-gradient'
               }
-              onClick={handleWithraw}
+              onClick={handleEmergencyExit}
             >
               <div className="flex flex-row gap-[7px] justify-center items-center">
                 <WalletSvg className="w-[16px] h-[16px]" />
@@ -212,7 +334,7 @@ const WithdrawalBox = ({
               className={
                 'p-[16px] flex w-[271px] h-[58px] justify-center items-center rounded-[120px] custom-day-widthrawal-button-gradient'
               }
-              onClick={handleWithraw}
+              onClick={handleRequestExit}
             >
               <div className="flex flex-row gap-[7px] justify-center items-center">
                 <WalletSvg className="w-[16px] h-[16px]" />

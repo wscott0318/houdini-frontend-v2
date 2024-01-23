@@ -15,7 +15,7 @@ import {
 } from '@/components/Svg'
 import { toast } from 'react-toastify'
 import { ADDRESSES, USD_DECIMALS } from '@/utils/constants'
-import { useScaffoldContract, useScaffoldContractRead } from '@/staking/hooks/scaffold-eth'
+import { useScaffoldContract, useScaffoldContractRead, useScaffoldContractWrite } from '@/staking/hooks/scaffold-eth'
 import { formatUnits } from 'viem'
 import { useNetwork } from 'wagmi'
 
@@ -32,7 +32,6 @@ const NoPenaltyWithdrawalBox = ({
   handleResetState: any
   address: string
 }) => {
-  const [value, setValue] = useState(0)
   const { t } = useTranslation()
   const { chain } = useNetwork()
   const { data: tokenContract } = useScaffoldContract({
@@ -66,12 +65,6 @@ const NoPenaltyWithdrawalBox = ({
   ]
   const userTotalLocked = (user?.balance as bigint ?? 0n) + (earned as bigint ?? 0n);
 
-  const { data: totalUsd } = useScaffoldContractRead({
-    contractName: 'UniswapRouter2',
-    functionName: 'getAmountsOut',
-    args: [userTotalLocked ?? 0n, addressPath],
-  } as any)
-
   const { data: balanceUsd } = useScaffoldContractRead({
     contractName: 'UniswapRouter2',
     functionName: 'getAmountsOut',
@@ -85,13 +78,6 @@ const NoPenaltyWithdrawalBox = ({
     ),
   );
 
-  // const userEarnedNumber = parseFloat(
-  //   formatUnits(
-  //     (earned as bigint) ?? 0n,
-  //     18,
-  //   ),
-  // );
-
   const totalUsdNumber = parseFloat(
     formatUnits(
       (balanceUsd?.[2] as unknown as bigint) ?? 0n,
@@ -99,11 +85,25 @@ const NoPenaltyWithdrawalBox = ({
     ),
   );
 
-  const handleWithraw = () => {
-    toast.success('Withdrawal Successful')
-    handleClose()
-    handleResetState()
-  }
+  const { writeAsync: writeRequestExit, isLoading: requestExitLoading } = useScaffoldContractWrite({
+    contractName: "Staker",
+    functionName: "requestUnlock",
+    args: [],
+    onBlockConfirmation: (txnReceipt: { blockHash: any; contractAddress: any }) => {
+      toast.success('Your request to unstake has been submitted!')
+      handleClose()
+      handleResetState()
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash, txnReceipt);
+    },
+  } as any);
+  
+  const handleRequestExit = () => {
+    if (!user?.balance) {
+      toast.error('You have no funds staked!')
+      return
+    }
+    writeRequestExit();
+  };
 
   return (
     <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px]">
@@ -156,10 +156,10 @@ const NoPenaltyWithdrawalBox = ({
               <span className="text-[10px]">AVAILABLE BALANCE</span>
               <div className="gap-[5px] h-[49px] flex flex-col">
                 <span className="text-[25px] font-medium leading-[20px]">
-                  {Humanize.formatNumber(userTotalLockedNumber)} $LOCK
+                  {Humanize.formatNumber(userTotalLockedNumber, 2)} $LOCK
                 </span>
                 <span className="text-[14px] font-medium leading-normal text-[#ffffff80]">
-                  ${Humanize.formatNumber(totalUsdNumber)} USD
+                  ${Humanize.formatNumber(totalUsdNumber, 2)} USD
                 </span>
               </div>
             </div>
@@ -176,7 +176,7 @@ const NoPenaltyWithdrawalBox = ({
                   You Recieve
                 </span>
                 <span className="text-[#fff] text-[20px] leading-[19px] font-semibold">
-                {Humanize.formatNumber(userTotalLockedNumber)} $LOCK
+                {Humanize.formatNumber(userTotalLockedNumber, 2)} $LOCK
                 </span>
               </div>
             </div>
@@ -186,7 +186,7 @@ const NoPenaltyWithdrawalBox = ({
             className={
               'p-[16px] flex w-[271px] h-[58px] justify-center items-center rounded-[120px] custom-day-widthrawal-button-gradient'
             }
-            onClick={handleWithraw}
+            onClick={handleRequestExit}
           >
             <div className="flex flex-row gap-[7px] justify-center items-center">
               <WalletSvg className="w-[16px] h-[16px]" />

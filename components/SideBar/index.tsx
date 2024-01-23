@@ -41,6 +41,20 @@ export function SideBar() {
   const [ensAvatar, setEnsAvatar] = useState<string | null>()
   const [withdrawOpen, setWithdrawOpen] = useState(false)
   const [isPenalty, setIsPenalty] = useState(false)
+  // const [user, setUser] = useState<any>()
+
+  // const { data: userData } = useScaffoldContractRead({
+  //   contractName: 'Staker',
+  //   functionName: 'UserInfo',
+  //   args: [account?.address],
+  // } as any)
+  // useEffect(() => {
+  //   if (userData) {
+  //     const userDataArr = userData as any
+  //     setUser(userDataArr[0])
+  //   }
+
+  // }, [userData, account?.address])
 
   useEffect(() => {
     if (width > 768) {

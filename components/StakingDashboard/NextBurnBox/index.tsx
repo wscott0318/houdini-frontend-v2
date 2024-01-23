@@ -98,7 +98,7 @@ const NextBurnBox = () => {
                   alt="LockTokenIcon1"
                 />
                 <span className="text-[50px] font-medium rainbow-text">
-                  {Humanize.formatNumber(burnAmount)}
+                  {Humanize.formatNumber(parseFloat(burnAmount))}
                 </span>
               </div>
               <span className="text-[12px] font-semibold text-[#A0AEC0]">
