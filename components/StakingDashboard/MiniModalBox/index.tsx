@@ -58,10 +58,6 @@ const MiniModalBox = ({
   const [approved, setApproved] = useState(0n)
   const [termsApproved, setTermsApproved] = useState(false)
 
-  const handleTerms = () => {
-    console.log('apelez asta!!', termsApproved)
-  }
-
   const { data: approvedData } = useScaffoldContractRead({
     contractName: 'Houdini',
     functionName: 'allowance',
@@ -79,7 +75,6 @@ const MiniModalBox = ({
     token: token?.address,
     watch: true,
     onSuccess(data: any) {
-      // console.log('Success', data)
       if (token?.address) {
         setBalanceInt(parseFloat(data.formatted))
         setBalance(Humanize.formatNumber(parseFloat(data.formatted)))
