@@ -60,7 +60,7 @@ const HistoryModalBox = () => {
     eventName: 'Staked',
     fromBlock,
     watch: true,
-    // filters: { premium: true },
+    filters: { user: address },
     blockData: true,
     transactionData: true,
     receiptData: true,
