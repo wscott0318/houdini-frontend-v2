@@ -29,6 +29,7 @@ import {
 } from '../Svg'
 import WithdrawalExplainerBox from '../StakingDashboard/WithdrawalExplainerBox'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
+// import { useScaffoldContractRead } from '@/staking/hooks/scaffold-eth'
 
 export function SideBar() {
   const { t } = useTranslation()
@@ -43,6 +44,20 @@ export function SideBar() {
   const [ensAvatar, setEnsAvatar] = useState<string | null>()
   const [withdrawOpen, setWithdrawOpen] = useState(false)
   const [isPenalty, setIsPenalty] = useState(false)
+  // const [user, setUser] = useState<any>()
+
+  // const { data: userData } = useScaffoldContractRead({
+  //   contractName: 'Staker',
+  //   functionName: 'UserInfo',
+  //   args: [account?.address],
+  // } as any)
+  // useEffect(() => {
+  //   if (userData) {
+  //     const userDataArr = userData as any
+  //     setUser(userDataArr[0])
+  //   }
+
+  // }, [userData, account?.address])
 
   useEffect(() => {
     if (width > 768) {
@@ -228,7 +243,7 @@ export function SideBar() {
             <ul className="space-y-2 font-semibold text-[14px]">
               <li>
                 <div
-                  onClick={() => account?.address ? setWithdrawOpen(true) : openConnectModal?.() }
+                  onClick={() => account?.address ?setWithdrawOpen(true) : openConnectModal?.() }
                   className="flex items-center cursor-pointer p-[16px] text-[#A0AEC0]  hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]"
                 >
                   <WidthrawSvg className="w-[24px] h-[24px] stroke-white" />

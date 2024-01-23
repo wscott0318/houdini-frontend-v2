@@ -73,7 +73,7 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
                   {t('totakLockBalance')}
                 </div>
                 <div className="text-[20px] lg:text-[50px] font-normal leading-normal">
-                  {Humanize.formatNumber(parseFloat(formatUnits(userTotalLocked, 18)))}
+                  {Humanize.formatNumber(parseFloat(formatUnits(userTotalLocked ?? 0n, 18)))}
                 </div>
                 <div className="text-[14px] font-normal text-[#A5A5A5] leading-normal">
                   ({Humanize.formatNumber(parseFloat(formatUnits((totalUsd as any)?.[2] as unknown as bigint ?? 0n, USD_DECIMALS)), 2)} USD)

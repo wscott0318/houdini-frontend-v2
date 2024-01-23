@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 
 import { CloseSvg, StakeMoreSvg } from '@/components/Svg'
 
 import QTYButton from '../QTYButton'
+import { useScaffoldContractRead, useScaffoldContractWrite } from '@/staking/hooks/scaffold-eth'
+import humanizeDuration from 'humanize-duration'
 
 const WithdrawalExplainerBox = ({
   handleNext,
@@ -12,12 +14,14 @@ const WithdrawalExplainerBox = ({
   handleClose,
   handleResetState,
   setIsPenalty,
+  address,
 }: {
   handleNext: any
   handlePrevious: any
   handleClose: any
   handleResetState: any
   setIsPenalty: any
+  address: string
 }) => {
   const handlePenalty = () => {
     setIsPenalty(true)
@@ -30,6 +34,83 @@ const WithdrawalExplainerBox = ({
   }
 
   const { t } = useTranslation()
+
+  // User stats
+  const [user, setUser] = useState<any>()
+  const [timeLeft, setTimeLeft] = useState(0)
+  const [earned, setEarned] = useState(0n)
+
+  const { data: userData } = useScaffoldContractRead({
+    contractName: 'Staker',
+    functionName: 'UserInfo',
+    args: [address],
+  } as any)
+  useEffect(() => {
+    if (userData) {
+      const userDataArr = userData as any
+      setUser(userDataArr[0])
+      setTimeLeft(Number(userDataArr[1]))
+      setEarned(userDataArr[2])
+    }
+
+  }, [userData, address])
+
+
+  const { writeAsync: writeExit, isLoading: exitLoading } = useScaffoldContractWrite({
+    contractName: "Staker",
+    functionName: "exit",
+    args: [],
+    onBlockConfirmation: (txnReceipt: { blockHash: any; contractAddress: any }) => {
+      toast.success('Withdrawal Successful')
+      handleClose()
+      handleResetState()
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash, txnReceipt);
+    },
+  } as any);
+
+  const handleExit = () => {
+    writeExit();
+  };
+
+  if (user?.unlockRequested) {
+    return (
+      <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px]">
+        <div className="absolute top-[30px] right-[30px]">
+          <button onClick={handleClose}>
+            <CloseSvg className="w-[20px] h-[20px]" />
+          </button>
+        </div>
+        <div className="w-[612px] p-[30px] rounded-[28px] custom-balances-box-inner-shadow flex flex-col gap-[10px]  justify-center items-center">
+          <div className="flex flex-col gap-[10px] pb-[20px] text-center w-[496px]">
+            <div className="flex flex-col gap-[5px]">
+              <span className="text-[25px] font-medium leading-normal">
+                You have requested to Unstake.
+              </span>
+            </div>
+            <div className="flex flex-col gap-[5px]">
+              {timeLeft > 0 ?
+                <span>Time left until you can unstake: {humanizeDuration(timeLeft * 1000)}</span> : <>
+                  <button
+                    className={
+                      'p-[16px] flex w-full justify-center items-center rounded-[120px] custom-instant-withdrawal-button-gradient'
+                    }
+                    onClick={handleExit}
+                  >
+                    <div className="flex flex-row gap-[7px] justify-center items-center">
+                      <StakeMoreSvg className="w-[16px] h-[16px]" />
+                      <span className="text-[16px] font-semibold">
+                        Unstake
+                      </span>
+                    </div>
+                  </button></>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px]">
       <div className="absolute top-[30px] right-[30px]">
