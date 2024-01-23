@@ -92,6 +92,7 @@ const PoolStatsBox = () => {
     contractName: 'UniswapRouter2',
     functionName: 'getAmountsOut',
     args: [tokensLocked, addressPath],
+    enabled: tokensLocked ?? 0n > 0n,
   } as any)
 
   const { data: tokenSupply } = useScaffoldContractRead({

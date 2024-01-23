@@ -34,12 +34,14 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
     contractName: 'UniswapRouter2',
     functionName: 'getAmountsOut',
     args: [userTotalLocked ?? 0n, addressPath],
+    enabled: userTotalLocked > 0n,
   } as any)
 
   const { data: balanceUsd } = useScaffoldContractRead({
     contractName: 'UniswapRouter2',
     functionName: 'getAmountsOut',
     args: [user?.balance ?? 0n, addressPath],
+    enabled: userTotalLocked > 0n,
   } as any)
 
   const userBalanceNumber = parseFloat(

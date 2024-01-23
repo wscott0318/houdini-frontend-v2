@@ -69,6 +69,7 @@ const NoPenaltyWithdrawalBox = ({
     contractName: 'UniswapRouter2',
     functionName: 'getAmountsOut',
     args: [userTotalLocked ?? 0n, addressPath],
+    enabled: userTotalLocked > 0n,
   } as any)
 
   const userTotalLockedNumber = parseFloat(
@@ -92,7 +93,7 @@ const NoPenaltyWithdrawalBox = ({
     onBlockConfirmation: (txnReceipt: { blockHash: any; contractAddress: any }) => {
       toast.success('Your request to unstake has been submitted!')
       handleClose()
-      handleResetState()
+      handleResetState?.()
       console.log("📦 Transaction blockHash", txnReceipt.blockHash, txnReceipt);
     },
   } as any);

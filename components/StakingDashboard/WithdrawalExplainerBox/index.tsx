@@ -63,7 +63,7 @@ const WithdrawalExplainerBox = ({
     onBlockConfirmation: (txnReceipt: { blockHash: any; contractAddress: any }) => {
       toast.success('Withdrawal Successful')
       handleClose()
-      handleResetState()
+      handleResetState?.()
       console.log("📦 Transaction blockHash", txnReceipt.blockHash, txnReceipt);
     },
   } as any);

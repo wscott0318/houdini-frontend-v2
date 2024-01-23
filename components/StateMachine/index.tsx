@@ -68,7 +68,7 @@ const StateMachine = ({
 
   const handleClose = () => {
     onClose()
-    handleResetState()
+    handleResetState?.()
   }
 
   const { Component, props: componentProps } = steps[state.step]

@@ -19,7 +19,7 @@ const StakedReport = ({
 }) => {
   const handleFinish = () => {
     handleClose()
-    handleResetState()
+    handleResetState?.()
   }
 
   const { t } = useTranslation()

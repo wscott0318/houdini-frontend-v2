@@ -77,6 +77,7 @@ const NextBurnBox = () => {
     contractName: 'UniswapRouter2',
     functionName: 'getAmountsOut',
     args: [parseUnits(burnAmount, 18), addressPath],
+    enabled: parseUnits(burnAmount, 18) > 0n,
   } as any)
 
   return (
