@@ -35,7 +35,7 @@ export const OrderDetailsModal = ({ order, currentStep, setCurrentStep }: OrderD
   const swapTime = order?.eta
   const isExpired = order.status === ORDER_STATUS.EXPIRED
 
-  const { getAddressUrl, findTokenBySymbol, getExplorerUrl } = useTokens()
+  const { getAddressUrl, findTokenById, getExplorerUrl } = useTokens()
 
   return (
     <>
@@ -84,6 +84,8 @@ export const OrderDetailsModal = ({ order, currentStep, setCurrentStep }: OrderD
               </MetalboarderedTransRoundbox>
             ) : null}
 
+            <TransactionHash order={order} />
+
             <MetalboarderedTransRoundbox>
               {order.status === 4 ? (
                 <div className="flex flex-row justify-center items-center gap-[32px] px-[60px] py-[10px] h-full">
@@ -107,10 +109,13 @@ export const OrderDetailsModal = ({ order, currentStep, setCurrentStep }: OrderD
                 </div>
               )}
             </MetalboarderedTransRoundbox>
-
-            <TransactionHash order={order} />
           </div>
-          <BulletButtons className='mt-4' order={order} currentStep={currentStep} setCurrentStep={setCurrentStep} />
+          <BulletButtons
+            className="mt-4"
+            order={order}
+            currentStep={currentStep}
+            setCurrentStep={setCurrentStep}
+          />
         </IndustrialCounterLockup>
 
         <div className="pt-[15px] lg:px-[10px] pb-[5px] w-full">
@@ -138,12 +143,12 @@ export const OrderDetailsModal = ({ order, currentStep, setCurrentStep }: OrderD
                     {order?.outAmount}
                   </div>
                   <img
-                    src={findTokenBySymbol(order?.outSymbol)?.icon}
+                    src={findTokenById(order?.outSymbol)?.icon}
                     className="w-[20px] h-[20px]"
                     alt="outSymbol"
                   />
                   <div className="text-base text-center lg:text-[15px] text-[14px] font-normal">
-                    {findTokenBySymbol(order?.outSymbol)?.displayName}
+                    {findTokenById(order?.outSymbol)?.displayName}
                   </div>
                 </div>
               </div>

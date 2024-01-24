@@ -2,9 +2,11 @@ import Link from 'next/link'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { Clipboardbox } from '@/components/GeneralModal/Clipboardbox'
 import { MetalboarderedTransRoundbox } from '@/components/GeneralModal/MetalboarderedTransRoundbox'
 import { useTokens } from '@/hooks'
 import { OrderStatusResult } from '@/types/backend/typegql/entities/abstract/order.status'
+import { getEllipsisTxt } from '@/utils/helpers'
 
 interface TransactionHashProps {
   order: OrderStatusResult
@@ -30,9 +32,14 @@ export const TransactionHash: React.FC<TransactionHashProps> = ({ order }) => {
                 }`}
                 target="_blank"
               >
-                {order.transactionHash}
+                {getEllipsisTxt(order.transactionHash)}
               </Link>
             </div>
+            <Clipboardbox
+              concept={`${order.transactionHash}`}
+              fontSize="lg:text-[15px] text-[12px]"
+              textColor="text-[#FFFFFF99]"
+            />
           </div>
         </MetalboarderedTransRoundbox>
       ) : null}

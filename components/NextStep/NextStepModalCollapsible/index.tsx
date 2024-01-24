@@ -61,7 +61,7 @@ export const OrderDetailModalCollapsible = ({
 
   const toggleOpen = () => setIsExpanded(!isExpanded)
 
-  const { findTokenBySymbol, getAddressUrl, getTokenDetails } = useTokens()
+  const { findTokenById, getAddressUrl, getTokenDetails } = useTokens()
 
   if (isDeleted) {
     return <OrderDeletedModal orderId={orderID} />
@@ -139,12 +139,12 @@ export const OrderDetailModalCollapsible = ({
                               </div>
                               <img
                                 alt="inSymbol"
-                                src={findTokenBySymbol(order?.inSymbol)?.icon}
+                                src={findTokenById(order?.inSymbol)?.icon}
                                 className="w-[20px] h-[20px]"
                               />
                               <div className="text-sm whitespace-nowrap">
                                 {
-                                  findTokenBySymbol(order?.inSymbol)
+                                  findTokenById(order?.inSymbol)
                                     ?.displayName
                                 }
                               </div>
@@ -307,11 +307,11 @@ export const OrderDetailModalCollapsible = ({
                           </div>
                           <img
                             alt="outSymbol"
-                            src={findTokenBySymbol(order?.outSymbol)?.icon}
+                            src={findTokenById(order?.outSymbol)?.icon}
                             className="w-[20px] h-[20px]"
                           />
                           <div className="text-base whitespace-nowrap text-center lg:text-[15px] text-[14px] font-normal">
-                            {findTokenBySymbol(order?.outSymbol)?.displayName}
+                            {findTokenById(order?.outSymbol)?.displayName}
                           </div>
                         </div>
                       </div>
@@ -349,7 +349,7 @@ export const OrderDetailModalCollapsible = ({
                           </div>
                           <img
                             alt="inSymbol"
-                            src={findTokenBySymbol(order?.inSymbol)?.icon}
+                            src={findTokenById(order?.inSymbol)?.icon}
                             className="w-[20px] h-[20px]"
                           />
                           <div className="text-base text-center whitespace-nowrap lg:text-[15px] text-[14px] font-normal">
@@ -363,7 +363,7 @@ export const OrderDetailModalCollapsible = ({
                           </div>
                           <img
                             alt="outSymbol"
-                            src={findTokenBySymbol(order?.outSymbol)?.icon}
+                            src={findTokenById(order?.outSymbol)?.icon}
                             className="w-[20px] h-[20px]"
                           />
                           <div className="text-base text-center whitespace-nowrap lg:text-[15px] text-[14px] font-normal">
