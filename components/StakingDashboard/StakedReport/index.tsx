@@ -50,20 +50,22 @@ const StakedReport = ({
         </button>
       </div>
       <div className="w-[612px] p-[30px] rounded-[28px] custom-balances-box-inner-shadow flex flex-col gap-[10px]  justify-center items-center">
-        <div className="flex flex-col gap-[10px] pb-[20px] text-center w-[496px]">
-          <div className="flex flex-col gap-[5px]">
-            <span className="text-[25px] font-medium leading-normal">
-              🧙YOU`&apos;`RE A WIZARD 🧙‍
-            </span>
-            <div className="text-[14px] font-normal leading-normal">
-              ✨ Thou funds are now Staked ✨
-              <br />
-              Your Total Staked Balance is
-              <br />
-              <h1 className='text-[24px]'>{Humanize.formatNumber(parseFloat(formatUnits(user?.balance ?? 0n, 18)))}</h1>
-              <br />
-              <button onClick={handleFinish}>OK</button>
+        <div className="flex flex-col items-center gap-[10px] pb-[20px] w-[496px] text-center">
+          <div className="flex flex-col gap-[30px] items-center">
+            <div className="text-[40px] font-medium leading-normal">
+              🧙 YOU&apos;RE A WIZARD 🧙‍
             </div>
+            <div className='gradient-text rainbow-text font-medium text-lg'> ✨ Thou funds are now Staked ✨</div>
+
+            <div className="text-[14px] font-normal leading-normal">
+              <div className='font-medium text-lg mb-2'>
+                Your Total Staked Balance is
+              </div>
+              <h1 className='text-5xl'>{Humanize.formatNumber(parseFloat(formatUnits(user?.balance ?? 0n, 18)))}</h1>
+            </div>
+            <button
+              className='p-[16px] flex justify-center items-center rounded-[120px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9] w-[190px]'
+              onClick={handleFinish}>OK</button>
           </div>
         </div>
       </div>

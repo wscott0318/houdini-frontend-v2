@@ -1,15 +1,13 @@
 import { MaxUint256 } from '@uniswap/sdk-core'
-import { CheckBox } from 'houdini-react-sdk'
 import Humanize from 'humanize-plus'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import { parseEther } from 'viem'
-import { useBalance } from 'wagmi'
-import { useAccount, useToken } from 'wagmi'
+import { useAccount, useToken, useBalance } from 'wagmi'
 
-import { CloseSvg, StakeMoreSvg } from '@/components/Svg'
+import { CloseSvg, StakeMoreSvg, ErrorIcon } from '@/components/Svg'
 import {
   useScaffoldContract,
   useScaffoldContractRead,
@@ -54,9 +52,10 @@ const MiniModalBox = ({
   const [balance, setBalance] = useState('0')
   const [balanceInt, setBalanceInt] = useState(0)
   const { address } = useAccount()
-  const [percentAmount, setPercentAmount] = useState(0.5)
+  const [percentAmount, setPercentAmount] = useState<number | null>(0.5)
   const [approved, setApproved] = useState(0n)
   const [termsApproved, setTermsApproved] = useState(false)
+  const [canShowValidationError, setCanShowValidationError] = useState(false)
 
   const { data: approvedData } = useScaffoldContractRead({
     contractName: 'Houdini',
@@ -135,6 +134,14 @@ const MiniModalBox = ({
     }
   }
 
+  useEffect(() => {
+    if (percentAmount) {
+      setInputAmount(parseFloat((balanceInt * percentAmount).toFixed(2)).toString())
+    }
+  }, [percentAmount, balanceInt])
+
+  const isInputAmountInvalid = Number(inputAmount) <= 0 || Number(inputAmount) > balanceInt
+
   return (
     <div className="flex relative items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px] w-[409px]">
       <div className="absolute top-[30px] right-[30px]">
@@ -159,7 +166,6 @@ const MiniModalBox = ({
             isSet={percentAmount == 0.5}
             onClick={() => {
               setPercentAmount(0.5)
-              setInputAmount((balanceInt * percentAmount).toString())
             }}
           />
           <QTYButton
@@ -167,7 +173,7 @@ const MiniModalBox = ({
             isSet={percentAmount == 0.75}
             onClick={() => {
               setPercentAmount(0.75)
-              setInputAmount((balanceInt * percentAmount).toString())
+              setCanShowValidationError(true)
             }}
           />
           <QTYButton
@@ -175,7 +181,7 @@ const MiniModalBox = ({
             isSet={percentAmount == 0.9}
             onClick={() => {
               setPercentAmount(0.9)
-              setInputAmount((balanceInt * percentAmount).toString())
+              setCanShowValidationError(true)
             }}
           />
           <QTYButton
@@ -183,23 +189,25 @@ const MiniModalBox = ({
             isSet={percentAmount == 1}
             onClick={() => {
               setPercentAmount(1)
-              setInputAmount(balanceInt.toString())
+              setCanShowValidationError(true)
             }}
           />
         </div>
-        <div className="bg-gradient-to-b from-[#fff] to-[#000] rounded-[16px] justify-center items-center flex p-[2px]">
+        <div className="bg-gradient-to-b from-[#fff] to-[#000] rounded-[16px] justify-center items-center flex flex-col p-[2px]">
           <div className="rounded-[16px] h-[78px] w-full px-[24px] py-[15px] flex flex-row justify-between bg-gradient-to-b from-[#0b0d11] to-[#343d50]">
             <div className="flex flex-col justify-between">
               <span className="text-[10px] font-semibold uppercase">
                 {t('amountToStake')}
               </span>
               <input
-                type="text"
                 id="amount"
-                className="stake-amount bg-transparent text-sm rounded-lg block w-full p-2.5 "
+                type="number"
+                className="stake-amount bg-transparent text-sm rounded-lg block min-w-[180px] w-full p-2.5"
                 placeholder="0"
                 onChange={(e) => {
                   setInputAmount(e.target.value)
+                  setPercentAmount(null);
+                  setCanShowValidationError(true)
                 }}
                 value={inputAmount}
                 max={balanceInt}
@@ -214,6 +222,10 @@ const MiniModalBox = ({
               </span>
             </div>
           </div>
+          {isInputAmountInvalid && canShowValidationError && <div className='p-2.5 flex gap-2 items-center'>
+            <ErrorIcon className="w-10 h-10" />
+            <span className='text-red-400'>Amount to stake must be between 0 and Unstaked $LOCK Balance</span>
+          </div>}
         </div>
         <div className="flex flex-row items-center justify-start gap-[10px]">
           <div className="flex items-center gap-[8px] cursor-pointer">
@@ -243,6 +255,7 @@ const MiniModalBox = ({
         </div>
         {!approved || BigInt(approved) === 0n ? (
           <button
+            disabled={isInputAmountInvalid}
             className={
               'p-[16px] flex justify-center items-center rounded-[120px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9]'
             }
@@ -255,7 +268,7 @@ const MiniModalBox = ({
           </button>
         ) : (
           <button
-            disabled={parseInt(inputAmount, 10) <= 0}
+            disabled={parseInt(inputAmount, 10) <= 0 || isInputAmountInvalid}
             className={
               'p-[16px] flex justify-center items-center rounded-[120px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9]'
             }
