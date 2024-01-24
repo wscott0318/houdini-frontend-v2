@@ -160,21 +160,21 @@ export const Footer = () => {
                 Support
               </Link>
             </LinkCategory>
-            <LinkCategory isSmallScreen={isSmallScreen} name="Policies">
+            <LinkCategory isSmallScreen={isSmallScreen} name="Notices">
               <Link
                 target="_blank"
                 rel="noopener noreferrer"
                 href="https://docs.houdiniswap.com/houdini-swap/policies/privacy-policy"
               >
-                Privacy Policy
+                Privacy Notice
               </Link>
-              <Link
+              {/* <Link
                 target="_blank"
                 rel="noopener noreferrer"
                 href="https://docs.houdiniswap.com/houdini-swap/policies/user-data-policy"
               >
                 User Data Policy
-              </Link>
+              </Link> */}
               <Link href="/terms-of-use">Terms of use</Link>
               <Link
                 target="_blank"
@@ -193,6 +193,13 @@ export const Footer = () => {
                 href="https://docs.houdiniswap.com/houdini-swap/tokenomics/usdlock-staking-progam"
               >
                 Staking Program
+              </Link>
+              <Link
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://docs.houdiniswap.com/houdini-swap/notices-and-policies/staking-terms-of-service"
+              >
+                Staking Terms of Service
               </Link>
               <Link
                 target="_blank"
