@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 
 import { TOKENS_QUERY } from '@/lib/apollo/query'
 
@@ -30,12 +30,12 @@ export const useTokens = () => {
     return token.network.explorerUrl
   }
 
-  const findTokenBySymbol = useCallback(
+  const findTokenById = useCallback(
     (symbol: string) => {
       if (!loading) {
         const tokens = tokensData?.tokens
         // setTokens(tokens)
-        const token = tokens?.find((token: any) => token?.symbol === symbol)
+        const token = tokens?.find((token: any) => token?.id === symbol)
         return token
           ? { displayName: token?.displayName, icon: token?.icon }
           : null
@@ -52,7 +52,7 @@ export const useTokens = () => {
     tokens: tokensData && tokensData.tokens ? tokensData.tokens : [],
     loading,
     getAddressUrl,
-    findTokenBySymbol,
+    findTokenById,
     getTokenDetails,
     getExplorerUrl,
   }

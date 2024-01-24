@@ -2,9 +2,9 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Portal } from 'houdini-react-sdk'
 import Link from 'next/link'
 import { useState } from 'react'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { BulletButtons } from '@/components/BulletButton'
 import { ConfirmDeposit } from '@/components/ConfirmDepositModal'
 import { Countdown } from '@/components/Countdown'
 import { GeneralModal } from '@/components/GeneralModal'
@@ -18,9 +18,8 @@ import { QrCode } from '@/components/QRCode'
 import { QRCodeSvg, QuestionSvg } from '@/components/Svg'
 import { useTokens } from '@/hooks'
 import { OrderStatusResult } from '@/types/backend/typegql/entities/abstract/order.status'
-import { dateFormatter, timeFormatter } from '@/utils/helpers'
 import { OrderStep } from '@/utils/constants'
-import { BulletButtons } from '@/components/BulletButton'
+import { dateFormatter, timeFormatter } from '@/utils/helpers'
 
 interface OrderDetailModalProps {
   setCurrentStep: Function
@@ -28,7 +27,11 @@ interface OrderDetailModalProps {
   order: OrderStatusResult
 }
 
-export const OrderDetailModal = ({ order, setCurrentStep, currentStep }: OrderDetailModalProps) => {
+export const OrderDetailModal = ({
+  order,
+  setCurrentStep,
+  currentStep,
+}: OrderDetailModalProps) => {
   const { t } = useTranslation()
   const [qrCodeModal, setQrCodeModal] = useState(false)
   const [confirmDepositModal, setConfirmDepositModal] = useState(false)
@@ -36,7 +39,7 @@ export const OrderDetailModal = ({ order, setCurrentStep, currentStep }: OrderDe
 
   const [isLoading, setIsLoading] = useState()
 
-  const { findTokenBySymbol, getTokenDetails, getAddressUrl } = useTokens()
+  const { findTokenById, getTokenDetails, getAddressUrl } = useTokens()
 
   const animation = {
     hidden: {
@@ -95,12 +98,12 @@ export const OrderDetailModal = ({ order, setCurrentStep, currentStep }: OrderDe
                 <div className="flex flex-row justify-center items-center gap-[10px]">
                   <img
                     alt="inSymbol"
-                    src={findTokenBySymbol(order?.inSymbol)?.icon}
+                    src={findTokenById(order?.inSymbol)?.icon}
                     className="w-[64px] h-[64px]"
                   />
                   <div className="flex flex-row gap-[20px] justify-center items-center">
                     <div className="text-center leading-[24px] lg:text-[20px] text-[14px] font-semibold ">
-                      {findTokenBySymbol(order?.inSymbol)?.displayName}
+                      {findTokenById(order?.inSymbol)?.displayName}
                     </div>
                     <Clipboardbox
                       concept={`${order.inAmount}`}
@@ -148,8 +151,8 @@ export const OrderDetailModal = ({ order, setCurrentStep, currentStep }: OrderDe
 
               {((order.fixed && minutes < 2) ||
                 (!order.fixed && minutes < 10)) &&
-                (order.status === 0 || order.status === 5) &&
-                !order.notified ? (
+              (order.status === 0 || order.status === 5) &&
+              !order.notified ? (
                 <WalletRoundbox>
                   <div className="relative hover:cursor-pointer flex flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
                     <div
@@ -189,7 +192,11 @@ export const OrderDetailModal = ({ order, setCurrentStep, currentStep }: OrderDe
             <div className="sm:hidden flex flex-wrap justify-center gap-[10px]">
               <Countdown order={order} setMinutes={setMinutes} />
             </div>
-            <BulletButtons currentStep={currentStep} setCurrentStep={setCurrentStep} order={order} />
+            <BulletButtons
+              currentStep={currentStep}
+              setCurrentStep={setCurrentStep}
+              order={order}
+            />
           </IndustrialCounterLockup>
 
           <div className="pt-[15px] lg:px-[10px] pb-[5px] w-full">
@@ -202,7 +209,7 @@ export const OrderDetailModal = ({ order, setCurrentStep, currentStep }: OrderDe
                   <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
                     <Link
                       href={`${getAddressUrl(order.outSymbol)}${order.receiverAddress
-                        }`}
+                      }`}
                       target="_blank"
                     >{`${order.receiverAddress}`}</Link>
                   </div>
@@ -217,11 +224,11 @@ export const OrderDetailModal = ({ order, setCurrentStep, currentStep }: OrderDe
                     </div>
                     <img
                       alt="outSymbol"
-                      src={findTokenBySymbol(order?.outSymbol)?.icon}
+                      src={findTokenById(order?.outSymbol)?.icon}
                       className="w-[20px] h-[20px]"
                     />
                     <div className="text-base text-center lg:text-[15px] text-[14px] whitespace-nowrap font-normal">
-                      {findTokenBySymbol(order?.outSymbol)?.displayName}
+                      {findTokenById(order?.outSymbol)?.displayName}
                     </div>
                   </div>
                 </div>
