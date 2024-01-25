@@ -832,6 +832,13 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
     }
   }
 
+  const [fakeRefresh, setFakeRefresh] = useState(false)
+  useEffect(() => {
+    setTimeout(() => {
+      setFakeRefresh(false);
+  }, 3000)}
+  , [isPriceQuoting, fakeRefresh])
+
   if (widgetMode && !partnerId) {
     return (
       <div className="bg-[red] p-10 text-white">
@@ -860,7 +867,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
                 onChange={handleMultiSend}
                 singleText={i18n?.multiSendRightText || 'Single'}
               />
-              <Refresh animate={isPriceQuoting} onClick={APIcall} />
+              <Refresh animate={isPriceQuoting || fakeRefresh} onClick={ () => {setFakeRefresh(true);APIcall()}} />
             </div>
           </div>
 
@@ -956,7 +963,7 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
                     onChange={handleMultiSend}
                     singleText={i18n?.multiSendRightText || 'Single'}
                   />
-                  <Refresh animate={isPriceQuoting} onClick={APIcall} />
+                  <Refresh animate={isPriceQuoting || fakeRefresh} onClick={ () => {setFakeRefresh(true);APIcall()}} />
                 </div>
               </div>
 
