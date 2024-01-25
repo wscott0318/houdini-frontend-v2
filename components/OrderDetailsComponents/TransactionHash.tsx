@@ -36,9 +36,10 @@ export const TransactionHash: React.FC<TransactionHashProps> = ({ order }) => {
               </Link>
             </div>
             <Clipboardbox
-              concept={`${order.transactionHash}`}
+              concept={order.transactionHash}
               fontSize="lg:text-[15px] text-[12px]"
               textColor="text-[#FFFFFF99]"
+              showConcept={false}
             />
           </div>
         </MetalboarderedTransRoundbox>
