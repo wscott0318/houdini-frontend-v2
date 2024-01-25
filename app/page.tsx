@@ -114,9 +114,9 @@ export default function Home() {
               Keep transactions private
             </div>
             <div className="flex flex-col font-normal text-[19px] leading-[30px] items-center justify-center text-[#B8CAFC] text-center">
-              <div>Privately swap, send or bridge with magical ease</div>
+              <div>Privately swap, send or bridge with magical ease.</div>
               <div>With no trace between sending and receiving wallets,</div>
-              <div>it&rsquo;s safe, compliant and always lowest cost</div>
+              <div>it&rsquo;s safe, compliant and always lowest cost.</div>
             </div>
           </div>
 

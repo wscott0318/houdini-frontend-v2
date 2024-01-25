@@ -175,7 +175,7 @@ export const Footer = () => {
               >
                 User Data Policy
               </Link> */}
-              <Link href="/terms-of-use">Terms of use</Link>
+              <Link href="/terms-of-use">Terms of Service</Link>
               <Link
                 target="_blank"
                 rel="noopener noreferrer"
@@ -199,7 +199,7 @@ export const Footer = () => {
                 rel="noopener noreferrer"
                 href="https://docs.houdiniswap.com/houdini-swap/notices-and-policies/staking-terms-of-service"
               >
-                Staking Terms of Service
+                Staking Terms
               </Link>
               <Link
                 target="_blank"
