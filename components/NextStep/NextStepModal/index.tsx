@@ -149,23 +149,6 @@ export const OrderDetailModal = ({
                 </div>
               </WalletRoundbox>
 
-              {((order.fixed && minutes < 2) ||
-                (!order.fixed && minutes < 10)) &&
-              (order.status === 0 || order.status === 5) &&
-              !order.notified ? (
-                <WalletRoundbox>
-                  <div className="relative hover:cursor-pointer flex flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
-                    <div
-                      onClick={() => {
-                        setConfirmDepositModal(true)
-                      }}
-                      className="text-center lg:text-[15px] lg:font-bold font-medium whitespace-nowrap"
-                    >
-                      {t('alertSupport')}
-                    </div>
-                  </div>
-                </WalletRoundbox>
-              ) : null}
               <div className="hidden sm:block">
                 <Countdown order={order} setMinutes={setMinutes} />
               </div>
