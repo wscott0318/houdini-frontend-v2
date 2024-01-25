@@ -212,7 +212,7 @@ const MiniModalBox = ({
                 value={inputAmount}
                 max={balanceInt}
                 min="0.0"
-                disabled={parseFloat(balance) == 0 || !approved}
+                // disabled={parseFloat(balance) == 0 || !approved}
                 required
               />
             </div>
