@@ -118,7 +118,7 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
                     {t('earned')}
                   </span>
                   <span className="text-[20px] font-medium leading-[19px]">
-                    {Humanize.formatNumber(userEarnedNumber)} $LOCK
+                    {Humanize.formatNumber(userEarnedNumber, 3)} $LOCK
                   </span>
                   <span
                     className={
