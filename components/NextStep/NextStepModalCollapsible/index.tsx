@@ -175,24 +175,6 @@ export const OrderDetailModalCollapsible = ({
                         </div>
                       </WalletRoundbox>
 
-                      {((order.fixed && minutes < 2) ||
-                        (!order.fixed && minutes < 10)) &&
-                        (order.status === 0 || order.status === 5) &&
-                        !order.notified ? (
-                        <WalletRoundbox>
-                          <div className="relative hover:cursor-pointer flex flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r">
-                            <div
-                              onClick={() => {
-                                setConfirmDepositModal(true)
-                              }}
-                              className="text-center lg:text-[15px] lg:font-bold font-medium whitespace-nowrap"
-                            >
-                              {t('alertSupport')}
-                            </div>
-                          </div>
-                        </WalletRoundbox>
-                      ) : null}
-
                       <div className="hidden sm:block">
                         <Countdown order={order} setMinutes={setMinutes} />
                       </div>
@@ -236,9 +218,19 @@ export const OrderDetailModalCollapsible = ({
                   </div>
                   {isExpired ? (
                     <MetalboarderedTransRoundbox>
-                      <h2 className="text-3xl text-red-600 mx-[50px] md:mx-[100px] my-[20px] text-center">
-                        {t('orderExpiredText')}
+                      <h2 className="text-xl mx-[50px] md:mx-[100px] my-[20px] text-center">
+                        {t('orderExpired')}
                       </h2>
+                      <div className="relative hover:cursor-pointer flex flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r mb-[20px]">
+                        <div
+                          onClick={() => {
+                            setConfirmDepositModal(true)
+                          }}
+                          className="text-center lg:text-[15px] lg:font-bold font-medium whitespace-nowrap"
+                        >
+                          {t('alertSupport')}
+                        </div>
+                      </div>
                     </MetalboarderedTransRoundbox>
                   ) : null}
 

@@ -707,15 +707,18 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
   }
 
   const buttonTextState = () => {
-    if (
-      (isMulti && isLoadingMultiExchange) ||
-      (!isMulti && isLoadingExchange)
-    ) {
-      return isMulti ? 'Creating Orders...' : 'Creating Order...'
-    } else if (isPriceQuoting) {
-      return 'Fetching Price...'
-    }
-    return 'Proceed'
+    const buttonText = isMulti && isLoadingMultiExchange ? 'Creating Orders' :
+      !isMulti && isLoadingExchange ? 'Creating Order' :
+        isPriceQuoting ? 'Fetching Price' : 'Proceed';
+
+    return <div className='flex justify-center'>
+      {buttonText}
+      {buttonText !== 'Proceed' && <div className="spinner">
+        <div className="bounce1"></div>
+        <div className="bounce2"></div>
+        <div className="bounce3"></div>
+      </div>}
+    </div>
   }
 
   const handleExpand = (swapId: string) => {
