@@ -30,7 +30,7 @@
     "d3": "^7.8.5",
     "dayjs": "^1.11.10",
     "framer-motion": "^10.17.6",
-    "houdini-react-sdk": "0.0.104",
+    "houdini-react-sdk": "0.0.105",
     "html2canvas": "^1.4.1",
     "humanize-duration": "^3.31.0",
     "humanize-plus": "^1.8.2",
