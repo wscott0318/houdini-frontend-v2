@@ -190,6 +190,7 @@ export const OrderDetailModalCollapsible = ({
                               }}
                               setIsLoading={setIsLoading}
                               orderStatus={order?.status}
+                              orderId={order?.houdiniId}
                             />
                           </div>
                         </WalletRoundbox>

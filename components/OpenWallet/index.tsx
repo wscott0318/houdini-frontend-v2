@@ -1,7 +1,6 @@
-import { ORDER_STATUS } from '@/utils/constants'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useMatomo } from 'matomo-react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 // import { getEllipsisTxt } from '@/utils/helper';
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
@@ -18,15 +17,42 @@ import {
   useToken,
 } from 'wagmi'
 
+import { ORDER_STATUS } from '@/utils/constants'
+import { loadFromLocalStorage, saveToLocalStorage } from '@/utils/helpers'
+
 // import { ChainPresets } from '@/utils/ChainPresets';
 
-export const OpenWallet = ({ amount, token, to, setIsLoading, orderStatus }: any) => {
+export const OpenWallet = ({
+  amount,
+  token,
+  to,
+  setIsLoading,
+  orderStatus,
+  orderId,
+}: any) => {
   const { openConnectModal } = useConnectModal()
   const { chain } = useNetwork()
   const { isConnected, address } = useAccount()
   const { disconnect } = useDisconnect()
   const { switchNetworkAsync, error } = useSwitchNetwork()
   const { pushInstruction, trackEvent } = useMatomo()
+
+  const loadInitialState = () => {
+    const storedData = loadFromLocalStorage(orderId)
+    if (storedData && typeof storedData.payed === 'boolean') {
+      return storedData.payed
+    }
+    return false
+  }
+
+  const [isPayed, setIsPayed] = useState(loadInitialState())
+
+  useEffect(() => {
+    const storedData = loadFromLocalStorage(orderId)
+    if (!storedData) {
+      saveToLocalStorage(orderId, { payed: false })
+    }
+  }, [orderId])
 
   const tokenAddress = token?.token?.address
   // const tokenAddress = '0xaB1a4d4f1D656d2450692D237fdD6C7f9146e814';
@@ -99,7 +125,7 @@ export const OpenWallet = ({ amount, token, to, setIsLoading, orderStatus }: any
 
   try {
     value = parseEther(amount.toFixed(18).toString())
-  } catch (e) { }
+  } catch (e) {}
 
   const { config, error: prepareError } = usePrepareSendTransaction({
     chainId: token?.token?.chain,
@@ -121,6 +147,8 @@ export const OpenWallet = ({ amount, token, to, setIsLoading, orderStatus }: any
         action: 'wallet-pay',
         name: 'success',
       })
+      saveToLocalStorage(orderId, { payed: true })
+      setIsPayed(true)
       reset()
     } else {
       // @Matomo
@@ -210,7 +238,11 @@ export const OpenWallet = ({ amount, token, to, setIsLoading, orderStatus }: any
     <>
       <div
         onClick={() => handleOpenWallet()}
-        className={`text-center relative text-white text-xs w-full h-full flex flex-row justify-center items-center lg:text-[15px] lg:font-bold font-medium ${isDisabled ? 'pointer-events-none opacity-50 cursor-not-allowed' : 'hover:cursor-pointer'}`}
+        className={`text-center relative text-white text-xs w-full h-full flex flex-row justify-center items-center lg:text-[15px] lg:font-bold font-medium ${
+          isDisabled || isPayed
+            ? 'pointer-events-none opacity-50 cursor-not-allowed'
+            : 'hover:cursor-pointer'
+        }`}
       >
         {t('orderDetailModalOpenWallet')}
       </div>

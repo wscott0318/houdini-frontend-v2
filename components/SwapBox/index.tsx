@@ -707,18 +707,16 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
   }
 
   const buttonTextState = () => {
-    const buttonText = isMulti && isLoadingMultiExchange ? 'Creating Orders' :
-      !isMulti && isLoadingExchange ? 'Creating Order' :
-        isPriceQuoting ? 'Fetching Price' : 'Proceed';
+    const buttonText =
+      isMulti && isLoadingMultiExchange
+        ? 'Creating Orders'
+        : !isMulti && isLoadingExchange
+          ? 'Creating Order'
+          : isPriceQuoting
+            ? 'Fetching Price'
+            : 'Proceed'
 
-    return <div className='flex justify-center'>
-      {buttonText}
-      {buttonText !== 'Proceed' && <div className="spinner">
-        <div className="bounce1"></div>
-        <div className="bounce2"></div>
-        <div className="bounce3"></div>
-      </div>}
-    </div>
+    return buttonText
   }
 
   const handleExpand = (swapId: string) => {
@@ -838,9 +836,9 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
   const [fakeRefresh, setFakeRefresh] = useState(false)
   useEffect(() => {
     setTimeout(() => {
-      setFakeRefresh(false);
-  }, 3000)}
-  , [isPriceQuoting, fakeRefresh])
+      setFakeRefresh(false)
+    }, 3000)
+  }, [isPriceQuoting, fakeRefresh])
 
   if (widgetMode && !partnerId) {
     return (
@@ -870,7 +868,13 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
                 onChange={handleMultiSend}
                 singleText={i18n?.multiSendRightText || 'Single'}
               />
-              <Refresh animate={isPriceQuoting || fakeRefresh} onClick={ () => {setFakeRefresh(true);APIcall()}} />
+              <Refresh
+                animate={isPriceQuoting || fakeRefresh}
+                onClick={() => {
+                  setFakeRefresh(true)
+                  APIcall()
+                }}
+              />
             </div>
           </div>
 
@@ -966,7 +970,13 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
                     onChange={handleMultiSend}
                     singleText={i18n?.multiSendRightText || 'Single'}
                   />
-                  <Refresh animate={isPriceQuoting || fakeRefresh} onClick={ () => {setFakeRefresh(true);APIcall()}} />
+                  <Refresh
+                    animate={isPriceQuoting || fakeRefresh}
+                    onClick={() => {
+                      setFakeRefresh(true)
+                      APIcall()
+                    }}
+                  />
                 </div>
               </div>
 
@@ -1031,15 +1041,26 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
                 {i18n?.bottomText ||
                   'Only send To/From wallets. Transactions sent To/From smart contracts are not accepted'}
               </div>
-              <HoudiniButton
-                text={buttonTextState()}
-                // text={i18n?.proceedButtonText || 'Proceed'}
-                onClick={() => {
-                  handleSwapProceed(isMulti)
-                }}
-                type={isMulti ? 'secondary' : 'primary'}
-                disabled={disabledProceed}
-              />
+              <div className="relative flex flex-row justify-center items-center">
+                <HoudiniButton
+                  text={buttonTextState()}
+                  // text={i18n?.proceedButtonText || 'Proceed'}
+                  onClick={() => {
+                    handleSwapProceed(isMulti)
+                  }}
+                  type={isMulti ? 'secondary' : 'primary'}
+                  disabled={disabledProceed}
+                />
+                <div className="absolute right-0 flex justify-center">
+                  {buttonTextState() !== 'Proceed' && (
+                    <div className="spinner">
+                      <div className="bounce1"></div>
+                      <div className="bounce2"></div>
+                      <div className="bounce3"></div>
+                    </div>
+                  )}
+                </div>
+              </div>
             </IndustrialCounterLockup>
           </GeneralModal>
         </div>
