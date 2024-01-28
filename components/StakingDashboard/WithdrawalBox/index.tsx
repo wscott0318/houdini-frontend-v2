@@ -120,7 +120,7 @@ const WithdrawalBox = ({
   const { writeAsync: writeEmergencyExit, isLoading: emergencyExitLoading } = useScaffoldContractWrite({
     contractName: "Staker",
     functionName: "emergencyWithdraw",
-    args: [user?.balance ?? 0],
+    args: [],
     onBlockConfirmation: (txnReceipt: { blockHash: any; contractAddress: any }) => {
       toast.success('Withdrawal Successful')
       handleClose()

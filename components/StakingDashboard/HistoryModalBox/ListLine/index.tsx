@@ -51,7 +51,7 @@ const ListLine = ({ data, index }: Props) => {
               <span className="text-[15px] leading-[20px] font-semibold">
                 <Link
                   target="_blank"
-                  href={`https://etherscan.io/tx/${data.addressUp}`}
+                  href={`https://etherscan.io/address/${data.addressUp}`}
                 >
                   {data.addressUp?.substring(0, 6)}...
                   {data.addressUp?.substring(data.addressUp.length - 4)}
@@ -60,7 +60,7 @@ const ListLine = ({ data, index }: Props) => {
               <span className="text-[12px] font-semibold leading-[24px] text-[#A0AEC0]">
                 <Link
                   target="_blank"
-                  href={`https://etherscan.io/address/${data.addressDown}`}
+                  href={`https://etherscan.io/tx/${data.addressDown}`}
                 >
                   {data.addressDown?.substring(0, 6)}...
                   {data.addressDown?.substring(data.addressDown.length - 4)}

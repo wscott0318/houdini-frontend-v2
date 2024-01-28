@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     DefaultProxyAdmin: {
-      address: "0xf93b0549cD50c849D792f0eAE94A598fA77C7718",
+      address: "0x8B342f4Ddcc71Af65e4D2dA9CD00cc0E945cFD12",
       abi: [
         {
           inputs: [
@@ -173,7 +173,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Houdini: {
-      address: "0xE401FBb0d6828e9f25481efDc9dd18Da9E500983",
+      address: "0x564Db7a11653228164FD03BcA60465270E67b3d7",
       abi: [
         {
           inputs: [],
@@ -454,7 +454,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker: {
-      address: "0x29023DE63D7075B4cC2CE30B55f050f9c67548d4",
+      address: "0xD28F3246f047Efd4059B24FA1fa587eD9fa3e77F",
       abi: [
         {
           anonymous: false,
@@ -1065,13 +1065,7 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "amount",
-              type: "uint256",
-            },
-          ],
+          inputs: [],
           name: "emergencyWithdraw",
           outputs: [],
           stateMutability: "nonpayable",
@@ -1612,7 +1606,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker_Implementation: {
-      address: "0x645D817611E0CDaF9cD43332c4E369B9E333471d",
+      address: "0xE2307e3710d108ceC7a4722a020a050681c835b3",
       abi: [
         {
           inputs: [],
@@ -2105,13 +2099,7 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "amount",
-              type: "uint256",
-            },
-          ],
+          inputs: [],
           name: "emergencyWithdraw",
           outputs: [],
           stateMutability: "nonpayable",
@@ -2631,7 +2619,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker_Proxy: {
-      address: "0x29023DE63D7075B4cC2CE30B55f050f9c67548d4",
+      address: "0xD28F3246f047Efd4059B24FA1fa587eD9fa3e77F",
       abi: [
         {
           inputs: [
@@ -3841,13 +3829,7 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "amount",
-              type: "uint256",
-            },
-          ],
+          inputs: [],
           name: "emergencyWithdraw",
           outputs: [],
           stateMutability: "nonpayable",
@@ -4388,7 +4370,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker_Implementation: {
-      address: "0x3666e58906140258C92a74346beBb62914F55552",
+      address: "0x337204A74e9c0105F9E6c33a16EA0cBc5cAe2558",
       abi: [
         {
           inputs: [],
@@ -4881,13 +4863,7 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "amount",
-              type: "uint256",
-            },
-          ],
+          inputs: [],
           name: "emergencyWithdraw",
           outputs: [],
           stateMutability: "nonpayable",
@@ -5559,7 +5535,7 @@ const deployedContracts = {
   },
   1: {
     DefaultProxyAdmin: {
-      address: "0xf93b0549cD50c849D792f0eAE94A598fA77C7718",
+      address: "0x7526D191843207F4545eC48EC3e9e10E79ca6E41",
       abi: [
         {
           inputs: [
@@ -5725,7 +5701,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Houdini: {
-      address: "0xE401FBb0d6828e9f25481efDc9dd18Da9E500983",
+      address: "0x975497c487adAEE1A7B5393a40B45A829Ed3eB77",
       abi: [
         {
           inputs: [],
@@ -6006,7 +5982,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker: {
-      address: "0x29023DE63D7075B4cC2CE30B55f050f9c67548d4",
+      address: "0x86696791eaE1C68169AD0E984B227B03C68FF513",
       abi: [
         {
           anonymous: false,
@@ -6617,13 +6593,7 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "amount",
-              type: "uint256",
-            },
-          ],
+          inputs: [],
           name: "emergencyWithdraw",
           outputs: [],
           stateMutability: "nonpayable",
@@ -7164,7 +7134,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker_Implementation: {
-      address: "0x645D817611E0CDaF9cD43332c4E369B9E333471d",
+      address: "0x337204A74e9c0105F9E6c33a16EA0cBc5cAe2558",
       abi: [
         {
           inputs: [],
@@ -7657,13 +7627,7 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "amount",
-              type: "uint256",
-            },
-          ],
+          inputs: [],
           name: "emergencyWithdraw",
           outputs: [],
           stateMutability: "nonpayable",
@@ -8183,7 +8147,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker_Proxy: {
-      address: "0x29023DE63D7075B4cC2CE30B55f050f9c67548d4",
+      address: "0x86696791eaE1C68169AD0E984B227B03C68FF513",
       abi: [
         {
           inputs: [

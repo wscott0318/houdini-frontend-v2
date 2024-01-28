@@ -141,6 +141,22 @@ const HistoryModalBox = () => {
     receiptData: false,
   })
 
+  const {
+    data: compoundedEvents,
+    isLoading: isLoadingCompoundedEvents,
+    error: errorCompoundedEvents,
+  } = useScaffoldEventHistory({
+    contractName: "Staker",
+    eventName: "Compounded",
+    fromBlock: 31231n,
+    watch: true,
+    filters: { user: address },
+    blockData: true,
+    transactionData: false,
+    receiptData: false,
+  });
+
+
   let allEvents: any[] = []
   stakedEvents?.map((event: any) => {
     allEvents.push(event)
@@ -164,6 +180,10 @@ const HistoryModalBox = () => {
   multiplierChangedEvents?.map((event: any) => {
     allEvents.push(event)
   })
+
+  compoundedEvents?.map(event => {
+    allEvents.push(event);
+  });
 
   allEvents = allEvents.sort((a: any, b: any) => {
     if (a?.block?.timestamp > b?.block?.timestamp) {
