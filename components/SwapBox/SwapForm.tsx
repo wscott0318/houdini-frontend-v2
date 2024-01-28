@@ -29,6 +29,18 @@ interface SwapFormProps {
   tokenLockOut?: boolean
 }
 
+const sortTokensByPriority = (tokens: Token[]) => {
+  if (!Array.isArray(tokens)) {
+    return []
+  }
+
+  return [...tokens].sort((a, b) => {
+    const priorityA = a.priority || 0
+    const priorityB = b.priority || 0
+    return priorityA - priorityB
+  })
+}
+
 export const SwapForm: React.FC<SwapFormProps> = ({
   swap,
   handlePrivateSwap,
@@ -46,8 +58,36 @@ export const SwapForm: React.FC<SwapFormProps> = ({
   i18n,
   tokenLockOut,
 }) => {
-  const [getUsdPrice] = useLazyQuery(GET_USD_PRICE)
+  const [sortedNetwork, setSortedNetwork] = useState<any>([])
 
+  useEffect(() => {
+    if (networks && tokens) {
+      const sortedNetworkArray = [...networks].sort((a: any, b: any) => {
+        const networkAPriority = findNetworkPriorityByShortName(
+          a.shortName,
+          tokens,
+        )
+        const networkBPriority = findNetworkPriorityByShortName(
+          b.shortName,
+          tokens,
+        )
+
+        return networkAPriority - networkBPriority
+      })
+
+      function findNetworkPriorityByShortName(shortName: any, tokenArray: any) {
+        const token = tokenArray.find(
+          (token: any) => token.network.shortName === shortName,
+        )
+        return token?.networkPriority
+      }
+      setSortedNetwork(sortedNetworkArray)
+    }
+  }, [networks, tokens])
+
+  const sortedTokens = sortTokensByPriority(tokens)
+
+  const [getUsdPrice] = useLazyQuery(GET_USD_PRICE)
   const [sendValue, setSendValue] = useState<string>('')
 
   useEffect(() => {
@@ -61,7 +101,8 @@ export const SwapForm: React.FC<SwapFormProps> = ({
           })
           setSendValue(
             (
-              parseFloat(sendUsdPrice.data.usdPrice) * (swap as any)?.send?.value
+              parseFloat(sendUsdPrice.data.usdPrice) *
+              (swap as any)?.send?.value
             ).toString(),
           )
         }
@@ -132,12 +173,20 @@ export const SwapForm: React.FC<SwapFormProps> = ({
                     title={i18n?.sendCurrencyTitle || 'Sending Currency'}
                     subtitle={i18n?.sendCurrencySubtitle || 'Popular Protocols'}
                     target="#portal"
-                    networks={networks || []}
-                    tokens={tokens || []}
+                    networks={sortedNetwork || []}
+                    tokens={sortedTokens || []}
                     selectedTokenId={swap.send.name}
-                    onSelectionChange={(token) =>
+                    onSelectionChange={(token: any) =>
                       selectCoin(token, 'send', swap.id)
                     }
+                    onNetworkChange={(selectedNetwork: any) => {
+                      return sortedTokens.filter((token) => {
+                        return (
+                          selectedNetwork === null ||
+                          token.network.shortName === selectedNetwork.shortName
+                        )
+                      })
+                    }}
                     disabled={tokenLockOut}
                   />
                 ) : null}
@@ -179,12 +228,20 @@ export const SwapForm: React.FC<SwapFormProps> = ({
                       i18n?.receiveCurrencySubtitle || 'Popular Protocols'
                     }
                     target="#portal"
-                    networks={networks || []}
-                    tokens={tokens || []}
+                    networks={sortedNetwork || []}
+                    tokens={sortedTokens || []}
                     selectedTokenId={swap.receive.name}
-                    onSelectionChange={(token) =>
+                    onSelectionChange={(token: any) =>
                       selectCoin(token, 'receive', swap.id)
                     }
+                    onNetworkChange={(selectedNetwork: any) => {
+                      return sortedTokens.filter((token) => {
+                        return (
+                          selectedNetwork === null ||
+                          token.network.shortName === selectedNetwork.shortName
+                        )
+                      })
+                    }}
                     disabled={tokenLockOut}
                   />
                 ) : null}

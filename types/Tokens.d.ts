@@ -1,4 +1,6 @@
 interface Token {
+  networkPriority: number
+  priority: number
   id: string
   name: string
   symbol: string
