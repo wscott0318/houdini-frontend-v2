@@ -218,7 +218,7 @@ export default function Home() {
                 {suportedProtocolIcons.map((icon: any, index) =>
                   React.cloneElement(icon, {
                     key: index,
-                    className: 'w-[32px] h-[32px]',
+                    className: 'w-[32px] h-[32px] grayscale hover:grayscale-0 transition-all duration-300',
                   }),
                 )}
               </div>
