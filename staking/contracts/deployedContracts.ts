@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     DefaultProxyAdmin: {
-      address: "0x8B342f4Ddcc71Af65e4D2dA9CD00cc0E945cFD12",
+      address: "0xb6057e08a11da09a998985874FE2119e98dB3D5D",
       abi: [
         {
           inputs: [
@@ -173,7 +173,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Houdini: {
-      address: "0x564Db7a11653228164FD03BcA60465270E67b3d7",
+      address: "0xE2307e3710d108ceC7a4722a020a050681c835b3",
       abi: [
         {
           inputs: [],
@@ -454,7 +454,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker: {
-      address: "0xD28F3246f047Efd4059B24FA1fa587eD9fa3e77F",
+      address: "0x31403b1e52051883f2Ce1B1b4C89f36034e1221D",
       abi: [
         {
           anonymous: false,
@@ -1606,7 +1606,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker_Implementation: {
-      address: "0xE2307e3710d108ceC7a4722a020a050681c835b3",
+      address: "0xad203b3144f8c09a20532957174fc0366291643c",
       abi: [
         {
           inputs: [],
@@ -2619,7 +2619,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker_Proxy: {
-      address: "0xD28F3246f047Efd4059B24FA1fa587eD9fa3e77F",
+      address: "0x31403b1e52051883f2Ce1B1b4C89f36034e1221D",
       abi: [
         {
           inputs: [
@@ -4370,7 +4370,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker_Implementation: {
-      address: "0x337204A74e9c0105F9E6c33a16EA0cBc5cAe2558",
+      address: "0x0401D8d169ceeE3CaeC2024D70Ef51f125DEd18b",
       abi: [
         {
           inputs: [],
@@ -7134,7 +7134,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker_Implementation: {
-      address: "0x337204A74e9c0105F9E6c33a16EA0cBc5cAe2558",
+      address: "0x0401D8d169ceeE3CaeC2024D70Ef51f125DEd18b",
       abi: [
         {
           inputs: [],

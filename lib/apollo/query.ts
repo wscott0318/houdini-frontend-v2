@@ -450,3 +450,9 @@ export const PERFORMANCE_STATS_QUERY = gql`
     }
   }
 `
+
+export const HISTORY_QUERY = gql`
+  query history($address: String!) {
+    history(address: $address) {block, name, hash, chain, user, value, timestamp}
+  }
+`
