@@ -36,9 +36,6 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
   }
 
   const initialProgress = loadProgressInitialState()
-  const [orderReceivedProgress, setOrderReceivedProgress] = useState<number>(
-    initialProgress.orderReceived,
-  )
   const [fundsReceivedProgress, setFundsReceivedProgress] = useState<number>(
     initialProgress.fundsReceived,
   )
@@ -53,6 +50,7 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
   )
 
   // State variables to control the start of each progress bar
+  const [startOrderReceived, setStartOrderReceived] = useState<boolean>(false)
   const [startFundsReceived, setStartFundsReceived] = useState<boolean>(false)
   const [startConverting, setStartConverting] = useState<boolean>(false)
   const [startAnonymizing, setStartAnonymizing] = useState<boolean>(false)
@@ -62,13 +60,17 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
 
   const loadInitialState = () => {
     const storedData = loadFromLocalStorage(order?.houdiniId)
-    if (storedData && typeof storedData.payed === 'boolean') {
-      return storedData.payed
+    if (storedData && typeof storedData.paid === 'boolean') {
+      return storedData.paid
     }
     return false
   }
 
-  const [isPayed, setIsPayed] = useState(loadInitialState())
+  const [isPaid, setIsPaid] = useState(loadInitialState())
+
+  const [orderReceivedProgress, setOrderReceivedProgress] = useState<number>(
+    isPaid ? 100 : 0,
+  )
 
   const fundsDuration = 10000
   const convertingDuration = 3 * 60 * 1000
@@ -109,22 +111,33 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
 
     const orderStatus = order?.status
 
+    if (isPaid) {
+      animateProgressBar(setOrderReceivedProgress, 100, 0)
+      saveToLocalStorage(order?.houdiniId, {
+        paid: isPaid,
+        orderReceivedProgress: orderReceivedProgress,
+      })
+    }
+
     if (
-      isPayed &&
+      isPaid &&
+      startOrderReceived &&
       startFundsReceived &&
       orderStatus < ORDER_STATUS.EXCHANGING
     ) {
       animateProgressBar(setFundsReceivedProgress, 100, fundsDuration)
       saveToLocalStorage(order?.houdiniId, {
-        payed: true,
+        paid: isPaid,
+        orderReceivedProgress: orderReceivedProgress,
         fundsReceivedProgress: fundsReceivedProgress,
       })
     }
 
-    if (startConverting && orderStatus < ORDER_STATUS.ANONYMIZING) {
+    if (isPaid && startConverting && orderStatus < ORDER_STATUS.ANONYMIZING) {
       animateProgressBar(setConvertingProgress, 80, convertingDuration)
       saveToLocalStorage(order?.houdiniId, {
-        payed: true,
+        paid: isPaid,
+        orderReceivedProgress: orderReceivedProgress,
         fundsReceivedProgress: fundsReceivedProgress,
         convertingProgress: convertingProgress,
       })
@@ -134,16 +147,18 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
     } else if (startConverting) {
       animateProgressBar(setConvertingProgress, 100, convertingDuration)
       saveToLocalStorage(order?.houdiniId, {
-        payed: true,
+        paid: isPaid,
+        orderReceivedProgress: orderReceivedProgress,
         fundsReceivedProgress: fundsReceivedProgress,
         convertingProgress: convertingProgress,
       })
     }
 
-    if (startAnonymizing && orderStatus < ORDER_STATUS.FINISHED) {
+    if (isPaid && startAnonymizing && orderStatus < ORDER_STATUS.FINISHED) {
       animateProgressBar(setAnonymizingProgress, 80, anonymizingDuration)
       saveToLocalStorage(order?.houdiniId, {
-        payed: true,
+        paid: isPaid,
+        orderReceivedProgress: orderReceivedProgress,
         fundsReceivedProgress: fundsReceivedProgress,
         convertingProgress: convertingProgress,
         anonymizingProgress: anonymizingProgress,
@@ -154,7 +169,8 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
     } else if (startAnonymizing) {
       animateProgressBar(setAnonymizingProgress, 100, anonymizingDuration)
       saveToLocalStorage(order?.houdiniId, {
-        payed: true,
+        paid: isPaid,
+        orderReceivedProgress: orderReceivedProgress,
         fundsReceivedProgress: fundsReceivedProgress,
         convertingProgress: convertingProgress,
         anonymizingProgress: anonymizingProgress,
@@ -164,7 +180,8 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
     if (startCompleting) {
       animateProgressBar(setCompletedProgress, 100, completingDuration)
       saveToLocalStorage(order?.houdiniId, {
-        payed: true,
+        paid: isPaid,
+        orderReceivedProgress: orderReceivedProgress,
         fundsReceivedProgress: fundsReceivedProgress,
         convertingProgress: convertingProgress,
         anonymizingProgress: anonymizingProgress,
@@ -172,12 +189,13 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
       })
     }
 
-    // Update state variables based on order status
     if (
       orderStatus === ORDER_STATUS.NEW ||
-      orderStatus === ORDER_STATUS.WAITING ||
-      orderStatus === ORDER_STATUS.CONFIRMING
+      orderStatus === ORDER_STATUS.WAITING
     ) {
+      setStartOrderReceived(true)
+      setStartFundsReceived(true)
+    } else if (orderStatus === ORDER_STATUS.CONFIRMING) {
       setOrderReceivedProgress(100)
       setStartFundsReceived(true)
       if (fundsReceivedProgress === 100) {
@@ -214,6 +232,10 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
 
   return (
     <>
+      <ProgressProvider
+        text={t('orderDetailsOrderReceived')}
+        value={orderReceivedProgress}
+      />
       <ProgressProvider
         text={t('orderDetailsFundsReceived')}
         value={fundsReceivedProgress}
