@@ -23,6 +23,7 @@ import CTAButton from '../CTAButton'
 import MiniModalBox from '../MiniModalBox'
 import StakedReport from '../StakedReport'
 import DonutChart from './DonutChart'
+import { useWindowSize } from 'usehooks-ts'
 
 const formatter = Intl.NumberFormat('en', { notation: 'compact' })
 

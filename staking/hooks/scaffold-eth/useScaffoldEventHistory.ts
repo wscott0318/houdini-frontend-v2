@@ -58,6 +58,7 @@ export const useScaffoldEventHistory = <
     setIsLoading(true);
     try {
       if (!deployedContractData) {
+        return;
         throw new Error("Contract not found");
       }
 

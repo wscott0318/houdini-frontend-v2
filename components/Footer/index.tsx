@@ -186,7 +186,7 @@ export const Footer = () => {
             </LinkCategory>
 
             <LinkCategory isSmallScreen={isSmallScreen} name="Staking">
-              <Link href="/dashboard">Stake</Link>
+              <Link href="/staking-dashboard">Stake</Link>
               <Link
                 target="_blank"
                 rel="noopener noreferrer"

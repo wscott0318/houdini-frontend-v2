@@ -716,7 +716,20 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
             ? 'Fetching Price'
             : 'Proceed'
 
-    return buttonText
+    return (
+      <div className="flex flex-row justify-center items-center gap-[4px]">
+        <div>{buttonText}</div>
+        {buttonText !== 'Proceed' && (
+          <>
+            <div className="spinner">
+              <div className="bounce1"></div>
+              <div className="bounce2"></div>
+              <div className="bounce3"></div>
+            </div>
+          </>
+        )}
+      </div>
+    )
   }
 
   const handleExpand = (swapId: string) => {
@@ -1041,26 +1054,15 @@ export const SwapBox: React.FC<SwapBoxProps> = ({ i18n }) => {
                 {i18n?.bottomText ||
                   'Only send To/From wallets. Transactions sent To/From smart contracts are not accepted'}
               </div>
-              <div className="relative flex flex-row justify-center items-center">
-                <HoudiniButton
-                  text={buttonTextState()}
-                  // text={i18n?.proceedButtonText || 'Proceed'}
-                  onClick={() => {
-                    handleSwapProceed(isMulti)
-                  }}
-                  type={isMulti ? 'secondary' : 'primary'}
-                  disabled={disabledProceed}
-                />
-                <div className="absolute right-0 flex justify-center">
-                  {buttonTextState() !== 'Proceed' && (
-                    <div className="spinner">
-                      <div className="bounce1"></div>
-                      <div className="bounce2"></div>
-                      <div className="bounce3"></div>
-                    </div>
-                  )}
-                </div>
-              </div>
+              <HoudiniButton
+                text={buttonTextState()}
+                // text={i18n?.proceedButtonText || 'Proceed'}
+                onClick={() => {
+                  handleSwapProceed(isMulti)
+                }}
+                type={isMulti ? 'secondary' : 'primary'}
+                disabled={disabledProceed}
+              />
             </IndustrialCounterLockup>
           </GeneralModal>
         </div>
