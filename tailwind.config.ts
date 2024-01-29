@@ -15,6 +15,25 @@ const config: Config = {
         poppins: ['var(--font-poppins)'],
       },
     },
+    screens: {
+      mobile: { max: '560px' },
+      // => @media (max-width: 500px) { ... }
+
+      sm: '660px',
+      // => @media (min-width: 640px) { ... }
+
+      md: '960px',
+      // => @media (min-width: 768px) { ... }
+
+      lg: '1280px',
+      // => @media (min-width: 1024px) { ... }
+
+      xl: '1676px',
+      // => @media (min-width: 1280px) { ... }
+
+      '2xl': '1920px',
+      // => @media (min-width: 1536px) { ... }
+    },
   },
   safelist: [
     'md:px-8',
@@ -44,7 +63,8 @@ const config: Config = {
             'linear-gradient(180deg, rgba(163, 166, 255, 0.20) 0%, rgba(41, 152, 255, 0.20) 42.71%, rgba(40, 75, 101, 0.20) 100%)',
         },
         '.custom-next-step-component-gradient': {
-          background: 'linear-gradient(0deg, #2E2D3E, #2E2D3E), linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1))',
+          background:
+            'linear-gradient(0deg, #2E2D3E, #2E2D3E), linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1))',
         },
 
         '.custom-shadow': {
@@ -56,28 +76,34 @@ const config: Config = {
           boxShadow: '0px 19px 28px 0px #000, 16px 16px 41px 0px #000', //0px 4px 19px 0px rgba(255, 255, 255, 0.25) inset, 19px 9px 47px 0px rgba(255, 255, 255, 0.70) inset,
         },
         '.custom-cta-button-drop-shadow': {
-          boxShadow: '0px 12.246px 13.121px 0px rgba(0, 0, 0, 0.20), 1.749px 3.499px 8.747px 0px rgba(0, 0, 0, 0.50)',
+          boxShadow:
+            '0px 12.246px 13.121px 0px rgba(0, 0, 0, 0.20), 1.749px 3.499px 8.747px 0px rgba(0, 0, 0, 0.50)',
         },
         '.custom-modal-step2-inner-shadow': {
-          boxShadow: '0px 0px 10px 0px rgba(255, 255, 255, 0.7) inset, 19px 9px 4px 0px rgba(255, 255, 255, 0.1) inset',
+          boxShadow:
+            '0px 0px 10px 0px rgba(255, 255, 255, 0.7) inset, 19px 9px 4px 0px rgba(255, 255, 255, 0.1) inset',
         },
         '.custom-balances-box-inner-shadow': {
-          boxShadow: '0px 0px 10.04445px 0px rgba(255, 255, 255, 0.7) inset, 10.04445px 4.52223px 4.61113px 0px rgba(255, 255, 255, 0.1) inset',
+          boxShadow:
+            '0px 0px 10.04445px 0px rgba(255, 255, 255, 0.7) inset, 10.04445px 4.52223px 4.61113px 0px rgba(255, 255, 255, 0.1) inset',
         },
         '.custom-modal-step2-gradient': {
           backgroundBlendMode: 'color-dodge',
-          background: 'radial-gradient(76.28% 126.52% at -1.52% -10.89%, rgba(69, 123, 186, 0.4) 0%, rgba(174, 198, 200, 0.4) 54.17%, rgba(143, 143, 143, 0.4) 100%)',
+          background:
+            'radial-gradient(76.28% 126.52% at -1.52% -10.89%, rgba(69, 123, 186, 0.4) 0%, rgba(174, 198, 200, 0.4) 54.17%, rgba(143, 143, 143, 0.4) 100%)',
         },
         '.custom-modal-step2-gradient1': {
           backgroundBlendMode: 'color-dodge',
-          background: 'radial-gradient(76.28% 126.52% at -1.52% -10.89%, rgba(69, 123, 186, 0.4) 0%, rgba(174, 198, 200, 0.4) 54.17%, rgba(143, 143, 143, 0.4) 100%)',
-
+          background:
+            'radial-gradient(76.28% 126.52% at -1.52% -10.89%, rgba(69, 123, 186, 0.4) 0%, rgba(174, 198, 200, 0.4) 54.17%, rgba(143, 143, 143, 0.4) 100%)',
         },
         '.custom-wallet-shadow': {
-          boxShadow: '4px 3px 20px 0px rgba(255, 255, 255, 0.40) inset, 8px 8px 40px 0px rgba(0, 0, 0, 0.50)',
+          boxShadow:
+            '4px 3px 20px 0px rgba(255, 255, 255, 0.40) inset, 8px 8px 40px 0px rgba(0, 0, 0, 0.50)',
         },
         '.custom-wallet-gradient': {
-          background: 'linear-gradient(234deg, rgba(163, 166, 255, 0.20) 4.47%, rgba(40, 75, 101, 0.20) 78.7%)',
+          background:
+            'linear-gradient(234deg, rgba(163, 166, 255, 0.20) 4.47%, rgba(40, 75, 101, 0.20) 78.7%)',
         },
         '.custom-wallet-QR-gradient': {
           background:
@@ -85,121 +111,144 @@ const config: Config = {
         },
 
         '.custom-step-gradient1': {
-          background: 'linear-gradient(0deg, #262D33 0%, #41454B 2%, #737176 5%, #979195 8%, #ADA4A8 11%, #B6ACB0 12%, #DFDADA 25%, #D7D2D2 27%, #C1BEBE 29%, #9F9C9C 32%, #6F6E6E 35%, #505050 36%, #535353 42%, #5E5D5D 48%, #716E6E 53%, #7C7878 55%, #8A8686 56%, #AFADAC 59%, #EAEBEA 62%, #F3F4F3 63%, #E6E4E3 72%, #DFDADA 77%, #DAD4D4 80%, #CBC4C5 83%, #B4ABAD 87%, #94878B 91%, #8A7C80 92%, #5A5356 96%, #2B2B2E 100%)',
+          background:
+            'linear-gradient(0deg, #262D33 0%, #41454B 2%, #737176 5%, #979195 8%, #ADA4A8 11%, #B6ACB0 12%, #DFDADA 25%, #D7D2D2 27%, #C1BEBE 29%, #9F9C9C 32%, #6F6E6E 35%, #505050 36%, #535353 42%, #5E5D5D 48%, #716E6E 53%, #7C7878 55%, #8A8686 56%, #AFADAC 59%, #EAEBEA 62%, #F3F4F3 63%, #E6E4E3 72%, #DFDADA 77%, #DAD4D4 80%, #CBC4C5 83%, #B4ABAD 87%, #94878B 91%, #8A7C80 92%, #5A5356 96%, #2B2B2E 100%)',
           backgroundBlendMode: 'lighten',
         },
         '.custom-step-gradient': {
-          background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%), #404040',
+          background:
+            'linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%), #404040',
         },
         '.custom-step-shadow': {
           boxShadow: '4px 6px 2px 0px rgba(0, 0, 0, 0.30) inset',
         },
         '.custom-need-help-gradient1': {
-          background: 'linear-gradient(234.09deg, rgba(163, 166, 255, 0.2) 4.47%, rgba(40, 75, 101, 0.2) 78.7%),radial-gradient(57.51% 124.19% at 95.84% -18.51%, rgba(255, 255, 255, 0.4) 0%, rgba(1, 240, 255, 0.4) 54.17%, rgba(0, 0, 0, 0.4) 100%)',
+          background:
+            'linear-gradient(234.09deg, rgba(163, 166, 255, 0.2) 4.47%, rgba(40, 75, 101, 0.2) 78.7%),radial-gradient(57.51% 124.19% at 95.84% -18.51%, rgba(255, 255, 255, 0.4) 0%, rgba(1, 240, 255, 0.4) 54.17%, rgba(0, 0, 0, 0.4) 100%)',
         },
         '.custom-need-help-gradient': {
-          background: 'linear-gradient(234deg, rgba(163, 166, 255, 0.20) 4.47%, rgba(40, 75, 101, 0.20) 78.7%)',
+          background:
+            'linear-gradient(234deg, rgba(163, 166, 255, 0.20) 4.47%, rgba(40, 75, 101, 0.20) 78.7%)',
         },
         '.custom-need-help-shadow': {
-          boxShadow: '4px 3px 20px 0px rgba(255, 255, 255, 0.40) inset, 8px 8px 40px 0px rgba(0, 0, 0, 0.50)',
+          boxShadow:
+            '4px 3px 20px 0px rgba(255, 255, 255, 0.40) inset, 8px 8px 40px 0px rgba(0, 0, 0, 0.50)',
         },
         '.custom-houdini-id-gradient1': {
           backgroundBlendMode: 'lighten',
-          background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(0, 194, 255, 0.4) 37.5%, rgba(54, 68, 191, 0.4) 100%)',
+          background:
+            'linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(0, 194, 255, 0.4) 37.5%, rgba(54, 68, 191, 0.4) 100%)',
         },
         '.custom-houdini-id-gradient': {
-          background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%), #404040',
+          background:
+            'linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%), #404040',
         },
         '.custom-houdini-id-shadow': {
           boxShadow: '6px 8px 2px 0px rgba(0, 0, 0, 0.30) inset',
         },
         '.custom-industrial-counter-lockup-shadow': {
-          boxShadow: '0px 1px 28px 0px #555, 0px 4px 19px 0px rgba(255, 255, 255, 0.25) inset, 19px 9px 47px 0px rgba(255, 255, 255, 0.70) inset, 16px 16px 41px 0px #000',
+          boxShadow:
+            '0px 1px 28px 0px #555, 0px 4px 19px 0px rgba(255, 255, 255, 0.25) inset, 19px 9px 47px 0px rgba(255, 255, 255, 0.70) inset, 16px 16px 41px 0px #000',
           backdropFilter: 'blur(23px)',
         },
         '.custom-industrial-counter-lockup-gradient1': {
-          background: 'linear-gradient(0deg, #262D33 0%, #41454B 2%, #737176 5%, #979195 8%, #ADA4A8 11%, #B6ACB0 12%, #DFDADA 25%, #D7D2D2 27%, #C1BEBE 29%, #9F9C9C 32%, #6F6E6E 35%, #505050 36%, #535353 42%, #5E5D5D 48%, #716E6E 53%, #7C7878 55%, #8A8686 56%, #AFADAC 59%, #EAEBEA 62%, #F3F4F3 63%, #E6E4E3 72%, #DFDADA 77%, #DAD4D4 80%, #CBC4C5 83%, #B4ABAD 87%, #94878B 91%, #8A7C80 92%, #5A5356 96%, #2B2B2E 100%)',
+          background:
+            'linear-gradient(0deg, #262D33 0%, #41454B 2%, #737176 5%, #979195 8%, #ADA4A8 11%, #B6ACB0 12%, #DFDADA 25%, #D7D2D2 27%, #C1BEBE 29%, #9F9C9C 32%, #6F6E6E 35%, #505050 36%, #535353 42%, #5E5D5D 48%, #716E6E 53%, #7C7878 55%, #8A8686 56%, #AFADAC 59%, #EAEBEA 62%, #F3F4F3 63%, #E6E4E3 72%, #DFDADA 77%, #DAD4D4 80%, #CBC4C5 83%, #B4ABAD 87%, #94878B 91%, #8A7C80 92%, #5A5356 96%, #2B2B2E 100%)',
           backgroundBlendMode: 'multiply',
         },
         '.custom-industrial-background-img': {
-          background: "url(../assets/Industiral_Background.png)",
-          backgroundSize: "20%",
+          background: 'url(../assets/Industiral_Background.png)',
+          backgroundSize: '20%',
         },
         '.custom-swapbox-background-img': {
           background: 'url(../assets/Industiral_Background.png)',
           backgroundSize: '60%',
         },
         '.custom-top-background-img': {
-          background: "url(../assets/background.png)",
+          background: 'url(../assets/background.png)',
           backgroundSize: 'cover',
         },
         '.custom-top-stakingDashboard-background-img': {
-          background: "url(../assets/staking-dashboard.png)",
+          background: 'url(../assets/staking-dashboard.png)',
           backgroundSize: 'cover',
         },
         '.custom-bottom-background-img': {
-          background: "url(../assets/bottomBack.png)"
+          background: 'url(../assets/bottomBack.png)',
         },
 
         '.custom-swap-wheel-outlinear-gradient': {
           background: 'radial-gradient(#457BBA, #AEC6C8, #8F8F8F)',
-          boxShadow: '0px 17px 25px 0px #555, 0px 4px 17px 0px rgba(255, 255, 255, 0.25) inset, 10px 8px 30px 0px rgba(255, 255, 255, 0.70) inset, 8px 8px 10px 0px rgba(0, 0, 0, 0.50)',
+          boxShadow:
+            '0px 17px 25px 0px #555, 0px 4px 17px 0px rgba(255, 255, 255, 0.25) inset, 10px 8px 30px 0px rgba(255, 255, 255, 0.70) inset, 8px 8px 10px 0px rgba(0, 0, 0, 0.50)',
           backdropFilter: 'blur(21px)',
         },
         '.custom-swap-wheel-inner-background-gradient': {
-          background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.20) 0%, rgba(66, 89, 113, 0.18) 56.25%, rgba(28, 14, 68, 0.20) 100%)',
+          background:
+            'linear-gradient(180deg, rgba(0, 0, 0, 0.20) 0%, rgba(66, 89, 113, 0.18) 56.25%, rgba(28, 14, 68, 0.20) 100%)',
         },
         '.custom-swap-wheel-number-pane-outborder': {
-          background: 'linear-gradient(#808183, #276992, #000000)'
+          background: 'linear-gradient(#808183, #276992, #000000)',
         },
         '.custom-swap-wheel-number-pane-innerborder': {
-          background: 'linear-gradient(#94959f, #176181, #000000)'
+          background: 'linear-gradient(#94959f, #176181, #000000)',
         },
         '.custom-swap-wheel-number-pane-background': {
           background: 'linear-gradient(180deg, #060608, #4f4d71, #060608)',
-          backgroundBlendMode: 'multiply'
+          backgroundBlendMode: 'multiply',
         },
         '.custom-swap-wheel-number-pane-metalbar': {
-          background: 'radial-gradient(84.41% 424.03% at 16.71% 23.08%, #FFFFFF 0%, rgba(112, 110, 110, 0) 19.79%, #FFFFFF 42.19%, #706E6E 66.67%, #000000 100%)',
+          background:
+            'radial-gradient(84.41% 424.03% at 16.71% 23.08%, #FFFFFF 0%, rgba(112, 110, 110, 0) 19.79%, #FFFFFF 42.19%, #706E6E 66.67%, #000000 100%)',
         },
         '.custom-swap-modal-border1': {
-          background: 'linear-gradient(157.15deg, rgba(69, 123, 186, 0.4) -36.07%, rgba(174, 198, 200, 0.4) 50.21%, rgba(143, 143, 143, 0.4) 123.22%)'
+          background:
+            'linear-gradient(157.15deg, rgba(69, 123, 186, 0.4) -36.07%, rgba(174, 198, 200, 0.4) 50.21%, rgba(143, 143, 143, 0.4) 123.22%)',
         },
         '.custom-swap-modal-border2': {
-          background: 'linear-gradient(151.95deg, rgba(255, 255, 255, 0.4) -21.83%, rgba(251, 182, 47, 0.4) 20.48%, rgba(0, 0, 0, 0.4) 83.65%)'
+          background:
+            'linear-gradient(151.95deg, rgba(255, 255, 255, 0.4) -21.83%, rgba(251, 182, 47, 0.4) 20.48%, rgba(0, 0, 0, 0.4) 83.65%)',
         },
         '.custom-swap-modal-border3': {
-          background: 'radial-gradient(76.28% 126.52% at -1.52% -10.89%, rgba(69, 123, 186, 0.4) 0%, rgba(174, 198, 200, 0.4) 54.17%, rgba(143, 143, 143, 0.4) 100%)'
+          background:
+            'radial-gradient(76.28% 126.52% at -1.52% -10.89%, rgba(69, 123, 186, 0.4) 0%, rgba(174, 198, 200, 0.4) 54.17%, rgba(143, 143, 143, 0.4) 100%)',
         },
         '.custom-swap-wheel-number-metalbar-gradient1': {
-          background: 'linear-gradient(0deg, #484F54 0%, #595E63 1%, #8B898D 5%, #AFA8AC 8%, #C5BBBF 11%, #CEC2C6 12%, #EEE9E7 25%, #E6E1DF 27%, #D1CCCB 29%, #AEABAA 32%, #717070 36%, #747373 42%, #7F7C7C 48%, #928D8D 53%, #9B9595 55%, #A8A3A3 56%, #CDCACA 59%, #FFF 63%, #F3F0EF 73%, #EEE9E7 77%, #E9E3E2 80%, #DCD3D4 84%, #C7BABD 88%, #AA979E 92%, #7A7076 96%, #49494F 100%)'
+          background:
+            'linear-gradient(0deg, #484F54 0%, #595E63 1%, #8B898D 5%, #AFA8AC 8%, #C5BBBF 11%, #CEC2C6 12%, #EEE9E7 25%, #E6E1DF 27%, #D1CCCB 29%, #AEABAA 32%, #717070 36%, #747373 42%, #7F7C7C 48%, #928D8D 53%, #9B9595 55%, #A8A3A3 56%, #CDCACA 59%, #FFF 63%, #F3F0EF 73%, #EEE9E7 77%, #E9E3E2 80%, #DCD3D4 84%, #C7BABD 88%, #AA979E 92%, #7A7076 96%, #49494F 100%)',
         },
         '.custom-swap-wheel-number-metalbar-gradient2': {
-          background: 'linear-gradient(0deg, #262D33 0%, #41454B 2%, #737176 5%, #979195 8%, #ADA4A8 11%, #B6ACB0 12%, #DFDADA 25%, #D7D2D2 27%, #C1BEBE 29%, #9F9C9C 32%, #6F6E6E 35%, #505050 36%, #535353 42%, #5E5D5D 48%, #716E6E 53%, #7C7878 55%, #8A8686 56%, #AFADAC 59%, #EAEBEA 62%, #F3F4F3 63%, #E6E4E3 72%, #DFDADA 77%, #DAD4D4 80%, #CBC4C5 83%, #B4ABAD 87%, #94878B 91%, #8A7C80 92%, #5A5356 96%, #2B2B2E 100%)'
+          background:
+            'linear-gradient(0deg, #262D33 0%, #41454B 2%, #737176 5%, #979195 8%, #ADA4A8 11%, #B6ACB0 12%, #DFDADA 25%, #D7D2D2 27%, #C1BEBE 29%, #9F9C9C 32%, #6F6E6E 35%, #505050 36%, #535353 42%, #5E5D5D 48%, #716E6E 53%, #7C7878 55%, #8A8686 56%, #AFADAC 59%, #EAEBEA 62%, #F3F4F3 63%, #E6E4E3 72%, #DFDADA 77%, #DAD4D4 80%, #CBC4C5 83%, #B4ABAD 87%, #94878B 91%, #8A7C80 92%, #5A5356 96%, #2B2B2E 100%)',
         },
         '.custom-swap-wheel-number-metalbar-gradient3': {
-          background: 'linear-gradient(0deg, #262728 0%, #585557 4%, #7C7779 8%, #928B8E 10%, #9B9396 12%, #CEC5C1 25%, #C6BDB9 27%, #B0A9A6 29%, #8E8886 31%, #5D5A59 34%, #262626 36%, #262323 55%, #343131 56%, #5A5858 57%, #989696 60%, #F1F1F1 63%, #E5E2E1 68%, #CEC5C1 77%, #C8BFBB 79%, #BAAFAD 82%, #A29695 84%, #817273 87%, #574449 90%, #432E34 92%, #131013 99%, #0A0B0D 100%)'
+          background:
+            'linear-gradient(0deg, #262728 0%, #585557 4%, #7C7779 8%, #928B8E 10%, #9B9396 12%, #CEC5C1 25%, #C6BDB9 27%, #B0A9A6 29%, #8E8886 31%, #5D5A59 34%, #262626 36%, #262323 55%, #343131 56%, #5A5858 57%, #989696 60%, #F1F1F1 63%, #E5E2E1 68%, #CEC5C1 77%, #C8BFBB 79%, #BAAFAD 82%, #A29695 84%, #817273 87%, #574449 90%, #432E34 92%, #131013 99%, #0A0B0D 100%)',
         },
         '.custom-swap-wheel-background1': {
-          background: 'var(--Recess-2, linear-gradient(180deg, rgba(0, 0, 0, 0.20) 0%, rgba(66, 89, 113, 0.18) 56.25%, rgba(28, 14, 68, 0.20) 100%))'
+          background:
+            'var(--Recess-2, linear-gradient(180deg, rgba(0, 0, 0, 0.20) 0%, rgba(66, 89, 113, 0.18) 56.25%, rgba(28, 14, 68, 0.20) 100%))',
         },
         '.custom-sidebar-background': {
-          background: 'radial-gradient(201.34% 243.13% at -147.2% -31.5%, #111010 19.27%, #2c3243 63.54%, #090808 100%)'
+          background:
+            'radial-gradient(201.34% 243.13% at -147.2% -31.5%, #111010 19.27%, #2c3243 63.54%, #090808 100%)',
         },
         '.custom-sidebar-link': {
-          background: 'linear-gradient(180deg, #6C5DD3 0%, #4154C9 100%)'
+          background: 'linear-gradient(180deg, #6C5DD3 0%, #4154C9 100%)',
         },
         '.custom-QTY-button-shadow': {
-          boxShadow: '0px 30px 40px 0px rgba(0, 0, 0, 0.20), 2px 4px 10px 0px rgba(0, 0, 0, 0.50)'
+          boxShadow:
+            '0px 30px 40px 0px rgba(0, 0, 0, 0.20), 2px 4px 10px 0px rgba(0, 0, 0, 0.50)',
         },
         '.custom-QTY-button-outline': {
-          background: 'linear-gradient(180deg, #FFF -2.42%, rgba(1, 240, 255, 0.20) 52.36%, rgba(255, 255, 255, 0.00) 98.71%)'
+          background:
+            'linear-gradient(180deg, #FFF -2.42%, rgba(1, 240, 255, 0.20) 52.36%, rgba(255, 255, 255, 0.00) 98.71%)',
         },
         '.custom-QTA-button-hover-background': {
-          background: 'var(--Proceed-button-semi-private, linear-gradient(180deg, #BCAAFF 0%, #B364D1 100%))'
+          background:
+            'var(--Proceed-button-semi-private, linear-gradient(180deg, #BCAAFF 0%, #B364D1 100%))',
         },
         '.custom-QTA-button-clicked-background': {
-          background: 'linear-gradient(111deg, #CAB4FF 10.37%, #D377FF 80.96%)'
+          background: 'linear-gradient(111deg, #CAB4FF 10.37%, #D377FF 80.96%)',
         },
         '.custom-xBlock-gold-gradient-text': {
           background:
@@ -208,36 +257,38 @@ const config: Config = {
           '-webkit-text-fill-color': 'transparent',
         },
         '.custom-xBlock-blue-gradient-text': {
-          background:
-            'linear-gradient(180deg, #9687FF 0%, #334AD3 100%)',
+          background: 'linear-gradient(180deg, #9687FF 0%, #334AD3 100%)',
           '-webkit-background-clip': 'text',
           '-webkit-text-fill-color': 'transparent',
         },
         '.custom-xBlock-purple-gradient-text': {
-          background:
-            'linear-gradient(180deg, #BCAAFF 0%, #B364D1 100%)',
+          background: 'linear-gradient(180deg, #BCAAFF 0%, #B364D1 100%)',
           '-webkit-background-clip': 'text',
           '-webkit-text-fill-color': 'transparent',
         },
         '.custom-instant-withdrawal-button-gradient': {
-          background: 'linear-gradient(105.8deg, #FB792F 23.3%, #F3C755 97.04%, #F5C341 164.88%)'
+          background:
+            'linear-gradient(105.8deg, #FB792F 23.3%, #F3C755 97.04%, #F5C341 164.88%)',
         },
         '.custom-day-widthrawal-button-gradient': {
-          background: 'linear-gradient(180deg, #86E1A0 0%, #4FBF67 100%)'
+          background: 'linear-gradient(180deg, #86E1A0 0%, #4FBF67 100%)',
         },
         '.custom-penalty-switch-button-gradient': {
-          background: 'var(--Gold, linear-gradient(106deg, #FB792F 23.3%, #F3C755 97.04%, #F5C341 164.88%))'
+          background:
+            'var(--Gold, linear-gradient(106deg, #FB792F 23.3%, #F3C755 97.04%, #F5C341 164.88%))',
         },
         '.custom-nopenalty-switch-button-gradient': {
-          background: 'linear-gradient(180deg, #86E1A0 0%, #4FBF67 100%)'
+          background: 'linear-gradient(180deg, #86E1A0 0%, #4FBF67 100%)',
         },
         '.custom-footer-shadow': {
-          boxShadow: '0px 1px 4px 0px rgba(255, 255, 255, 0.25) inset, 1px 2px 11px 0px rgba(255, 255, 255, 0.70) inset, 0px -1px 8px 0px rgba(0, 0, 0, 0.40)',
-          background: 'linear-gradient(180deg, rgba(163, 166, 255, 0.04) 13.54%, rgba(40, 75, 101, 0.20) 100%)',
+          boxShadow:
+            '0px 1px 4px 0px rgba(255, 255, 255, 0.25) inset, 1px 2px 11px 0px rgba(255, 255, 255, 0.70) inset, 0px -1px 8px 0px rgba(0, 0, 0, 0.40)',
+          background:
+            'linear-gradient(180deg, rgba(163, 166, 255, 0.04) 13.54%, rgba(40, 75, 101, 0.20) 100%)',
           backdropFilter: 'blur(28px)',
         },
         '.custom-footer-border': {
-          background: 'linear-gradient(#FFFFFF, #01F0FF, #000000)'
+          background: 'linear-gradient(#FFFFFF, #01F0FF, #000000)',
         },
       }
       addUtilities(newUtilities, ['responsive', 'hover'])

@@ -1,46 +1,60 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-
-import { InfoCircleSvg, ShareSvg } from '@/components/Svg'
-
-import CTAButton from '../CTAButton'
-import { StackedBarChart } from './StackedBarChart'
 import { formatUnits } from 'viem'
+
+import { InfoCircleSvg } from '@/components/Svg'
+
+import { StackedBarChart } from './StackedBarChart'
 
 export interface IGroupedData {
   label: string
   values: number[]
 }
 
-const currentDate = new Date();
-const currentMonth = currentDate.getMonth() + 1; // Note: Month index starts from 0
-const lastFiveMonths: string[] = [];
+const currentDate = new Date()
+const currentMonth = currentDate.getMonth() + 1 // Note: Month index starts from 0
+const lastFiveMonths: string[] = []
 
 for (let i = 0; i < 5; i++) {
-  let month = currentMonth - i;
-  let year = currentDate.getFullYear();
+  let month = currentMonth - i
+  let year = currentDate.getFullYear()
 
   if (month <= 0) {
     // Adjusting for previous year
-    month += 12;
-    year--;
+    month += 12
+    year--
   }
 
-  lastFiveMonths.push(new Date(year, month - 1).toLocaleString('default', { month: 'short' }));
+  lastFiveMonths.push(
+    new Date(year, month - 1).toLocaleString('default', { month: 'short' }),
+  )
 }
 
-
-const PoolAPYBox = ({poolApy, userApy, earned, balance}: {poolApy: bigint, userApy: bigint, earned: bigint, balance: bigint}) => {
+const PoolAPYBox = ({
+  poolApy,
+  userApy,
+  earned,
+  balance,
+}: {
+  poolApy: bigint
+  userApy: bigint
+  earned: bigint
+  balance: bigint
+}) => {
   const { t } = useTranslation()
   let GROUPED_BAR_CHART_DATA: IGroupedData[] = lastFiveMonths.map((month) => ({
     label: month,
-    values: [0,0],
-  }));
-  GROUPED_BAR_CHART_DATA = GROUPED_BAR_CHART_DATA.reverse();
+    values: [0, 0],
+  }))
+  GROUPED_BAR_CHART_DATA = GROUPED_BAR_CHART_DATA.reverse()
 
-  GROUPED_BAR_CHART_DATA[GROUPED_BAR_CHART_DATA.length -1].values = [
+  GROUPED_BAR_CHART_DATA[GROUPED_BAR_CHART_DATA.length - 1].values = [
     // Number(formatUnits(balance ?? 0n, 18)),
-     Number(formatUnits(earned ?? 0n, 18))]
+    Number(formatUnits(earned ?? 0n, 18)),
+  ]
+
+  const isMobile = window.innerWidth <= 560
+
   return (
     <div className="relative flex flex-col items-center backdrop-blur-[46px] w-full custom-modal-step2-drop-shadow rounded-[28px] h-auto xl:w-[360px] xl:h-[706px]">
       <div className="w-full h-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow">
@@ -58,7 +72,9 @@ const PoolAPYBox = ({poolApy, userApy, earned, balance}: {poolApy: bigint, userA
                 <span className="pb-[10px] text-[20px]">
                   {t('poolApycustomerAvgApy')}
                 </span>
-                <span className="text-[50px] font-medium">+{Number(userApy)}%</span>
+                <span className="text-[50px] font-medium">
+                  +{Number(userApy)}%
+                </span>
               </div>
             </div>
           </div>
@@ -70,8 +86,8 @@ const PoolAPYBox = ({poolApy, userApy, earned, balance}: {poolApy: bigint, userA
             <div className="w-full">
               <StackedBarChart
                 data={GROUPED_BAR_CHART_DATA}
-                widthCustom={300}
-                heightCustom={287}
+                widthCustom={isMobile ? (window.innerWidth / 100) * 60 : 300}
+                heightCustom={isMobile ? (window.innerWidth / 100) * 60 : 287}
               />
             </div>
           </div>

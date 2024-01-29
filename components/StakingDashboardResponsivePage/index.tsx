@@ -14,7 +14,7 @@ export default function StakingDashboardResponsivePage({
 
   return (
     <div className="flex flex-row w-full">
-      <div className="md:w-[271px] z-[1] w-[20px]">
+      <div className="md:w-[271px] z-[99] mobile:w-0">
         <SideBar />
       </div>
       <div className="flex flex-col w-full">
