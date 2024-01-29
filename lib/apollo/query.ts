@@ -235,6 +235,8 @@ export const TOKENS_QUERY = gql`
       icon
       address
       chain
+      networkPriority
+      priority
     }
   }
 `
