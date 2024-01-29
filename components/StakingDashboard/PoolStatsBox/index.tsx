@@ -116,7 +116,7 @@ const PoolStatsBox = () => {
 
   return (
     <>
-      <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-full h-auto xl:w-[482px] xl:h-[697px] p-[1px]">
+      <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-full h-auto md:w-[482px] md:h-[697px] p-[1px]">
         <div className="p-[30px] w-full h-full rounded-[28px] custom-balances-box-inner-shadow">
           <div className="flex flex-col justify-between w-full h-full">
             <div className="flex flex-row justify-between w-full">
@@ -252,7 +252,7 @@ const PoolStatsBox = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-row justify-center relative z-[999] items-center gap-[50px]">
+            <div className="flex flex-row justify-center relative z-[999] items-center gap-[50px] mobile:gap-8 mobile:mt-4">
               <CTAButton height="48px" width="150px">
                 <div className="flex flex-row gap-[7px] w-full h-full justify-center items-center mx-[20px] my-[14px]">
                   <span className="text-[16px] font-semibold">

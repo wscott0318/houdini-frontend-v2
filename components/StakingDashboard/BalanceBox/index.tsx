@@ -1,25 +1,29 @@
+import { useConnectModal } from '@rainbow-me/rainbowkit'
+import Humanize from 'humanize-plus'
 import Image from 'next/image'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import Humanize from 'humanize-plus'
 import { formatUnits } from 'viem'
+import { useNetwork } from 'wagmi'
 
 import LockTokenIcon1 from '@/assets/LockTokenIcon1.png'
 import LockTokenIcon2 from '@/assets/LockTokenIcon2.png'
 import { StakeMoreSvg } from '@/components/Svg'
+import {
+  useScaffoldContract,
+  useScaffoldContractRead,
+} from '@/staking/hooks/scaffold-eth'
+import { ADDRESSES, USD_DECIMALS } from '@/utils/constants'
 
 import CTAButton from '../CTAButton'
 import HalfCircledDonutChart from './HalfCircledDonutChart'
-import { useScaffoldContract, useScaffoldContractRead } from '@/staking/hooks/scaffold-eth'
-import { ADDRESSES, USD_DECIMALS } from '@/utils/constants'
-import { useNetwork } from 'wagmi'
-import { useConnectModal } from '@rainbow-me/rainbowkit'
 
 const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
   const { t } = useTranslation()
   const { openConnectModal } = useConnectModal()
 
-  const userTotalLocked = (user?.balance as bigint ?? 0n) + (earned as bigint ?? 0n);
+  const userTotalLocked =
+    ((user?.balance as bigint) ?? 0n) + ((earned as bigint) ?? 0n)
 
   const { chain } = useNetwork()
   const { data: tokenContract } = useScaffoldContract({
@@ -45,18 +49,10 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
   } as any)
 
   const userBalanceNumber = parseFloat(
-    formatUnits(
-      (user?.balance as bigint) ?? 0n,
-      18,
-    ),
-  );
+    formatUnits((user?.balance as bigint) ?? 0n, 18),
+  )
 
-  const userEarnedNumber = parseFloat(
-    formatUnits(
-      (earned as bigint) ?? 0n,
-      18,
-    ),
-  );
+  const userEarnedNumber = parseFloat(formatUnits((earned as bigint) ?? 0n, 18))
 
   return (
     <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-full xl:w-[360px] xl:h-[706px] p-[1px]">
@@ -65,8 +61,13 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
           <div className="flex flex-col justify-start items-start ">
             <div className="flex flex-col gap-[26px]">
               {t('balanceboxTitle')}
-              <div className="relative lg:w-[198px] lg:h-[109px] w-[100px] h-[50px]">
-                <HalfCircledDonutChart deposited={userBalanceNumber} earned={userEarnedNumber} heightCustom={198} widthCustom={198} />
+              <div className="relative w-[198px] h-[109px]">
+                <HalfCircledDonutChart
+                  deposited={userBalanceNumber}
+                  earned={userEarnedNumber}
+                  heightCustom={198}
+                  widthCustom={198}
+                />
               </div>
             </div>
             <div className="flex flex-col pt-[20px]">
@@ -75,10 +76,22 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
                   {t('totakLockBalance')}
                 </div>
                 <div className="text-[20px] lg:text-[50px] font-normal leading-normal">
-                  {Humanize.formatNumber(parseFloat(formatUnits(userTotalLocked ?? 0n, 18)))}
+                  {Humanize.formatNumber(
+                    parseFloat(formatUnits(userTotalLocked ?? 0n, 18)),
+                  )}
                 </div>
                 <div className="text-[14px] font-normal text-[#A5A5A5] leading-normal">
-                  ({Humanize.formatNumber(parseFloat(formatUnits((totalUsd as any)?.[2] as unknown as bigint ?? 0n, USD_DECIMALS)), 2)} USD)
+                  (
+                  {Humanize.formatNumber(
+                    parseFloat(
+                      formatUnits(
+                        ((totalUsd as any)?.[2] as unknown as bigint) ?? 0n,
+                        USD_DECIMALS,
+                      ),
+                    ),
+                    2,
+                  )}{' '}
+                  USD)
                 </div>
               </div>
             </div>
@@ -100,7 +113,18 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
                   <span className="text-[20px] font-medium leading-[19px]">
                     {Humanize.formatNumber(userBalanceNumber)} $LOCK
                   </span>
-                  <span className="text-[#A5A5A5]">{Humanize.formatNumber(parseFloat(formatUnits((balanceUsd as any)?.[2] as unknown as bigint ?? 0n, USD_DECIMALS)), 2)} USD</span>
+                  <span className="text-[#A5A5A5]">
+                    {Humanize.formatNumber(
+                      parseFloat(
+                        formatUnits(
+                          ((balanceUsd as any)?.[2] as unknown as bigint) ?? 0n,
+                          USD_DECIMALS,
+                        ),
+                      ),
+                      2,
+                    )}{' '}
+                    USD
+                  </span>
                 </div>
               </div>
               <div className="flex flex-row gap-[20px] items-center">
@@ -125,7 +149,20 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
                       'bg-gradient-to-t from-green-300 to-green-700 bg-clip-text text-transparent text-[14px] font-medium'
                     }
                   >
-                    + {Humanize.formatNumber(parseFloat(formatUnits(((totalUsd as any)?.[2] as unknown as bigint ?? 0n) - ((balanceUsd as any)?.[2] as unknown as bigint ?? 0n), USD_DECIMALS)), 2)} USD
+                    +{' '}
+                    {Humanize.formatNumber(
+                      parseFloat(
+                        formatUnits(
+                          (((totalUsd as any)?.[2] as unknown as bigint) ??
+                            0n) -
+                            (((balanceUsd as any)?.[2] as unknown as bigint) ??
+                              0n),
+                          USD_DECIMALS,
+                        ),
+                      ),
+                      2,
+                    )}{' '}
+                    USD
                   </span>
                 </div>
               </div>
@@ -139,14 +176,21 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
                 </span>
               </div>
             </CTAButton>
-            <CTAButton onClick={() => { address ? setStakeOpen(true) : openConnectModal?.() }} height="48px" width="146px">
+            <CTAButton
+              onClick={() => {
+                address ? setStakeOpen(true) : openConnectModal?.()
+              }}
+              height="48px"
+              width="146px"
+            >
               <div className="flex flex-row gap-[7px] justify-center items-center mx-[20px] my-[14px]">
                 <StakeMoreSvg className="w-[16px] h-[16px]" />
                 <span className="text-[16px] font-semibold">
-                  {address ?
-                    user?.balance > 0n ? t('stakeMore') : t('Stake') :
-                    t('Stake')
-                  }
+                  {address
+                    ? user?.balance > 0n
+                      ? t('stakeMore')
+                      : t('Stake')
+                    : t('Stake')}
                 </span>
               </div>
             </CTAButton>
