@@ -69,8 +69,8 @@ export const ConnectWalletAccount = () => {
               if (chain?.unsupported || chain?.id !== targetNetwork.id) {
                 return (
                   <div className="flex flex-col lg:flex-row relative gap-[12px] z-10">
-                    <div className="inline-flex items-center justify-center p-[2px] rounded-[120px] bg-gradient-to-b from-white to-black">
-                      <div className="inline-flex justify-center rounded-[120px] w-full h-full items-center bg-gradient-to-br from-black to-[#252932] px-[30px] py-[8px]">
+                    <div className="inline-flex items-center justify-center p-[2px] rounded-3xl bg-gradient-to-b from-white to-black">
+                      <div className="inline-flex justify-center rounded-3xl w-full h-full items-center bg-gradient-to-br from-black to-[#252932] px-[30px] py-[8px]">
                         <button
                           type="button"
                           className=""
