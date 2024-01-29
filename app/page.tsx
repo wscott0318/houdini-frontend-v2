@@ -179,7 +179,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex flex-col w-full lg:flex-row justify-center items-center gap-4">
+          <div className="hidden flex-col w-full lg:flex-row justify-center items-center gap-4">
             <CardComponent
               widthClass={'w-full max-w-[1150px]'}
               heightClass={width >= 768 ? 'h-[300px]' : 'h-full'}
