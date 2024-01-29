@@ -14,6 +14,8 @@ export const Countdown: React.FC<CountdownProps> = ({
   const [timerMinutes, setTimerMinutes] = useState(30) // default to 30 to avoid marking it expired by default
   const [timerSeconds, setTimerSeconds] = useState(0)
 
+  const [expired, setExpired] = useState(false)
+
   useEffect(() => {
     if (status === 0) {
       let minutes = 30
@@ -38,6 +40,7 @@ export const Countdown: React.FC<CountdownProps> = ({
           clearInterval(id)
           setTimerMinutes(0)
           setTimerSeconds(0)
+          setExpired(true)
 
           if (setMinutes) {
             setMinutes(0)
@@ -58,16 +61,20 @@ export const Countdown: React.FC<CountdownProps> = ({
   return (
     <>
       Send your funds in by:{' '}
-      <span
-        className={
-          timerMinutes < 3
-            ? 'font-bold text-red-400'
-            : 'font-bold text-amber-400'
-        }
-      >
-        {timerMinutes.toString().padStart(2, '0')} :{' '}
-        {timerSeconds.toString().padStart(2, '0')}{' '}
-      </span>
+      {expired ? (
+        <span className="font-bold text-red-400">Expired</span>
+      ) : (
+        <span
+          className={
+            timerMinutes < 3
+              ? 'font-bold text-red-400'
+              : 'font-bold text-amber-400'
+          }
+        >
+          {timerMinutes.toString().padStart(2, '0')} :{' '}
+          {timerSeconds.toString().padStart(2, '0')}
+        </span>
+      )}
     </>
   )
 }
