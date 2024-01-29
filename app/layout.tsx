@@ -12,8 +12,9 @@ import { usePathname } from 'next/navigation'
 import toast, { Toaster } from 'react-hot-toast'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { WagmiConfig, configureChains, createConfig } from 'wagmi'
+import { WagmiConfig, configureChains, createConfig, mainnet, sepolia } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 
 import { Footer, Header, ResponsiveContainer } from '@/components'
 import { useWindowSize } from '@/hooks'
@@ -21,6 +22,7 @@ import { userClient } from '@/lib/apollo/apollo-client'
 import { customChainsMain, customChainsTest } from '@/utils/chains'
 
 import '../styles/globals.css'
+// import { createPublicClient, http } from 'viem'
 
 const outfit = Outfit({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -45,7 +47,13 @@ if (process.env.NEXT_APP_NODE_ENV === 'development') {
   allChains = [...customChainsMain]
 }
 
-const { chains, publicClient } = configureChains(allChains, [publicProvider()])
+const { chains, publicClient } = configureChains(allChains, [jsonRpcProvider({
+  rpc: (chain: any) => {
+    if (chain.id !== sepolia.id)
+      return null;
+    return { http: "https://public-nodes.tradersclub.app/sepolia/rpc" };
+  },
+}),publicProvider()])
 
 const { connectors } = getDefaultWallets({
   appName: 'HoudiniSwap',
