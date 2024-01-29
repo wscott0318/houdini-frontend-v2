@@ -45,8 +45,10 @@ export function SideBar() {
   useEffect(() => {
     if (width > 768) {
       setIsSidebarOpen(true)
+    } else {
+      setIsSidebarOpen(false)
     }
-  }, [width, isSidebarOpen])
+  }, [width])
 
   const handleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen)
@@ -86,14 +88,13 @@ export function SideBar() {
       )}
       {isSidebarOpen ? (
         <div
-          className={`flex justify-center items-center relative z-[9999] flex-col transition-all duration-300 h-full lg:min-w-[271px] lg:max-w-[271px] min-w-[110px] max-w-[110px] pl-[29px] pr-[30px] pt-[44px] pb-[36px] overflow-y-auto custom-sidebar-background gap-[29px] lg:rounded-[50px] rounded-l-[50px] mobile:rounded-l-[25px] mobile:px-2 mobile:py-8 mobile:min-w-[60px] mobile:h-screen mobile:fixed mobile:top-0 ${
-            isSidebarOpen ? `mobile:left-0` : `mobile:left-[-60px]`
-          } transition-all`}
+          className={`overflow-hidden flex justify-center items-center relative z-[9999] flex-col transition-all duration-300 h-full lg:min-w-[271px] lg:max-w-[271px] min-w-[110px] max-w-[110px] pl-[29px] pr-[30px] pt-[44px] pb-[36px] overflow-y-auto custom-sidebar-background gap-[29px] lg:rounded-[50px] tablet:rounded-r-[25px] tablet:rounded-l-none rounded-r-none rounded-l-[50px] tablet:px-2 tablet:py-8 tablet:min-w-[60px] tablet:h-screen tablet:fixed tablet:top-0 ${isSidebarOpen ? `tablet:left-0` : `tablet:left-[-60px]`
+            } transition-all`}
         >
           <div className="flex flex-col justify-center items-center gap-4">
             <button
               onClick={handleSidebar}
-              className="w-full text-center flex justify-center items-center hidden mobile:flex"
+              className="w-full text-center flex justify-center items-center hidden tablet:flex"
             >
               <CloseSvg className="w-[24px] h-[24px] stroke-white" />
             </button>
@@ -114,11 +115,10 @@ export function SideBar() {
               <li>
                 <Link
                   href="/staking-dashboard"
-                  className={`${
-                    pathName === '/staking-dashboard'
-                      ? `bg-gradient-to-b text-[#ffffff]`
-                      : ``
-                  } flex items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]`}
+                  className={`${pathName === '/staking-dashboard'
+                    ? `bg-gradient-to-b text-[#ffffff]`
+                    : ``
+                    } flex items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]`}
                 >
                   <IconSvg className="w-[24px] h-[24px] stroke-white" />
                   <span className="lg:text-[14px] lg:block hidden lg:ms-[16px]">
@@ -129,11 +129,10 @@ export function SideBar() {
               <li>
                 <Link
                   href="/staking-dashboard/performance"
-                  className={`${
-                    pathName === '/staking-dashboard/performance'
-                      ? `bg-gradient-to-b text-[#ffffff]`
-                      : ``
-                  } flex items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]`}
+                  className={`${pathName === '/staking-dashboard/performance'
+                    ? `bg-gradient-to-b text-[#ffffff]`
+                    : ``
+                    } flex items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]`}
                 >
                   <ChartSvg className="w-[24px] h-[24px] " />
                   <span className="lg:text-[14px] text-[0px] lg:ms-[16px]">
@@ -144,11 +143,10 @@ export function SideBar() {
               <li>
                 <Link
                   href="/staking-dashboard/history"
-                  className={`${
-                    pathName === '/staking-dashboard/history'
-                      ? `bg-gradient-to-b text-[#ffffff]`
-                      : ``
-                  } flex items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]`}
+                  className={`${pathName === '/staking-dashboard/history'
+                    ? `bg-gradient-to-b text-[#ffffff]`
+                    : ``
+                    } flex items-center p-[16px] text-[#A0AEC0] hover:fill-white hover:text-[#ffffff] rounded-[16px] hover:bg-gradient-to-b from-indigo-600 to-blue-500 group h-[56px]`}
                 >
                   <DocumentSvg className="w-[24px] h-[24px] " />
                   <span className="lg:text-[14px] text-[0px] lg:ms-[16px]">

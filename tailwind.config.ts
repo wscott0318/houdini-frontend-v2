@@ -17,6 +17,7 @@ const config: Config = {
     },
     screens: {
       mobile: { max: '560px' },
+      tablet: { max: '767px' },
       // => @media (max-width: 500px) { ... }
 
       sm: '660px',
