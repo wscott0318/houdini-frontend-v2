@@ -51,7 +51,7 @@ export function ResponsiveContainer({ children }: LayoutProps) {
 
   return (
     // overflow-auto max-h-[100vh]
-    <main className="grid grid-cols-1 gap-4 pt-10 px-4 lg:px-10">
+    <main className="grid grid-cols-1 gap-4 pt-4 px-2 sm:pt-10 sm:px-4 lg:px-10">
       {!maintenanceMode ? (
         <>{children}</>
       ) : (

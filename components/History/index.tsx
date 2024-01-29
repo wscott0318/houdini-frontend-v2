@@ -8,12 +8,12 @@ export default function History() {
   const { t } = useTranslation()
 
   return (
-    <div className="px-[50px] pt-[50px] pb-[60px] flex flex-col gap-[40px]">
+    <div className="mobile:px-4 mobile:py-4 px-[50px] pt-[50px] pb-[60px] flex flex-col gap-[40px]">
       <div className="flex flex-col">
         <span className="text-[24px] font-medium leading-[32px] text-[#fff]">
           Hi Houdini Wizard, check out your
         </span>
-        <span className="text-[48px] font-semibold leading-[32px] text-[#fff]">
+        <span className="text-[48px] font-semibold leading-[54px] text-[#fff] mobile:text-[44px]">
           Activity History
         </span>
       </div>
