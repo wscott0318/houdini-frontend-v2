@@ -48,7 +48,7 @@ const HistoryModalBox = () => {
   useEffect(() => {
     publicClient
       .getBlockNumber()
-      .then((data: bigint) => setFromBlock(data - 800n))
+      .then((data: bigint) => setFromBlock(data - 2000n))
   }, [address, publicClient])
 
   const {
@@ -148,7 +148,7 @@ const HistoryModalBox = () => {
   } = useScaffoldEventHistory({
     contractName: "Staker",
     eventName: "Compounded",
-    fromBlock: 31231n,
+    fromBlock,
     watch: true,
     filters: { user: address },
     blockData: true,
