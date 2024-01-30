@@ -30,7 +30,7 @@ const XBlockPerformanceStatsBox = () => {
       <div className="w-full h-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow">
         <div className="flex flex-col justify-between w-full h-full">
           <div className="flex flex-row justify-between">
-            <span>{t('xBlockPerformanceStatistics')}</span>
+            <span className='text-[20px] font-medium'>{t('xBlockPerformanceStatistics')}</span>
             <button>
               <QuestionMarkSvg className="w-[18px] h-[18px]" />
             </button>

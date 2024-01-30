@@ -61,7 +61,7 @@ const PoolAPYBox = ({
         <div className="flex flex-col justify-between w-full h-full">
           <div className="flex flex-col gap-[10px]">
             <div className="flex flex-row w-full justify-between items-center">
-              <span>{t('poolApyTitle')}</span>
+              <span className='text-[20px] font-medium'>{t('poolApyTitle')}</span>
               <InfoCircleSvg className="w-[20px] h-[20px]" />
             </div>
             <div className="flex flex-col gap-[10px]">

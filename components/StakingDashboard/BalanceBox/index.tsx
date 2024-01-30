@@ -60,7 +60,7 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
         <div className="flex flex-col justify-between w-full h-full">
           <div className="flex flex-col justify-start items-start ">
             <div className="flex flex-col gap-[26px]">
-              {t('balanceboxTitle')}
+              <span className='text-[20px] font-medium'>{t('balanceboxTitle')}</span>
               <div className="relative w-[198px] h-[109px]">
                 <HalfCircledDonutChart
                   deposited={userBalanceNumber}
