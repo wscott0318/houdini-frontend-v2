@@ -1606,7 +1606,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker_Implementation: {
-      address: "0xad203b3144f8c09a20532957174fc0366291643c",
+      address: "0xb6aA91E8904d691a10372706e57aE1b390D26353",
       abi: [
         {
           inputs: [],
@@ -4370,7 +4370,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker_Implementation: {
-      address: "0x0401D8d169ceeE3CaeC2024D70Ef51f125DEd18b",
+      address: "0x485480FBbdCA88D64c1ca488B2913EBA2cF2d65F",
       abi: [
         {
           inputs: [],
@@ -7134,7 +7134,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Staker_Implementation: {
-      address: "0x0401D8d169ceeE3CaeC2024D70Ef51f125DEd18b",
+      address: "0x485480FBbdCA88D64c1ca488B2913EBA2cF2d65F",
       abi: [
         {
           inputs: [],
