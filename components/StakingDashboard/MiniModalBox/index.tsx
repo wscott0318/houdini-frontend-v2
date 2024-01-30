@@ -142,7 +142,7 @@ const MiniModalBox = ({
 
   useEffect(() => {
     if (percentAmount) {
-      setInputAmount(parseFloat((balanceInt * percentAmount).toFixed(2)).toString())
+      setInputAmount(Math.round(balanceInt * percentAmount).toString())
     }
   }, [percentAmount, balanceInt])
 
