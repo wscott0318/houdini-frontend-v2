@@ -71,10 +71,10 @@ const PoolAPYBox = ({
                   <Tooltip
                     additionalClassNames="right-[0px] top-[25px] w-[250px]"
                     text={<>
-                      Pool APY is the annual projected calculation of last week&#39;s $LOCK
-                      buybacks based on the current total staked $LOCK.
+                      Pool APY is the annual projected return of current $LOCK rewards being issued for total staked $LOCK.
                       <br />
-                      Your average APY is an annual projected calculation of your $LOCK rewards earned based on your total staked $LOCK.
+                      Your average APY is the annual projected return of your $LOCK rewards being issued for your total staked $LOCK.
+                      <br />
                       Calculations are updated approximately every 30 seconds.
                     </>}
                   >

@@ -36,8 +36,7 @@ const XBlockPerformanceStatsBox = () => {
               <Tooltip
                 additionalClassNames="right-[0px] top-[20px] w-[250px]"
                 text={<>
-                      Houdini Swap, integral to the xBlock ecosystem, operates on the xBlock platform. <br />
-                      xBlock customers contribute to and may also participate in staking. <br />
+                      Houdini Swap, integral to the xBlock ecosystem, operates on the xBlock platform. xBlock customers contribute to and may also participate in staking. 
                       You can find out more <a className='underline' href='https://docs.houdiniswap.com/houdini-swap/about-xblock' target='_blank'>here</a>
 
                 </>}
