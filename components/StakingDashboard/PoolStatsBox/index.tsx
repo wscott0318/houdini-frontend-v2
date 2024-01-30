@@ -118,9 +118,9 @@ const PoolStatsBox = () => {
 
   return (
     <>
-      <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-full h-auto md:w-[482px] md:h-[697px] p-[1px]">
+      <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-full h-auto md:h-[697px] p-[1px]">
         <div className="p-[30px] w-full h-full rounded-[28px] custom-balances-box-inner-shadow">
-          <div className="flex flex-col justify-between w-full h-full">
+          <div className="flex flex-col justify-between w-full h-full gap-[16px]">
             <div className="flex flex-row justify-between w-full">
               <span className="text-[20px] font-medium">{t('poolStats')}</span>
               {/* <CTAButton height="42px" width="98px">
@@ -233,7 +233,7 @@ const PoolStatsBox = () => {
             </div>
             <div className="flex flex-col gap-[17px]">
               <span className="text-[20px]">{t('lastWeeksAPYbreakdown')}</span>
-              <div className="flex flex-col md:flex-row gap-[71px]">
+              <div className="flex flex-wrap justify-around gap-[10px]">
                 <DonutChart
                   fallen={fallenWizardApyPercent}
                   customWidth={150}
