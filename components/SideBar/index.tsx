@@ -41,6 +41,7 @@ export function SideBar() {
   const [ensAvatar, setEnsAvatar] = useState<string | null>()
   const [withdrawOpen, setWithdrawOpen] = useState(false)
   const [isPenalty, setIsPenalty] = useState(false)
+  const [unlockRequested, setUnlockRequested] = useState(false)
 
   useEffect(() => {
     if (width > 768) {
@@ -218,12 +219,12 @@ export function SideBar() {
           {
             Component: WithdrawalExplainerBox,
             key: 'withdraw-step-0',
-            props: { setIsPenalty: setIsPenalty, address: account?.address },
+            props: { setIsPenalty: setIsPenalty, address: account?.address, setUnlockRequested },
           },
           {
             Component: isPenalty ? WithdrawalBox : NoPenaltyWithdrawalBox,
             key: 'withdraw-step-1',
-            props: { setIsPenalty: setIsPenalty, address: account?.address },
+            props: { setIsPenalty: setIsPenalty, address: account?.address, unlockRequested },
           },
         ]}
         isOpen={withdrawOpen}

@@ -24,6 +24,8 @@ interface CustomProps {
   timeLeft?: any
   address?: any
   setIsPenalty?: any
+  setUnlockRequested?: any
+  unlockRequested?: boolean
 }
 
 const StateMachine = ({

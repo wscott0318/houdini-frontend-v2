@@ -16,6 +16,7 @@ const WithdrawalExplainerBox = ({
   handleResetState,
   setIsPenalty,
   address,
+  setUnlockRequested,
 }: {
   handleNext: any
   handlePrevious: any
@@ -23,6 +24,7 @@ const WithdrawalExplainerBox = ({
   handleResetState: any
   setIsPenalty: any
   address: string
+  setUnlockRequested: any
 }) => {
   const handlePenalty = () => {
     setIsPenalty(true)
@@ -86,6 +88,7 @@ const WithdrawalExplainerBox = ({
     }
 
     setIsPenalty(true)
+    setUnlockRequested(true)
     handleNext()
   };
 
