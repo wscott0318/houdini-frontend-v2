@@ -145,12 +145,10 @@ export default function GetApiAccess() {
           <div className="flex flex-col justify-center w-full items-center gap-2">
             <div className="flex flex-col justify-center items-center sm:items-start gap-[16px]">
               <div className="text-[28px] whitespace-nowrap sm:text-[34px] font-bold leading-[38px] text-white">
-                Request API access
+                Request Integration Access
               </div>
               <div className="text-[15px] font-medium font-poppins rainbow-text">
-                Thank you for your interest in using our API to access Houdini
-                Swap. Please complete the details below and we will contact you
-                via email shortly.
+                Thank you for your interest in Houdini Swap. Please complete the form below so we may follow up with you shortly.
               </div>
             </div>
             <div className="flex flex-row md:flex-nowrap flex-wrap w-full min-h-[100px] gap-2 h-full justify-center items-center sm:items-start">
@@ -205,11 +203,12 @@ export default function GetApiAccess() {
               </div>
               <div className="w-full md:w-1/2">
                 <TextField
-                  id="referrer"
-                  label={"How'd you hear about us"}
-                  placeholder="e.g friend"
-                  onChange={(e) => setReferral(e.target.value)}
-                  value={referral}
+                  id="email"
+                  type='email'
+                  label="Your Email"
+                  placeholder="Enter email here."
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
                 />
               </div>
             </div>
@@ -226,7 +225,7 @@ export default function GetApiAccess() {
               <div className="w-full md:w-1/2">
                 <TextField
                   id="tokenChain"
-                  label={'Token chain'}
+                  label={'Token Chain'}
                   placeholder="e.g Ethereum Mainnet"
                   onChange={(e) => setTokenChain(e.target.value)}
                   value={tokenChain}
