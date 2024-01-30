@@ -118,7 +118,7 @@ const PoolStatsBox = () => {
 
   return (
     <>
-      <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-full h-auto md:h-[697px] p-[1px]">
+      <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-full h-auto md:h-full p-[1px]">
         <div className="p-[30px] w-full h-full rounded-[28px] custom-balances-box-inner-shadow">
           <div className="flex flex-col justify-between w-full h-full gap-[16px]">
             <div className="flex flex-row justify-between w-full">

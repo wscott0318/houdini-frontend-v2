@@ -23,9 +23,8 @@ const Link = ({
 }: React.AnchorHTMLAttributes<HTMLAnchorElement>) =>
   href ? (
     <NextLink
-      className={`${
-        className || ''
-      } z-[1] hover:gradient-text font-light text-gray-400`}
+      className={`${className || ''
+        } z-[1] hover:gradient-text font-light text-gray-400`}
       href={href}
       {...props}
     >
@@ -71,9 +70,8 @@ export const Footer = () => {
       <div className="custom-footer-border h-[3px] mb-[-0.6px]" />
       <div className="col-span-1 grid grid-cols-1 place-content-center place-items-center gap-[35px] pb-10 custom-footer-shadow px-2">
         <div
-          className={`flex flex-wrap justify-evenly gap-10 w-full max-w-screen-xl mt-[80px] ${
-            isMediumScreen ? 'flex-col' : ''
-          }`}
+          className={`flex flex-wrap justify-evenly gap-10 w-full max-w-screen-xl mt-[80px] ${isMediumScreen ? 'flex-col' : ''
+            }`}
         >
           <div className="flex flex-col gap-6">
             <Logo />
@@ -101,9 +99,8 @@ export const Footer = () => {
           </div>
 
           <div
-            className={`flex ${
-              isMediumScreen ? 'justify-center' : 'w-[60%] justify-between'
-            } ${isSmallScreen ? 'flex-col p-2 min-h-[224px]' : ''} gap-8 m-6`}
+            className={`flex ${isMediumScreen ? 'justify-center' : 'w-[60%] justify-between'
+              } ${isSmallScreen ? 'flex-col p-2 min-h-[224px]' : ''} gap-8 m-6`}
           >
             <LinkCategory isSmallScreen={isSmallScreen} name="Resources">
               <Link
@@ -175,7 +172,12 @@ export const Footer = () => {
               >
                 User Data Policy
               </Link> */}
-              <Link href="/terms-of-use">Terms of Service</Link>
+              <Link
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://docs.houdiniswap.com/houdini-swap/notices/terms-of-service">
+                Terms of Service
+              </Link>
               <Link
                 target="_blank"
                 rel="noopener noreferrer"
@@ -193,13 +195,6 @@ export const Footer = () => {
                 href="https://docs.houdiniswap.com/houdini-swap/tokenomics/usdlock-staking-progam"
               >
                 Staking Program
-              </Link>
-              <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://docs.houdiniswap.com/houdini-swap/notices-and-policies/staking-terms-of-service"
-              >
-                Staking Terms
               </Link>
               <Link
                 target="_blank"
