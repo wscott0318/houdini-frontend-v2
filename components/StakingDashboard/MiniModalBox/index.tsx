@@ -129,6 +129,10 @@ const MiniModalBox = ({
   }
 
   const handleStakePool = () => {
+    if (!termsApproved) {
+      toast.warning('Please accept the terms and conditions')
+      return
+    }
     if (parseFloat(inputAmount) > 0) {
       writeStake()
     }
@@ -247,8 +251,8 @@ const MiniModalBox = ({
           <div className="text-[12px] leading-[16px] font-medium">
             I understand & accept the{' '}
             <span className="underline font-semibold hover:cursor-pointer">
-              <Link target="_blank" href="https://docs.houdiniswap.com/">
-                Staking Terms & Conditions
+              <Link target="_blank" href="https://docs.houdiniswap.com/houdini-swap/notices/terms-of-service">
+                Terms of Service
               </Link>
             </span>
           </div>
@@ -257,7 +261,8 @@ const MiniModalBox = ({
           <button
             disabled={isInputAmountInvalid}
             className={
-              'p-[16px] flex justify-center items-center rounded-[120px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9]'
+              `p-[16px] flex justify-center items-center rounded-[120px] 
+              bg-gradient-to-b ${termsApproved ? "from-[#6C5DD3] to-[#4154C9]" : "from-[#222] to-[#666]"}`
             }
             onClick={() => handleApprove()}
           >
@@ -270,13 +275,14 @@ const MiniModalBox = ({
           <button
             disabled={parseInt(inputAmount, 10) <= 0 || isInputAmountInvalid}
             className={
-              'p-[16px] flex justify-center items-center rounded-[120px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9]'
+              `p-[16px] flex justify-center items-center rounded-[120px] 
+              bg-gradient-to-b ${termsApproved ? "from-[#6C5DD3] to-[#4154C9]" : "from-[#222] to-[#666]"}`
             }
             onClick={() => handleStakePool()}
           >
             <div className="flex flex-row gap-[7px] justify-center items-center">
               <StakeMoreSvg className="w-[16px] h-[16px]" />
-              <span className="text-[16px] font-semibold">{t('stake')}</span>
+              <span className="text-[16px] font-semibold">{t('Stake')}</span>
             </div>
           </button>
         )}
