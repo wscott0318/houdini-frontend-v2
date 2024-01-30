@@ -122,7 +122,7 @@ const NoPenaltyWithdrawalBox = ({
                   alt="LockTokenIcon1"
                 />
                 <span className="text-[20px] leading-normal font-semibold">
-                  End Stake - Wise Spell
+                  End Stake
                 </span>
               </div>
             </div>
@@ -165,7 +165,7 @@ const NoPenaltyWithdrawalBox = ({
           </div>
 
           <span className="font-bold text-[16px] leading-normal text-[#6CD185]">
-            &apos;Wise Wizard&apos;s 90 Day Spell&apos;
+            You unlock in 90 days.
           </span>
           <div className="flex relative">
             <div className="absolute top-0 left-0 w-[380px] rounded-[16px] h-[80px] bg-gradient-to-b from-[#ffffff80] to-[#ffffff00] opacity-[0.2]"></div>
