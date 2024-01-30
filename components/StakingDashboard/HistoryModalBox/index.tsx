@@ -136,11 +136,10 @@ const HistoryModalBox = () => {
             </tbody>
           </table>
           <span className="text-[12px] font-semibold leading-[14px] text-center text-[#A0AEC0]">
-            Please note: Transaction times are displayed in UTC
+            Please note: transaction times displayed are UTC
           </span>
           <div className="w-full flex items-center justify-center">
-            {!filteredEvents.length ||
-              loadingHistory ? (
+            {loadingHistory ? (
               <a className="w-[96px] h-[48px] rounded-[15px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9] items-center justify-center flex">
                 <LoadingSvg className="w-[16px] h-[16px]" />
               </a>

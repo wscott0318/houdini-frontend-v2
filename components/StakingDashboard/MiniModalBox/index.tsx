@@ -222,7 +222,7 @@ const MiniModalBox = ({
             </div>
             <div className="flex items-end">
               <span className="text-[14px] font-bold leading-[24px] uppercase">
-                {t('lock')}
+                ${t('lock')}
               </span>
             </div>
           </div>
