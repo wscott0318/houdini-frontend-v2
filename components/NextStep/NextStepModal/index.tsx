@@ -155,6 +155,8 @@ export const OrderDetailModal = ({
                 <AlreadySentFunds
                   setAlreadySent={setAlreadySent}
                   alreadySent={alreadySent}
+                  currentStep={currentStep}
+                  setCurrentStep={setCurrentStep}
                 />
                 <Countdown order={order} setMinutes={setMinutes} />
               </div>
@@ -179,7 +181,13 @@ export const OrderDetailModal = ({
                 </WalletRoundbox>
               ) : null}
             </div>
-            <div className="sm:hidden flex flex-wrap justify-center gap-[10px]">
+            <div className="sm:hidden my-[20px] flex flex-col flex-wrap items-center justify-center gap-[10px]">
+              <AlreadySentFunds
+                setAlreadySent={setAlreadySent}
+                alreadySent={alreadySent}
+                currentStep={currentStep}
+                setCurrentStep={setCurrentStep}
+              />
               <Countdown order={order} setMinutes={setMinutes} />
             </div>
             <BulletButtons

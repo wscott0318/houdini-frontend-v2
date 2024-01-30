@@ -1,10 +1,24 @@
+import { useEffect } from 'react'
+
+import { ORDER_STEPS } from '@/utils/constants'
+
 export const AlreadySentFunds = ({
   alreadySent,
   setAlreadySent,
+  currentStep,
+  setCurrentStep,
 }: {
   alreadySent: any
   setAlreadySent: any
+  currentStep: any
+  setCurrentStep: any
 }) => {
+  useEffect(() => {
+    if (alreadySent) {
+      setCurrentStep(ORDER_STEPS.ORDER_DETAILS)
+    }
+  }, [alreadySent, setAlreadySent, setCurrentStep])
+
   return (
     <div className="flex flex-row gap-[6px] justify-center items-center">
       <input
