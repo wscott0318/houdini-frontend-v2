@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { formatUnits } from 'viem'
-import { useNetwork, useToken } from 'wagmi'
+import { useAccount, useNetwork, useToken } from 'wagmi'
 
 import StateMachine from '@/components/StateMachine'
 import {
@@ -54,11 +54,10 @@ const PoolStatsBox = () => {
   const [rewardRemaining, setRewardRemaining] = useState(0n)
   const [rewardsPaid, setRewardsPaid] = useState(0n)
   const [user, setUser] = useState<any>()
-  const [timeLeft, setTimeLeft] = useState(0)
-  const [earned, setEarned] = useState(0n)
-  const [userApy, setUserApy] = useState(0n)
   const [stakeOpen, setStakeOpen] = useState(false)
 
+  const { address } = useAccount()
+  
   const { data: stakerContract } = useScaffoldContract({
     contractName: 'Staker',
   })
@@ -115,6 +114,19 @@ const PoolStatsBox = () => {
       setRewardsPaid(poolDataArr[6])
     }
   }, [poolData])
+
+  const { data: userData } = useScaffoldContractRead({
+    contractName: 'Staker',
+    functionName: 'UserInfo',
+    args: [address],
+  } as any)
+
+  useEffect(() => {
+    if (userData) {
+      const userDataArr = userData as any
+      setUser(userDataArr[0])
+    }
+  }, [userData, address])
 
   return (
     <>
@@ -275,7 +287,7 @@ const PoolStatsBox = () => {
                 }}
                 height="48px"
                 width="150px"
-                glow={true}
+                glow={user?.balance === 0n}
               >
                 <div className="flex flex-row gap-[7px] w-full h-full justify-center items-center mx-[20px] my-[14px]">
                   <StakeMoreSvg className="w-[16px] h-[16px]" />

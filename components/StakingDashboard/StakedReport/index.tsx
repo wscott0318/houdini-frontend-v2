@@ -53,9 +53,9 @@ const StakedReport = ({
         <div className="flex flex-col items-center gap-[10px] pb-[20px] text-center">
           <div className="flex flex-col gap-[30px] items-center">
             <div className="text-[40px] font-medium leading-normal">
-              🧙 YOU&apos;RE A WIZARD 🧙‍
+              YOU&apos;RE A WIZARD
             </div>
-            <div className='gradient-text rainbow-text font-medium text-lg'> ✨ Thou funds are now Staked ✨</div>
+            {/* <div className='gradient-text rainbow-text font-medium text-lg'>Thou funds are now Staked</div> */}
 
             <div className="text-[14px] font-normal leading-normal">
               <div className='font-medium text-lg mb-2'>

@@ -16,7 +16,6 @@ import StateMachine from '../StateMachine'
 export default function Dashboard() {
   const { t } = useTranslation()
 
-  const [clientAddress] = useState<Account>()
   const { address } = useAccount()
 
   const { data: historicalData } = useScaffoldContractRead({

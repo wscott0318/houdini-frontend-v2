@@ -183,7 +183,7 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
                 }}
                 height="48px"
                 width="146px"
-                glow={true}
+                glow={user?.balance === 0n}
               >
                 <div className="flex flex-row gap-[7px] justify-center items-center mx-[20px] my-[14px]">
                   <StakeMoreSvg className="w-[16px] h-[16px]" />
