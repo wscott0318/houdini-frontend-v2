@@ -141,7 +141,7 @@ const WithdrawalExplainerBox = ({
                     {humanizeDuration(timeLeft * 1000)}
                   </span>
 
-                  <div className="flex flex-row gap-[17px] justify-center items-center mt-10">
+                  <div className="flex flex-row flex-row mobile:flex-col gap-[17px] justify-center items-center mt-10">
                     <button
                       className={
                         'p-[16px] flex w-[271px] h-[58px] justify-center items-center rounded-[120px] custom-instant-withdrawal-button-gradient'
