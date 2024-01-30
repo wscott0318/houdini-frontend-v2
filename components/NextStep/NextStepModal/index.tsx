@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { AlreadySentFunds } from '@/components/AlreadySentFunds'
 import { BulletButtons } from '@/components/BulletButton'
 import { ConfirmDeposit } from '@/components/ConfirmDepositModal'
 import { Countdown } from '@/components/Countdown'
@@ -36,8 +37,9 @@ export const OrderDetailModal = ({
   const [qrCodeModal, setQrCodeModal] = useState(false)
   const [confirmDepositModal, setConfirmDepositModal] = useState(false)
   const [minutes, setMinutes] = useState(0)
-
   const [isLoading, setIsLoading] = useState()
+
+  const [alreadySent, setAlreadySent] = useState(false)
 
   const { findTokenById, getTokenDetails, getAddressUrl } = useTokens()
 
@@ -149,7 +151,11 @@ export const OrderDetailModal = ({
                 </div>
               </WalletRoundbox>
 
-              <div className="hidden sm:block">
+              <div className="hidden sm:flex flex-col justify-center items-center gap-[6px]">
+                <AlreadySentFunds
+                  setAlreadySent={setAlreadySent}
+                  alreadySent={alreadySent}
+                />
                 <Countdown order={order} setMinutes={setMinutes} />
               </div>
 
@@ -192,7 +198,8 @@ export const OrderDetailModal = ({
                   </div>
                   <div className="text-center overflow-hidden text-xs lg:text-[15px] lg:leading-[24px] text-[13px] font-normal text-opacity-50 text-[#FFFFFF99]">
                     <Link
-                      href={`${getAddressUrl(order.outSymbol)}${order.receiverAddress
+                      href={`${getAddressUrl(order.outSymbol)}${
+                        order.receiverAddress
                       }`}
                       target="_blank"
                     >{`${order.receiverAddress}`}</Link>

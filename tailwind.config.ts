@@ -1,4 +1,3 @@
-import { url } from 'inspector'
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
@@ -21,19 +20,19 @@ const config: Config = {
       tablet: { max: '767px' },
       // => @media (max-width: 500px) { ... }
 
-      sm: '660px',
+      sm: '640px',
       // => @media (min-width: 640px) { ... }
 
-      md: '960px',
+      md: '768px',
       // => @media (min-width: 768px) { ... }
 
-      lg: '1280px',
+      lg: '1024px',
       // => @media (min-width: 1024px) { ... }
 
-      xl: '1676px',
+      xl: '1280px',
       // => @media (min-width: 1280px) { ... }
 
-      '2xl': '1920px',
+      '2xl': '1536px',
       // => @media (min-width: 1536px) { ... }
     },
   },
