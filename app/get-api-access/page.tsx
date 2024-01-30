@@ -148,7 +148,8 @@ export default function GetApiAccess() {
                 Request Integration Access
               </div>
               <div className="text-[15px] font-medium font-poppins rainbow-text">
-                Thank you for your interest in Houdini Swap. Please complete the form below so we may follow up with you shortly.
+                Thank you for your interest in Houdini Swap. Please complete the
+                form below so we may follow up with you shortly.
               </div>
             </div>
             <div className="flex flex-row md:flex-nowrap flex-wrap w-full min-h-[100px] gap-2 h-full justify-center items-center sm:items-start">
@@ -204,7 +205,7 @@ export default function GetApiAccess() {
               <div className="w-full md:w-1/2">
                 <TextField
                   id="email"
-                  type='email'
+                  type="email"
                   label="Your Email"
                   placeholder="Enter email here."
                   onChange={(e) => setEmail(e.target.value)}
