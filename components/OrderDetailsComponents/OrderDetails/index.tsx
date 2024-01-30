@@ -6,7 +6,15 @@ import OrderDeletedModal from '@/components/OrderDetailsComponents/OrderDeletedM
 import { OrderDetailsModal } from '@/components/OrderDetailsComponents/OrderDetailsModal'
 import { ORDER_STATUS, OrderStep } from '@/utils/constants'
 
-export const OrderDetails = ({ order, currentStep, setCurrentStep }: { order: any, setCurrentStep: Function, currentStep: OrderStep }) => {
+export const OrderDetails = ({
+  order,
+  currentStep,
+  setCurrentStep,
+}: {
+  order: any
+  setCurrentStep: Function
+  currentStep: OrderStep
+}) => {
   const searchParams = useSearchParams()
 
   const widgetMode = searchParams.get('widgetMode')
@@ -20,7 +28,9 @@ export const OrderDetails = ({ order, currentStep, setCurrentStep }: { order: an
       {!isDeleted && !isExpired && (
         <div
           id="orderdetails"
-          className={`flex flex-col relative z-30 ${!widgetMode ? 'gap-[30px] pb-[50px]' : 'mb-10'}`}
+          className={`flex flex-col relative z-30 ${
+            !widgetMode ? 'gap-[30px] pb-[50px]' : 'mb-10'
+          }`}
         >
           <div className="lg:text-[81px] text-[50px] text-center font-extrabold text-[#FFFFFF] lg:leading-[102px] leading-[50px]">
             {t('orderDetailsPageTitle')}
@@ -32,9 +42,13 @@ export const OrderDetails = ({ order, currentStep, setCurrentStep }: { order: an
       )}
 
       <div className="flex flex-col last:pb-[165px] w-full">
-        <div className="flex flex-col items-center gap-[10px] w-full">
+        <div className="flex flex-col items-center gap-[10px] w-full relative">
           {!isDeleted ? (
-            <OrderDetailsModal order={order} currentStep={currentStep} setCurrentStep={setCurrentStep} />
+            <OrderDetailsModal
+              order={order}
+              currentStep={currentStep}
+              setCurrentStep={setCurrentStep}
+            />
           ) : (
             <OrderDeletedModal orderId={order?.houdiniId} />
           )}

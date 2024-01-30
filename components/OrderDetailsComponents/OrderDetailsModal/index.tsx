@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { BulletButtons } from '@/components/BulletButton'
 import { ConfirmDeposit } from '@/components/ConfirmDepositModal'
 import { EraseOrder } from '@/components/EraseModal'
 import { GeneralModal } from '@/components/GeneralModal'
@@ -10,11 +11,11 @@ import { IndustrialCounterLockup } from '@/components/GeneralModal/IndustrialCou
 import { MetalboarderedTransRoundbox } from '@/components/GeneralModal/MetalboarderedTransRoundbox'
 import { OrderDetailRoundbox } from '@/components/GeneralModal/OrderDetailRoundbox'
 import { OrderProgress } from '@/components/OrderProgress'
+import { ArrowSvg } from '@/components/Svg'
 import { useTokens } from '@/hooks'
-import { ORDER_STATUS, OrderStep } from '@/utils/constants'
 import { OrderStatusResult } from '@/types/backend/typegql/entities/abstract/order.status'
+import { ORDER_STATUS, ORDER_STEPS, OrderStep } from '@/utils/constants'
 import { dateFormatter, timeFormatter } from '@/utils/helpers'
-import { BulletButtons } from '@/components/BulletButton'
 
 import { TransactionHash } from '../TransactionHash'
 
@@ -24,7 +25,11 @@ interface OrderDetailsModalProps {
   order: OrderStatusResult
 }
 
-export const OrderDetailsModal = ({ order, currentStep, setCurrentStep }: OrderDetailsModalProps) => {
+export const OrderDetailsModal = ({
+  order,
+  currentStep,
+  setCurrentStep,
+}: OrderDetailsModalProps) => {
   const [confirmDepositModal, setConfirmDepositModal] = useState(false)
   const [eraseModal, setEraseModal] = useState(false)
 
@@ -67,6 +72,12 @@ export const OrderDetailsModal = ({ order, currentStep, setCurrentStep }: OrderD
           </div>
         </div>
         <IndustrialCounterLockup>
+          <ArrowSvg
+            onClick={() => {
+              setCurrentStep(ORDER_STEPS.NEXT_STEP)
+            }}
+            className="fill-[#A2A2A2] absolute cursor-pointer hover:scale-110 transition-all duration-200 left-4 top-4 z-10 w-[20px] h-[20px]"
+          />
           <div className="flex flex-col w-full items-center justify-center gap-[20px] px-[20px]">
             <div className="items-center w-full justify-center">
               <MetalboarderedTransRoundbox>
@@ -82,7 +93,6 @@ export const OrderDetailsModal = ({ order, currentStep, setCurrentStep }: OrderD
                   {t('orderExpired')}
                 </h2>
                 <div className="relative hover:cursor-pointer flex flex-row justify-center items-center custom-wallet-shadow gap-2 custom-wallet-gradient rounded-[15px] w-[125px] h-[44px] p-[10px] bg-gradient-to-r mb-[20px]">
-
                   <div
                     onClick={() => {
                       setConfirmDepositModal(true)

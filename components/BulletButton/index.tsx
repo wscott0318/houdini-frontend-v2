@@ -53,7 +53,7 @@ export const BulletButtons = ({
   order,
   className,
 }: BulletButtonsProps) => (
-  <div className={`w-[40px] flex justify-between ${className || ''}`}>
+  <div className={`w-full items-center gap-[4px] flex justify-center ${className || ''}`}>
     <BulletButton
       currentStep={currentStep}
       order={order}
