@@ -112,16 +112,16 @@ const HistoryModalBox = () => {
           <ButtonGroup names={buttonNames} onSelect={handleSelectType} />
           <table>
             <thead >
-              <th className="text-[18px] lg:ml-[50px] leading-normal font-medium">
+              <th className="text-[18px] p-[12px] leading-normal font-medium">
                 Type
               </th>
-              <th className="text-[18px] leading-normal font-medium">
+              <th className="text-[18px] p-[12px] leading-normal font-medium">
                 Date
               </th>
-              <th className="text-[18px] leading-normal font-medium">
+              <th className="text-[18px] p-[12px] leading-normal font-medium">
                 Amount
               </th>
-              <th className="text-[18px] leading-normal font-medium">
+              <th className="text-[18px] p-[12px] leading-normal font-medium">
                 Address
               </th>
             </thead>

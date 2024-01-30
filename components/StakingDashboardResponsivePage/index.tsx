@@ -12,7 +12,7 @@ export default function StakingDashboardResponsivePage({
   children,
 }: LayoutProps) {
   const { t } = useTranslation()
-  const isNavCollapsible = useMediaQuery('(max-width: 768px)')
+  const isNavCollapsible = useMediaQuery('(max-width: 767px)')
 
   const connectWalletButton = (
     <div className="flex pt-[0] xl:px-[50px] px-[10px] xl:pt-[30px] justify-end gap-[24px] ml-[28px] mr-1">

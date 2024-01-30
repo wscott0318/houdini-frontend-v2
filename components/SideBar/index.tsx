@@ -44,7 +44,7 @@ export function SideBar() {
   const [unlockRequested, setUnlockRequested] = useState(false)
 
   useEffect(() => {
-    if (width > 768) {
+    if (width >= 768) {
       setIsSidebarOpen(true)
     } else {
       setIsSidebarOpen(false)
