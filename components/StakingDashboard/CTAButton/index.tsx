@@ -5,6 +5,7 @@ interface CTAButtonProps {
   height?: string
   onClick?: () => void
   children?: React.ReactNode
+  glow?: boolean
 }
 
 export default function CTAButton(props: CTAButtonProps) {
@@ -25,7 +26,7 @@ export default function CTAButton(props: CTAButtonProps) {
       onMouseLeave={handleMouseLeave}
     >
       <div
-        className={`flex relative z-10 items-center justify-center rounded-[12px] bg-black text-[16px] font-semibold hover:custom-QTA-button-hover-background`}
+        className={`flex ${props.glow ? "button-glow" : ""} relative z-10 items-center justify-center rounded-[12px] bg-black text-[16px] font-semibold hover:custom-QTA-button-hover-background`}
       >
         {props.children}
       </div>

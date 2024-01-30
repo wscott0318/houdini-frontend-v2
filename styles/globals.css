@@ -67,3 +67,22 @@ body { */
     transform: scale(1);
   }
 }
+
+.button-glow {
+	animation: gradient 1s ease infinite;
+  background: linear-gradient(180deg, #BCAAFF 0%, #B364D1 100%);
+}
+
+
+.button-glow:hover {
+	animation: none;
+}
+
+@keyframes gradient {
+	0% {
+    background: linear-gradient(180deg, #000000 0%, #000000 100%);
+	}
+	100% {
+    background: linear-gradient(180deg, #BCAAFF 0%, #B364D1 100%);
+	}
+}

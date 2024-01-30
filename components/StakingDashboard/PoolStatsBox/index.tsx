@@ -266,6 +266,7 @@ const PoolStatsBox = () => {
                 }}
                 height="48px"
                 width="150px"
+                glow={true}
               >
                 <div className="flex flex-row gap-[7px] w-full h-full justify-center items-center mx-[20px] my-[14px]">
                   <StakeMoreSvg className="w-[16px] h-[16px]" />
