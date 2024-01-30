@@ -188,7 +188,7 @@ const PoolStatsBox = () => {
                     </span>
                     <div className='relative'>
                       <Tooltip
-                        additionalClassNames="right-[0px] top-[-70px] w-[150px]"
+                        additionalClassNames="right-[0px] top-[20px] w-[150px]"
                         text={<>
                           Shows your staking deposits and rewards earned per month
                         </>}

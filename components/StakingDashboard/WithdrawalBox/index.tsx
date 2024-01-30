@@ -21,6 +21,7 @@ import { useScaffoldContract, useScaffoldContractRead, useScaffoldContractWrite 
 import { ADDRESSES, USD_DECIMALS } from '@/utils/constants'
 import { formatUnits } from 'viem'
 import { useNetwork } from 'wagmi'
+import Tooltip from '@/components/Tooltip'
 
 const WithdrawalBox = ({
   handleNext,
@@ -292,9 +293,21 @@ const WithdrawalBox = ({
                 <div className="flex flex-col gap-[8px]">
                   <div className="flex flex-row gap-[5px] items-center">
                     <span className="text-[#F98F3B] text-[10px]">
-                      Fallen Wizard Tax
+                      Fallen Wizard Toll
                     </span>
-                    <InfoSquareSvg className="w-[16px] h-[16px]" />
+
+                    <div className='relative'>
+                      <Tooltip
+                        additionalClassNames="right-[0px] top-[20px] w-[250px]"
+                        text={<>
+                          Wizards, who withdraw immediately, fall foul of a 25% toll on their total $LOCK staked i.e. deposited $LOCK + $LOCK rewards, with 60% going to the staking pool.<br /> 
+                          You can find out more <a className='underline' href='https://docs.houdiniswap.com/houdini-swap/staking-program' target='_blank'>here</a>
+                        </>}
+                      >
+                        <InfoSquareSvg className="w-[16px] h-[16px]" />
+                      </Tooltip>
+                    </div>
+
                   </div>
                   <span className="text-[#F98F3B] text-[20px] leading-[19px] font-semibold">
                     {Humanize.formatNumber(userTotalLockedNumber * unstakeFee, 2)} $LOCK

@@ -38,7 +38,7 @@ const XBlockPerformanceStatsBox = () => {
                 text={<>
                       Houdini Swap, integral to the xBlock ecosystem, operates on the xBlock platform. <br />
                       xBlock customers contribute to and may also participate in staking. <br />
-                      You can find out more <a href='https://docs.houdiniswap.com/houdini-swap/about-xblock' target='_blank'>here</a>
+                      You can find out more <a className='underline' href='https://docs.houdiniswap.com/houdini-swap/about-xblock' target='_blank'>here</a>
 
                 </>}
               >
