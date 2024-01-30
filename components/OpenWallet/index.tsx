@@ -39,18 +39,18 @@ export const OpenWallet = ({
 
   const loadInitialState = () => {
     const storedData = loadFromLocalStorage(orderId)
-    if (storedData && typeof storedData.payed === 'boolean') {
-      return storedData.payed
+    if (storedData && typeof storedData.paid === 'boolean') {
+      return storedData.paid
     }
     return false
   }
 
-  const [isPayed, setIsPayed] = useState(loadInitialState())
+  const [isPaid, setIsPaid] = useState(loadInitialState())
 
   useEffect(() => {
     const storedData = loadFromLocalStorage(orderId)
     if (!storedData) {
-      saveToLocalStorage(orderId, { payed: false })
+      saveToLocalStorage(orderId, { paid: false })
     }
   }, [orderId])
 
@@ -147,8 +147,8 @@ export const OpenWallet = ({
         action: 'wallet-pay',
         name: 'success',
       })
-      saveToLocalStorage(orderId, { payed: true })
-      setIsPayed(true)
+      saveToLocalStorage(orderId, { paid: true })
+      setIsPaid(true)
       reset()
     } else {
       // @Matomo
@@ -239,7 +239,7 @@ export const OpenWallet = ({
       <div
         onClick={() => handleOpenWallet()}
         className={`text-center relative text-white text-xs w-full h-full flex flex-row justify-center items-center lg:text-[15px] lg:font-bold font-medium ${
-          isDisabled || isPayed
+          isDisabled || isPaid
             ? 'pointer-events-none opacity-50 cursor-not-allowed'
             : 'hover:cursor-pointer'
         }`}

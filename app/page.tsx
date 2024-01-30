@@ -202,10 +202,11 @@ export default function Home() {
             </CardComponent>
           </div>
 
-          <div className="max-w-[600px]">
+          <div className="w-full max-w-[1150px] max-h-[400px]">
             <CardComponent
-              widthClass={width >= 768 ? 'w-[600px]' : 'w-full'}
-              heightClass={width >= 768 ? 'h-[400px]' : 'h-full'}
+              // widthClass={width >= 768 ? 'w-[600px]' : 'w-full'}
+              widthClass={'w-full max-w-[1150px]'}
+              heightClass={width >= 768 ? 'md: h-[320px] xl:h-[250px]' : 'h-auto'}
             >
               <div
                 className={`text-[20px] text-[#8c9ae9] leading-[24px] pb-[18px] text-center font-medium`}

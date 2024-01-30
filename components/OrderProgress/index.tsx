@@ -27,30 +27,34 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
   const loadProgressInitialState = () => {
     const storedData = loadFromLocalStorage(order?.houdiniId) || {}
     return {
-      orderReceived: storedData.orderReceivedProgress || 0,
-      fundsReceived: storedData.fundsReceivedProgress || 0,
-      anonymizing: storedData.anonymizingProgress || 0,
-      converting: storedData.convertingProgress || 0,
-      completed: storedData.completedProgress || 0,
+      orderReceivedProgress: storedData.orderReceivedProgress || 0,
+      fundsReceivedProgress: storedData.fundsReceivedProgress || 0,
+      anonymizingProgress: storedData.anonymizingProgress || 0,
+      convertingProgress: storedData.convertingProgress || 0,
+      completedProgress: storedData.completedProgress || 0,
     }
   }
 
   const initialProgress = loadProgressInitialState()
+
+  const [orderReceivedProgress, setOrderReceivedProgress] = useState<number>(
+    initialProgress.orderReceivedProgress,
+  )
   const [fundsReceivedProgress, setFundsReceivedProgress] = useState<number>(
-    initialProgress.fundsReceived,
+    initialProgress.fundsReceivedProgress,
   )
   const [anonymizingProgress, setAnonymizingProgress] = useState<number>(
-    initialProgress.anonymizing,
+    initialProgress.anonymizingProgress,
   )
   const [convertingProgress, setConvertingProgress] = useState<number>(
-    initialProgress.converting,
+    initialProgress.convertingProgress,
   )
   const [completedProgress, setCompletedProgress] = useState<number>(
-    initialProgress.completed,
+    initialProgress.completedProgress,
   )
 
   // State variables to control the start of each progress bar
-  const [startOrderReceived, setStartOrderReceived] = useState<boolean>(false)
+  const [startOrderReceived, setStartOrderReceived] = useState<boolean>(true)
   const [startFundsReceived, setStartFundsReceived] = useState<boolean>(false)
   const [startConverting, setStartConverting] = useState<boolean>(false)
   const [startAnonymizing, setStartAnonymizing] = useState<boolean>(false)
@@ -66,10 +70,8 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
     return false
   }
 
-  const [isPaid, setIsPaid] = useState(loadInitialState())
-
-  const [orderReceivedProgress, setOrderReceivedProgress] = useState<number>(
-    isPaid ? 100 : 0,
+  const [isPaid, setIsPaid] = useState(
+    loadInitialState() || order?.status >= ORDER_STATUS.CONFIRMING,
   )
 
   const fundsDuration = 10000
@@ -111,8 +113,12 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
 
     const orderStatus = order?.status
 
-    if (isPaid) {
-      animateProgressBar(setOrderReceivedProgress, 100, 0)
+    if (orderStatus >= ORDER_STATUS.CONFIRMING) {
+      setIsPaid(true)
+    }
+
+    if (startOrderReceived) {
+      animateProgressBar(setOrderReceivedProgress, 100, 10000)
       saveToLocalStorage(order?.houdiniId, {
         paid: isPaid,
         orderReceivedProgress: orderReceivedProgress,
@@ -189,13 +195,12 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
       })
     }
 
-    if (
-      orderStatus === ORDER_STATUS.NEW ||
-      orderStatus === ORDER_STATUS.WAITING
-    ) {
-      setStartOrderReceived(true)
+    setStartOrderReceived(true)
+
+    if (orderReceivedProgress === 100) {
       setStartFundsReceived(true)
-    } else if (orderStatus === ORDER_STATUS.CONFIRMING) {
+    }
+    if (orderStatus === ORDER_STATUS.CONFIRMING) {
       setOrderReceivedProgress(100)
       setStartFundsReceived(true)
       if (fundsReceivedProgress === 100) {
@@ -220,11 +225,15 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
 
     return () => clearAnimation()
   }, [
+    isPaid,
     order?.status,
+    startOrderReceived,
     startFundsReceived,
     startConverting,
     startAnonymizing,
     startCompleting,
+    completedProgress,
+    orderReceivedProgress,
     fundsReceivedProgress,
     convertingProgress,
     anonymizingProgress,
@@ -232,10 +241,7 @@ export const OrderProgress: React.FC<OrderProgressProps> = ({ order }) => {
 
   return (
     <>
-      <ProgressProvider
-        text={t('orderDetailsOrderReceived')}
-        value={orderReceivedProgress}
-      />
+      <ProgressProvider text={'ORDER CREATED'} value={orderReceivedProgress} />
       <ProgressProvider
         text={t('orderDetailsFundsReceived')}
         value={fundsReceivedProgress}
