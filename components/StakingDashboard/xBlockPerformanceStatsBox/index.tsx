@@ -26,11 +26,11 @@ const XBlockPerformanceStatsBox = () => {
   }, [loading, data])
 
   return (
-    <div className="flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] h-auto w-full md:w-[422px] md:h-[447px] p-[1px]">
+    <div className="flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] h-auto w-full md:w-[422px] md:h-[380px] p-[1px]">
       <div className="w-full h-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow">
         <div className="flex flex-col justify-between w-full h-full">
           <div className="flex flex-row justify-between">
-            <span>{t('xBlockPerformanceStatistics')}</span>
+            <span className='text-[20px] font-medium'>{t('xBlockPerformanceStatistics')}</span>
             <button>
               <QuestionMarkSvg className="w-[18px] h-[18px]" />
             </button>
@@ -115,13 +115,13 @@ const XBlockPerformanceStatsBox = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-center mobile:mt-4">
+          {/* <div className="flex justify-center mobile:mt-4">
             <CTAButton height="48px" width="190px">
               <div className="flex flex-row gap-[7px] justify-center items-center mx-[60px] my-[12px]">
                 <span className="text-[16px] font-medium">{t('moreInfo')}</span>
               </div>
             </CTAButton>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

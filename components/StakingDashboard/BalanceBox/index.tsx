@@ -60,7 +60,7 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
         <div className="flex flex-col justify-between w-full h-full">
           <div className="flex flex-col justify-start items-start ">
             <div className="flex flex-col gap-[26px]">
-              {t('balanceboxTitle')}
+              <span className='text-[20px] font-medium'>{t('balanceboxTitle')}</span>
               <div className="relative w-[198px] h-[109px]">
                 <HalfCircledDonutChart
                   deposited={userBalanceNumber}
@@ -182,6 +182,7 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
               }}
               height="48px"
               width="146px"
+              glow={true}
             >
               <div className="flex flex-row gap-[7px] justify-center items-center mx-[20px] my-[14px]">
                 <StakeMoreSvg className="w-[16px] h-[16px]" />

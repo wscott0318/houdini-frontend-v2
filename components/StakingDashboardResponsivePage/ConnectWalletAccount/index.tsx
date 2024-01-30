@@ -58,7 +58,7 @@ export const ConnectWalletAccount = () => {
                   //   Connect Wallet
                   // </button>
 
-                  <CTAButton onClick={openConnectModal}>
+                  <CTAButton glow={true} onClick={openConnectModal}>
                     <span className="px-[30px] relative z-10 py-[12px] justify-center items-center">
                       Connect Wallet
                     </span>

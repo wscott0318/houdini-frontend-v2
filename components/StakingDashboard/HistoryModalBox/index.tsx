@@ -107,10 +107,10 @@ const HistoryModalBox = () => {
           <Timeframe />
         </div> */}
 
-        <div className="flex flex-col gap-[20px] overflow-x-auto max-w-[60vw]">
+        <div className="flex flex-col gap-[20px] overflow-x-auto max-w-[60vw] min-h-[500px]">
           <span className="rainbow-text text-[18px] font-medium">History</span>
           <ButtonGroup names={buttonNames} onSelect={handleSelectType} />
-          <table className="min-h-[400px]">
+          <table>
             <thead >
               <th className="text-[18px] lg:ml-[50px] leading-normal font-medium">
                 Type
@@ -136,11 +136,10 @@ const HistoryModalBox = () => {
             </tbody>
           </table>
           <span className="text-[12px] font-semibold leading-[14px] text-center text-[#A0AEC0]">
-            Please note: Transaction times are displayed in UTC
+            Please note: transaction times displayed are UTC
           </span>
           <div className="w-full flex items-center justify-center">
-            {!filteredEvents.length ||
-              loadingHistory ? (
+            {loadingHistory ? (
               <a className="w-[96px] h-[48px] rounded-[15px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9] items-center justify-center flex">
                 <LoadingSvg className="w-[16px] h-[16px]" />
               </a>
