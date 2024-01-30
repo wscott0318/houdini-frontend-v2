@@ -5,6 +5,7 @@ import { formatUnits } from 'viem'
 import { InfoCircleSvg } from '@/components/Svg'
 
 import { StackedBarChart } from './StackedBarChart'
+import Tooltip from '@/components/Tooltip'
 
 export interface IGroupedData {
   label: string
@@ -62,7 +63,21 @@ const PoolAPYBox = ({
           <div className="flex flex-col gap-[10px]">
             <div className="flex flex-row w-full justify-between items-center">
               <span className='text-[20px] font-medium'>{t('poolApyTitle')}</span>
-              <InfoCircleSvg className="w-[20px] h-[20px]" />
+              <div className='relative'>
+                <Tooltip
+                  additionalClassNames="right-[0px] top-[25px] w-[250px]"
+                  text={<>
+                    Pool APY is the annual projected calculation of last week&#39;s $LOCK
+                    buybacks based on the current total staked $LOCK.
+                    <br />
+                    Your average APY is an annual projected calculation of your $LOCK rewards earned based on your total staked $LOCK.
+                    Calculations are updated approximately every 30 seconds.
+                  </>}
+                >
+                  <InfoCircleSvg className="w-[20px] h-[20px]" />
+                </Tooltip>
+              </div>
+
             </div>
             <div className="flex flex-col gap-[10px]">
               <span className="bg-gradient-to-b from-green-300 to-green-700 font-medium bg-clip-text text-transparent text-[50px]">
@@ -81,7 +96,16 @@ const PoolAPYBox = ({
           <div className="flex flex-col gap-[10px] w-full">
             <div className="flex flex-row pb-[10px] w-full justify-between">
               <span className="text-[20px]">{t('poolApyAccEarnings')}</span>
-              <InfoCircleSvg className="w-[20px] h-[20px]" />
+              <div className='relative'>
+                <Tooltip
+                  additionalClassNames="right-[0px] top-[25px] w-[150px]"
+                  text={<>
+                    Shows your staking deposits and rewards earned per month
+                  </>}
+                >
+                  <InfoCircleSvg className="w-[20px] h-[20px]" />
+                </Tooltip>
+              </div>
             </div>
             <div className="w-full">
               <StackedBarChart

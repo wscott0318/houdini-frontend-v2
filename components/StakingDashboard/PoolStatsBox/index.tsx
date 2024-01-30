@@ -24,6 +24,7 @@ import MiniModalBox from '../MiniModalBox'
 import StakedReport from '../StakedReport'
 import DonutChart from './DonutChart'
 import { useWindowSize } from 'usehooks-ts'
+import Tooltip from '@/components/Tooltip'
 
 const formatter = Intl.NumberFormat('en', { notation: 'compact' })
 
@@ -67,15 +68,16 @@ const PoolStatsBox = () => {
 
   const fallenWizardApyPercent = pool?.totalRewardFunds
     ? parseFloat(
-        Number(
-          pool ? (pool?.fallenWizardFunds * 100n) / pool?.totalRewardFunds : 0n,
-        ).toFixed(2),
-      )
+      Number(
+        pool ? (pool?.fallenWizardFunds * 100n) / pool?.totalRewardFunds : 0n,
+      ).toFixed(2),
+    )
     : 0
 
   const { data: poolData } = useScaffoldContractRead({
     contractName: 'Staker',
     functionName: 'pool',
+    // blockNumber: 1221333,
   } as any)
 
   const { data: tokensLocked } = useScaffoldContractRead({
@@ -184,19 +186,26 @@ const PoolStatsBox = () => {
                     <span className="rainbow-text text-[18px] font-semibold">
                       % of Supply
                     </span>
-                    <button>
-                      <RainbowQuestionMarkSvg className="w-[18px] h-[18px]" />
-                    </button>
+                    <div className='relative'>
+                      <Tooltip
+                        additionalClassNames="right-[0px] top-[-70px] w-[150px]"
+                        text={<>
+                          Shows your staking deposits and rewards earned per month
+                        </>}
+                      >
+                        <RainbowQuestionMarkSvg className="w-[18px] h-[18px]" />
+                      </Tooltip>
+                    </div>
                   </div>
                   <div className="flex flex-row items-center pl-[40px] gap-[5px]">
                     <span>
                       {tokenSupply
                         ? (
-                            (parseFloat(formatUnits(supply, 18)) * 100) /
-                            parseFloat(
-                              formatUnits(tokenSupply as unknown as bigint, 18),
-                            )
-                          ).toFixed(2)
+                          (parseFloat(formatUnits(supply, 18)) * 100) /
+                          parseFloat(
+                            formatUnits(tokenSupply as unknown as bigint, 18),
+                          )
+                        ).toFixed(2)
                         : 0}
                       %
                     </span>

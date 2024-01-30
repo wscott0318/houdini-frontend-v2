@@ -7,6 +7,7 @@ import { QuestionMarkSvg } from '@/components/Svg'
 import { PERFORMANCE_STATS_QUERY } from '@/lib/apollo/query'
 
 import CTAButton from '../CTAButton'
+import Tooltip from '@/components/Tooltip'
 
 const XBlockPerformanceStatsBox = () => {
   const { t } = useTranslation()
@@ -31,9 +32,16 @@ const XBlockPerformanceStatsBox = () => {
         <div className="flex flex-col justify-between w-full h-full">
           <div className="flex flex-row justify-between">
             <span className='text-[20px] font-medium'>{t('xBlockPerformanceStatistics')}</span>
-            <button>
-              <QuestionMarkSvg className="w-[18px] h-[18px]" />
-            </button>
+              <div className='relative'>
+              <Tooltip
+                additionalClassNames="right-[0px] top-[20px] w-[150px]"
+                text={<>
+                  Shows your the xBlock/HoudiniSwap global statistics
+                </>}
+              >
+                <QuestionMarkSvg className="w-[18px] h-[18px]" />
+              </Tooltip>
+            </div>
           </div>
           <div className="flex flex-col gap-[30px]">
             <div className="flex flex-col md:flex-row gap-[50px]">

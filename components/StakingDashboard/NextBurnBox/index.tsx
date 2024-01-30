@@ -14,6 +14,7 @@ import {
   useScaffoldContractRead,
 } from '@/staking/hooks/scaffold-eth'
 import { ADDRESSES, USD_DECIMALS } from '@/utils/constants'
+import Tooltip from '@/components/Tooltip'
 
 const NextBurnBox = () => {
   const { t } = useTranslation()
@@ -86,9 +87,16 @@ const NextBurnBox = () => {
         <div className="flex flex-col justify-between w-full h-full gap-[20px]">
           <div className="flex flex-row justify-between">
             <span className="text-[20px] font-medium">{t('nextBurn')}</span>
-            <button>
-              <QuestionMarkSvg className="w-[18px] h-[18px]" />
-            </button>
+            <div className='relative'>
+              <Tooltip
+                additionalClassNames="right-[0px] top-[20px] w-[150px]"
+                text={<>
+                  Shows your next token burn
+                </>}
+              >
+                <QuestionMarkSvg className="w-[18px] h-[18px]" />
+              </Tooltip>
+            </div>
           </div>
           <div className="flex flex-col gap-[10px] items-center">
             <div className="flex flex-col items-center">
