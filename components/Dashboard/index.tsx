@@ -76,7 +76,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="mobile:px-4 mobile:py-4 md:px-[50px] pt-[50px] pb-[60px] flex flex-col gap-[40px]">
+      <div className="px-4 mobile:py-4 lg:px-[50px] pt-[50px] pb-[60px] flex flex-col gap-[40px]">
         <div className="flex flex-col">
           {/* <span className="text-[16px] md:text-[24px] font-medium leading-[32px] text-[#fff]">
             Hi Houdini Wizard,
@@ -85,7 +85,7 @@ export default function Dashboard() {
             Welcome Back
           </span>
         </div>
-        <div className="flex flex-row flex-wrap gap-[40px]">
+        <div className="flex flex-col sm:flex-row ">
           <BalanceBox
             address={address}
             setStakeOpen={setStakeOpen}

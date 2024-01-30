@@ -24,6 +24,7 @@ import MiniModalBox from '../MiniModalBox'
 import StakedReport from '../StakedReport'
 import DonutChart from './DonutChart'
 import { useWindowSize } from 'usehooks-ts'
+import Tooltip from '@/components/Tooltip'
 
 const formatter = Intl.NumberFormat('en', { notation: 'compact' })
 
@@ -67,15 +68,16 @@ const PoolStatsBox = () => {
 
   const fallenWizardApyPercent = pool?.totalRewardFunds
     ? parseFloat(
-        Number(
-          pool ? (pool?.fallenWizardFunds * 100n) / pool?.totalRewardFunds : 0n,
-        ).toFixed(2),
-      )
+      Number(
+        pool ? (pool?.fallenWizardFunds * 100n) / pool?.totalRewardFunds : 0n,
+      ).toFixed(2),
+    )
     : 0
 
   const { data: poolData } = useScaffoldContractRead({
     contractName: 'Staker',
     functionName: 'pool',
+    // blockNumber: 1221333,
   } as any)
 
   const { data: tokensLocked } = useScaffoldContractRead({
@@ -116,9 +118,9 @@ const PoolStatsBox = () => {
 
   return (
     <>
-      <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-full h-auto md:w-[482px] md:h-[697px] p-[1px]">
+      <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-full h-auto md:h-[697px] p-[1px]">
         <div className="p-[30px] w-full h-full rounded-[28px] custom-balances-box-inner-shadow">
-          <div className="flex flex-col justify-between w-full h-full">
+          <div className="flex flex-col justify-between w-full h-full gap-[16px]">
             <div className="flex flex-row justify-between w-full">
               <span className="text-[20px] font-medium">{t('poolStats')}</span>
               {/* <CTAButton height="42px" width="98px">
@@ -184,19 +186,26 @@ const PoolStatsBox = () => {
                     <span className="rainbow-text text-[18px] font-semibold">
                       % of Supply
                     </span>
-                    <button>
-                      <RainbowQuestionMarkSvg className="w-[18px] h-[18px]" />
-                    </button>
+                    <div className='relative'>
+                      <Tooltip
+                        additionalClassNames="right-[0px] top-[20px] w-[150px]"
+                        text={<>
+                          Shows your staking deposits and rewards earned per month
+                        </>}
+                      >
+                        <RainbowQuestionMarkSvg className="w-[18px] h-[18px]" />
+                      </Tooltip>
+                    </div>
                   </div>
                   <div className="flex flex-row items-center pl-[40px] gap-[5px]">
                     <span>
                       {tokenSupply
                         ? (
-                            (parseFloat(formatUnits(supply, 18)) * 100) /
-                            parseFloat(
-                              formatUnits(tokenSupply as unknown as bigint, 18),
-                            )
-                          ).toFixed(2)
+                          (parseFloat(formatUnits(supply, 18)) * 100) /
+                          parseFloat(
+                            formatUnits(tokenSupply as unknown as bigint, 18),
+                          )
+                        ).toFixed(2)
                         : 0}
                       %
                     </span>
@@ -224,7 +233,7 @@ const PoolStatsBox = () => {
             </div>
             <div className="flex flex-col gap-[17px]">
               <span className="text-[20px]">{t('lastWeeksAPYbreakdown')}</span>
-              <div className="flex flex-col md:flex-row gap-[71px]">
+              <div className="flex flex-wrap justify-around gap-[10px]">
                 <DonutChart
                   fallen={fallenWizardApyPercent}
                   customWidth={150}

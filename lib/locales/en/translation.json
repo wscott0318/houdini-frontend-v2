@@ -562,11 +562,12 @@
   "Staked": "Staked",
   "Withdrawn": "Withdrawn",
   "RewardPaid": "Reward Paid",
-  "RequestUnlock": "Request Unlock",
+  "RequestUnlock": "Request Unstake",
   "FallenWizardFee": "Fallen Wizard Fee",
   "MultiplierChanged": "Multiplier changed",
   "all": "All",
   "noEvents": "No events..",
   "Stake": "Stake",
-  "connectWallet": "Connect Wallet"
+  "connectWallet": "Connect Wallet",
+  "cancelRequest": "Go back to staking"
 }

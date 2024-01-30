@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 
-import { CloseSvg, StakeMoreSvg } from '@/components/Svg'
+import { CloseSvg, StakeMoreSvg, WalletSvg } from '@/components/Svg'
 import {
   useScaffoldContractRead,
   useScaffoldContractWrite,
@@ -16,6 +16,7 @@ const WithdrawalExplainerBox = ({
   handleResetState,
   setIsPenalty,
   address,
+  setUnlockRequested,
 }: {
   handleNext: any
   handlePrevious: any
@@ -23,6 +24,7 @@ const WithdrawalExplainerBox = ({
   handleResetState: any
   setIsPenalty: any
   address: string
+  setUnlockRequested: any
 }) => {
   const handlePenalty = () => {
     setIsPenalty(true)
@@ -79,6 +81,43 @@ const WithdrawalExplainerBox = ({
     writeExit()
   }
 
+  const handleEmergencyExit = () => {
+    if (!user?.balance) {
+      toast.error('You have no funds staked!')
+      return
+    }
+
+    setIsPenalty(true)
+    setUnlockRequested(true)
+    handleNext()
+  };
+
+  const { writeAsync: writeStake, isLoading: stakeLoading } =
+    useScaffoldContractWrite({
+      contractName: 'Staker',
+      functionName: 'stake',
+      args: [0n],
+      onBlockConfirmation: (txnReceipt: {
+        blockHash: any
+        contractAddress: any
+      }) => {
+        toast.success('Stake Successful')
+
+        handleClose()
+        handleResetState?.()
+
+        console.log(
+          '📦 Transaction blockHash',
+          txnReceipt.blockHash,
+          txnReceipt,
+        )
+      },
+    } as any)
+
+  const handleStakePool = () => {
+    writeStake()
+  }
+
   if (user?.unlockRequested) {
     return (
       <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px]">
@@ -96,10 +135,40 @@ const WithdrawalExplainerBox = ({
             </div>
             <div className="flex flex-col gap-[5px]">
               {timeLeft > 0 ? (
-                <span>
-                  Time left until you can unstake:{' '}
-                  {humanizeDuration(timeLeft * 1000)}
-                </span>
+                <>
+                  <span>
+                    Time left until you can unstake:{' '}
+                    {humanizeDuration(timeLeft * 1000)}
+                  </span>
+
+                  <div className="flex flex-row gap-[17px] justify-center items-center mt-10">
+                    <button
+                      className={
+                        'p-[16px] flex w-[271px] h-[58px] justify-center items-center rounded-[120px] custom-instant-withdrawal-button-gradient'
+                      }
+                      onClick={handleEmergencyExit}
+                    >
+                      <div className="flex flex-row gap-[7px] justify-center items-center">
+                        <WalletSvg className="w-[16px] h-[16px]" />
+                        <span className="text-[20px] font-semibold">
+                          Instant Withdrawal
+                        </span>
+                      </div>
+                    </button>
+
+                    <button
+                      className={
+                        `p-[16px] flex justify-center items-center rounded-[120px] bg-gradient-to-b from-[#6C5DD3] to-[#4154C9]}`
+                      }
+                      onClick={() => handleStakePool()}
+                    >
+                      <div className="flex flex-row gap-[7px] justify-center items-center">
+                        <StakeMoreSvg className="w-[16px] h-[16px]" />
+                        <span className="text-[16px] font-semibold">{t('cancelRequest')}</span>
+                      </div>
+                    </button>
+                  </div>
+                </>
               ) : (
                 <>
                   <button
@@ -168,6 +237,7 @@ const WithdrawalExplainerBox = ({
 
               <p>
                 <a
+                  className='underline'
                   href="https://docs.houdiniswap.com/houdini-swap/staking-program"
                   target="_blank"
                 >

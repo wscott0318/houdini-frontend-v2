@@ -56,6 +56,8 @@ const MiniModalBox = ({
   const [approved, setApproved] = useState(0n)
   const [termsApproved, setTermsApproved] = useState(false)
   const [canShowValidationError, setCanShowValidationError] = useState(false)
+  const [user, setUser] = useState<any>()
+  const [timeLeft, setTimeLeft] = useState(0)
 
   const { data: approvedData } = useScaffoldContractRead({
     contractName: 'Houdini',
@@ -145,6 +147,20 @@ const MiniModalBox = ({
   }, [percentAmount, balanceInt])
 
   const isInputAmountInvalid = Number(inputAmount) <= 0 || Number(inputAmount) > balanceInt
+
+  const { data: userData } = useScaffoldContractRead({
+    contractName: 'Staker',
+    functionName: 'UserInfo',
+    args: [address],
+  } as any)
+  useEffect(() => {
+    if (userData) {
+      const userDataArr = userData as any
+      setUser(userDataArr[0])
+      setTimeLeft(Number(userDataArr[1]))
+    }
+  }, [userData, address])
+
 
   return (
     <div className="flex relative items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px] w-[409px]">
@@ -256,6 +272,12 @@ const MiniModalBox = ({
               </Link>
             </span>
           </div>
+        </div>
+        <div className="flex flex-row items-center justify-start gap-[10px]">
+          {user?.unlockRequested && <div className='text-yellow-400'><b>Note:You have already requested a withdrawal. </b> <br />
+             If you stake more, your withdraw request will be canceled and the entire balance, plus the new staked amount will be entered into the pool. 
+          </div>
+          }
         </div>
         {!approved || BigInt(approved) === 0n ? (
           <button

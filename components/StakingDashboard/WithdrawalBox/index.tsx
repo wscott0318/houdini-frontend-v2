@@ -21,6 +21,7 @@ import { useScaffoldContract, useScaffoldContractRead, useScaffoldContractWrite 
 import { ADDRESSES, USD_DECIMALS } from '@/utils/constants'
 import { formatUnits } from 'viem'
 import { useNetwork } from 'wagmi'
+import Tooltip from '@/components/Tooltip'
 
 const WithdrawalBox = ({
   handleNext,
@@ -28,12 +29,14 @@ const WithdrawalBox = ({
   handleClose,
   handleResetState,
   address,
+  unlockRequested,
 }: {
   handleNext: any
   handlePrevious: any
   handleClose: any
   handleResetState: any
   address: string
+  unlockRequested: boolean
 }) => {
   const [value, setValue] = useState(0)
   const { t } = useTranslation()
@@ -175,7 +178,7 @@ const WithdrawalBox = ({
                   alt="LockTokenIcon1"
                 />
                 <div className="flex flex-col px-[10px] gap-[5px]">
-                  <span className="text-[14px] font-medium">End Stake</span>
+                  <span className="text-[20px] leading-normal font-semibold">End Stake</span>
                   <span className="text-[#A5A5A5] font-[14px]">$LOCK</span>
                 </div>
               </div>
@@ -199,9 +202,7 @@ const WithdrawalBox = ({
                       {address.substring(0, 18)}...
                       {address.substring(address.length - 4)}
                     </span>
-                    <div className="w-[2px] h-[20px] bg-white" />
                   </div>
-                  <FCheckSvg className="w-[23px] h-[18px]" />
                 </div>
               </div>
             </div>
@@ -263,30 +264,32 @@ const WithdrawalBox = ({
             </div>
           )}
 
-          <div className="flex flex-row gap-[13px] items-center">
-            <span
-              className={
-                value == 0
-                  ? `text-[17px] font-bold leading-[20px]`
-                  : `text-[17px] font-bold leading-[20px]`
-              }
-            >
-              Pay Penalty
-            </span>
-            <SwitchButton value={value} setValue={setValue} />
-            <div className="flex flex-row gap-[8px] items-center h-full">
+          {!unlockRequested &&
+            <div className="flex flex-row gap-[13px] items-center">
               <span
                 className={
-                  value == 1
+                  value == 0
                     ? `text-[17px] font-bold leading-[20px]`
                     : `text-[17px] font-bold leading-[20px]`
                 }
               >
-                No Penalty
+                Pay Penalty
               </span>
-              <InfoCircleSvg className="w-[16px] h-[16px]" />
+              <SwitchButton value={value} setValue={setValue} />
+              <div className="flex flex-row gap-[8px] items-center h-full">
+                <span
+                  className={
+                    value == 1
+                      ? `text-[17px] font-bold leading-[20px]`
+                      : `text-[17px] font-bold leading-[20px]`
+                  }
+                >
+                  No Penalty
+                </span>
+                <InfoCircleSvg className="w-[16px] h-[16px]" />
+              </div>
             </div>
-          </div>
+          }
           {value == 0 && (
             <div className="flex relative">
               <div className="absolute top-0 left-0 w-[380px] h-[80px] rounded-[16px] bg-gradient-to-b from-[#ffffff80] to-[#ffffff00] pt-[17px] pl-[24px] opacity-[0.2]"></div>
@@ -294,9 +297,21 @@ const WithdrawalBox = ({
                 <div className="flex flex-col gap-[8px]">
                   <div className="flex flex-row gap-[5px] items-center">
                     <span className="text-[#F98F3B] text-[10px]">
-                      Fallen Wizard Tax
+                      Fallen Wizard Toll
                     </span>
-                    <InfoSquareSvg className="w-[16px] h-[16px]" />
+
+                    <div className='relative'>
+                      <Tooltip
+                        additionalClassNames="right-[0px] top-[20px] w-[250px]"
+                        text={<>
+                          Wizards, who withdraw immediately, fall foul of a 25% toll on their total $LOCK staked i.e. deposited $LOCK + $LOCK rewards, with 60% going to the staking pool.<br />
+                          You can find out more <a className='underline' href='https://docs.houdiniswap.com/houdini-swap/staking-program' target='_blank'>here</a>
+                        </>}
+                      >
+                        <InfoSquareSvg className="w-[16px] h-[16px]" />
+                      </Tooltip>
+                    </div>
+
                   </div>
                   <span className="text-[#F98F3B] text-[20px] leading-[19px] font-semibold">
                     {Humanize.formatNumber(userTotalLockedNumber * unstakeFee, 2)} $LOCK

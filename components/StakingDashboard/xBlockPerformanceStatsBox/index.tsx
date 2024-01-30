@@ -7,6 +7,7 @@ import { QuestionMarkSvg } from '@/components/Svg'
 import { PERFORMANCE_STATS_QUERY } from '@/lib/apollo/query'
 
 import CTAButton from '../CTAButton'
+import Tooltip from '@/components/Tooltip'
 
 const XBlockPerformanceStatsBox = () => {
   const { t } = useTranslation()
@@ -31,9 +32,19 @@ const XBlockPerformanceStatsBox = () => {
         <div className="flex flex-col justify-between w-full h-full">
           <div className="flex flex-row justify-between">
             <span className='text-[20px] font-medium'>{t('xBlockPerformanceStatistics')}</span>
-            <button>
-              <QuestionMarkSvg className="w-[18px] h-[18px]" />
-            </button>
+              <div className='relative'>
+              <Tooltip
+                additionalClassNames="right-[0px] top-[20px] w-[250px]"
+                text={<>
+                      Houdini Swap, integral to the xBlock ecosystem, operates on the xBlock platform. <br />
+                      xBlock customers contribute to and may also participate in staking. <br />
+                      You can find out more <a className='underline' href='https://docs.houdiniswap.com/houdini-swap/about-xblock' target='_blank'>here</a>
+
+                </>}
+              >
+                <QuestionMarkSvg className="w-[18px] h-[18px]" />
+              </Tooltip>
+            </div>
           </div>
           <div className="flex flex-col gap-[30px]">
             <div className="flex flex-col md:flex-row gap-[50px]">

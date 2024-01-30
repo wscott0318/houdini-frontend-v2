@@ -145,9 +145,7 @@ const NoPenaltyWithdrawalBox = ({
                       {address.substring(0, 18)}...
                       {address.substring(address.length - 4)}
                     </span>
-                    <div className="w-[2px] h-[20px] bg-white" />
                   </div>
-                  <FCheckSvg className="w-[23px] h-[18px]" />
                 </div>
               </div>
             </div>
