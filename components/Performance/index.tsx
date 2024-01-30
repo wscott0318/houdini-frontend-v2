@@ -20,9 +20,9 @@ export default function Performance() {
       <div className="flex xl:flex-row gap-[50px] flex-col">
         <div className="flex flex-col gap-[50px] justify-between">
           <div className="flex flex-col">
-            <span className="text-[24px] font-medium leading-[32px] text-[#fff]">
+            {/* <span className="text-[24px] font-medium leading-[32px] text-[#fff]">
               Hi Houdini Wizard, here’s some
-            </span>
+            </span> */}
             <span className="text-[48px] font-semibold leading-[54px] text-[#fff] mobile:text-[44px]">
               Performance Data
             </span>

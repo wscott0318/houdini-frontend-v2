@@ -73,7 +73,7 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
             <div className="flex flex-col pt-[20px]">
               <div className="flex flex-col">
                 <div className="text-[18px] font-normal text-[#D9D9D9] leading-normal">
-                  {t('totakLockBalance')}
+                  {t('stakedBalance')}
                 </div>
                 <div className="text-[20px] lg:text-[50px] font-normal leading-normal">
                   {Humanize.formatNumber(

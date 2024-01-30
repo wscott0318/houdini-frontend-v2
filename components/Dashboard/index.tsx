@@ -78,9 +78,9 @@ export default function Dashboard() {
     <>
       <div className="mobile:px-4 mobile:py-4 md:px-[50px] pt-[50px] pb-[60px] flex flex-col gap-[40px]">
         <div className="flex flex-col">
-          <span className="text-[16px] md:text-[24px] font-medium leading-[32px] text-[#fff]">
+          {/* <span className="text-[16px] md:text-[24px] font-medium leading-[32px] text-[#fff]">
             Hi Houdini Wizard,
-          </span>
+          </span> */}
           <span className="text-[36px] md:text-[48px] font-semibold leading-[32px] text-[#fff]">
             Welcome Back
           </span>

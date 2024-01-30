@@ -530,7 +530,7 @@
   "referalError": "Invalid Account ID. Please check Account ID again.",
   "amountToStake": "amount To Stake",
   "lock": "lock",
-  "totakLockBalance": "Total $LOCK Balance",
+  "stakedBalance": "Staked $LOCK Balance",
   "earned": "Earned",
   "buyLock": "Buy $LOCK",
   "stakeMore": "Stake More",

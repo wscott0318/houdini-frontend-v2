@@ -10,9 +10,9 @@ export default function Notification() {
   return (
     <div className="mobile:px-4 mobile:py-4 px-[50px] pt-[50px] pb-[60px] flex flex-col gap-[40px]">
       <div className="flex flex-col">
-        <span className="text-[24px] font-medium leading-[32px] text-[#fff]">
+        {/* <span className="text-[24px] font-medium leading-[32px] text-[#fff]">
           Hi Houdini Wizard, here’s your
-        </span>
+        </span> */}
         <span className="text-[48px] font-semibold leading-[32px] text-[#fff]">
           Notifications
         </span>
