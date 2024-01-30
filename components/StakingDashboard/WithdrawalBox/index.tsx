@@ -338,7 +338,7 @@ const WithdrawalBox = ({
               }
               onClick={handleEmergencyExit}
             >
-              <div className="flex flex-row gap-[7px] justify-center items-center">
+              <div className="flex flex-row mobile:flex-col gap-[7px] justify-center items-center">
                 <WalletSvg className="w-[16px] h-[16px]" />
                 <span className="text-[20px] font-semibold">
                   Instant Withdrawal

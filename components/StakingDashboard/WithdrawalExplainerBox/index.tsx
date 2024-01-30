@@ -126,8 +126,8 @@ const WithdrawalExplainerBox = ({
             <CloseSvg className="w-[20px] h-[20px]" />
           </button>
         </div>
-        <div className="w-[612px] p-[30px] rounded-[28px] custom-balances-box-inner-shadow flex flex-col gap-[10px]  justify-center items-center">
-          <div className="flex flex-col gap-[10px] pb-[20px] text-center w-[496px]">
+        <div className="w-[612px] mobile:w-[300px] p-[30px] rounded-[28px] custom-balances-box-inner-shadow flex flex-col gap-[10px]  justify-center items-center">
+          <div className="flex flex-col gap-[10px] pb-[20px] text-center">
             <div className="flex flex-col gap-[5px]">
               <span className="text-[25px] font-medium leading-normal">
                 You have requested to Unstake.
@@ -198,8 +198,8 @@ const WithdrawalExplainerBox = ({
           <CloseSvg className="w-[20px] h-[20px]" />
         </button>
       </div>
-      <div className="w-[612px] p-[30px] rounded-[28px] custom-balances-box-inner-shadow flex flex-col gap-[10px]  justify-center items-center">
-        <div className="flex flex-col gap-[10px] pb-[20px] text-center w-[496px]">
+      <div className="w-[612px] mobile:w-[300px] p-[30px] rounded-[28px] custom-balances-box-inner-shadow flex flex-col gap-[10px]  justify-center items-center">
+        <div className="flex flex-col gap-[10px] pb-[20px] text-center">
           <div className="flex flex-col gap-[5px]">
             <span className="text-[25px] font-medium leading-normal">
               Your Options to Unstake!
@@ -247,7 +247,7 @@ const WithdrawalExplainerBox = ({
             </div>
           </div>
         </div>
-        <div className="flex flex-row w-full justify-between gap-[10px]">
+        <div className="flex flex-row mobile:flex-col  w-full justify-between gap-[10px]">
           <button
             className={
               'p-[16px] flex w-full justify-center items-center rounded-[120px] custom-day-widthrawal-button-gradient'

@@ -49,8 +49,8 @@ const StakedReport = ({
           <CloseSvg className="w-[20px] h-[20px]" />
         </button>
       </div>
-      <div className="w-[612px] p-[30px] rounded-[28px] custom-balances-box-inner-shadow flex flex-col gap-[10px]  justify-center items-center">
-        <div className="flex flex-col items-center gap-[10px] pb-[20px] w-[496px] text-center">
+      <div className="w-[612px] mobile:w-[300px] p-[30px] rounded-[28px] custom-balances-box-inner-shadow flex flex-col gap-[10px]  justify-center items-center">
+        <div className="flex flex-col items-center gap-[10px] pb-[20px] text-center">
           <div className="flex flex-col gap-[30px] items-center">
             <div className="text-[40px] font-medium leading-normal">
               🧙 YOU&apos;RE A WIZARD 🧙‍
