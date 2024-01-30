@@ -168,6 +168,7 @@ const WithdrawalExplainerBox = ({
 
               <p>
                 <a
+                className='underline'
                   href="https://docs.houdiniswap.com/houdini-swap/staking-program"
                   target="_blank"
                 >
