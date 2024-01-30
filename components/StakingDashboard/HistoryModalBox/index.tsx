@@ -98,7 +98,7 @@ const HistoryModalBox = () => {
   //   )
   // }
   return (
-    <div className="flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px]  xl:w-[1071px] p-[1px] z-[1]">
+    <div className="flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px]  2xl:w-[1020px]  xl:w-[820px] p-[1px] z-[1]">
       <div className="w-full h-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow relative">
         {/* <div className="flex flex-row gap-[10px] absolute right-[30px] top-[30px] justify-center items-center">
           <button className="h-[56px] rounded-[16px] justify-center items-center flex bg-gradient-to-b from-[#6C5DD3] to-[#4154C9] px-[20px] py-[12px]">
