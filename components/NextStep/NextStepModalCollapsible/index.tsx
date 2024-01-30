@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { BulletButtons } from '@/components/BulletButton'
 import { ConfirmDeposit } from '@/components/ConfirmDepositModal'
 import { Countdown } from '@/components/Countdown'
 import { EraseOrder } from '@/components/EraseModal'
@@ -31,7 +32,6 @@ import {
   timeFormatter,
 } from '@/utils/helpers'
 import useOrderStep from '@/utils/hooks/useOrderStep'
-import { BulletButtons } from '@/components/BulletButton'
 
 interface OrderDetailModalProps {
   order: OrderStatusResult
@@ -93,21 +93,25 @@ export const OrderDetailModalCollapsible = ({
                   additionalClassNames="rounded-full"
                 >
                   <ChevronSvg
-                    className={`${isExpanded ? 'rotate-180' : 'rotate-0'
-                      } fill-white min-w-[20px] min-h-[20px]`}
+                    className={`${
+                      isExpanded ? 'rotate-180' : 'rotate-0'
+                    } fill-white min-w-[20px] min-h-[20px]`}
                   />
                 </OrderDetailRoundbox>
               </div>
             </div>
           </div>
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
+            initial={{
+              opacity: isExpanded ? 1 : 0,
+              height: isExpanded ? 'auto' : 0,
+            }}
             animate={{
               opacity: isExpanded ? 1 : 0,
               height: isExpanded ? 'auto' : 0,
-              transitionEnd: {
-                display: "none",
-              },
+              // transitionEnd: {
+              //   display: 'none',
+              // },
             }}
             transition={{ duration: 0.2 }}
             className="w-full"
@@ -143,10 +147,7 @@ export const OrderDetailModalCollapsible = ({
                                 className="w-[20px] h-[20px]"
                               />
                               <div className="text-sm whitespace-nowrap">
-                                {
-                                  findTokenById(order?.inSymbol)
-                                    ?.displayName
-                                }
+                                {findTokenById(order?.inSymbol)?.displayName}
                               </div>
                               <div>to:</div>
                             </div>
@@ -203,7 +204,8 @@ export const OrderDetailModalCollapsible = ({
                       className="mt-4"
                       order={order}
                       currentStep={currentStep}
-                      setCurrentStep={setCurrentStep} />
+                      setCurrentStep={setCurrentStep}
+                    />
                   </>
                 ) : null}
               </IndustrialCounterLockup>
@@ -262,7 +264,8 @@ export const OrderDetailModalCollapsible = ({
                     className="mt-6"
                     order={order}
                     currentStep={currentStep}
-                    setCurrentStep={setCurrentStep} />
+                    setCurrentStep={setCurrentStep}
+                  />
                   <TransactionHash order={order} />
                 </div>
               </IndustrialCounterLockup>
