@@ -202,7 +202,7 @@ const PoolStatsBox = () => {
                       <Tooltip
                         additionalClassNames="right-[0px] top-[20px] w-[150px]"
                         text={<>
-                          Shows your staking deposits and rewards earned per month
+                          $LOCK staked as % of total $LOCK supply.
                         </>}
                       >
                         <RainbowQuestionMarkSvg className="w-[18px] h-[18px]" />
