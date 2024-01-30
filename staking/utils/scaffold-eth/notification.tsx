@@ -82,11 +82,11 @@ const Notification = ({
         </div>
 
         <div
-          className={`cursor-pointer text-lg ${icon ? 'mt-1' : ''}`}
+          className={`cursor-pointertext-lg ${icon ? 'mt-0' : ''}`}
           onClick={() => toast.dismiss(t.id)}
         >
           <XMarkIcon
-            className="w-6 cursor-pointer"
+            className="w-6 ml-5 cursor-pointer"
             onClick={() => HotToast.remove(t.id)}
           />
         </div>

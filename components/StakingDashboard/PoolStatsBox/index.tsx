@@ -121,14 +121,14 @@ const PoolStatsBox = () => {
           <div className="flex flex-col justify-between w-full h-full">
             <div className="flex flex-row justify-between w-full">
               <span className="text-[20px] font-medium">{t('poolStats')}</span>
-              <CTAButton height="42px" width="98px">
+              {/* <CTAButton height="42px" width="98px">
                 <div className="flex flex-row gap-[7px] w-full h-full justify-center items-center my-[11px] mx-[18px]">
                   <ShareSvg className="w-[14px] h-[14px]" />
                   <span className="text-[14px] font-semibold leading-normal">
                     {t('share')}
                   </span>
                 </div>
-              </CTAButton>
+              </CTAButton> */}
             </div>
             <div className="flex flex-col md:flex-row gap-[20px] pt-[10px] pb-[20px]">
               <div className="flex flex-col gap-[30px]">

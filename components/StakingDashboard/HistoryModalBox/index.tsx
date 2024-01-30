@@ -107,10 +107,10 @@ const HistoryModalBox = () => {
           <Timeframe />
         </div> */}
 
-        <div className="flex flex-col gap-[20px] overflow-x-auto max-w-[60vw]">
+        <div className="flex flex-col gap-[20px] overflow-x-auto max-w-[60vw] min-h-[500px]">
           <span className="rainbow-text text-[18px] font-medium">History</span>
           <ButtonGroup names={buttonNames} onSelect={handleSelectType} />
-          <table className="min-h-[400px]">
+          <table>
             <thead >
               <th className="text-[18px] lg:ml-[50px] leading-normal font-medium">
                 Type
