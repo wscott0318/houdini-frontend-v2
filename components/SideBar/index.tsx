@@ -89,7 +89,7 @@ export function SideBar() {
       )}
       {isSidebarOpen ? (
         <div
-          className={`overflow-hidden flex justify-center items-center relative z-[9999] flex-col transition-all duration-300 h-full lg:min-w-[271px] lg:max-w-[271px] min-w-[110px] max-w-[110px] pl-[29px] pr-[30px] pt-[44px] pb-[36px] overflow-y-auto custom-sidebar-background gap-[29px] lg:rounded-[50px] tablet:rounded-r-[25px] tablet:rounded-l-none rounded-r-none rounded-l-[50px] tablet:px-2 tablet:py-8 tablet:min-w-[60px] tablet:h-screen tablet:fixed tablet:top-0 ${isSidebarOpen ? `tablet:left-0` : `tablet:left-[-60px]`
+          className={`overflow-hidden flex justify-center items-center relative z-[5] flex-col transition-all duration-300 h-full lg:min-w-[271px] lg:max-w-[271px] min-w-[110px] max-w-[110px] pl-[29px] pr-[30px] pt-[44px] pb-[36px] overflow-y-auto custom-sidebar-background gap-[29px] lg:rounded-[50px] tablet:rounded-r-[25px] tablet:rounded-l-none rounded-r-none rounded-l-[50px] tablet:px-2 tablet:py-8 tablet:min-w-[60px] tablet:h-screen tablet:fixed tablet:top-0 ${isSidebarOpen ? `tablet:left-0` : `tablet:left-[-60px]`
             } transition-all`}
         >
           <div className="flex flex-col justify-center items-center gap-4">
