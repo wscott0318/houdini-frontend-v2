@@ -19,7 +19,7 @@ export default function StakingDashboardResponsivePage({
   </div>
 
   return (
-    <div className='flex tablet:flex-col mobile:flex-col gap-[30px]'>
+    <div className='flex tablet:flex-col mobile:flex-col lg:gap-[30px]'>
       <div className='flex justify-between'>
         <div className="lg:w-[271px] z-[99] mobile:w-0">
           <SideBar />
