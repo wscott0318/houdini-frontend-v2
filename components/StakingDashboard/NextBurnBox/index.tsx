@@ -89,9 +89,10 @@ const NextBurnBox = () => {
             <span className="text-[20px] font-medium">{t('nextBurn')}</span>
             <div className='relative'>
               <Tooltip
-                additionalClassNames="right-[0px] top-[20px] w-[150px]"
+                additionalClassNames="right-[0px] top-[20px] w-[250px]"
                 text={<>
-                  Shows your next token burn
+                  Previous buybacks accumulated approximately 7.8m $LOCK (7.8% of total supply), all of which will be burnt.<br />
+                  A portion will be burnt each week over time until this happens, in addition to 20% of the Fallen Wizard Toll, which will be added to the burn each week.
                 </>}
               >
                 <QuestionMarkSvg className="w-[18px] h-[18px]" />

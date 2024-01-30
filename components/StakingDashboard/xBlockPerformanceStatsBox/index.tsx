@@ -34,9 +34,12 @@ const XBlockPerformanceStatsBox = () => {
             <span className='text-[20px] font-medium'>{t('xBlockPerformanceStatistics')}</span>
               <div className='relative'>
               <Tooltip
-                additionalClassNames="right-[0px] top-[20px] w-[150px]"
+                additionalClassNames="right-[0px] top-[20px] w-[250px]"
                 text={<>
-                  Shows your the xBlock/HoudiniSwap global statistics
+                      Houdini Swap, integral to the xBlock ecosystem, operates on the xBlock platform. <br />
+                      xBlock customers contribute to and may also participate in staking. <br />
+                      You can find out more <a href='https://docs.houdiniswap.com/houdini-swap/about-xblock' target='_blank'>here</a>
+
                 </>}
               >
                 <QuestionMarkSvg className="w-[18px] h-[18px]" />

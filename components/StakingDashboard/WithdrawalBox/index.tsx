@@ -175,7 +175,7 @@ const WithdrawalBox = ({
                   alt="LockTokenIcon1"
                 />
                 <div className="flex flex-col px-[10px] gap-[5px]">
-                  <span className="text-[14px] font-medium">End Stake</span>
+                  <span className="text-[20px] leading-normal font-semibold">End Stake</span>
                   <span className="text-[#A5A5A5] font-[14px]">$LOCK</span>
                 </div>
               </div>
@@ -199,9 +199,7 @@ const WithdrawalBox = ({
                       {address.substring(0, 18)}...
                       {address.substring(address.length - 4)}
                     </span>
-                    <div className="w-[2px] h-[20px] bg-white" />
                   </div>
-                  <FCheckSvg className="w-[23px] h-[18px]" />
                 </div>
               </div>
             </div>
