@@ -1,12 +1,13 @@
+import humanizeDuration from 'humanize-duration'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 
 import { CloseSvg, StakeMoreSvg } from '@/components/Svg'
-
-import QTYButton from '../QTYButton'
-import { useScaffoldContractRead, useScaffoldContractWrite } from '@/staking/hooks/scaffold-eth'
-import humanizeDuration from 'humanize-duration'
+import {
+  useScaffoldContractRead,
+  useScaffoldContractWrite,
+} from '@/staking/hooks/scaffold-eth'
 
 const WithdrawalExplainerBox = ({
   handleNext,
@@ -52,25 +53,31 @@ const WithdrawalExplainerBox = ({
       setTimeLeft(Number(userDataArr[1]))
       setEarned(userDataArr[2])
     }
-
   }, [userData, address])
 
-
-  const { writeAsync: writeExit, isLoading: exitLoading } = useScaffoldContractWrite({
-    contractName: "Staker",
-    functionName: "exit",
-    args: [],
-    onBlockConfirmation: (txnReceipt: { blockHash: any; contractAddress: any }) => {
-      toast.success('Withdrawal Successful')
-      handleClose()
-      handleResetState?.()
-      console.log("📦 Transaction blockHash", txnReceipt.blockHash, txnReceipt);
-    },
-  } as any);
+  const { writeAsync: writeExit, isLoading: exitLoading } =
+    useScaffoldContractWrite({
+      contractName: 'Staker',
+      functionName: 'exit',
+      args: [],
+      onBlockConfirmation: (txnReceipt: {
+        blockHash: any
+        contractAddress: any
+      }) => {
+        toast.success('Withdrawal Successful')
+        handleClose()
+        handleResetState?.()
+        console.log(
+          '📦 Transaction blockHash',
+          txnReceipt.blockHash,
+          txnReceipt,
+        )
+      },
+    } as any)
 
   const handleExit = () => {
-    writeExit();
-  };
+    writeExit()
+  }
 
   if (user?.unlockRequested) {
     return (
@@ -88,8 +95,13 @@ const WithdrawalExplainerBox = ({
               </span>
             </div>
             <div className="flex flex-col gap-[5px]">
-              {timeLeft > 0 ?
-                <span>Time left until you can unstake: {humanizeDuration(timeLeft * 1000)}</span> : <>
+              {timeLeft > 0 ? (
+                <span>
+                  Time left until you can unstake:{' '}
+                  {humanizeDuration(timeLeft * 1000)}
+                </span>
+              ) : (
+                <>
                   <button
                     className={
                       'p-[16px] flex w-full justify-center items-center rounded-[120px] custom-instant-withdrawal-button-gradient'
@@ -98,12 +110,11 @@ const WithdrawalExplainerBox = ({
                   >
                     <div className="flex flex-row gap-[7px] justify-center items-center">
                       <StakeMoreSvg className="w-[16px] h-[16px]" />
-                      <span className="text-[16px] font-semibold">
-                        Unstake
-                      </span>
+                      <span className="text-[16px] font-semibold">Unstake</span>
                     </div>
-                  </button></>
-              }
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -122,59 +133,49 @@ const WithdrawalExplainerBox = ({
         <div className="flex flex-col gap-[10px] pb-[20px] text-center w-[496px]">
           <div className="flex flex-col gap-[5px]">
             <span className="text-[25px] font-medium leading-normal">
-              Fallen Wizard Penalty
+              Your Options to Unstake!
             </span>
             <div className="text-[14px] font-normal leading-normal">
-              🧙‍♂️ {`"Beware, Fellow Wizard!`} 🧙‍♂️
+              <p className="text-[18px]">Greetings fellow Wizard!</p>
               <br />
-              <p>
-                ✨ {`Learn the Principles of the 'Fallen Wizard Penalty'`} ✨
+              <p>There are two ways to unstake your $LOCK.</p>
+              <p>You must unstake 100% of your staked balance.</p>
+              <br />
+
+              <p className="text-[18px] font-bold">
+                Option 1 - 90 Day Notice, in Full
               </p>
-              <br />
               <p>
-                When thou seeks to retrieve thy magical funds, two paths lay
-                before thee:
+                You provide a 90-day notice period during which your $LOCK
+                remains locked and no further rewards are accumulated.
+                Afterwards, you can claim 100% of your accumulated staked
+                balance.
               </p>
+
               <br />
+
+              <p className="text-[18px] font-bold">
+                Option 2 - Immediate, with Penalty
+              </p>
               <p>
-                The{' '}
-                <span className="text-[#F6AD49]">{`'Instant Withdrawal Spell'`}</span>{' '}
-                🌟💰
-                {`: With a mere incantation, you may withdraw your riches in haste! Yet, beware the 'Fallen Wizard Penalty,' for it shall exact a toll of 15% of your $LOCK treasure. `}
-                💸💔
+                Allows you to instantly unstake your $LOCK but with a 25% toll
+                applied to your total accumulated balance, meaning the 25% toll
+                is applied against your deposited $LOCK as well as your $LOCK
+                rewards earned.
               </p>
+
               <br />
+
               <p>
-                The{' '}
-                <span className="text-[#6CD185]">{`'Wise Wizard's 90 Day Spell'`}</span>{' '}
-                🧙‍♂️🕰️: Should your patience rival the sages of old, you can
-                choose to wait for 90 days. This path holds no penalty, and your
-                wealth shall remain untouched until the appointed hour arrives.
-                ⏳
+                <a
+                  href="https://docs.houdiniswap.com/houdini-swap/staking-program"
+                  target="_blank"
+                >
+                  Explore here to discover more
+                </a>
               </p>
-              <br />
             </div>
           </div>
-          <div className="flex flex-col gap-[5px]">
-            <span className="text-[25px] font-medium">{`Wise Wizard's Reprieve`}</span>
-            <span className="text-[14px] leading-normal font-normal">
-              <p>
-                If you choose the 90-day path, an additional boon awaits you!
-              </p>
-              <p>
-                {`You shall be granted the 'Cancel and Reclaim' spell`} 📜🔮
-              </p>
-              <br />
-              <p>
-                Should you change your mind before the appointed hour, you can
-                cancel your withdrawal and regain the interest that would have
-                otherwise accrued during that time. 💰🔁
-              </p>
-            </span>
-          </div>
-          <span className="text-[14px] leading-normal font-normal">
-            Choose wisely, O Wizard, for your fate lies in your hands! ✨📜{`"`}
-          </span>
         </div>
         <div className="flex flex-row w-full justify-between gap-[10px]">
           <button
