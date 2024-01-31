@@ -111,7 +111,7 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
                     >
                       {t('deposited')}
                     </span>
-                    <span className="text-[20px] font-medium leading-[19px]">
+                    <span className="text-xs sm:text-[20px] font-medium leading-[19px]">
                       {Humanize.formatNumber(userBalanceNumber)} $LOCK
                     </span>
                     <span className="text-[#A5A5A5]">
@@ -142,7 +142,7 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
                     >
                       {t('earned')}
                     </span>
-                    <span className="text-[20px] font-medium leading-[19px]">
+                    <span className="text-xs sm:text-[20px] font-medium leading-[19px]">
                       {Humanize.formatNumber(userEarnedNumber, 3)} $LOCK
                     </span>
                     <span

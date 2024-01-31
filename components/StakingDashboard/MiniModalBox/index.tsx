@@ -163,7 +163,7 @@ const MiniModalBox = ({
 
 
   return (
-    <div className="flex relative items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px] w-[409px]">
+    <div className="flex relative items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px] w-[340px] sm:w-[409px]">
       <div className="absolute top-[30px] right-[30px]">
         <button onClick={handleClose}>
           <CloseSvg className="w-[20px] h-[20px]" />
@@ -180,7 +180,7 @@ const MiniModalBox = ({
             {balance}
           </span>
         </div>
-        <div className="flex flex-row w-full gap-[10px]">
+        <div className="flex flex-row w-full gap-[1px] sm:gap-[10px] items-center justify-center">
           <QTYButton
             text="50%"
             isSet={percentAmount == 0.5}

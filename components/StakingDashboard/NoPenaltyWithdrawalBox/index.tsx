@@ -108,7 +108,7 @@ const NoPenaltyWithdrawalBox = ({
 
   return (
     <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px]">
-      <div className="w-full h-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow flex flex-col gap-[10px]">
+      <div className="w-full h-full p-[30px] sm:max-w-full max-w-[300px] rounded-[28px] custom-balances-box-inner-shadow flex flex-col gap-[10px]">
         <div className="flex flex-col gap-[22px] items-center">
           <div className="flex flex-row justify-between w-full items-center">
             <div className="flex flex-row gap-[16px] items-center">
@@ -130,7 +130,7 @@ const NoPenaltyWithdrawalBox = ({
               <CloseSvg className="w-[20px] h-[20px]" />
             </button>
           </div>
-          <div className="bg-gradient-to-b from-[#fff] to-[#000] rounded-[16px] justify-center items-center flex p-[2px] w-[380px] h-[80px]">
+          <div className="bg-gradient-to-b from-[#fff] to-[#000] rounded-[16px] justify-center items-center flex p-[2px] w-[270px] sm:w-[380px] h-[80px]">
             <div className="rounded-[16px] h-full w-full pl-[20px] pt-[17px] flex justify-between bg-gradient-to-b from-[#0b0d11] to-[#343d50]">
               <div className="flex flex-col w-[336px] gap-[8px]">
                 <div className="flex flex-row gap-[5px]">
@@ -141,7 +141,7 @@ const NoPenaltyWithdrawalBox = ({
                 </div>
                 <div className="w-full flex flex-row justify-between">
                   <div className="flex flex-row gap-[10px]">
-                    <span className="text-[20px] font-medium leading-[19px]">
+                    <span className="text-xs sm:text-[20px] font-medium leading-[19px]">
                       {address.substring(0, 18)}...
                       {address.substring(address.length - 4)}
                     </span>
@@ -150,7 +150,7 @@ const NoPenaltyWithdrawalBox = ({
               </div>
             </div>
           </div>
-          <div className="rounded-[16px] w-[380px] h-[96px] bg-gradient-to-b from-[#9687FF] to-[#334AD3] pl-[24px] pt-[15px] pb-[9px]">
+          <div className="rounded-[16px] w-[270px] sm:w-[380px] h-[96px] bg-gradient-to-b from-[#9687FF] to-[#334AD3] pl-[24px] pt-[15px] pb-[9px]">
             <div className="h-[72px] flex flex-col justify-between">
               <span className="text-[10px]">AVAILABLE BALANCE</span>
               <div className="gap-[5px] h-[49px] flex flex-col">
@@ -168,8 +168,8 @@ const NoPenaltyWithdrawalBox = ({
             You unlock in 90 days.
           </span>
           <div className="flex relative">
-            <div className="absolute top-0 left-0 w-[380px] rounded-[16px] h-[80px] bg-gradient-to-b from-[#ffffff80] to-[#ffffff00] opacity-[0.2]"></div>
-            <div className="w-[380px] h-[80px] rounded-[16px]  pt-[17px] pl-[24px]">
+            <div className="absolute top-0 left-0 w-[270px] sm:w-[380px] rounded-[16px] h-[80px] bg-gradient-to-b from-[#ffffff80] to-[#ffffff00] opacity-[0.2]"></div>
+            <div className="w-[270px] sm:w-[380px] h-[80px] rounded-[16px]  pt-[17px] pl-[24px]">
               <div className="flex flex-col gap-[8px]">
                 <span className="text-[#fff] text-[10px] uppercase">
                   You Recieve

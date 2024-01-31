@@ -1,8 +1,10 @@
+import Humanize from 'humanize-plus'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-import Humanize from 'humanize-plus'
+import { formatUnits } from 'viem'
+import { useNetwork } from 'wagmi'
 
 import LockTokenIcon1 from '@/assets/LockTokenIcon1.png'
 import {
@@ -15,13 +17,15 @@ import {
   WalletSvg,
   WidthrawSvg,
 } from '@/components/Svg'
+import Tooltip from '@/components/Tooltip'
+import {
+  useScaffoldContract,
+  useScaffoldContractRead,
+  useScaffoldContractWrite,
+} from '@/staking/hooks/scaffold-eth'
+import { ADDRESSES, USD_DECIMALS } from '@/utils/constants'
 
 import SwitchButton from './SwitchButton'
-import { useScaffoldContract, useScaffoldContractRead, useScaffoldContractWrite } from '@/staking/hooks/scaffold-eth'
-import { ADDRESSES, USD_DECIMALS } from '@/utils/constants'
-import { formatUnits } from 'viem'
-import { useNetwork } from 'wagmi'
-import Tooltip from '@/components/Tooltip'
 
 const WithdrawalBox = ({
   handleNext,
@@ -63,9 +67,7 @@ const WithdrawalBox = ({
       setTimeLeft(Number(userDataArr[1]))
       setEarned(userDataArr[2])
     }
-
   }, [userData, address])
-
 
   // Pool Data
   const { data: poolData } = useScaffoldContractRead({
@@ -75,17 +77,17 @@ const WithdrawalBox = ({
 
   useEffect(() => {
     if (poolData && poolData[0]) {
-      setUnstakeFee((Number((poolData?.[0] as any).earlyUnstakeFee)) / 10000)
+      setUnstakeFee(Number((poolData?.[0] as any).earlyUnstakeFee) / 10000)
     }
   }, [poolData])
-
 
   const addressPath = [
     tokenContract?.address,
     ADDRESSES[chain?.id ?? 1]?.weth,
     ADDRESSES[chain?.id ?? 1]?.usd,
   ]
-  const userTotalLocked = (user?.balance as bigint ?? 0n) + (earned as bigint ?? 0n);
+  const userTotalLocked =
+    ((user?.balance as bigint) ?? 0n) + ((earned as bigint) ?? 0n)
 
   const { data: balanceUsd } = useScaffoldContractRead({
     contractName: 'UniswapRouter2',
@@ -95,42 +97,52 @@ const WithdrawalBox = ({
   } as any)
 
   const userTotalLockedNumber = parseFloat(
-    formatUnits(
-      (userTotalLocked as bigint) ?? 0n,
-      18,
-    ),
-  );
+    formatUnits((userTotalLocked as bigint) ?? 0n, 18),
+  )
 
   const totalUsdNumber = parseFloat(
-    formatUnits(
-      (balanceUsd?.[2] as unknown as bigint) ?? 0n,
-      USD_DECIMALS,
-    ),
-  );
+    formatUnits((balanceUsd?.[2] as unknown as bigint) ?? 0n, USD_DECIMALS),
+  )
 
-  const { writeAsync: writeRequestExit, isLoading: requestExitLoading } = useScaffoldContractWrite({
-    contractName: "Staker",
-    functionName: "requestUnlock",
-    args: [],
-    onBlockConfirmation: (txnReceipt: { blockHash: any; contractAddress: any }) => {
-      toast.success('Your request to unstake has been submitted!')
-      handleClose()
-      handleResetState?.()
-      console.log("📦 Transaction blockHash", txnReceipt.blockHash, txnReceipt);
-    },
-  } as any);
+  const { writeAsync: writeRequestExit, isLoading: requestExitLoading } =
+    useScaffoldContractWrite({
+      contractName: 'Staker',
+      functionName: 'requestUnlock',
+      args: [],
+      onBlockConfirmation: (txnReceipt: {
+        blockHash: any
+        contractAddress: any
+      }) => {
+        toast.success('Your request to unstake has been submitted!')
+        handleClose()
+        handleResetState?.()
+        console.log(
+          '📦 Transaction blockHash',
+          txnReceipt.blockHash,
+          txnReceipt,
+        )
+      },
+    } as any)
 
-  const { writeAsync: writeEmergencyExit, isLoading: emergencyExitLoading } = useScaffoldContractWrite({
-    contractName: "Staker",
-    functionName: "emergencyWithdraw",
-    args: [],
-    onBlockConfirmation: (txnReceipt: { blockHash: any; contractAddress: any }) => {
-      toast.success('Withdrawal Successful')
-      handleClose()
-      handleResetState?.()
-      console.log("📦 Transaction blockHash", txnReceipt.blockHash, txnReceipt);
-    },
-  } as any);
+  const { writeAsync: writeEmergencyExit, isLoading: emergencyExitLoading } =
+    useScaffoldContractWrite({
+      contractName: 'Staker',
+      functionName: 'emergencyWithdraw',
+      args: [],
+      onBlockConfirmation: (txnReceipt: {
+        blockHash: any
+        contractAddress: any
+      }) => {
+        toast.success('Withdrawal Successful')
+        handleClose()
+        handleResetState?.()
+        console.log(
+          '📦 Transaction blockHash',
+          txnReceipt.blockHash,
+          txnReceipt,
+        )
+      },
+    } as any)
 
   // const handleEmergencyExit = () => {
   //   toast.success('Withdrawal Successful')
@@ -149,23 +161,21 @@ const WithdrawalBox = ({
       toast.error('You have no funds staked!')
       return
     }
-    writeRequestExit();
-  };
-
+    writeRequestExit()
+  }
 
   const handleEmergencyExit = () => {
     if (!user?.balance) {
       toast.error('You have no funds staked!')
       return
     }
-    writeEmergencyExit();
-  };
-
+    writeEmergencyExit()
+  }
 
   return (
     <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] p-[1px]">
-      <div className="w-full h-full p-[30px] rounded-[28px] custom-balances-box-inner-shadow flex flex-col gap-[10px]">
-        <div className="flex flex-col gap-[22px] items-center">
+      <div className="w-full h-full p-[30px] justify-center sm:max-w-full max-w-[300px] rounded-[28px] custom-balances-box-inner-shadow flex flex-col gap-[10px]">
+        <div className="flex flex-col gap-[22px] items-center justify-center">
           <div className="flex flex-row justify-between w-full items-center">
             <div className="flex flex-row gap-[16px] items-center">
               <button onClick={handlePrevious}>
@@ -178,7 +188,9 @@ const WithdrawalBox = ({
                   alt="LockTokenIcon1"
                 />
                 <div className="flex flex-col px-[10px] gap-[5px]">
-                  <span className="text-[20px] leading-normal font-semibold">End Stake</span>
+                  <span className="text-[20px] leading-normal font-semibold">
+                    End Stake
+                  </span>
                   <span className="text-[#A5A5A5] font-[14px]">$LOCK</span>
                 </div>
               </div>
@@ -187,7 +199,7 @@ const WithdrawalBox = ({
               <CloseSvg className="w-[20px] h-[20px]" />
             </button>
           </div>
-          <div className="bg-gradient-to-b from-[#fff] to-[#000] rounded-[16px] justify-center items-center flex p-[2px] w-[380px] h-[80px]">
+          <div className="bg-gradient-to-b from-[#fff] to-[#000] rounded-[16px] justify-center items-center flex p-[2px] w-[280px] sm:w-[380px] h-[80px]">
             <div className="rounded-[16px] h-full w-full pl-[20px] pt-[17px] flex justify-between bg-gradient-to-b from-[#0b0d11] to-[#343d50]">
               <div className="flex flex-col w-[336px] gap-[8px]">
                 <div className="flex flex-row gap-[5px]">
@@ -198,7 +210,7 @@ const WithdrawalBox = ({
                 </div>
                 <div className="w-full flex flex-row justify-between">
                   <div className="flex flex-row gap-[10px]">
-                    <span className="text-[20px] font-medium leading-[19px]">
+                    <span className="text-xs sm:text-[20px] font-medium leading-[19px]">
                       {address.substring(0, 18)}...
                       {address.substring(address.length - 4)}
                     </span>
@@ -207,7 +219,7 @@ const WithdrawalBox = ({
               </div>
             </div>
           </div>
-          <div className="rounded-[16px] w-[380px] h-[96px] bg-gradient-to-b from-[#9687FF] to-[#334AD3] pl-[24px] pt-[15px] pb-[9px]">
+          <div className="rounded-[16px] w-[280px] sm:w-[380px] h-[96px] bg-gradient-to-b from-[#9687FF] to-[#334AD3] pl-[24px] pt-[15px] pb-[9px]">
             <div className="h-[72px] flex flex-col justify-between">
               <span className="text-[10px]">AVAILABLE BALANCE</span>
               <div className="gap-[5px] h-[49px] flex flex-col">
@@ -222,15 +234,19 @@ const WithdrawalBox = ({
           </div>
 
           {value == 0 ? (
-            <div className="bg-gradient-to-b from-[#fff] to-[#000] rounded-t-[16px] rounded-b-[30px] justify-center items-center flex flex-col p-[2px] w-[380px] h-[115px]">
+            <div className="bg-gradient-to-b from-[#fff] to-[#000] rounded-t-[16px] rounded-b-[30px] justify-center items-center flex flex-col p-[2px] w-[280px] sm:w-[380px] h-[115px]">
               <div className="w-full h-[75px] pl-[23px] pt-[18px] rounded-t-[16px] flex flex-col justify-between bg-gradient-to-b from-[#0b0d11] to-[#343d50]">
                 <div className="flex justify-between w-[332px] items-start">
                   <div className="flex flex-col gap-[8px]">
                     <span className="text-[10px] font-semibold uppercase">
                       AMOUNT TO WITHDRAW
                     </span>
-                    <span className="text-[20px] font-medium leading-[19px]">
-                      {Humanize.formatNumber(userTotalLockedNumber * (1 - unstakeFee), 2)} $LOCK
+                    <span className="text-xs sm:text-[20px] font-medium leading-[19px]">
+                      {Humanize.formatNumber(
+                        userTotalLockedNumber * (1 - unstakeFee),
+                        2,
+                      )}{' '}
+                      $LOCK
                     </span>
                   </div>
                   {/* <span className="text-[#9C8EFF] text-[12px] font-bold leading-normal uppercase">
@@ -245,14 +261,14 @@ const WithdrawalBox = ({
               </div>
             </div>
           ) : (
-            <div className="bg-gradient-to-b from-[#fff] to-[#000] rounded-[16px] justify-center items-center flex p-[2px] w-[380px] h-[92px]">
+            <div className="bg-gradient-to-b from-[#fff] to-[#000] rounded-[16px] justify-center items-center flex p-[2px] w-[280px] sm:w-[380px] h-[92px]">
               <div className="rounded-[16px] w-full h-full pl-[23px] pt-[25px] flex flex-row justify-between bg-gradient-to-b from-[#0b0d11] to-[#343d50]">
                 <div className="flex justify-between w-[332px] items-start">
                   <div className="flex flex-col gap-[8px]">
                     <span className="text-[10px] font-semibold uppercase">
                       AMOUNT TO WITHDRAW
                     </span>
-                    <span className="text-[20px] font-medium leading-[19px]">
+                    <span className="text-xs sm:text-[20px] font-medium leading-[19px]">
                       {Humanize.formatNumber(userTotalLockedNumber, 2)} $LOCK
                     </span>
                   </div>
@@ -264,7 +280,7 @@ const WithdrawalBox = ({
             </div>
           )}
 
-          {!unlockRequested &&
+          {!unlockRequested && (
             <div className="flex flex-row gap-[13px] items-center">
               <span
                 className={
@@ -289,10 +305,10 @@ const WithdrawalBox = ({
                 <InfoCircleSvg className="w-[16px] h-[16px]" />
               </div>
             </div>
-          }
+          )}
           {value == 0 && (
-            <div className="flex relative">
-              <div className="absolute top-0 left-0 w-[380px] h-[80px] rounded-[16px] bg-gradient-to-b from-[#ffffff80] to-[#ffffff00] pt-[17px] pl-[24px] opacity-[0.2]"></div>
+            <div className="flex relative w-full items-start justify-start">
+              <div className="absolute top-0 left-0 w-[250px] sm:w-[380px] h-[80px] rounded-[16px] bg-gradient-to-b from-[#ffffff80] to-[#ffffff00] pt-[17px] pl-[24px] opacity-[0.2]"></div>
               <div className="w-[380px] h-[80px] rounded-[16px] pt-[17px] pl-[24px]">
                 <div className="flex flex-col gap-[8px]">
                   <div className="flex flex-row gap-[5px] items-center">
@@ -300,33 +316,53 @@ const WithdrawalBox = ({
                       Fallen Wizard Toll
                     </span>
 
-                    <div className='relative'>
+                    <div className="relative">
                       <Tooltip
                         additionalClassNames="right-[0px] top-[20px] w-[250px]"
-                        text={<>
-                          Wizards, who withdraw immediately, fall foul of a 25% toll on their total $LOCK staked i.e. deposited $LOCK + $LOCK rewards, with 60% going to the staking pool.<br />
-                          You can find out more <a className='underline' href='https://docs.houdiniswap.com/houdini-swap/staking-program' target='_blank'>here</a>
-                        </>}
+                        text={
+                          <>
+                            Wizards, who withdraw immediately, fall foul of a
+                            25% toll on their total $LOCK staked i.e. deposited
+                            $LOCK + $LOCK rewards, with 60% going to the staking
+                            pool.
+                            <br />
+                            You can find out more{' '}
+                            <a
+                              className="underline"
+                              href="https://docs.houdiniswap.com/houdini-swap/staking-program"
+                              target="_blank"
+                            >
+                              here
+                            </a>
+                          </>
+                        }
                       >
                         <InfoSquareSvg className="w-[16px] h-[16px]" />
                       </Tooltip>
                     </div>
-
                   </div>
                   <span className="text-[#F98F3B] text-[20px] leading-[19px] font-semibold">
-                    {Humanize.formatNumber(userTotalLockedNumber * unstakeFee, 2)} $LOCK
+                    {Humanize.formatNumber(
+                      userTotalLockedNumber * unstakeFee,
+                      2,
+                    )}{' '}
+                    $LOCK
                   </span>
                 </div>
               </div>
             </div>
           )}
-          <div className="flex relative">
-            <div className="absolute top-0 left-0 w-[380px] rounded-[16px] h-[80px] bg-gradient-to-b from-[#ffffff80] to-[#ffffff00] opacity-[0.2]"></div>
+          <div className="flex relative w-full items-start justify-start">
+            <div className="absolute top-0 left-0 w-[250px] sm:w-[380px] rounded-[16px] h-[80px] bg-gradient-to-b from-[#ffffff80] to-[#ffffff00] opacity-[0.2]"></div>
             <div className="w-[380px] h-[80px] rounded-[16px]  pt-[17px] pl-[24px]">
               <div className="flex flex-col gap-[8px]">
                 <span className="text-[#fff] text-[10px] uppercase">TOTAL</span>
                 <span className="text-[#fff] text-[20px] leading-[19px] font-semibold">
-                  {Humanize.formatNumber(userTotalLockedNumber * (!value ? 1 - unstakeFee : 1), 2)} $LOCK
+                  {Humanize.formatNumber(
+                    userTotalLockedNumber * (!value ? 1 - unstakeFee : 1),
+                    2,
+                  )}{' '}
+                  $LOCK
                 </span>
               </div>
             </div>
