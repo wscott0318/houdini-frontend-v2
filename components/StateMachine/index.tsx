@@ -91,8 +91,11 @@ const StateMachine = ({
               <div
                 onClick={(e) => {
                   const target = e.target as HTMLElement
-                  if (target.id === 'dropdownClickable') {
+
+                  if ((target as any)?.target !== '_blank') {
                     e.preventDefault()
+                  }
+                  if (target.id === 'dropdownClickable') {
                     handleClose()
                   }
                 }}
