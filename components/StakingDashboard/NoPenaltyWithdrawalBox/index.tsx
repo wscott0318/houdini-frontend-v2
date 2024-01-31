@@ -18,6 +18,8 @@ import { ADDRESSES, USD_DECIMALS } from '@/utils/constants'
 import { useScaffoldContract, useScaffoldContractRead, useScaffoldContractWrite } from '@/staking/hooks/scaffold-eth'
 import { formatUnits } from 'viem'
 import { useNetwork } from 'wagmi'
+import { useQuery } from '@apollo/client'
+import { PRICEUSD_QUERY } from '@/lib/apollo/query'
 
 const NoPenaltyWithdrawalBox = ({
   handleNext,
@@ -42,6 +44,7 @@ const NoPenaltyWithdrawalBox = ({
   const [user, setUser] = useState<any>()
   const [timeLeft, setTimeLeft] = useState(0)
   const [earned, setEarned] = useState(0n)
+  const [tvl, setTvl] = useState(0)
 
   const { data: userData } = useScaffoldContractRead({
     contractName: 'Staker',
@@ -65,24 +68,25 @@ const NoPenaltyWithdrawalBox = ({
   ]
   const userTotalLocked = (user?.balance as bigint ?? 0n) + (earned as bigint ?? 0n);
 
-  const { data: balanceUsd } = useScaffoldContractRead({
-    contractName: 'UniswapRouter2',
-    functionName: 'getAmountsOut',
-    args: [userTotalLocked ?? 0n, addressPath],
-    enabled: userTotalLocked > 0n,
-  } as any)
+  // const { data: balanceUsd } = useScaffoldContractRead({
+  //   contractName: 'UniswapRouter2',
+  //   functionName: 'getAmountsOut',
+  //   args: [userTotalLocked ?? 0n, addressPath],
+  //   enabled: userTotalLocked > 0n,
+  // } as any)
+
+  const { data: priceUsd, loading: loadingPrice } = useQuery(PRICEUSD_QUERY, {
+    fetchPolicy: 'no-cache',
+    pollInterval: 30000,
+  })
+  useEffect(() => {
+    setTvl(priceUsd?.priceUsd * parseFloat(formatUnits(userTotalLocked as any ?? 0n, 18)))
+  }, [priceUsd, userTotalLocked])
 
   const userTotalLockedNumber = parseFloat(
     formatUnits(
       (userTotalLocked as bigint) ?? 0n,
       18,
-    ),
-  );
-
-  const totalUsdNumber = parseFloat(
-    formatUnits(
-      (balanceUsd?.[2] as unknown as bigint) ?? 0n,
-      USD_DECIMALS,
     ),
   );
 
@@ -158,7 +162,7 @@ const NoPenaltyWithdrawalBox = ({
                   {Humanize.formatNumber(userTotalLockedNumber, 2)} $LOCK
                 </span>
                 <span className="text-[14px] font-medium leading-normal text-[#ffffff80]">
-                  ${Humanize.formatNumber(totalUsdNumber, 2)} USD
+                  ${Humanize.formatNumber(tvl, 2)} USD
                 </span>
               </div>
             </div>

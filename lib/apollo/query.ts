@@ -465,3 +465,9 @@ export const HISTORY_QUERY = gql`
     }
   }
 `
+
+export const PRICEUSD_QUERY = gql`
+query priceUsd {
+  priceUsd
+ }
+`

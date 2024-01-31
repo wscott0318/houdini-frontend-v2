@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { formatUnits } from 'viem'
-import { useAccount, useNetwork, useToken } from 'wagmi'
+import { useAccount, useNetwork } from 'wagmi'
 
 import StateMachine from '@/components/StateMachine'
 import {
@@ -25,6 +25,8 @@ import StakedReport from '../StakedReport'
 import DonutChart from './DonutChart'
 import { useWindowSize } from 'usehooks-ts'
 import Tooltip from '@/components/Tooltip'
+import { PRICEUSD_QUERY } from '@/lib/apollo/query'
+import { useQuery } from '@apollo/client'
 
 const formatter = Intl.NumberFormat('en', { notation: 'compact' })
 
@@ -55,6 +57,7 @@ const PoolStatsBox = () => {
   const [rewardsPaid, setRewardsPaid] = useState(0n)
   const [user, setUser] = useState<any>()
   const [stakeOpen, setStakeOpen] = useState(false)
+  const [tvl, setTvl] = useState(0)
 
   const { address } = useAccount()
   
@@ -90,12 +93,20 @@ const PoolStatsBox = () => {
     ADDRESSES[chain?.id ?? 1]?.weth,
     ADDRESSES[chain?.id ?? 1]?.usd,
   ]
-  const { data: tvl } = useScaffoldContractRead({
-    contractName: 'UniswapRouter2',
-    functionName: 'getAmountsOut',
-    args: [tokensLocked, addressPath],
-    enabled: tokensLocked ?? 0n > 0n,
-  } as any)
+  // const { data: tvl } = useScaffoldContractRead({
+  //   contractName: 'UniswapRouter2',
+  //   functionName: 'getAmountsOut',
+  //   args: [tokensLocked, addressPath],
+  //   enabled: tokensLocked ?? 0n > 0n,
+  // } as any)
+
+  const { data: priceUsd, loading: loadingPrice } = useQuery(PRICEUSD_QUERY, {
+    fetchPolicy: 'no-cache',
+    pollInterval: 30000,
+  })
+  useEffect(() => {
+    setTvl(priceUsd?.priceUsd * parseFloat(formatUnits(tokensLocked as any ?? 0n, 18)))
+  }, [priceUsd, tokensLocked])
 
   const { data: tokenSupply } = useScaffoldContractRead({
     contractName: 'Houdini',
@@ -175,14 +186,7 @@ const PoolStatsBox = () => {
                     <span>
                       $
                       {formatter.format(
-                        Math.round(
-                          parseFloat(
-                            formatUnits(
-                              ((tvl as any)?.[2] as unknown as bigint) ?? 0n,
-                              USD_DECIMALS,
-                            ),
-                          ),
-                        ),
+                        Math.round(tvl),
                       )}{' '}
                     </span>
                     <span className="bg-[#0000004D] rounded-[8px] px-[8px] py-[5px] text-[10px]">

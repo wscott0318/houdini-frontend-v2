@@ -1,7 +1,7 @@
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import Humanize from 'humanize-plus'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { formatUnits } from 'viem'
 import { useNetwork } from 'wagmi'
@@ -17,6 +17,8 @@ import { ADDRESSES, USD_DECIMALS } from '@/utils/constants'
 
 import CTAButton from '../CTAButton'
 import HalfCircledDonutChart from './HalfCircledDonutChart'
+import { PRICEUSD_QUERY } from '@/lib/apollo/query'
+import { useQuery } from '@apollo/client'
 
 const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
   const { t } = useTranslation()
@@ -25,32 +27,38 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
   const userTotalLocked =
     ((user?.balance as bigint) ?? 0n) + ((earned as bigint) ?? 0n)
 
-  const { chain } = useNetwork()
-  const { data: tokenContract } = useScaffoldContract({
-    contractName: 'Houdini',
-  })
-  const addressPath = [
-    tokenContract?.address,
-    ADDRESSES[chain?.id ?? 1]?.weth,
-    ADDRESSES[chain?.id ?? 1]?.usd,
-  ]
-  const { data: totalUsd } = useScaffoldContractRead({
-    contractName: 'UniswapRouter2',
-    functionName: 'getAmountsOut',
-    args: [userTotalLocked ?? 0n, addressPath],
-    enabled: userTotalLocked > 0n,
-  } as any)
+  // const { chain } = useNetwork()
+  // const { data: tokenContract } = useScaffoldContract({
+  //   contractName: 'Houdini',
+  // })
+  // const addressPath = [
+  //   tokenContract?.address,
+  //   ADDRESSES[chain?.id ?? 1]?.weth,
+  //   ADDRESSES[chain?.id ?? 1]?.usd,
+  // ]
+  // const { data: totalUsd } = useScaffoldContractRead({
+  //   contractName: 'UniswapRouter2',
+  //   functionName: 'getAmountsOut',
+  //   args: [userTotalLocked ?? 0n, addressPath],
+  //   enabled: userTotalLocked > 0n,
+  // } as any)
 
-  const { data: balanceUsd } = useScaffoldContractRead({
-    contractName: 'UniswapRouter2',
-    functionName: 'getAmountsOut',
-    args: [user?.balance ?? 0n, addressPath],
-    enabled: userTotalLocked > 0n,
-  } as any)
+  // const { data: balanceUsd } = useScaffoldContractRead({
+  //   contractName: 'UniswapRouter2',
+  //   functionName: 'getAmountsOut',
+  //   args: [user?.balance ?? 0n, addressPath],
+  //   enabled: userTotalLocked > 0n,
+  // } as any)
 
   const userBalanceNumber = parseFloat(
     formatUnits((user?.balance as bigint) ?? 0n, 18),
   )
+
+  const { data: priceUsd, loading: loadingPrice } = useQuery(PRICEUSD_QUERY, {
+    fetchPolicy: 'no-cache',
+    pollInterval: 30000,
+  })
+
 
   const userEarnedNumber = parseFloat(formatUnits((earned as bigint) ?? 0n, 18))
 
@@ -84,13 +92,7 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
                   <div className="text-[14px] font-normal text-[#A5A5A5] leading-normal">
                     (
                     {Humanize.formatNumber(
-                      parseFloat(
-                        formatUnits(
-                          ((totalUsd as any)?.[2] as unknown as bigint) ?? 0n,
-                          USD_DECIMALS,
-                        ),
-                      ),
-                      2,
+                      priceUsd?.priceUsd * parseFloat(formatUnits(userTotalLocked as any ?? 0n, 18)), 2,
                     )}{' '}
                     USD)
                   </div>
@@ -116,13 +118,7 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
                     </span>
                     <span className="text-[#A5A5A5]">
                       {Humanize.formatNumber(
-                        parseFloat(
-                          formatUnits(
-                            ((balanceUsd as any)?.[2] as unknown as bigint) ?? 0n,
-                            USD_DECIMALS,
-                          ),
-                        ),
-                        2,
+                        priceUsd?.priceUsd * parseFloat(formatUnits(user?.balance as any ?? 0n, 18)), 2,
                       )}{' '}
                       USD
                     </span>
@@ -152,15 +148,9 @@ const BalanceBox = ({ user, earned, setStakeOpen, address }: any) => {
                     >
                       +{' '}
                       {Humanize.formatNumber(
-                        parseFloat(
-                          formatUnits(
-                            (((totalUsd as any)?.[2] as unknown as bigint) ??
-                              0n) -
-                            (((balanceUsd as any)?.[2] as unknown as bigint) ??
-                              0n),
-                            USD_DECIMALS,
-                          ),
-                        ),
+                        priceUsd?.priceUsd * parseFloat(formatUnits(userTotalLocked as any ?? 0n, 18))- 
+                        priceUsd?.priceUsd * parseFloat(formatUnits(user?.balance as any ?? 0n, 18))
+                        ,
                         2,
                       )}{' '}
                       USD

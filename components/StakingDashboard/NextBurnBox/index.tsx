@@ -8,7 +8,7 @@ import { useNetwork } from 'wagmi'
 
 import LockTokenIcon1 from '@/assets/LockTokenIcon1.png'
 import { QuestionMarkSvg } from '@/components/Svg'
-import { PERFORMANCE_STATS_QUERY } from '@/lib/apollo/query'
+import { PERFORMANCE_STATS_QUERY, PRICEUSD_QUERY } from '@/lib/apollo/query'
 import {
   useScaffoldContract,
   useScaffoldContractRead,
@@ -27,6 +27,7 @@ const NextBurnBox = () => {
 
   const formatter = Intl.NumberFormat('en', { notation: 'compact' })
 
+  const [tvl, setTvl] = useState(0)
   const [burnDate, setBurnDate] = useState('')
   const [burnAmount, setBurnAmount] = useState('')
   const [countdown, setCountdown] = useState({
@@ -74,12 +75,20 @@ const NextBurnBox = () => {
     ADDRESSES[chain?.id ?? 1]?.weth,
     ADDRESSES[chain?.id ?? 1]?.usd,
   ]
-  const { data: tvl } = useScaffoldContractRead({
-    contractName: 'UniswapRouter2',
-    functionName: 'getAmountsOut',
-    args: [parseUnits(burnAmount, 18), addressPath],
-    enabled: parseUnits(burnAmount, 18) > 0n,
-  } as any)
+  // const { data: tvl } = useScaffoldContractRead({
+  //   contractName: 'UniswapRouter2',
+  //   functionName: 'getAmountsOut',
+  //   args: [parseUnits(burnAmount, 18), addressPath],
+  //   enabled: parseUnits(burnAmount, 18) > 0n,
+  // } as any)
+
+  const { data: priceUsd, loading: loadingPrice } = useQuery(PRICEUSD_QUERY, {
+    fetchPolicy: 'no-cache',
+    pollInterval: 30000,
+  })
+  useEffect(() => {
+    setTvl(priceUsd?.priceUsd* data?.nextBurnAmount?.value)
+  }, [priceUsd, data])
 
   return (
     <div className="relative flex flex-col items-center backdrop-blur-[46px] custom-modal-step2-drop-shadow rounded-[28px] w-full h-auto md:w-[422px] md:h-[297px] p-[1px]">
@@ -114,14 +123,7 @@ const NextBurnBox = () => {
               <span className="text-[12px] font-semibold text-[#A0AEC0]">
                 (
                 {formatter.format(
-                  Math.round(
-                    parseFloat(
-                      formatUnits(
-                        ((tvl as any)?.[2] as unknown as bigint) ?? 0n,
-                        USD_DECIMALS,
-                      ),
-                    ),
-                  ),
+                  Math.round(tvl),
                 )}{' '}
                 $USD)
               </span>

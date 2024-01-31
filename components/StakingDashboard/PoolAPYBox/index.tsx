@@ -85,14 +85,14 @@ const PoolAPYBox = ({
               </div>
               <div className="flex flex-col gap-[10px]">
                 <span className="bg-gradient-to-b from-green-300 to-green-700 font-medium bg-clip-text text-transparent text-[50px]">
-                  +{Number(poolApy)}%
+                  {Number(poolApy) > 0 ? "+" + Number(poolApy) + "%" : "Pending"}
                 </span>
                 <div className="flex flex-col gap-[6px]">
                   <span className="pb-[10px] text-[20px]">
                     {t('poolApycustomerAvgApy')}
                   </span>
                   <span className="text-[50px] font-medium">
-                    +{Number(userApy)}%
+                    {Number(userApy) > 0 ? "+" + Number(userApy) + "%" : "Pending"}
                   </span>
                 </div>
               </div>
