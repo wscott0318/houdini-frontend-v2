@@ -90,9 +90,9 @@ const StateMachine = ({
             >
               <div
                 onClick={(e) => {
-                  e.preventDefault()
                   const target = e.target as HTMLElement
                   if (target.id === 'dropdownClickable') {
+                    e.preventDefault()
                     handleClose()
                   }
                 }}

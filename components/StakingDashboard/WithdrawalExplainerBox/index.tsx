@@ -235,9 +235,9 @@ const WithdrawalExplainerBox = ({
 
               <br />
 
-              <p>
+              <p className="relative z-[100]">
                 <a
-                  className='underline'
+                  className='underline relative z-[100]'
                   href="https://docs.houdiniswap.com/houdini-swap/staking-program"
                   target="_blank"
                 >
