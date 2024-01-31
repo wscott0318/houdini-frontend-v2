@@ -128,7 +128,7 @@ const WithdrawalExplainerBox = ({
         </div>
         <div className="w-[612px] mobile:w-[300px] p-[30px] rounded-[28px] custom-balances-box-inner-shadow flex flex-col gap-[10px]  justify-center items-center">
           <div className="flex flex-col gap-[10px] pb-[20px] text-center">
-            <div className="flex flex-col gap-[5px]">
+            <div className="flex flex-col gap-[5px] mt-10">
               <span className="text-[25px] font-medium leading-normal">
                 You have requested to Unstake.
               </span>
